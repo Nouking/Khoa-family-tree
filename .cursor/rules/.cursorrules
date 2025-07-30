@@ -1,0 +1,37 @@
+- Always use command for PowerShell. This is window
+- When chat, try to save token as much as posible
+- If code relate to ReactJs, can read file .cursor\rules\rule-reactjs15
+- If code relate to Tailwing, can read file .cursor\rules\rule-tailwing
+- Use the best AI suitable for the task
+
+## 🤖 AI Task Workflow Rules
+
+### MANDATORY Task Reading Protocol
+- **BEFORE any development work**: When given a task ID (e.g., "Task 1.1", "1.2", "Task 2.3"), you MUST:
+  1. Read the specific task details from @AI-DEV-GUIDE.md
+  2. Locate the exact task by ID and understand: Description, Status, Agent, Issues/Blockers, Notes
+  3. Verify task dependencies and prerequisites are met
+  4. Only proceed with implementation after confirming task understanding
+
+### MANDATORY Task Update Protocol  
+- **AFTER completing any task implementation**: You MUST:
+  1. Update task status in @AI-DEV-GUIDE.md (Pending → In Progress → Completed)
+  2. Add completion timestamp and implementation notes
+  3. Document any issues encountered or deviations from plan
+  4. Update task completion log section
+  5. Mark any dependent tasks as ready if applicable
+
+### Context7 Integration
+- When working on technical implementations, use "use context7" for up-to-date documentation
+- For Next.js, TypeScript, Tailwind, JWT implementations, always reference latest Context7 docs
+- Include Context7 library IDs in prompts when known (e.g., /vercel/next.js)
+
+### Task Status Values
+- **Pending**: Not yet started  
+- **In Progress**: Currently being worked on
+- **Completed**: Finished successfully  
+- **Blocked**: Unable to proceed due to external factors
+- **Error**: Task failed with issues that need resolution
+
+### Example Task Reference Format
+When referencing tasks, use format: "Task [ID] - [Title]" (e.g., "Task 1.1 - Setup Next.js Project")

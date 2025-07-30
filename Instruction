@@ -1,0 +1,16 @@
+Title: Family tree website.
+- Create a simple UI, using Next.js,Tailwind. Data can store in FE code base, maybe Json query.
+- UI sample in example\UI.png, can improve it
+- Beautiful UI, admin can input,edit family free. Data structure is base information on each family member and their profile picture (can store in json - Base64?). No need BE, only FE. Don't make project complex. Just private tool use in family.
+- Well-written document and md, prd file.
+
+Main function (vietnamese), you can translate it back to English:
+-Thêm thành viên, thêm con cái, vợ chồng, bố mẹ, thêm vợ (chồng) cả, vợ 2, vợ 3...
+-Thêm ảnh cho thành viên, danh hiệu chức vụ, ngày sinh, nơi ở, điện thoại, email...
+-Soạn tiểu sửa, xem, xuất bản tiểu sử
+-Đổi vị trí các thành viên, con cả, con thứ, số thứ tự cao sẽ đứng lên đầu tiên...
+-Xóa và phục hồi thành viên, Di chuyển thành viên đến các nhánh...
+-Tải phả đồ dạng Excel để lưu trữ, backup dự phòng
+-Chia sẻ phả đồ dễ dàng bằng cách copy địa chỉ web gửi cho mọi người
+-Bảo mật: chỉ người tạo phả đồ có thể sửa, mọi người khác chỉ có thể xem
+-Hàng nghìn thành viên trên một phả đồ
