@@ -1,0 +1,12 @@
+{
+  "users": [
+    {
+      "id": "user-1",
+      "username": "admin",
+      "password": "$2b$10$XdRXcGJO.GiZ0B.7VdPDAu2nVKwevd3yTKp.jQoQAdaW3d4a/Lhja",
+      "role": "editor",
+      "createdAt": "2024-07-30T00:00:00Z",
+      "lastLogin": "2024-07-30T00:00:00Z"
+    }
+  ]
+}

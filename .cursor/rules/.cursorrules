@@ -7,19 +7,21 @@
 ## 🤖 AI Task Workflow Rules
 
 ### MANDATORY Task Reading Protocol
-- **BEFORE any development work**: When given a task ID (e.g., "Task 1.1", "1.2", "Task 2.3"), you MUST:
-  1. Read the specific task details from @AI-DEV-GUIDE.md
+- **BEFORE any development work**: When given a task ID (e.g., "Task 1.1", "1.2", "Task 2.3"), you MUST:'
+IMPORTANT: Must read @project-goal.md to understand the project. 
+  1. Read the specific task details from @family-tree/docs/task-tracking.md and @family-tree/docs/completed-tasks.md
   2. Locate the exact task by ID and understand: Description, Status, Agent, Issues/Blockers, Notes
   3. Verify task dependencies and prerequisites are met
   4. Only proceed with implementation after confirming task understanding
 
 ### MANDATORY Task Update Protocol  
 - **AFTER completing any task implementation**: You MUST:
-  1. Update task status in @AI-DEV-GUIDE.md (Pending → In Progress → Completed)
-  2. Add completion timestamp and implementation notes
+  1. Update task status in @family-tree/docs/task-tracking.md (Pending → In Progress → Completed)
+  2. Move completed tasks to @family-tree/docs/completed-tasks.md with implementation notes
   3. Document any issues encountered or deviations from plan
   4. Update task completion log section
   5. Mark any dependent tasks as ready if applicable
+  6. Update @memory-bank/progress.md with latest achievements
 
 ### Context7 Integration
 - When working on technical implementations, use "use context7" for up-to-date documentation
@@ -35,3 +37,12 @@
 
 ### Example Task Reference Format
 When referencing tasks, use format: "Task [ID] - [Title]" (e.g., "Task 1.1 - Setup Next.js Project")
+
+### Documentation Structure
+- **Project Documentation**: Located in @family-tree/docs/ directory
+  - index.md - Main documentation hub
+  - project-overview.md - Project summary, tech stack, and architecture
+  - task-tracking.md - Current tasks and their status
+  - completed-tasks.md - Archive of finished tasks with implementation notes
+  - implementation-notes.md - Technical implementation details and code examples
+  - success-criteria.md - Project goals and metrics for success
