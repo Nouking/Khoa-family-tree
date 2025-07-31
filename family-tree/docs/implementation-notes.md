@@ -222,3 +222,134 @@ function getGeneration(member: FamilyMember, allMembers: FamilyMember[]): number
 ---
 
 *For more detailed component implementations, see the code in the repository.*
+
+## Unit Testing Guidelines
+
+### Testing Setup
+
+```bash
+# Install Jest and React Testing Library
+npm install --save-dev jest @testing-library/react @testing-library/jest-dom @testing-library/user-event jest-environment-jsdom
+```
+
+```javascript
+// jest.config.js
+const nextJest = require('next/jest');
+
+const createJestConfig = nextJest({
+  dir: './',
+});
+
+const customJestConfig = {
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  moduleDirectories: ['node_modules', '<rootDir>/'],
+  testEnvironment: 'jest-environment-jsdom',
+};
+
+module.exports = createJestConfig(customJestConfig);
+```
+
+```javascript
+// jest.setup.js
+import '@testing-library/jest-dom';
+```
+
+### Component Test Example
+
+```tsx
+// MemberCard.test.tsx
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import MemberCard from '@/app/components/MemberCard';
+
+describe('MemberCard', () => {
+  const mockMember = {
+    id: '1',
+    name: 'John Doe',
+    gender: 'male',
+    spouseIds: [],
+    childrenIds: [],
+    order: 1,
+  };
+
+  it('renders member name correctly', () => {
+    render(<MemberCard member={mockMember} />);
+    expect(screen.getByText('John Doe')).toBeInTheDocument();
+  });
+
+  it('shows placeholder when no photo is provided', () => {
+    render(<MemberCard member={mockMember} />);
+    expect(screen.getByText('J')).toBeInTheDocument();
+  });
+
+  it('calls onClick handler when clicked', async () => {
+    const handleClick = jest.fn();
+    render(<MemberCard member={mockMember} onClick={handleClick} />);
+    
+    await userEvent.click(screen.getByText('John Doe'));
+    
+    expect(handleClick).toHaveBeenCalledWith(mockMember);
+  });
+});
+```
+
+### Utility Function Test Example
+
+```tsx
+// auth.test.ts
+import { verifyPassword, hashPassword } from '@/app/lib/auth';
+
+describe('Authentication Utilities', () => {
+  it('should hash password correctly', async () => {
+    const password = 'test123';
+    const hash = await hashPassword(password);
+    
+    expect(hash).not.toBe(password);
+    expect(hash).toMatch(/^\$2[aby]\$\d+\$/);
+  });
+
+  it('should verify correct password', async () => {
+    const password = 'test123';
+    const hash = await hashPassword(password);
+    
+    const result = await verifyPassword(password, hash);
+    expect(result).toBe(true);
+  });
+
+  it('should reject incorrect password', async () => {
+    const password = 'test123';
+    const hash = await hashPassword(password);
+    
+    const result = await verifyPassword('wrong', hash);
+    expect(result).toBe(false);
+  });
+});
+```
+
+### Testing Workflow
+
+1. Run tests before starting development to establish baseline:
+   ```bash
+   npm test
+   ```
+
+2. Write new tests for the component/feature being developed:
+   ```bash
+   # Create test file alongside component
+   touch app/components/NewComponent.test.tsx
+   ```
+
+3. Use Test-Driven Development approach:
+   - Write tests first
+   - Implement code to pass tests
+   - Refactor while keeping tests passing
+
+4. Run tests after development to ensure no regressions:
+   ```bash
+   npm test
+   ```
+
+5. Include test coverage in CI/CD pipeline:
+   ```bash
+   npm test -- --coverage
+   ```

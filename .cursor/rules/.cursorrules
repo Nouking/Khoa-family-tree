@@ -1,4 +1,4 @@
-- Always use command for PowerShell. This is window
+- Always use command for PowerShell. if computer is window
 - When chat, try to save token as much as posible
 - If code relate to ReactJs, can read file .cursor\rules\rule-reactjs15
 - If code relate to Tailwing, can read file .cursor\rules\rule-tailwing
@@ -13,6 +13,20 @@ IMPORTANT: Must read @project-goal.md to understand the project.
   2. Locate the exact task by ID and understand: Description, Status, Agent, Issues/Blockers, Notes
   3. Verify task dependencies and prerequisites are met
   4. Only proceed with implementation after confirming task understanding
+
+### MANDATORY Testing Protocol
+- **BEFORE starting development**:
+  1. Run all existing tests to establish baseline: `npm test`
+  2. Write unit tests for the feature/component to be implemented following TDD principles
+  3. Verify tests fail appropriately (red phase of TDD)
+- **DURING development**:
+  1. Implement the minimum code required to make tests pass (green phase of TDD)
+  2. Refactor while keeping tests passing (refactor phase of TDD)
+  3. Run tests frequently to ensure no regressions
+- **AFTER implementation**:
+  1. Run all tests to ensure no regressions: `npm test`
+  2. Add any additional edge case tests if necessary
+  3. Document test coverage with `npm test -- --coverage`
 
 ### MANDATORY Task Update Protocol  
 - **AFTER completing any task implementation**: You MUST:
@@ -45,4 +59,7 @@ When referencing tasks, use format: "Task [ID] - [Title]" (e.g., "Task 1.1 - Set
   - task-tracking.md - Current tasks and their status
   - completed-tasks.md - Archive of finished tasks with implementation notes
   - implementation-notes.md - Technical implementation details and code examples
+    - Unit Testing Guidelines - Setup and examples for Jest and React Testing Library
   - success-criteria.md - Project goals and metrics for success
+
+  txt mieu ta ve goal te

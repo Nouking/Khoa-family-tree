@@ -1,0 +1,49 @@
+# Task ID: 3
+# Title: Phase 3: CRUD Operations
+# Status: pending
+# Dependencies: 2 (Not found)
+# Priority: high
+# Description: Implement secure member management with full CRUD capabilities
+# Details:
+Build complete CRUD operations for family members with authentication protection, form validation, and Base64 photo storage.
+
+# Test Strategy:
+Test all CRUD operations work securely for authenticated users
+
+# Subtasks:
+## 3.1. Protected API Endpoints [pending]
+### Dependencies: 2.5
+### Description: Secure all family data mutations with authentication
+### Details:
+Create secure API endpoints for creating, updating, and deleting family members with proper authentication checks.
+
+## 3.2. Add Member Form [pending]
+### Dependencies: 3.1
+### Description: Complete form with all fields and validation
+### Details:
+Build comprehensive add member form with all required fields: name, gender, birth/death dates, photo upload, relationships, and biography.
+
+## 3.3. Edit Member Functionality [pending]
+### Dependencies: 3.2
+### Description: Pre-populated forms with update capability
+### Details:
+Implement edit functionality with pre-populated forms, update capability, and proper validation.
+
+## 3.4. Delete with Confirmation [pending]
+### Dependencies: 3.3
+### Description: Safe deletion with confirmation dialogs
+### Details:
+Implement safe deletion with confirmation dialogs, relationship cleanup, and proper error handling.
+
+## 3.5. Photo Upload System [pending]
+### Dependencies: 3.2
+### Description: Base64 conversion and storage
+### Details:
+Implement photo upload with Base64 conversion, size validation, and efficient storage in JSON files.
+
+## 3.6. Form Validation [pending]
+### Dependencies: 3.2
+### Description: Client and server-side validation
+### Details:
+Implement comprehensive validation for all forms with client-side feedback and server-side security.
+

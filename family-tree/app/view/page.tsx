@@ -1,5 +1,5 @@
 import { getAllMembers } from '../lib/data'
-import MemberCard from '../components/MemberCard'
+import FamilyTree from '../components/FamilyTree'
 import Link from 'next/link'
 
 export default async function ViewPage() {
@@ -23,12 +23,10 @@ export default async function ViewPage() {
       
       <main className="container mx-auto px-4 py-8">
         <div className="mb-6">
-          <h2 className="text-2xl font-semibold mb-4">Family Members</h2>
+          <h2 className="text-2xl font-semibold mb-4">Family Tree Visualization</h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {members.map((member) => (
-              <MemberCard key={member.id} member={member} />
-            ))}
+          <div className="bg-white rounded-lg shadow p-4">
+            <FamilyTree members={members} />
           </div>
         </div>
       </main>

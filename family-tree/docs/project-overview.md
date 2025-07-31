@@ -18,6 +18,7 @@ UI: Catalyst components + Headless UI
 Auth: JWT tokens + bcrypt password hashing
 Data: JSON files (family-tree.json + users.json)
 Storage: Base64 images embedded in JSON
+Testing: Jest + React Testing Library + User Event
 ```
 
 ### File Structure

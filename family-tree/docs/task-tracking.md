@@ -17,7 +17,16 @@
 - **Focus**: Public family tree viewing functionality
 - **Goal**: Complete Tasks 1.4 through 1.6
 - **Success Criteria**: Public users can view complete family tree without authentication
-- **Progress**: 50% complete (3/6 tasks) - Foundation tasks completed
+- **Progress**: 83% complete (5/6 tasks) - Foundation tasks progressing well
+
+## Development Workflow
+
+1. **Run existing tests**: Ensure all tests pass before starting development
+2. **Write tests**: Create unit tests for the feature to be implemented
+3. **Implement feature**: Develop the feature following TDD principles
+4. **Run tests**: Verify all tests pass after implementation
+5. **Document**: Update relevant documentation
+6. **Review**: Submit for code review
 
 ## Blockers
 
@@ -28,16 +37,16 @@
 ### Phase 1: Foundation (Priority 1)
 
 **Task 1.4** - MemberCard Component  
-**Status**: Pending | **Agent**: UI_Developer  
+**Status**: Completed | **Agent**: UI_Developer  
 **Description**: Build MemberCard component with photo display  
 **Issues/Blockers**: None  
-**Notes**: Ensure responsive and accessible design
+**Notes**: Successfully implemented responsive and accessible design with photo display and fallback avatar
 
 **Task 1.5** - Tree Layout System  
-**Status**: Pending | **Agent**: UI_Developer  
+**Status**: Completed | **Agent**: UI_Developer  
 **Description**: Create horizontal tree layout with connections  
 **Issues/Blockers**: None  
-**Notes**: Use CSS Grid or Flexbox, add SVG connections
+**Notes**: Successfully implemented horizontally scrollable tree layout with proper generation grouping. Added SVG connections for both parent-child and spouse relationships. Created comprehensive unit tests following TDD principles.
 
 **Task 1.6** - Responsive Design  
 **Status**: Pending | **Agent**: UI_Developer  
@@ -50,7 +59,7 @@
 ### Phase 2: Authentication (Priority 2)
 
 **Task 2.1** - User Data Setup  
-**Status**: Pending | **Agent**: Auth_Specialist  
+**Status**: Completed | **Agent**: Auth_Specialist  
 **Description**: Create users.json with bcrypt hashed passwords  
 **Issues/Blockers**: None  
 **Notes**: Use minimum 10 salt rounds for bcrypt
@@ -84,6 +93,32 @@
 **Description**: Implement logout and session cleanup  
 **Issues/Blockers**: None  
 **Notes**: Clear all client-side tokens and redirect
+
+### Phase 5: Next.js 15 Migration (Priority Critical)
+
+**Task 5.1** - Update API Routes  
+**Status**: Pending | **Agent**: Auth_Specialist  
+**Description**: Convert all API routes to use async patterns  
+**Issues/Blockers**: None  
+**Notes**: Update all API routes to use await cookies(), await headers(), and proper async parameter handling
+
+**Task 5.2** - Update Page Components  
+**Status**: Pending | **Agent**: UI_Developer  
+**Description**: Convert page components to handle Promise params  
+**Issues/Blockers**: None  
+**Notes**: Update all page and layout components to properly handle Promise-wrapped params and searchParams
+
+**Task 5.3** - Update Authentication  
+**Status**: Pending | **Agent**: Auth_Specialist  
+**Description**: Convert auth system to async patterns  
+**Issues/Blockers**: None  
+**Notes**: Update JWT token system, middleware, and auth utilities to use Next.js 15 async patterns
+
+**Task 5.4** - Apply Next.js 15 Codemod  
+**Status**: Pending | **Agent**: Setup_Specialist  
+**Description**: Run official migration codemod  
+**Issues/Blockers**: None  
+**Notes**: Run npx @next/codemod@canary upgrade latest to apply official Next.js 15 migration
 
 ## Dependencies & Critical Path
 
