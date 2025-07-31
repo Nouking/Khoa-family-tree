@@ -1,46 +1,66 @@
 # Project Brief
 
 ## Project Overview
-**Project Name:** Family Tree Website
-**Type:** Next.js 15 Family Tree Management Application
-**Status:** Development Phase - Phase 1 Foundation
+**Project Name:** Family Tree Design Tool
+**Type:** Next.js 15 Professional Family Tree Design Application
+**Status:** Development Phase - Phase 1 Foundation (Transformation in Progress)
 
 ## Project Goals
-- **Primary Goal**: Build a comprehensive family tree application using Next.js and Tailwind CSS
-- **Public Access**: Enable families to visualize their family structure in an attractive horizontal layout
-- **Protected Management**: Allow authenticated users to manage family member information
-- **Data Preservation**: Preserve family history and relationships digitally
-- **Responsive Design**: Create a responsive, accessible interface that works on all devices
+- **Primary Goal**: Transform basic family tree viewer into a professional design tool similar to Canva
+- **Canvas-Based Editing**: Interactive canvas with drag-and-drop positioning for family members
+- **CRUD Operations**: Complete add, edit, delete functionality for family members
+- **Share & Export**: Generate shareable URLs and export to CSV/image formats
+- **Professional UI**: Design tool interface with toolbar, modals, and advanced features
+- **Mobile Experience**: Touch-optimized interface with mobile-specific actions
+- **Performance**: Handle 100+ family members efficiently with virtual scrolling
 
 ## Key Requirements
-- **Public Viewing**: Complete family tree visualization without authentication
-- **Authenticated Editing**: Secure member management with JWT authentication
-- **Horizontal Layout**: Compact tree layout with connection lines
-- **Photo Management**: Base64 image storage for member photos
-- **Search & Export**: Find members and export family data
-- **Mobile Responsive**: Works on all device sizes
-- **Performance**: Handle 1000+ family members efficiently
+- **Canvas System**: Interactive canvas with absolute positioning and drag-and-drop
+- **Professional Toolbar**: Design tool header with undo/redo, share, export actions
+- **Enhanced Member Banners**: Rounded banners with relationship labels and larger photos
+- **CRUD Operations**: Modal-based add/edit/delete with form validation
+- **Share Links**: Generate and manage shareable URLs for family trees
+- **Export Features**: CSV export and high-quality image export (PNG/JPG)
+- **State Management**: React Context with history stack for undo/redo
+- **Mobile Optimization**: Touch interactions and mobile-specific action bar
+- **Grid System**: Professional grid with snap-to-grid functionality
+- **Viewport Controls**: Pan, zoom, and canvas navigation
 
 ## Success Criteria
-- **Functional**: Public users can view complete family tree without barriers
-- **Secure**: Authenticated users can safely add/edit/delete members
-- **Responsive**: Works perfectly on mobile, tablet, and desktop
-- **Fast**: Loads large trees (1000+ members) within 5 seconds
-- **Accessible**: Meets WCAG 2.1 AA standards
-- **User-Friendly**: Intuitive interface requiring no training
+- **Functional**: Complete canvas-based family tree editor with all CRUD operations
+- **Professional**: Design tool interface matching modern design tool standards
+- **Responsive**: Works perfectly on mobile, tablet, and desktop with touch support
+- **Fast**: Handles 100+ members without performance degradation
+- **Accessible**: Meets WCAG 2.1 AA standards with keyboard navigation
+- **User-Friendly**: Intuitive drag-and-drop interface requiring no training
+- **Export-Ready**: High-quality CSV and image export functionality
+- **Shareable**: Secure share link generation and management
 
 ## Stakeholders
-- **Family Patriarchs**: Managing and organizing family trees
-- **Family Members**: Viewing family history and relationships
-- **Family Historians**: Documenting biographies and photos
-- **Extended Family**: Accessing family information without barriers
+- **Family Patriarchs**: Managing and organizing family trees with professional tools
+- **Family Members**: Viewing family history through shared links
+- **Family Historians**: Documenting biographies and photos with advanced editing
+- **Extended Family**: Accessing family information through shareable URLs
+- **Design Professionals**: Using the tool for family tree visualization projects
 
 ## Timeline
-- **Phase 1 (Foundation)**: Week 1-2 - Public viewing functionality
-- **Phase 2 (Authentication)**: Week 2-3 - Secure login system
-- **Phase 3 (CRUD Operations)**: Week 3-4 - Member management
-- **Phase 4 (Advanced Features)**: Week 4-5 - Polish and optimization
-- **Total Duration**: 5 weeks with prioritized development phases
+- **Phase 1 (Foundation)**: Week 1 - Next.js 15 migration and enhanced data structure
+- **Phase 2 (Canvas & UI)**: Week 2 - Canvas implementation and professional toolbar
+- **Phase 3 (CRUD Operations)**: Week 3 - Complete member management system
+- **Phase 4 (Share & Export)**: Week 4 - Sharing, export, and mobile optimization
+- **Total Duration**: 4 weeks with prioritized development phases
+
+## Current Implementation Status
+- **Completed**: Basic Next.js 15 setup, responsive UI, MemberCard component, horizontal tree layout, SVG connections
+- **In Progress**: Next.js 15 migration (Tasks 1.7-1.12)
+- **Pending**: Canvas-based design tool transformation with all advanced features
+
+## Transformation Goals
+- **From**: Static horizontal tree viewer with basic functionality
+- **To**: Professional canvas-based design tool with full CRUD, share, and export capabilities
+- **Architecture**: Maintain frontend-only approach with JSON storage
+- **UI/UX**: Transform to modern design tool interface with professional toolbar
+- **Performance**: Optimize for large family trees with virtual scrolling and efficient rendering
 
 ---
-*This file contains high-level project information and goals.* 
+*This file contains high-level project information and transformation goals.* 

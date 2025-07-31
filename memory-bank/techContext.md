@@ -8,6 +8,12 @@
 - **Tailwind CSS 4**: Utility-first CSS framework for responsive design
 - **React 19.1.0**: Latest React features and hooks
 
+### **Canvas & Interaction Libraries**
+- **React DnD**: Drag-and-drop functionality for canvas interactions
+- **html2canvas**: Canvas-to-image conversion for export functionality
+- **React Window**: Virtual scrolling for large family trees
+- **Touch Backend**: Mobile touch event handling for React DnD
+
 ### **Authentication & Security**
 - **JWT (JSON Web Tokens)**: Stateless authentication
 - **bcryptjs 3.0.2**: Password hashing with salt rounds
@@ -21,6 +27,7 @@
   - `users.json`: User account data with bcrypt-hashed passwords
 - **Base64 Images**: Photo storage embedded in JSON
 - **File System**: Node.js fs module for read/write operations
+- **Local Storage**: Client-side caching for canvas state
 
 ### **Development Tools**
 - **ESLint 9**: Code linting and formatting
@@ -32,10 +39,10 @@
 
 ## Architecture Decisions
 
-### **Frontend-Only Approach**
-- **Rationale**: Simplified deployment and maintenance
-- **Benefits**: No database setup required, easy to deploy
-- **Trade-offs**: Limited concurrent users, no real-time updates
+### **Canvas-Based Approach**
+- **Rationale**: Professional design tool interface with interactive editing
+- **Benefits**: Intuitive drag-and-drop, precise positioning, visual feedback
+- **Trade-offs**: More complex state management, performance considerations
 
 ### **JSON File Storage**
 - **Advantages**: Simple, portable, version control friendly
@@ -65,14 +72,40 @@
       /route.ts        # GET all members
       /[id]/route.ts   # GET/PUT/DELETE single member
   /components           # React components
-    MemberCard.tsx     # Individual member display (✅ completed)
-    FamilyTree.tsx     # Main tree container (✅ completed)
-    TreeConnection.tsx # SVG connection lines (✅ completed)
+    Canvas/            # Canvas-based components
+      FamilyTreeCanvas.tsx
+      MemberBanner.tsx
+      ConnectionLines.tsx
+      CanvasControls.tsx
+    Toolbar/           # Professional toolbar
+      MainToolbar.tsx
+      ActionButtons.tsx
+      UserSection.tsx
+    Modals/            # Modal components
+      AddMemberModal.tsx
+      EditMemberModal.tsx
+      DeleteConfirmModal.tsx
+      ShareModal.tsx
+    Export/            # Export functionality
+      ExportModal.tsx
+      ExportOptions.tsx
+    Mobile/            # Mobile-specific components
+      MobileActionBar.tsx
+      MobileModals.tsx
+    MemberCard.tsx     # Individual member display (✅ completed, to be enhanced)
+    FamilyTree.tsx     # Main tree container (✅ completed, to be replaced)
+    TreeConnection.tsx # SVG connection lines (✅ completed, to be enhanced)
     AuthForm.tsx       # Login form (planned)
-    MemberForm.tsx     # Add/edit member form (planned)
   /lib                  # Utilities & helpers
     auth.ts            # JWT utilities (planned)
     data.ts            # JSON file operations (✅ completed)
+    canvas.ts          # Canvas utilities (planned)
+    export.ts          # Export functionality (planned)
+    share.ts           # Share link generation (planned)
+    crud.ts            # CRUD operations (planned)
+  /contexts            # React Context providers
+    FamilyTreeContext.tsx
+    AuthContext.tsx
   /login               # Login page
     page.tsx           # Login page component (✅ completed)
   /view                # Tree view page
@@ -84,13 +117,14 @@
   family-tree.json     # Family tree data (6 members) (✅ completed)
   users.json           # User accounts (✅ completed)
 /types                  # TypeScript definitions
-  index.ts             # All interface definitions (✅ completed)
+  index.ts             # All interface definitions (✅ completed, to be enhanced)
+  design-tool.ts       # Enhanced types for canvas system (planned)
 middleware.ts          # Route protection (✅ completed)
 ```
 
 ## Data Models
 
-### **Family Member Interface**
+### **Enhanced Family Member Interface**
 ```typescript
 interface FamilyMember {
   id: string;
@@ -108,6 +142,34 @@ interface FamilyMember {
   spouseIds: string[];
   childrenIds: string[];
   order: number;
+  // New fields for canvas system
+  position: { x: number; y: number };
+  size: { width: number; height: number };
+  relationship: string;     // Father, Mother, Brother, etc.
+}
+```
+
+### **Canvas State Interface**
+```typescript
+interface CanvasState {
+  members: FamilyMember[];
+  selectedMember: string | null;
+  viewport: { x: number; y: number; zoom: number };
+  connections: Connection[];
+  isDragging: boolean;
+  dragStart: Position | null;
+}
+
+interface Connection {
+  id: string;
+  from: { x: number; y: number };
+  to: { x: number; y: number };
+  type: 'parent-child' | 'spouse';
+}
+
+interface Position {
+  x: number;
+  y: number;
 }
 ```
 
@@ -130,18 +192,20 @@ interface User {
   - Photo display with fallback avatar
   - Responsive design with Tailwind CSS
   - TypeScript interfaces properly integrated
-  - Ready for tree layout integration
+  - Ready for enhancement to MemberBanner
 
 - ✅ **FamilyTree**: Completed with horizontal layout and SVG connections
   - Horizontal tree visualization with generation-based grouping
   - SVG connection lines for family relationships
   - Responsive container with horizontal scrolling
   - Integration with MemberCard component
+  - Foundation for canvas implementation
 
 - ✅ **TreeConnection**: Completed SVG connection component
   - Parent-child and spouse relationship connections
   - Different stroke colors and styles for relationship types
   - Proper SVG positioning and rendering
+  - Ready for canvas enhancement
 
 - ✅ **Data Utilities**: Complete CRUD operations
   - Load and save family tree data
@@ -150,23 +214,35 @@ interface User {
   - Proper error handling and validation
 
 ### **Planned Components**
-- ⏳ **AuthForm**: Login form with validation
-- ⏳ **MemberForm**: Add/edit member form
-- ⏳ **API Routes**: Authentication and CRUD endpoints
+- ⏳ **FamilyTreeCanvas**: Interactive canvas with drag-and-drop positioning
+- ⏳ **MemberBanner**: Enhanced member cards with relationship labels
+- ⏳ **MainToolbar**: Professional design tool header
+- ⏳ **Modal Components**: Add/edit/delete member modals
+- ⏳ **Export Components**: CSV and image export functionality
+- ⏳ **Mobile Components**: Touch-optimized interface
 
 ## Performance Considerations
 
 ### **Large Tree Handling**
-- **Virtualization**: Implement virtual scrolling for 1000+ members
+- **Virtualization**: Implement virtual scrolling for 100+ members
 - **Lazy Loading**: Load member details on demand
 - **Image Optimization**: Compress photos before Base64 conversion
-- **Caching**: Client-side caching of tree data
+- **Caching**: Client-side caching of canvas state
+- **Throttling**: Throttle canvas operations during drag
+
+### **Canvas Performance**
+- **60fps Rendering**: Smooth canvas operations and animations
+- **Efficient Re-renders**: Minimize unnecessary component updates
+- **Memory Management**: Efficient canvas state management
+- **Touch Optimization**: Responsive touch interactions
+- **Connection Optimization**: Efficient connection recalculation
 
 ### **Mobile Performance**
 - **Touch Optimization**: Large touch targets for mobile
 - **Responsive Images**: Optimize photo sizes for different screens
 - **Smooth Scrolling**: CSS optimizations for mobile scrolling
 - **Memory Management**: Efficient component rendering
+- **Gesture Support**: Pinch-to-zoom and swipe gestures
 
 ## Security Measures
 
@@ -193,7 +269,12 @@ interface User {
     "react-dom": "19.1.0",
     "bcryptjs": "3.0.2",
     "jsonwebtoken": "9.0.2",
-    "jose": "6.0.12"
+    "jose": "6.0.12",
+    "react-dnd": "16.0.1",
+    "react-dnd-html5-backend": "16.0.1",
+    "react-dnd-touch-backend": "16.0.1",
+    "html2canvas": "1.4.1",
+    "react-window": "1.8.8"
   },
   "devDependencies": {
     "@types/bcryptjs": "2.4.6",
@@ -224,6 +305,7 @@ NODE_ENV=development
 - **Complete family hierarchy** with parents, children, and spouses
 - **Proper data validation** against TypeScript interfaces
 - **Base64 photo support** ready for implementation
+- **Ready for position/size enhancement** for canvas system
 
 ### **User Accounts**
 - **Bcrypt-hashed passwords** with 12 salt rounds
@@ -234,8 +316,9 @@ NODE_ENV=development
 
 ### **Jest Setup**
 - **Component Testing**: React Testing Library integration
-- **Unit Testing**: Comprehensive test coverage for tree components
-- **Mock Implementation**: Proper mocking for DOM measurements
+- **Canvas Testing**: Drag-and-drop testing with React DnD
+- **Unit Testing**: Comprehensive test coverage for canvas components
+- **Mock Implementation**: Proper mocking for canvas operations
 - **Test Patterns**: TDD approach with proper test structure
 
 ### **Current Test Coverage**
@@ -247,9 +330,9 @@ NODE_ENV=development
 ## Current Architecture Status
 
 ### **Frontend Components**
-- ✅ **FamilyTree**: Horizontal tree layout with SVG connections
-- ✅ **TreeConnection**: SVG connection lines for family relationships
-- ✅ **MemberCard**: Photo display with fallback avatar and responsive design
+- ✅ **FamilyTree**: Horizontal tree layout with SVG connections (foundation for canvas)
+- ✅ **TreeConnection**: SVG connection lines for family relationships (to be enhanced)
+- ✅ **MemberCard**: Photo display with fallback avatar and responsive design (to become MemberBanner)
 - ✅ **Pages**: Home, View, and Login pages with responsive design
 
 ### **Backend Infrastructure**
@@ -259,10 +342,35 @@ NODE_ENV=development
 - ✅ **Testing**: Jest setup with comprehensive test coverage
 
 ### **Data Models**
-- ✅ **FamilyMember**: Complete interface with all required fields
+- ✅ **FamilyMember**: Complete interface with all required fields (to be enhanced with position/size)
 - ✅ **FamilyTree**: Tree structure with metadata
 - ✅ **User**: Authentication data with bcrypt hashing
 - ✅ **Sample Data**: 6 Vietnamese family members with realistic relationships
 
+## Canvas System Architecture
+
+### **Core Canvas Components**
+- **FamilyTreeCanvas**: Main canvas container with drag-and-drop
+- **MemberBanner**: Enhanced member cards with relationship labels
+- **ConnectionLines**: Dynamic SVG connections for relationships
+- **CanvasControls**: Pan, zoom, and grid controls
+
+### **Professional Toolbar**
+- **MainToolbar**: Design tool header with essential actions
+- **ActionButtons**: Undo/redo, share, export buttons
+- **UserSection**: User avatar and settings
+
+### **Modal System**
+- **AddMemberModal**: Form for adding new family members
+- **EditMemberModal**: Form for editing existing members
+- **DeleteConfirmModal**: Confirmation dialog for deletions
+- **ShareModal**: Share link generation interface
+
+### **Export System**
+- **ExportModal**: Export options interface
+- **ExportOptions**: CSV and image export functionality
+- **Mobile Export**: Touch-optimized export features
+
 ---
-*This file contains technical architecture and implementation details.* 
+
+*This file contains technical architecture and implementation details for the canvas-based design tool.* 

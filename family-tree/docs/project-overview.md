@@ -1,42 +1,100 @@
 # Project Overview
 
-> **Project Summary** - Next.js 15 Family Tree Website with public viewing and authenticated editing
+> **Project Transformation** - Converting basic family tree viewer into professional design tool
 
 ## 🎯 Project Summary
 
-Build a **Next.js 15 Family Tree Website** with public viewing and authenticated editing.
+Transform the current **Next.js 15 Family Tree** project into a **professional design tool** similar to Canva, with canvas-based editing, CRUD operations, sharing, and export capabilities.
 
-- **Public**: View, search, export family tree (no auth)
-- **Protected**: Add/edit/delete members (auth required)
-- **Tech**: Next.js 15 + TypeScript + Tailwind + JWT + JSON storage
+### Core Requirements
+- **CRUD Operations**: Add, edit, delete family members
+- **Share Link**: Generate shareable URLs for family trees  
+- **Export**: CSV and image export functionality
+- **Frontend Only**: No server changes, keep JSON storage
+- **Design Tool UI**: Canvas-based interface with professional toolbar
 
-## 🏗️ Tech Stack & Architecture
+## 🏗️ Technical Architecture
+
+### Current State Analysis
+**✅ Existing Foundation:**
+- Next.js 15 + TypeScript + Tailwind CSS
+- Basic family tree visualization with horizontal layout
+- MemberCard component with responsive design
+- SVG connection lines for parent-child and spouse relationships
+- JSON data storage (family-tree.json, users.json)
+- Authentication foundation (JWT, bcrypt)
+- Responsive design with viewport detection
+- Unit tests for key components
+
+**🎯 Target Features:**
+- Interactive canvas with drag-and-drop positioning
+- Professional toolbar with essential actions (undo/redo, share, export)
+- Enhanced member banners with relationship labels
+- CRUD operations with modal interfaces
+- Share link generation and export functions (CSV, image)
+- Mobile-optimized design tool experience with touch interactions
+- State management with history for undo/redo
+- Dynamic connection recalculation
+
+### New Component Structure
 
 ```
-Frontend: Next.js 15 (App Router) + TypeScript + Tailwind CSS
-UI: Catalyst components + Headless UI
-Auth: JWT tokens + bcrypt password hashing
-Data: JSON files (family-tree.json + users.json)
-Storage: Base64 images embedded in JSON
-Testing: Jest + React Testing Library + User Event
+app/
+├── components/
+│   ├── Canvas/
+│   │   ├── FamilyTreeCanvas.tsx
+│   │   ├── MemberBanner.tsx
+│   │   ├── ConnectionLines.tsx
+│   │   └── CanvasControls.tsx
+│   ├── Toolbar/
+│   │   ├── MainToolbar.tsx
+│   │   ├── ActionButtons.tsx
+│   │   └── UserSection.tsx
+│   ├── Modals/
+│   │   ├── AddMemberModal.tsx
+│   │   ├── EditMemberModal.tsx
+│   │   ├── DeleteConfirmModal.tsx
+│   │   └── ShareModal.tsx
+│   ├── Export/
+│   │   ├── ExportModal.tsx
+│   │   └── ExportOptions.tsx
+│   └── Mobile/
+│       ├── MobileActionBar.tsx
+│       └── MobileModals.tsx
+├── lib/
+│   ├── canvas.ts
+│   ├── export.ts
+│   ├── share.ts
+│   └── crud.ts
+└── types/
+    └── design-tool.ts
 ```
 
-### File Structure
+## 📊 Enhanced Data Structure
 
-```
-/app                    # Next.js App Router
-  /api                  # API routes
-    /auth              # Authentication endpoints
-    /family            # Family tree CRUD
-  /components           # React components
-  /lib                  # Utilities & helpers
-/data                   # JSON data storage
-  family-tree.json     # Family tree data
-  users.json           # User accounts
-/types                  # TypeScript definitions
-```
+### Family Tree Data
 
-## 📊 Core Data Models
+```typescript
+interface FamilyTreeData {
+  id: string;
+  name: string;
+  members: FamilyMember[];
+  settings: TreeSettings;
+  metadata: {
+    created: string;
+    lastModified: string;
+    version: string;
+  };
+}
+
+interface TreeSettings {
+  canvasSize: { width: number; height: number };
+  gridEnabled: boolean;
+  snapToGrid: boolean;
+  theme: 'light' | 'dark';
+  layout: 'hierarchical' | 'radial' | 'custom';
+}
+```
 
 ### Family Member
 
@@ -57,6 +115,10 @@ interface FamilyMember {
   spouseIds: string[];
   childrenIds: string[];
   order: number;
+  // New fields for design tool
+  position: { x: number; y: number };
+  size: { width: number; height: number };
+  relationship: string;     // Father, Mother, Brother, etc.
 }
 ```
 
@@ -73,52 +135,134 @@ interface User {
 }
 ```
 
-## 🔐 Authentication Flow
+## 🛠️ State Management
 
-### API Endpoints
+```typescript
+// Use React Context for state management
+interface FamilyTreeState {
+  members: FamilyMember[];
+  selectedMember: string | null;
+  isEditing: boolean;
+  viewport: ViewportState;
+  history: HistoryState; // For undo/redo
+  settings: TreeSettings;
+}
 
-- `POST /api/auth/login` - Login with username/password
-- `POST /api/auth/logout` - Logout and clear session
-- `GET /api/auth/verify` - Verify JWT token
+interface ViewportState {
+  x: number;
+  y: number;
+  zoom: number;
+  width: number;
+  height: number;
+}
+
+interface HistoryState {
+  past: FamilyTreeState[];
+  present: FamilyTreeState;
+  future: FamilyTreeState[];
+}
+```
+
+## 🔐 Authentication & Data Storage
 
 ### Protection Strategy
-
 - **Public routes**: All viewing operations
 - **Protected routes**: All editing operations (add/edit/delete)
 - **Middleware**: JWT verification for protected API routes
 
-## 🎨 UI Components Hierarchy
-
-```
-App Layout
-├── Header (login/logout)
-├── FamilyTreeView (public)
-│   ├── TreeContainer
-│   ├── MemberCard
-│   ├── ConnectionLines
-│   └── SearchFilter
-├── EditControls (protected)
-│   ├── AddMemberForm
-│   ├── EditMemberForm
-│   └── DeleteConfirmation
-└── Footer
+### Data Storage Strategy
+```typescript
+// Local storage with versioning
+const saveTreeData = (data: FamilyTreeData) => {
+  localStorage.setItem('family-tree-data', JSON.stringify(data));
+  // Also save to JSON file for backup
+  saveToFile(data, 'family-tree.json');
+};
 ```
 
-### Key Components to Build
+## 🎨 UI/UX Design System
 
-1. **MemberCard** - Display member info with photo
-2. **TreeLayout** - Horizontal tree visualization
-3. **AuthForm** - Login form component
-4. **MemberForm** - Add/edit member form
-5. **SearchBar** - Filter and search functionality
+### Color Palette
+- **Primary**: Purple/blue theme (#6366f1, #8b5cf6)
+- **Secondary**: Gray scale (#f8fafc, #e2e8f0, #64748b)
+- **Accent**: Green for success (#10b981)
+- **Warning**: Orange for warnings (#f59e0b)
+- **Error**: Red for errors (#ef4444)
 
-## Environment Variables
+### Typography
+- **Headings**: Inter, font-weight 600-700
+- **Body**: Inter, font-weight 400-500
+- **UI Elements**: Inter, font-weight 500-600
 
-```env
-JWT_SECRET=your-secret-key
-NODE_ENV=development
-```
+### Component Specifications
+- **Member Banners**: 200px × 120px (desktop), 160px × 100px (mobile)
+- **Toolbar Height**: 64px (desktop), 56px (mobile)
+- **Modal Width**: 480px (desktop), 100% (mobile)
+- **Border Radius**: 8px (cards), 4px (buttons)
+
+## 📋 Key Components to Build
+
+1. **Canvas System**
+   - FamilyTreeCanvas - Interactive canvas with drag-and-drop
+   - ConnectionLines - Dynamic SVG connections
+   - CanvasControls - Pan, zoom, grid controls
+
+2. **Toolbar & Actions**
+   - MainToolbar - Professional design tool header
+   - ActionButtons - Undo/redo, share, export
+   - MobileActionBar - Touch-friendly bottom action bar
+
+3. **Member Management**
+   - MemberBanner - Enhanced member cards with relationship labels
+   - AddMemberModal - Form with relationship selection
+   - EditMemberModal - Position and connection management
+
+4. **Share & Export**
+   - ShareModal - Generate and copy shareable links
+   - ExportOptions - CSV and image export with settings
+
+## 📋 Implementation Timeline
+
+### Week 1: Foundation & Data Structure
+- [ ] Update TypeScript interfaces with new fields (position, size, relationship)
+- [ ] Create data migration utility for existing family tree data
+- [ ] Implement basic canvas component with absolute positioning
+- [ ] Add drag-and-drop functionality for member banners
+
+### Week 2: Canvas & UI Enhancement
+- [ ] Implement viewport controls (pan, zoom)
+- [ ] Enhance member banners with relationship labels
+- [ ] Create basic toolbar with essential actions
+- [ ] Add undo/redo functionality with history stack
+
+### Week 3: CRUD Operations & State Management
+- [ ] Implement React Context for global state management
+- [ ] Create modal components for add/edit/delete operations
+- [ ] Add member selection and context menu
+- [ ] Implement dynamic connection recalculation
+
+### Week 4: Share, Export & Mobile
+- [ ] Implement share link generation and modal
+- [ ] Add CSV and image export functionality
+- [ ] Optimize for mobile with touch interactions
+- [ ] Add mobile-specific action bar and gestures
+
+## 🎯 Success Criteria
+
+### Functional Requirements
+- [ ] Users can add, edit, delete members seamlessly
+- [ ] Generate and share family tree links
+- [ ] Export to CSV and PNG formats
+- [ ] Works smoothly on mobile devices
+- [ ] Handles 100+ members without lag
+
+### Technical Requirements
+- [ ] TypeScript with no errors
+- [ ] Responsive design with Tailwind CSS
+- [ ] Performance optimized for large trees
+- [ ] Accessible UI components
+- [ ] Cross-browser compatibility
 
 ---
 
-*See [Implementation Notes](./implementation-notes.md) for detailed technical guidance.*
+*See [Upgrade Plan](./upgrade-plan.md) for detailed implementation guidance and technical specifications.*

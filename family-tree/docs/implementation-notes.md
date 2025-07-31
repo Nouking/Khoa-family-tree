@@ -1,171 +1,157 @@
 # Implementation Notes
 
-> **Technical Details** - Code examples and implementation guidance
+> **Technical Details** - Code examples and implementation guidance for the canvas-based family tree design tool
 
 ## 🔧 Technical Implementation Notes
 
-### JSON Data Storage
+### Canvas-Based Layout System
 
 ```typescript
-// Save to JSON file
-const saveToFile = async (data: any, filename: string) => {
-  await fs.writeFile(`./data/${filename}`, JSON.stringify(data, null, 2));
-};
+// FamilyTreeCanvas.tsx
+import React, { useState, useCallback } from 'react';
+import { useDrag, useDrop } from 'react-dnd';
+import { FamilyMember, Position, Connection } from '@/types';
 
-// Load from JSON file
-const loadFromFile = async (filename: string) => {
-  const data = await fs.readFile(`./data/${filename}`, 'utf8');
-  return JSON.parse(data);
-};
-```
+interface CanvasState {
+  members: FamilyMember[];
+  selectedMember: string | null;
+  viewport: { x: number; y: number; zoom: number };
+  connections: Connection[];
+  isDragging: boolean;
+  dragStart: Position | null;
+}
 
-### Base64 Image Handling
-
-```typescript
-// Convert file to Base64
-const convertToBase64 = (file: File): Promise<string> => {
-  return new Promise((resolve) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result as string);
-    reader.readAsDataURL(file);
+export default function FamilyTreeCanvas() {
+  const [canvasState, setCanvasState] = useState<CanvasState>({
+    members: [],
+    selectedMember: null,
+    viewport: { x: 0, y: 0, zoom: 1 },
+    connections: [],
+    isDragging: false,
+    dragStart: null
   });
-};
-```
 
-### Tree Layout Algorithm
-
-- Use CSS Grid or Flexbox for horizontal layout
-- Calculate member positions based on generation level
-- Implement connection lines with SVG or CSS borders
-- Handle responsive breakpoints for mobile
-
-### Authentication Implementation
-
-```typescript
-// JWT Token Generation
-import { SignJWT } from 'jose';
-import { nanoid } from 'nanoid';
-
-export async function createToken(payload: any) {
-  const secret = new TextEncoder().encode(process.env.JWT_SECRET);
-  
-  const token = await new SignJWT(payload)
-    .setProtectedHeader({ alg: 'HS256' })
-    .setJti(nanoid())
-    .setIssuedAt()
-    .setExpirationTime('24h')
-    .sign(secret);
-  
-  return token;
-}
-```
-
-```typescript
-// Password Hashing
-import bcrypt from 'bcryptjs';
-
-export async function hashPassword(password: string): Promise<string> {
-  const salt = await bcrypt.genSalt(10);
-  return bcrypt.hash(password, salt);
-}
-
-export async function verifyPassword(
-  password: string,
-  hashedPassword: string
-): Promise<boolean> {
-  return bcrypt.compare(password, hashedPassword);
-}
-```
-
-### Middleware for Protected Routes
-
-```typescript
-// middleware.ts
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
-import { verifyToken } from './lib/auth';
-
-export async function middleware(request: NextRequest) {
-  // Check for protected routes
-  if (request.nextUrl.pathname.startsWith('/api/family') && 
-      request.method !== 'GET') {
+  // Pan and zoom handlers
+  const handlePan = useCallback((e: React.MouseEvent) => {
+    if (!canvasState.isDragging) return;
     
-    const token = request.cookies.get('token')?.value;
+    const dx = e.clientX - (canvasState.dragStart?.x || 0);
+    const dy = e.clientY - (canvasState.dragStart?.y || 0);
     
-    if (!token) {
-      return NextResponse.json(
-        { error: 'Authentication required' },
-        { status: 401 }
-      );
-    }
+    setCanvasState(prev => ({
+      ...prev,
+      viewport: {
+        ...prev.viewport,
+        x: prev.viewport.x + dx,
+        y: prev.viewport.y + dy
+      }
+    }));
+  }, [canvasState.isDragging, canvasState.dragStart]);
+
+  // Member dragging handlers
+  const handleMemberDrag = useCallback((memberId: string, newPosition: Position) => {
+    setCanvasState(prev => ({
+      ...prev,
+      members: prev.members.map(m => 
+        m.id === memberId 
+          ? { ...m, position: newPosition }
+          : m
+      )
+    }));
     
-    try {
-      await verifyToken(token);
-      return NextResponse.next();
-    } catch (error) {
-      return NextResponse.json(
-        { error: 'Invalid token' },
-        { status: 401 }
-      );
-    }
-  }
-  
-  return NextResponse.next();
-}
+    // Recalculate connections
+    recalculateConnections();
+  }, []);
 
-export const config = {
-  matcher: ['/api/family/:path*'],
-};
-```
-
-## Component Implementation Guidelines
-
-### MemberCard Component
-
-```tsx
-// MemberCard.tsx
-import Image from 'next/image';
-import { FamilyMember } from '@/types';
-
-interface MemberCardProps {
-  member: FamilyMember;
-  onClick?: (member: FamilyMember) => void;
-}
-
-export default function MemberCard({ member, onClick }: MemberCardProps) {
   return (
     <div 
-      className="border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow"
-      onClick={() => onClick?.(member)}
+      className="canvas-container relative w-full h-full overflow-hidden"
+      onMouseMove={handlePan}
+      style={{
+        transform: `translate(${canvasState.viewport.x}px, ${canvasState.viewport.y}px) scale(${canvasState.viewport.zoom})`
+      }}
     >
-      <div className="flex items-center space-x-4">
-        {member.photo ? (
-          <div className="w-16 h-16 rounded-full overflow-hidden">
-            <Image 
+      <svg className="connection-layer absolute inset-0 pointer-events-none">
+        {canvasState.connections.map(connection => (
+          <ConnectionLine key={connection.id} {...connection} />
+        ))}
+      </svg>
+      
+      <div className="members-layer relative">
+        {canvasState.members.map(member => (
+          <MemberBanner 
+            key={member.id}
+            member={member}
+            onDrag={handleMemberDrag}
+            isSelected={member.id === canvasState.selectedMember}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+```
+
+### Member Banner Component
+
+```typescript
+// MemberBanner.tsx
+import React from 'react';
+import { useDrag } from 'react-dnd';
+import { FamilyMember } from '@/types';
+
+interface MemberBannerProps {
+  member: FamilyMember;
+  onDrag: (id: string, position: Position) => void;
+  isSelected: boolean;
+}
+
+export default function MemberBanner({ member, onDrag, isSelected }: MemberBannerProps) {
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: 'MEMBER',
+    item: { id: member.id, type: 'MEMBER' },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging()
+    })
+  }));
+
+  return (
+    <div 
+      ref={drag}
+      className={`member-banner rounded-lg bg-white shadow-md border-2 transition-all
+        ${isSelected ? 'border-blue-500' : 'border-transparent'}
+        ${isDragging ? 'opacity-50' : 'opacity-100'}
+        hover:border-blue-300`}
+      style={{
+        position: 'absolute',
+        left: member.position.x,
+        top: member.position.y,
+        width: member.size.width,
+        height: member.size.height
+      }}
+    >
+      <div className="banner-content p-4">
+        <div className="photo-section">
+          {member.photo ? (
+            <img 
               src={member.photo} 
-              alt={`Photo of ${member.name}`}
-              width={64}
-              height={64}
-              className="object-cover w-full h-full"
+              alt={member.name}
+              className="w-16 h-16 rounded-full object-cover"
             />
-          </div>
-        ) : (
-          <div className="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center">
-            <span className="text-gray-500 text-xl">
-              {member.name.charAt(0)}
-            </span>
-          </div>
-        )}
-        
-        <div>
-          <h3 className="font-medium">{member.name}</h3>
-          {member.title && (
-            <p className="text-sm text-gray-600">{member.title}</p>
+          ) : (
+            <div className="w-16 h-16 rounded-full bg-gray-300 flex items-center justify-center">
+              <span className="text-gray-600 text-xl">
+                {member.name.charAt(0)}
+              </span>
+            </div>
           )}
-          {member.birthDate && (
-            <p className="text-xs text-gray-500">
-              {member.birthDate} - {member.deathDate || 'Present'}
-            </p>
+        </div>
+        
+        <div className="info-section mt-2">
+          <h3 className="font-bold text-lg">{member.name}</h3>
+          <p className="text-sm text-gray-600">{member.relationship}</p>
+          {member.title && (
+            <p className="text-xs text-gray-500">{member.title}</p>
           )}
         </div>
       </div>
@@ -174,182 +160,485 @@ export default function MemberCard({ member, onClick }: MemberCardProps) {
 }
 ```
 
-### Tree Layout Component
+### Connection Line Component
 
-```tsx
-// FamilyTree.tsx
-import { FamilyMember } from '@/types';
-import MemberCard from './MemberCard';
+```typescript
+// ConnectionLine.tsx
+import React from 'react';
+import { Connection } from '@/types';
 
-interface FamilyTreeProps {
-  members: FamilyMember[];
+interface ConnectionLineProps extends Connection {
+  className?: string;
 }
 
-export default function FamilyTree({ members }: FamilyTreeProps) {
-  // Group members by generation
-  const groupedMembers = members.reduce((acc, member) => {
-    const generation = getGeneration(member, members);
-    if (!acc[generation]) acc[generation] = [];
-    acc[generation].push(member);
-    return acc;
-  }, {} as Record<number, FamilyMember[]>);
+export default function ConnectionLine({ 
+  from, 
+  to, 
+  type,
+  className = ''
+}: ConnectionLineProps) {
+  // Calculate control points for curved lines
+  const controlPoint = {
+    x: (from.x + to.x) / 2,
+    y: type === 'spouse' 
+      ? from.y // Horizontal line for spouses
+      : (from.y + to.y) / 2 // Curved line for parent-child
+  };
+
+  const path = type === 'spouse'
+    ? `M ${from.x} ${from.y} L ${to.x} ${to.y}`
+    : `M ${from.x} ${from.y} Q ${controlPoint.x} ${controlPoint.y} ${to.x} ${to.y}`;
 
   return (
-    <div className="overflow-x-auto">
-      <div className="min-w-max">
-        {Object.entries(groupedMembers).map(([generation, genMembers]) => (
-          <div key={generation} className="flex space-x-4 my-8">
-            {genMembers.map(member => (
-              <div key={member.id} className="flex-shrink-0">
-                <MemberCard member={member} />
-              </div>
-            ))}
-          </div>
-        ))}
-      </div>
-    </div>
+    <path
+      d={path}
+      className={`stroke-current ${className}`}
+      strokeWidth={2}
+      fill="none"
+      strokeDasharray={type === 'spouse' ? '0' : '0'}
+    />
+  );
+}
+```
+
+### State Management with React Context
+
+```typescript
+// FamilyTreeContext.tsx
+import React, { createContext, useContext, useReducer } from 'react';
+import { FamilyTreeState, FamilyTreeAction } from '@/types';
+
+const FamilyTreeContext = createContext<{
+  state: FamilyTreeState;
+  dispatch: React.Dispatch<FamilyTreeAction>;
+} | null>(null);
+
+const initialState: FamilyTreeState = {
+  members: [],
+  selectedMember: null,
+  viewport: { x: 0, y: 0, zoom: 1 },
+  history: {
+    past: [],
+    present: null,
+    future: []
+  },
+  settings: {
+    gridEnabled: true,
+    snapToGrid: true,
+    theme: 'light',
+    layout: 'hierarchical'
+  }
+};
+
+function familyTreeReducer(state: FamilyTreeState, action: FamilyTreeAction): FamilyTreeState {
+  switch (action.type) {
+    case 'ADD_MEMBER':
+      return {
+        ...state,
+        members: [...state.members, action.member]
+      };
+      
+    case 'UPDATE_MEMBER':
+      return {
+        ...state,
+        members: state.members.map(m => 
+          m.id === action.member.id ? action.member : m
+        )
+      };
+      
+    case 'DELETE_MEMBER':
+      return {
+        ...state,
+        members: state.members.filter(m => m.id !== action.memberId)
+      };
+      
+    case 'SET_SELECTED_MEMBER':
+      return {
+        ...state,
+        selectedMember: action.memberId
+      };
+      
+    case 'UPDATE_VIEWPORT':
+      return {
+        ...state,
+        viewport: action.viewport
+      };
+      
+    case 'UNDO':
+      if (state.history.past.length === 0) return state;
+      return {
+        ...state,
+        history: {
+          past: state.history.past.slice(0, -1),
+          present: state.history.past[state.history.past.length - 1],
+          future: [state.history.present!, ...state.history.future]
+        }
+      };
+      
+    case 'REDO':
+      if (state.history.future.length === 0) return state;
+      return {
+        ...state,
+        history: {
+          past: [...state.history.past, state.history.present!],
+          present: state.history.future[0],
+          future: state.history.future.slice(1)
+        }
+      };
+      
+    default:
+      return state;
+  }
+}
+
+export function FamilyTreeProvider({ children }: { children: React.ReactNode }) {
+  const [state, dispatch] = useReducer(familyTreeReducer, initialState);
+  
+  return (
+    <FamilyTreeContext.Provider value={{ state, dispatch }}>
+      {children}
+    </FamilyTreeContext.Provider>
   );
 }
 
-// Helper function to determine generation level
-function getGeneration(member: FamilyMember, allMembers: FamilyMember[]): number {
-  // Implementation logic here
-  // This would recursively trace parentId to determine generation
-  return 0; // Placeholder
+export function useFamilyTree() {
+  const context = useContext(FamilyTreeContext);
+  if (!context) {
+    throw new Error('useFamilyTree must be used within a FamilyTreeProvider');
+  }
+  return context;
 }
 ```
 
----
+### Data Storage and Export
 
-*For more detailed component implementations, see the code in the repository.*
+```typescript
+// storage.ts
+import { FamilyTreeData } from '@/types';
 
-## Unit Testing Guidelines
+export async function saveTreeData(data: FamilyTreeData) {
+  // Save to localStorage
+  localStorage.setItem('family-tree-data', JSON.stringify(data));
+  
+  // Also save to JSON file for backup
+  await fetch('/api/save', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  });
+}
 
-### Testing Setup
+export async function loadTreeData(): Promise<FamilyTreeData | null> {
+  try {
+    // Try localStorage first
+    const localData = localStorage.getItem('family-tree-data');
+    if (localData) {
+      return JSON.parse(localData);
+    }
+    
+    // Fall back to server
+    const response = await fetch('/api/load');
+    return response.json();
+  } catch (error) {
+    console.error('Failed to load tree data:', error);
+    return null;
+  }
+}
 
-```bash
-# Install Jest and React Testing Library
-npm install --save-dev jest @testing-library/react @testing-library/jest-dom @testing-library/user-event jest-environment-jsdom
+export function exportToCSV(members: FamilyMember[]) {
+  const csvData = members.map(member => ({
+    Name: member.name,
+    Relationship: member.relationship,
+    Gender: member.gender,
+    BirthDate: member.birthDate || '',
+    Email: member.email || '',
+    Phone: member.phone || '',
+    Address: member.address || '',
+    Biography: member.biography || ''
+  }));
+  
+  const headers = Object.keys(csvData[0]);
+  const csvRows = [
+    headers.join(','),
+    ...csvData.map(row => 
+      headers.map(header => `"${row[header]}"`).join(',')
+    )
+  ];
+  
+  const blob = new Blob([csvRows.join('\n')], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'family-tree.csv';
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
+export async function exportToImage(format: 'png' | 'jpg' = 'png') {
+  const canvas = document.getElementById('family-tree-canvas') as HTMLCanvasElement;
+  if (!canvas) return;
+  
+  try {
+    const dataURL = canvas.toDataURL(`image/${format}`);
+    const link = document.createElement('a');
+    link.href = dataURL;
+    link.download = `family-tree.${format}`;
+    link.click();
+  } catch (error) {
+    console.error('Export failed:', error);
+  }
+}
 ```
 
-```javascript
-// jest.config.js
-const nextJest = require('next/jest');
+### Share Link System
 
-const createJestConfig = nextJest({
-  dir: './',
-});
+```typescript
+// share.ts
+export function generateShareLink(treeId: string) {
+  const shareData = {
+    treeId,
+    timestamp: Date.now(),
+    version: '1.0'
+  };
+  
+  const encoded = btoa(JSON.stringify(shareData));
+  return `${window.location.origin}/view/${encoded}`;
+}
 
-const customJestConfig = {
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
-  moduleDirectories: ['node_modules', '<rootDir>/'],
-  testEnvironment: 'jest-environment-jsdom',
+export async function loadSharedTree(shareCode: string) {
+  try {
+    const shareData = JSON.parse(atob(shareCode));
+    return loadTreeData(shareData.treeId);
+  } catch (error) {
+    console.error('Invalid share link');
+    return null;
+  }
+}
+```
+
+### Mobile Touch Interactions
+
+```typescript
+// TouchHandler.tsx
+import { TouchBackend } from 'react-dnd-touch-backend';
+import { DndProvider } from 'react-dnd';
+
+const touchBackendOptions = {
+  enableMouseEvents: true,
+  enableTouchEvents: true,
+  enableKeyboardEvents: true,
+  delayTouchStart: 100,
+  scrollAngleRanges: [
+    { start: 30, end: 150 },
+    { start: 210, end: 330 }
+  ]
 };
 
-module.exports = createJestConfig(customJestConfig);
+export function TouchProvider({ children }: { children: React.ReactNode }) {
+  return (
+    <DndProvider backend={TouchBackend} options={touchBackendOptions}>
+      {children}
+    </DndProvider>
+  );
+}
 ```
 
-```javascript
-// jest.setup.js
-import '@testing-library/jest-dom';
+## Testing Guidelines
+
+### Canvas Component Tests
+
+```typescript
+// FamilyTreeCanvas.test.tsx
+import { render, screen, fireEvent } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import FamilyTreeCanvas from './FamilyTreeCanvas';
+
+describe('FamilyTreeCanvas', () => {
+  const renderWithDnd = (ui: React.ReactElement) => {
+    return render(
+      <DndProvider backend={HTML5Backend}>
+        {ui}
+      </DndProvider>
+    );
+  };
+
+  it('renders empty canvas initially', () => {
+    renderWithDnd(<FamilyTreeCanvas />);
+    expect(screen.getByTestId('canvas-container')).toBeInTheDocument();
+  });
+
+  it('handles pan gesture correctly', () => {
+    renderWithDnd(<FamilyTreeCanvas />);
+    const canvas = screen.getByTestId('canvas-container');
+    
+    fireEvent.mouseDown(canvas, { clientX: 0, clientY: 0 });
+    fireEvent.mouseMove(canvas, { clientX: 100, clientY: 100 });
+    fireEvent.mouseUp(canvas);
+    
+    expect(canvas).toHaveStyle({
+      transform: expect.stringContaining('translate(100px, 100px)')
+    });
+  });
+
+  it('allows member dragging', async () => {
+    const mockMember = {
+      id: '1',
+      name: 'John Doe',
+      position: { x: 0, y: 0 }
+    };
+    
+    renderWithDnd(<FamilyTreeCanvas initialMembers={[mockMember]} />);
+    const memberCard = screen.getByText('John Doe');
+    
+    fireEvent.dragStart(memberCard);
+    fireEvent.dragOver(canvas, { clientX: 200, clientY: 200 });
+    fireEvent.drop(canvas);
+    
+    expect(memberCard).toHaveStyle({
+      transform: expect.stringContaining('translate(200px, 200px)')
+    });
+  });
+});
 ```
 
-### Component Test Example
+### Member Banner Tests
 
-```tsx
-// MemberCard.test.tsx
+```typescript
+// MemberBanner.test.tsx
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import MemberCard from '@/app/components/MemberCard';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import MemberBanner from './MemberBanner';
 
-describe('MemberCard', () => {
+describe('MemberBanner', () => {
   const mockMember = {
     id: '1',
     name: 'John Doe',
-    gender: 'male',
-    spouseIds: [],
-    childrenIds: [],
-    order: 1,
+    position: { x: 100, y: 100 },
+    size: { width: 200, height: 120 }
   };
 
-  it('renders member name correctly', () => {
-    render(<MemberCard member={mockMember} />);
+  const renderWithDnd = (ui: React.ReactElement) => {
+    return render(
+      <DndProvider backend={HTML5Backend}>
+        {ui}
+      </DndProvider>
+    );
+  };
+
+  it('renders member information correctly', () => {
+    renderWithDnd(
+      <MemberBanner 
+        member={mockMember}
+        onDrag={jest.fn()}
+        isSelected={false}
+      />
+    );
+    
     expect(screen.getByText('John Doe')).toBeInTheDocument();
   });
 
-  it('shows placeholder when no photo is provided', () => {
-    render(<MemberCard member={mockMember} />);
-    expect(screen.getByText('J')).toBeInTheDocument();
+  it('shows selection state correctly', () => {
+    renderWithDnd(
+      <MemberBanner 
+        member={mockMember}
+        onDrag={jest.fn()}
+        isSelected={true}
+      />
+    );
+    
+    const banner = screen.getByTestId('member-banner');
+    expect(banner).toHaveClass('border-blue-500');
   });
 
-  it('calls onClick handler when clicked', async () => {
-    const handleClick = jest.fn();
-    render(<MemberCard member={mockMember} onClick={handleClick} />);
+  it('calls onDrag when dragged', () => {
+    const handleDrag = jest.fn();
+    renderWithDnd(
+      <MemberBanner 
+        member={mockMember}
+        onDrag={handleDrag}
+        isSelected={false}
+      />
+    );
     
-    await userEvent.click(screen.getByText('John Doe'));
+    const banner = screen.getByTestId('member-banner');
+    fireEvent.dragStart(banner);
+    fireEvent.dragOver(document.body, { clientX: 200, clientY: 200 });
+    fireEvent.drop(document.body);
     
-    expect(handleClick).toHaveBeenCalledWith(mockMember);
-  });
-});
-```
-
-### Utility Function Test Example
-
-```tsx
-// auth.test.ts
-import { verifyPassword, hashPassword } from '@/app/lib/auth';
-
-describe('Authentication Utilities', () => {
-  it('should hash password correctly', async () => {
-    const password = 'test123';
-    const hash = await hashPassword(password);
-    
-    expect(hash).not.toBe(password);
-    expect(hash).toMatch(/^\$2[aby]\$\d+\$/);
-  });
-
-  it('should verify correct password', async () => {
-    const password = 'test123';
-    const hash = await hashPassword(password);
-    
-    const result = await verifyPassword(password, hash);
-    expect(result).toBe(true);
-  });
-
-  it('should reject incorrect password', async () => {
-    const password = 'test123';
-    const hash = await hashPassword(password);
-    
-    const result = await verifyPassword('wrong', hash);
-    expect(result).toBe(false);
+    expect(handleDrag).toHaveBeenCalledWith(
+      mockMember.id,
+      expect.objectContaining({ x: 200, y: 200 })
+    );
   });
 });
 ```
 
-### Testing Workflow
+### Connection Line Tests
 
-1. Run tests before starting development to establish baseline:
+```typescript
+// ConnectionLine.test.tsx
+import { render } from '@testing-library/react';
+import ConnectionLine from './ConnectionLine';
+
+describe('ConnectionLine', () => {
+  it('renders spouse connection as straight line', () => {
+    const { container } = render(
+      <ConnectionLine
+        from={{ x: 0, y: 0 }}
+        to={{ x: 100, y: 0 }}
+        type="spouse"
+      />
+    );
+    
+    const path = container.querySelector('path');
+    expect(path).toHaveAttribute('d', 'M 0 0 L 100 0');
+  });
+
+  it('renders parent-child connection as curved line', () => {
+    const { container } = render(
+      <ConnectionLine
+        from={{ x: 0, y: 0 }}
+        to={{ x: 100, y: 100 }}
+        type="parent-child"
+      />
+    );
+    
+    const path = container.querySelector('path');
+    expect(path).toHaveAttribute(
+      'd',
+      expect.stringContaining('Q') // Should be a quadratic curve
+    );
+  });
+});
+```
+
+## Development Workflow
+
+1. Start development server:
    ```bash
-   npm test
+   npm run dev
    ```
 
-2. Write new tests for the component/feature being developed:
+2. Run tests in watch mode:
    ```bash
-   # Create test file alongside component
-   touch app/components/NewComponent.test.tsx
+   npm test -- --watch
    ```
 
-3. Use Test-Driven Development approach:
-   - Write tests first
-   - Implement code to pass tests
-   - Refactor while keeping tests passing
-
-4. Run tests after development to ensure no regressions:
+3. Build for production:
    ```bash
-   npm test
+   npm run build
    ```
 
-5. Include test coverage in CI/CD pipeline:
+4. Run production build locally:
    ```bash
-   npm test -- --coverage
+   npm start
+   ```
+
+5. Run type checking:
+   ```bash
+   npm run type-check
    ```

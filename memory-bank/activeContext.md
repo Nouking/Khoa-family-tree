@@ -2,96 +2,110 @@
 
 ## Current Focus
 
-**Task 1.6 - Responsive Design**
-- Add responsive design for mobile/tablet/desktop
-- Use Tailwind breakpoints for responsive adaptations
-- Ensure the tree visualization works on all screen sizes
-- Consider alternative layouts for very small screens
-- Implement mobile-first approach to responsive design
+**Project Transformation**: Converting basic family tree viewer into professional design tool
+- **Current Status**: Phase 1 - Next.js 15 migration and enhanced data structure
+- **Foundation**: Basic family tree visualization completed, ready for canvas transformation
+- **Next Steps**: Complete Next.js 15 migration tasks (1.7-1.12) before canvas implementation
+- **Priority**: Establish enhanced data structure with position/size fields for canvas system
 
 ## Recent Changes
 
-- ✅ **Completed Task 1.5 (Tree Layout System)** with comprehensive implementation:
+- ✅ **Completed Foundation Tasks (1.1-1.6)** with comprehensive implementation:
+  - Next.js 15 setup with TypeScript and Tailwind CSS
+  - MemberCard component with photo display and responsive design
   - FamilyTree component with horizontal layout and SVG connections
   - TreeConnection component for parent-child and spouse relationships
-  - groupMembersByGeneration function for proper family structure
-  - Horizontally scrollable layout for large family trees
+  - Sample data with 6 Vietnamese family members and realistic relationships
+  - Responsive design foundation with viewport detection and adaptive spacing
+  - Complete data utilities with CRUD operations
   - Comprehensive unit tests with TDD principles
-  - Integration with MemberCard component
-  - Updated view page to use the new FamilyTree component
 
-- ✅ **Completed Task 1.4 (MemberCard Component)** with:
-  - Photo display with fallback avatar
-  - Responsive design with Tailwind CSS
-  - Proper TypeScript interfaces
-  - Integration into tree layout
-
-- ✅ **Completed Task 1.3 (Sample Data Setup)** with:
-  - Realistic Vietnamese family data (6 members)
-  - Complete family hierarchy with relationships
-  - Proper data validation against TypeScript interfaces
+- 🔄 **In Progress - Next.js 15 Migration (Tasks 1.7-1.12)**:
+  - Task 1.7: Next.js 15 API Routes - Updating to new App Router patterns
+  - Task 1.8: Page Components Migration - Implementing Server Components where appropriate
+  - Task 1.9: Codemod Application - Using official Next.js 15 migration tools
+  - Task 1.10: Enhanced Data Structure - Adding position, size, relationship fields
+  - Task 1.11: Data Migration Utility - Converting existing JSON to new format
+  - Task 1.12: Canvas Foundation - Basic canvas setup with drag-and-drop types
 
 ## Next Steps
 
-1. **Immediate (Task 1.6)**:
-   - Implement responsive design for the tree layout
-   - Add Tailwind breakpoints for mobile, tablet, and desktop
-   - Test the tree visualization on different screen sizes
-   - Optimize SVG connections for different screen sizes
-   - Consider alternative layouts for very small screens
+1. **Immediate (Complete Phase 1 Migration)**:
+   - Finish Next.js 15 API routes migration (Task 1.7)
+   - Update page components to Next.js 15 patterns (Task 1.8)
+   - Apply official Next.js 15 codemods (Task 1.9)
+   - Implement enhanced TypeScript interfaces with position/size fields (Task 1.10)
+   - Create data migration utility for existing family tree data (Task 1.11)
+   - Set up canvas foundation with drag-and-drop types (Task 1.12)
 
-2. **Short-term (Phase 2)**:
-   - Begin authentication system implementation
-   - Create JWT token system and auth API routes
-   - Build login form component with validation
-   - Add protected routes for editing functionality
+2. **Short-term (Phase 2 - Canvas & UI Enhancement)**:
+   - Implement interactive canvas with drag-and-drop positioning (Task 2.1)
+   - Create professional toolbar with essential actions (Task 2.2)
+   - Enhance member cards to rounded banners with relationship labels (Task 2.3)
+   - Add viewport controls (pan, zoom) for canvas navigation (Task 2.4)
+   - Implement undo/redo functionality with history stack (Task 2.5)
+   - Add professional grid system with snap functionality (Task 2.6)
 
-3. **Medium-term (Phase 3)**:
-   - Implement CRUD operations for family tree editing
-   - Add member creation and editing forms
-   - Implement photo upload functionality
-   - Add drag-and-drop reordering of siblings
+3. **Medium-term (Phase 3 - CRUD Operations)**:
+   - Set up React Context for global state management (Task 3.1)
+   - Create modal components for add/edit/delete operations (Task 3.2)
+   - Implement core CRUD operations with error handling (Task 3.3)
+   - Add member selection and multi-select functionality (Task 3.4)
+   - Implement position management on canvas (Task 3.5)
+   - Create connection management system (Task 3.6)
 
 ## Active Decisions
 
-- **Responsive Strategy**: Planning how to adapt the tree layout for different screen sizes
-- **Authentication Approach**: Evaluating JWT token implementation options
-- **Form Validation**: Considering form validation strategies for login and member editing
-- **CRUD Operations**: Planning API routes and UI components for family tree editing
+- **Transformation Strategy**: Complete Next.js 15 migration before canvas implementation
+- **Data Structure Enhancement**: Adding position, size, and relationship fields to FamilyMember interface
+- **Canvas Approach**: Interactive canvas with absolute positioning and drag-and-drop
+- **UI/UX Direction**: Professional design tool interface similar to Canva/Figma
+- **Mobile Strategy**: Touch-optimized interface with mobile-specific action bar
+- **Performance**: Virtual scrolling and memory optimization for large family trees
 
 ## Technical Considerations
 
-- The tree layout must adapt to different screen sizes
-- SVG connections need to recalculate when the layout changes
-- Authentication system must be secure and user-friendly
-- CRUD operations need proper error handling and validation
-- Performance optimization for larger family trees
+- Next.js 15 migration must be completed before canvas implementation
+- Enhanced data structure with position/size fields is critical for canvas system
+- Canvas implementation will replace current horizontal tree layout
+- Professional toolbar design will transform current basic header
+- Mobile optimization requires touch event handling and responsive canvas
+- State management with React Context and history stack needed for undo/redo
+- Export functionality requires canvas-to-image conversion and CSV generation
 
 ## Current Implementation Status
 
 ### **Completed Components**
-- ✅ **FamilyTree**: Horizontal tree layout with SVG connections
-- ✅ **TreeConnection**: SVG connection lines for family relationships
-- ✅ **MemberCard**: Photo display with fallback avatar and responsive design
+- ✅ **FamilyTree**: Horizontal tree layout with SVG connections (foundation for canvas)
+- ✅ **TreeConnection**: SVG connection lines for family relationships (to be enhanced)
+- ✅ **MemberCard**: Photo display with fallback avatar and responsive design (to become MemberBanner)
 - ✅ **Data Utilities**: Complete CRUD operations for family members
 - ✅ **Sample Data**: 6 Vietnamese family members with realistic relationships
+- ✅ **Project Structure**: Complete Next.js 15 setup with proper organization
 
 ### **Current Architecture**
 - **Frontend**: Next.js 15 with TypeScript and Tailwind CSS
 - **Data Storage**: JSON files with proper error handling
 - **Authentication**: JWT and bcrypt dependencies installed
 - **Testing**: Jest setup with comprehensive test coverage
-- **Tree Layout**: Horizontal layout with generation-based grouping
+- **Tree Layout**: Horizontal layout with generation-based grouping (to be replaced with canvas)
 
 ## Resources
 
-- [FamilyTree Component](../family-tree/app/components/FamilyTree.tsx) - Completed component for tree visualization
-- [TreeConnection Component](../family-tree/app/components/TreeConnection.tsx) - Component for SVG connections
-- [MemberCard Component](../family-tree/app/components/MemberCard.tsx) - Component used in the tree layout
-- [Family Tree Data](../family-tree/data/family-tree.json) - Sample data structure for testing the tree layout
-- [TypeScript Interfaces](../family-tree/types/index.ts) - Type definitions for the family tree data
-- [Data Utilities](../family-tree/app/lib/data.ts) - Complete CRUD operations for family members
+- [Project Overview](../family-tree/docs/project-overview.md) - Complete transformation plan
+- [Upgrade Plan](../family-tree/docs/upgrade-plan.md) - Detailed implementation guidance
+- [Implementation Notes](../family-tree/docs/implementation-notes.md) - Technical code examples
+- [Task Tracking](../family-tree/docs/task-tracking.md) - Current task status and workflow
+- [Success Criteria](../family-tree/docs/success-criteria.md) - Project goals and requirements
+
+## Transformation Goals
+
+- **From**: Static horizontal tree viewer with basic functionality
+- **To**: Professional canvas-based design tool with full CRUD, share, and export capabilities
+- **Architecture**: Maintain frontend-only approach with JSON storage
+- **UI/UX**: Transform to modern design tool interface with professional toolbar
+- **Performance**: Optimize for large family trees with virtual scrolling and efficient rendering
 
 ---
 
-*This file tracks the current development focus and active decisions.* 
+*This file tracks the current development focus and transformation progress.* 

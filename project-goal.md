@@ -1,35 +1,35 @@
-# Family Tree Website - Project Goals
+# Family Tree Design Tool - Project Goals
 
 ## 🤖 **AI Summary**
-**Build a Next.js 15 Family Tree Website** with public viewing and authenticated editing capabilities. 
+**Transform Next.js 15 Family Tree into Professional Design Tool** with canvas-based editing, CRUD operations, sharing, and export capabilities.
 
-**Core Tech**: Next.js 15 + TypeScript + Tailwind CSS + JWT authentication + JSON file storage  
-**Key Features**: Public family tree viewing, protected member management, horizontal tree layout, search/export functionality  
-**Architecture**: Frontend-only with JSON data persistence, Base64 image storage, bcrypt password hashing  
-**Priority**: Public viewing first → Authentication system → CRUD operations → Advanced features  
+**Core Tech**: Next.js 15 + TypeScript + Tailwind CSS + Canvas-based UI + JWT authentication + JSON storage  
+**Key Features**: Interactive canvas editing, professional toolbar, enhanced member banners, share/export functionality  
+**Architecture**: Frontend-only with JSON persistence, canvas-based layout system, state management with history  
+**Priority**: Enhanced UI foundation → CRUD operations → Share/Export → Mobile optimization
 
 ---
 
 ## 🎯 **Project Vision**
-Create a beautiful, public family tree management tool that allows families to easily visualize, edit, and share their genealogical data with an intuitive, modern interface. The family tree is publicly viewable, while editing requires authentication.
+Transform the current family tree viewer into a **professional design tool** similar to Canva, with an intuitive canvas-based interface that allows families to easily visualize, edit, and share their genealogical data. The tool combines the simplicity of public viewing with powerful editing capabilities for authenticated users.
 
 ---
 
 ## 📋 **Core Objectives**
 
 ### **Primary Goal**
-Build a comprehensive family tree application using Next.js and Tailwind CSS that enables families to:
-- **Visualize** their family structure in an attractive horizontal layout (public access)
-- **Manage** family member information with ease (authenticated access)
-- **Share** their family tree publicly with relatives
-- **Preserve** family history and relationships digitally
+Build a professional design tool for family trees using Next.js and Tailwind CSS that enables families to:
+- **Design** their family tree with an interactive canvas interface
+- **Manage** family member information with enhanced banners and relationship labels
+- **Share** their family tree with customizable export options
+- **Preserve** family history with a robust data structure and version tracking
 
 ### **Secondary Goals**
-- Create a responsive, accessible interface that works on all devices
-- Provide efficient data management with JSON storage
-- Enable easy export and backup of family data
-- Support large family trees with thousands of members
-- Implement secure authentication for editing operations
+- Create a professional toolbar with essential design actions (undo/redo, share, export)
+- Implement canvas-based editing with drag-and-drop positioning
+- Enable comprehensive export options (CSV, PNG formats)
+- Support large family trees with optimized canvas rendering
+- Provide a mobile-optimized design tool experience
 
 ---
 
@@ -56,22 +56,40 @@ State Management: React hooks + local component state
     /family            # Family tree CRUD
       /route.ts        # GET all members
       /[id]/route.ts   # GET/PUT/DELETE single member
-  /components           # React components
-    FamilyTree.tsx     # Main tree container
-    MemberCard.tsx     # Individual member display
-    AuthForm.tsx       # Login form
-    MemberForm.tsx     # Add/edit member form
-  /lib                  # Utilities & helpers
-    auth.ts            # JWT utilities
-    data.ts            # JSON file operations
-  page.tsx             # Home page (public tree view)
-  layout.tsx           # Root layout with auth context
-/data                   # JSON data storage
-  family-tree.json     # Family tree data
-  users.json           # User accounts
-/types                  # TypeScript definitions
-  index.ts             # All interface definitions
-middleware.ts          # Route protection
+  /components          # React components
+    /Canvas            # Canvas-based components
+      FamilyTreeCanvas.tsx  # Interactive canvas container
+      MemberBanner.tsx      # Enhanced member display
+      ConnectionLines.tsx   # Dynamic SVG connections
+      CanvasControls.tsx   # Pan/zoom controls
+    /Toolbar           # Professional toolbar
+      MainToolbar.tsx      # Main action toolbar
+      ActionButtons.tsx    # Undo/redo, share, export
+      UserSection.tsx      # User profile & settings
+    /Modals            # Modal components
+      AddMemberModal.tsx   # Add member form
+      EditMemberModal.tsx  # Edit member form
+      DeleteConfirmModal.tsx # Delete confirmation
+      ShareModal.tsx       # Share options
+    /Export            # Export functionality
+      ExportModal.tsx      # Export options modal
+      ExportOptions.tsx    # Format selection
+    /Mobile            # Mobile-specific components
+      MobileActionBar.tsx  # Bottom action bar
+      MobileModals.tsx     # Touch-optimized modals
+  /lib                 # Utilities & helpers
+    canvas.ts          # Canvas operations
+    export.ts          # Export functions
+    share.ts           # Share functionality
+    crud.ts           # Data operations
+  page.tsx            # Home page (canvas view)
+  layout.tsx          # Root layout with auth context
+/data                 # JSON data storage
+  family-tree.json    # Tree data with positions
+  users.json          # User accounts
+/types               # TypeScript definitions
+  design-tool.ts     # Canvas/design interfaces
+middleware.ts        # Route protection
 ```
 
 ### **Authentication & Security Architecture**
@@ -91,8 +109,18 @@ middleware.ts          # Route protection
 {
   "id": "family-tree-1",
   "name": "Lê Family Tree",
-  "createdAt": "2024-01-01",
-  "updatedAt": "2024-01-01",
+  "settings": {
+    "canvasSize": { "width": 2000, "height": 1500 },
+    "gridEnabled": true,
+    "snapToGrid": true,
+    "theme": "light",
+    "layout": "hierarchical"
+  },
+  "metadata": {
+    "created": "2024-01-01",
+    "lastModified": "2024-01-01",
+    "version": "1.0"
+  },
   "members": [
     {
       "id": "member-1",
@@ -109,7 +137,10 @@ middleware.ts          # Route protection
       "parentId": null,
       "spouseIds": ["member-2"],
       "childrenIds": ["member-3", "member-4"],
-      "order": 1
+      "order": 1,
+      "position": { "x": 100, "y": 100 },
+      "size": { "width": 200, "height": 120 },
+      "relationship": "Father"
     }
   ]
 }
@@ -174,81 +205,81 @@ middleware.ts          # Route protection
 
 ## 🚀 **Development Phases with Implementation Priority**
 
-### **Phase 1: Foundation** (Priority: CRITICAL | Week 1-2)
-**Goal**: Create the public family tree view and basic functionality  
-**Acceptance Criteria**: Public users can view a complete family tree without authentication
+### **Phase 1: Enhanced UI Foundation** (Priority: CRITICAL | Week 1)
+**Goal**: Transform the basic viewer into a canvas-based design tool  
+**Acceptance Criteria**: Users can interact with family tree on a professional canvas interface
 
 **Tasks with Priority Ranking:**
-1. **P1-CRITICAL** Setup Next.js + Tailwind + TypeScript project structure
-2. **P1-CRITICAL** Create JSON data files with sample family data
-3. **P1-CRITICAL** Build MemberCard component with photo display
-4. **P1-CRITICAL** Implement horizontal tree layout with CSS Grid/Flexbox
-5. **P2-HIGH** Add connection lines between family members (SVG or CSS)
-6. **P2-HIGH** Create responsive design for mobile/tablet/desktop
-7. **P3-MEDIUM** Add search and filter functionality
+1. **P1-CRITICAL** Update TypeScript interfaces with new fields (position, size, relationship)
+2. **P1-CRITICAL** Create data migration utility for existing family tree data
+3. **P1-CRITICAL** Implement basic canvas component with absolute positioning
+4. **P1-CRITICAL** Add drag-and-drop functionality for member banners
+5. **P2-HIGH** Implement viewport controls (pan, zoom)
+6. **P2-HIGH** Enhance member banners with relationship labels
+7. **P3-MEDIUM** Create basic toolbar with essential actions
 
 **Definition of Done**: 
-- [ ] Family tree displays correctly on all screen sizes
-- [ ] All family members visible with photos and basic info
-- [ ] Tree connections are clear and visually appealing
-- [ ] Performance is smooth with 100+ members
+- [ ] Canvas renders family tree with draggable members
+- [ ] Member banners show enhanced design with relationships
+- [ ] Basic toolbar provides essential actions
+- [ ] Smooth pan and zoom functionality
 
-### **Phase 2: Authentication System** (Priority: CRITICAL | Week 2-3)
-**Goal**: Implement secure authentication for editing operations  
-**Acceptance Criteria**: Users can securely log in to access editing features
-
-**Tasks with Priority Ranking:**
-1. **P1-CRITICAL** Create users.json with bcrypt hashed passwords
-2. **P1-CRITICAL** Build login/logout API routes with JWT
-3. **P1-CRITICAL** Implement session management and token verification
-4. **P1-CRITICAL** Create login form component with validation
-5. **P2-HIGH** Add authentication middleware for protected routes
-6. **P2-HIGH** Create logout functionality and session cleanup
-7. **P3-MEDIUM** Add "Remember me" functionality
-
-**Definition of Done**:
-- [ ] Users can log in with username/password
-- [ ] JWT tokens are properly generated and validated
-- [ ] Protected routes are inaccessible without authentication
-- [ ] Session management works across browser refreshes
-
-### **Phase 3: Protected CRUD Operations** (Priority: HIGH | Week 3-4)
-**Goal**: Enable secure member management capabilities  
-**Acceptance Criteria**: Authenticated users can add/edit/delete family members
+### **Phase 2: CRUD Operations & State Management** (Priority: CRITICAL | Week 2)
+**Goal**: Implement professional editing capabilities with history tracking  
+**Acceptance Criteria**: Users can manage family members with undo/redo support
 
 **Tasks with Priority Ranking:**
-1. **P1-CRITICAL** Protect all editing API endpoints with authentication
-2. **P1-CRITICAL** Create add member form with all required fields
-3. **P1-CRITICAL** Build edit member functionality with pre-populated forms
-4. **P1-CRITICAL** Implement delete with confirmation dialog
-5. **P2-HIGH** Add photo upload with Base64 conversion
+1. **P1-CRITICAL** Implement React Context for global state management
+2. **P1-CRITICAL** Create modal components for add/edit/delete operations
+3. **P1-CRITICAL** Add member selection and context menu
+4. **P1-CRITICAL** Implement dynamic connection recalculation
+5. **P2-HIGH** Add undo/redo functionality with history stack
 6. **P2-HIGH** Create form validation and error handling
-7. **P3-MEDIUM** Add bulk edit capabilities
+7. **P3-MEDIUM** Add bulk operations support
 
 **Definition of Done**:
-- [ ] All CRUD operations work securely for authenticated users
-- [ ] Forms include proper validation and error messages
-- [ ] Photo uploads convert to Base64 and store correctly
-- [ ] Data persists correctly in JSON files
+- [ ] All CRUD operations work with state history
+- [ ] Undo/redo functions properly for all actions
+- [ ] Connections update dynamically with member movement
+- [ ] Forms provide proper validation and feedback
 
-### **Phase 4: Advanced Features** (Priority: MEDIUM | Week 4-5)
-**Goal**: Add interactive features and polish the application  
-**Acceptance Criteria**: Application feels professional and handles edge cases
+### **Phase 3: Share & Export** (Priority: HIGH | Week 3)
+**Goal**: Enable comprehensive sharing and export capabilities  
+**Acceptance Criteria**: Users can share and export family trees in multiple formats
 
 **Tasks with Priority Ranking:**
-1. **P1-CRITICAL** Add drag & drop for reordering siblings
-2. **P2-HIGH** Implement zoom and pan controls for large trees
-3. **P2-HIGH** Create JSON export/import functionality
-4. **P2-HIGH** Add performance optimization for 1000+ members
-5. **P3-MEDIUM** Create shareable links for specific family members
-6. **P3-MEDIUM** Add family statistics and analytics
-7. **P4-LOW** Implement move members between branches
+1. **P1-CRITICAL** Implement share link generation and modal
+2. **P1-CRITICAL** Add CSV export functionality with all fields
+3. **P1-CRITICAL** Create PNG export with canvas capture
+4. **P1-CRITICAL** Add export options modal with settings
+5. **P2-HIGH** Implement share link validation and expiry
+6. **P2-HIGH** Add watermark options for exports
+7. **P3-MEDIUM** Create batch export capabilities
 
 **Definition of Done**:
-- [ ] Drag & drop works smoothly on all devices
-- [ ] Large trees (1000+ members) load and perform well
-- [ ] Export/import maintains data integrity
-- [ ] All features work on mobile devices
+- [ ] Share links work reliably with proper validation
+- [ ] CSV exports include all member data
+- [ ] PNG exports capture the entire tree accurately
+- [ ] Export options provide necessary customization
+
+### **Phase 4: Mobile Experience** (Priority: HIGH | Week 4)
+**Goal**: Optimize the design tool for mobile devices  
+**Acceptance Criteria**: Full functionality available on mobile with touch support
+
+**Tasks with Priority Ranking:**
+1. **P1-CRITICAL** Optimize for mobile with touch interactions
+2. **P1-CRITICAL** Add mobile-specific action bar and gestures
+3. **P1-CRITICAL** Create touch-friendly member selection
+4. **P1-CRITICAL** Implement mobile-optimized modals
+5. **P2-HIGH** Add pinch-to-zoom and pan gestures
+6. **P2-HIGH** Optimize canvas performance for mobile
+7. **P3-MEDIUM** Add offline support for mobile editing
+
+**Definition of Done**:
+- [ ] All features work smoothly on mobile devices
+- [ ] Touch gestures feel natural and responsive
+- [ ] Mobile UI provides easy access to all functions
+- [ ] Performance is optimized for mobile browsers
 
 ---
 
@@ -256,46 +287,50 @@ middleware.ts          # Route protection
 
 ### **📋 PLANNED Features**
 
-#### **Public Features (No Authentication Required)**
-- [ ] **P1-CRITICAL** View complete family tree with horizontal layout
-- [ ] **P2-HIGH** Search and filter family members by name/criteria
-- [ ] **P2-HIGH** View detailed member information and photos
-- [ ] **P2-HIGH** Export family tree data (JSON/CSV formats)
-- [ ] **P3-MEDIUM** Share family tree links with read-only access
-- [ ] **P1-CRITICAL** Responsive design for all devices
+#### **Canvas & Design Features**
+- [ ] **P1-CRITICAL** Interactive canvas with drag-and-drop positioning
+- [ ] **P1-CRITICAL** Professional toolbar with essential actions
+- [ ] **P1-CRITICAL** Enhanced member banners with relationship labels
+- [ ] **P2-HIGH** Pan and zoom controls with smooth transitions
+- [ ] **P2-HIGH** Grid system with snap-to-grid functionality
+- [ ] **P2-HIGH** Selection and multi-select capabilities
+- [ ] **P3-MEDIUM** Custom layouts (hierarchical, radial, custom)
 
-#### **Protected Features (Authentication Required)**
-- [ ] **P1-CRITICAL** Add new family members (children, spouses, parents)
-- [ ] **P2-HIGH** Edit existing member details (name, photo, contact info, biography)
-- [ ] **P2-HIGH** Delete members with soft delete and restore option
-- [ ] **P2-HIGH** Upload and manage member photos with Base64 conversion
-- [ ] **P3-MEDIUM** Drag & drop reordering of siblings
-- [ ] **P3-MEDIUM** Support for multiple spouses per member
-- [ ] **P4-LOW** Move members between different family branches
+#### **Member Management**
+- [ ] **P1-CRITICAL** Add/edit members with enhanced modal interface
+- [ ] **P1-CRITICAL** Dynamic relationship management and labeling
+- [ ] **P2-HIGH** Bulk operations for multiple members
+- [ ] **P2-HIGH** Photo management with Base64 conversion
+- [ ] **P2-HIGH** Context menu for quick actions
+- [ ] **P3-MEDIUM** Member templates and presets
+- [ ] **P4-LOW** Batch import from external sources
 
-#### **Tree Visualization & Operations**
-- [ ] **P1-CRITICAL** Horizontal compact tree layout
-- [ ] **P2-HIGH** Connection lines between family members
-- [ ] **P3-MEDIUM** Expandable/collapsible family branches
-- [ ] **P3-MEDIUM** Zoom and pan controls for large trees
-- [ ] **P2-HIGH** Search and filter functionality with highlighting
-- [ ] **P3-MEDIUM** Performance optimization for 1000+ members
+#### **State & History Management**
+- [ ] **P1-CRITICAL** Global state management with React Context
+- [ ] **P1-CRITICAL** Undo/redo functionality for all actions
+- [ ] **P2-HIGH** Auto-save and version tracking
+- [ ] **P2-HIGH** Local storage backup system
+- [ ] **P3-MEDIUM** Conflict resolution for concurrent edits
+- [ ] **P3-MEDIUM** Change history and audit logs
+- [ ] **P4-LOW** Branch and merge tree versions
 
-#### **Data Management & Storage**
-- [ ] **P1-CRITICAL** Save/load from JSON files in codebase
-- [ ] **P1-CRITICAL** Persist user accounts with secure password storage
-- [ ] **P2-HIGH** Export family tree data in multiple formats
-- [ ] **P3-MEDIUM** Import/merge family tree data from files
-- [ ] **P3-MEDIUM** Backup and restore functionality
-- [ ] **P2-HIGH** Data validation and error handling
+#### **Share & Export**
+- [ ] **P1-CRITICAL** Share link generation with custom settings
+- [ ] **P1-CRITICAL** CSV export with all member data
+- [ ] **P1-CRITICAL** PNG export with canvas capture
+- [ ] **P2-HIGH** Watermark and branding options
+- [ ] **P2-HIGH** Custom export templates
+- [ ] **P3-MEDIUM** Batch export capabilities
+- [ ] **P4-LOW** Automated backup scheduling
 
-#### **Authentication & Security**
-- [ ] **P1-CRITICAL** JWT-based authentication system
-- [ ] **P1-CRITICAL** bcrypt password hashing and validation
-- [ ] **P1-CRITICAL** Protected API routes for editing operations
-- [ ] **P2-HIGH** Session management across browser refreshes
-- [ ] **P2-HIGH** Public read-only mode vs authenticated edit mode
-- [ ] **P3-MEDIUM** Shareable links with access control
+#### **Mobile Experience**
+- [ ] **P1-CRITICAL** Touch-optimized interface and gestures
+- [ ] **P1-CRITICAL** Mobile-specific action bar
+- [ ] **P2-HIGH** Pinch-to-zoom and pan gestures
+- [ ] **P2-HIGH** Mobile-optimized modals and forms
+- [ ] **P2-HIGH** Offline editing capabilities
+- [ ] **P3-MEDIUM** Mobile-specific layout optimizations
+- [ ] **P4-LOW** Progressive Web App features
 
 ### **✅ COMPLETED Features**
 *This section will be updated as development progresses*
@@ -306,28 +341,28 @@ middleware.ts          # Route protection
 
 ## 📱 **User Journey**
 
-### **Public User Flow**
-1. **Visit**: Open family tree website (no login required)
-2. **Browse**: View horizontal tree layout
-3. **Search**: Find specific members quickly
-4. **Export**: Download family tree data
-5. **Share**: Generate shareable link for family
-6. **Edit Attempt**: Click edit → prompted to login
+### **Design Tool User Flow**
+1. **Canvas View**: Open interactive canvas with family tree
+2. **Design**: Drag and position members on canvas
+3. **Edit**: Use professional toolbar for actions
+4. **Organize**: Manage relationships and connections
+5. **History**: Undo/redo changes as needed
+6. **Share/Export**: Generate links or export formats
 
-### **Editor User Flow**
-1. **Login**: Authenticate to enable editing
-2. **Edit**: Add/edit/delete family members
-3. **Organize**: Drag & drop to reorder members
-4. **Save**: Changes saved to JSON file
-5. **Share**: Generate shareable links for family
-6. **Export**: Download data for backup
+### **Mobile User Flow**
+1. **Touch Interface**: Use mobile-optimized controls
+2. **Quick Actions**: Access bottom action bar
+3. **Gestures**: Pan, zoom, and select members
+4. **Edit**: Use mobile-friendly modals
+5. **Share**: Quick share options for mobile
+6. **Export**: Mobile-optimized export process
 
 ### **Key User Scenarios**
-- **Family Patriarch**: Adding new generations and managing the tree
-- **Family Member**: Viewing family history and relationships (public)
-- **Family Historian**: Documenting biographies and photos (authenticated)
-- **Family Organizer**: Reordering and organizing family structure (authenticated)
-- **Extended Family**: Viewing family tree without barriers
+- **Family Designer**: Creating and organizing tree layout
+- **Content Manager**: Adding and updating member information
+- **Mobile Editor**: Managing tree on-the-go
+- **Data Curator**: Exporting and sharing tree data
+- **Collaborative Editor**: Working with version history
 
 ---
 
@@ -335,143 +370,150 @@ middleware.ts          # Route protection
 
 ### **Functional Requirements**
 
-#### **Public Family Tree Viewing**
+#### **Canvas Design Tool**
 **Acceptance Criteria:**
-- [ ] **Family tree displays correctly** with all members visible in horizontal layout
-- [ ] **Tree connections are clear** with visible lines between related members
-- [ ] **Member photos display properly** with fallback for missing images
-- [ ] **Search functionality works** and filters results in real-time
-- [ ] **Export functionality** generates valid JSON/CSV files
-- [ ] **Mobile responsive** design works on screens 320px+ wide
-- [ ] **Loading performance** under 3 seconds for trees with 500+ members
+- [ ] **Interactive canvas** with smooth drag-and-drop positioning
+- [ ] **Professional toolbar** with all essential design actions
+- [ ] **Enhanced member banners** with relationship labels and styling
+- [ ] **Pan and zoom controls** work smoothly on all devices
+- [ ] **Grid system** with snap-to-grid functionality
+- [ ] **Selection tools** support single and multi-select operations
+- [ ] **Custom layouts** (hierarchical, radial, custom) render correctly
 
-#### **Authenticated Member Management**
+#### **State Management & History**
 **Acceptance Criteria:**
-- [ ] **Login system works securely** with username/password validation
-- [ ] **Add member functionality** creates new members with all required fields
-- [ ] **Edit member functionality** updates existing members correctly
-- [ ] **Delete functionality** removes members with confirmation dialog
-- [ ] **Photo upload** converts images to Base64 and stores in JSON
-- [ ] **Form validation** prevents invalid data submission
-- [ ] **Data persistence** saves all changes to JSON files immediately
+- [ ] **Global state** manages all tree data efficiently
+- [ ] **Undo/redo** works for all user actions
+- [ ] **Auto-save** prevents data loss
+- [ ] **Version tracking** maintains edit history
+- [ ] **Local storage** provides reliable backup
+- [ ] **Conflict resolution** handles concurrent edits
+- [ ] **Change history** logs all modifications
 
 #### **User Interface & Experience**
 **Acceptance Criteria:**
-- [ ] **Intuitive navigation** requires no training for basic viewing
-- [ ] **Drag & drop functionality** works on touch and desktop devices
-- [ ] **Visual feedback** for all user actions (loading, success, error states)
-- [ ] **Error messages** are clear and actionable
-- [ ] **Accessibility compliance** passes WCAG 2.1 AA standards
-- [ ] **Cross-browser compatibility** works in Chrome, Firefox, Safari, Edge
+- [ ] **Professional design tool** interface is intuitive
+- [ ] **Touch interactions** work smoothly on mobile
+- [ ] **Visual feedback** for all actions (loading, success, error)
+- [ ] **Mobile action bar** provides easy access to functions
+- [ ] **Accessibility** passes WCAG 2.1 AA standards
+- [ ] **Cross-browser** compatibility in Chrome, Firefox, Safari, Edge
 
 ### **Performance Requirements**
 
-#### **Large Tree Handling**
+#### **Canvas Performance**
 **Acceptance Criteria:**
-- [ ] **1000+ member trees** load within 5 seconds
-- [ ] **Smooth scrolling and panning** with no lag on mobile devices
-- [ ] **Search results** return within 500ms for any query
-- [ ] **Memory usage** stays under 100MB for trees with 1000+ members
-- [ ] **Batch operations** (export/import) complete within 10 seconds
+- [ ] **Canvas operations** (drag, zoom) complete within 16ms
+- [ ] **Member rendering** handles 1000+ members smoothly
+- [ ] **Connection updates** recalculate within 100ms
+- [ ] **Memory usage** stays under 100MB for large trees
+- [ ] **State updates** process within 50ms
+- [ ] **History operations** (undo/redo) execute within 100ms
+- [ ] **Auto-save** completes within 500ms
 
-#### **Authentication Performance**
+#### **Export Performance**
 **Acceptance Criteria:**
-- [ ] **Login process** completes within 2 seconds
-- [ ] **Token verification** for protected routes under 100ms
-- [ ] **Session persistence** works across browser refreshes
-- [ ] **Logout process** clears all session data completely
+- [ ] **Share link generation** completes within 1 second
+- [ ] **CSV export** processes within 3 seconds
+- [ ] **PNG export** captures and saves within 5 seconds
+- [ ] **Batch operations** complete within 10 seconds
+- [ ] **Mobile export** optimizes for bandwidth
 
-### **Security & Quality Requirements**
+### **Technical Requirements**
 
-#### **Data Security**
+#### **Code Architecture**
 **Acceptance Criteria:**
-- [ ] **Password hashing** uses bcrypt with minimum 10 salt rounds
-- [ ] **JWT tokens** have proper expiration and validation
-- [ ] **Protected API routes** reject unauthorized requests with 401 status
-- [ ] **Data validation** prevents XSS and injection attacks
-- [ ] **File operations** have proper error handling and rollback
+- [ ] **TypeScript** strict mode with no errors
+- [ ] **React Context** optimized for performance
+- [ ] **Canvas system** follows best practices
+- [ ] **Component structure** maintains clear hierarchy
+- [ ] **State management** follows immutable patterns
+- [ ] **Mobile architecture** optimizes for touch
 
-#### **Code Quality**
+#### **Quality Assurance**
 **Acceptance Criteria:**
-- [ ] **TypeScript compliance** with no type errors
-- [ ] **ESLint/Prettier** formatting with no warnings
-- [ ] **Component testing** for all major UI components
-- [ ] **API testing** for all authentication and CRUD endpoints
-- [ ] **Error boundaries** handle and display component errors gracefully
+- [ ] **Unit tests** cover all core components
+- [ ] **Integration tests** verify canvas operations
+- [ ] **Performance tests** validate rendering speed
+- [ ] **Mobile testing** confirms touch functionality
+- [ ] **Cross-browser testing** ensures compatibility
+- [ ] **Error handling** manages all edge cases
 
 ---
 
 ## 📈 **Future Enhancements**
 
-### **Phase 5: Advanced Features** (Future)
-- [ ] Multiple tree layouts (vertical, radial)
-- [ ] Timeline view of family history
-- [ ] Photo gallery for each member
-- [ ] Family event calendar
-- [ ] Advanced search with multiple criteria
-- [ ] Family statistics and analytics
+### **Phase 5: Advanced Canvas Features** (Future)
+- [ ] Multiple simultaneous tree views
+- [ ] Advanced animation and transitions
+- [ ] Custom member banner templates
+- [ ] AI-assisted layout suggestions
+- [ ] Advanced connection styling
+- [ ] 3D tree visualization
 
-### **Phase 6: Collaboration** (Future)
-- [ ] Multi-user editing with permissions
-- [ ] Real-time collaboration
-- [ ] Family chat/messaging
-- [ ] Family photo sharing
-- [ ] Family story contributions
+### **Phase 6: Collaboration & Real-time** (Future)
+- [ ] Real-time collaborative editing
+- [ ] Version control and branching
+- [ ] Comments and annotations
+- [ ] Design history playback
+- [ ] Team workspaces
+- [ ] Live preview sharing
 
 ---
 
 ## 🎉 **Project Success Metrics**
 
 ### **Technical Metrics**
-- ✅ Tree renders correctly with 1000+ members
-- ✅ All CRUD operations work smoothly for authenticated users
-- ✅ Search returns results in <500ms
-- ✅ Mobile performance is excellent
-- ✅ Data integrity is maintained
-- ✅ Authentication system is secure and fast
+- ✅ Canvas operations complete within performance targets
+- ✅ State management handles 1000+ members efficiently
+- ✅ History tracking works reliably for all actions
+- ✅ Mobile touch interactions are smooth and responsive
+- ✅ Export functions handle large trees successfully
+- ✅ Component architecture maintains clean separation
 
 ### **User Experience Metrics**
-- ✅ Public users can view family tree without barriers
-- ✅ Users can add a new member in <2 minutes (after login)
-- ✅ Users can find any member in <10 seconds
-- ✅ Users can share tree with family easily
-- ✅ Users can export data without issues
-- ✅ Login process is smooth and secure
+- ✅ Users can design trees without training
+- ✅ Canvas interactions feel natural and responsive
+- ✅ Mobile experience matches desktop quality
+- ✅ Share and export functions work intuitively
+- ✅ Undo/redo provides confidence in editing
+- ✅ Professional toolbar enhances productivity
 
-### **Business Metrics**
-- ✅ Family adoption rate
-- ✅ User engagement (time spent)
-- ✅ Feature usage statistics
-- ✅ User feedback and satisfaction
-- ✅ Public accessibility success
+### **Design Tool Metrics**
+- ✅ Canvas rendering performance
+- ✅ Tool adoption rate
+- ✅ Feature utilization statistics
+- ✅ Export format preferences
+- ✅ Mobile vs desktop usage
+- ✅ User satisfaction with design capabilities
 
 ---
 
 ## 📋 **Project Deliverables**
 
-### **Code Deliverables**
-- [ ] Complete Next.js application with authentication
-- [ ] TypeScript type definitions
-- [ ] Component library documentation
-- [ ] API documentation for authentication
-- [ ] Deployment configuration
-- [ ] Security documentation
+### **Design Tool Deliverables**
+- [ ] Canvas-based family tree editor
+- [ ] Professional toolbar implementation
+- [ ] Enhanced member banner system
+- [ ] State management with history
+- [ ] Share and export functionality
+- [ ] Mobile-optimized interface
 
 ### **Documentation Deliverables**
-- [ ] User manual and guides
-- [ ] Technical documentation
-- [ ] API documentation
-- [ ] Deployment instructions
-- [ ] Maintenance guide
-- [ ] Security guidelines
+- [ ] Design tool user guide
+- [ ] Canvas interaction documentation
+- [ ] Component architecture guide
+- [ ] State management documentation
+- [ ] Mobile interaction guide
+- [ ] Performance optimization guide
 
 ### **Testing Deliverables**
-- [ ] Unit tests for core functions
-- [ ] Integration tests for user flows
-- [ ] Performance tests for large trees
-- [ ] Accessibility tests
+- [ ] Canvas operation tests
+- [ ] State management tests
+- [ ] Touch interaction tests
+- [ ] Export functionality tests
+- [ ] Performance benchmarks
 - [ ] Cross-browser compatibility tests
-- [ ] Security tests for authentication
 
 ---
 
@@ -481,25 +523,25 @@ middleware.ts          # Route protection
 
 ### **What's Been Optimized for AI:**
 ✅ **Concise AI Summary** - Added 4-line technical overview at the top  
-✅ **Consolidated Tech Stack** - All technology choices in one clear section  
-✅ **Specific File Structure** - Exact file names and folder organization  
-✅ **Priority Rankings** - P1-CRITICAL to P4-LOW for all tasks  
-✅ **Clear Acceptance Criteria** - Measurable success criteria for each feature  
-✅ **Separated Planned vs Completed** - Clear distinction between todo and done  
-✅ **Implementation Priority** - CRITICAL/HIGH/MEDIUM/LOW phases  
+✅ **Canvas Architecture** - Detailed component structure for design tool  
+✅ **State Management** - Clear patterns for history and undo/redo  
+✅ **Priority Rankings** - P1-CRITICAL to P4-LOW for all features  
+✅ **Performance Metrics** - Specific timing targets for canvas operations  
+✅ **Mobile Strategy** - Touch-optimized interface specifications  
+✅ **Implementation Phases** - Focused on design tool transformation  
 
 ### **Key AI-Friendly Improvements:**
-- **Actionable Tasks** with specific priority levels (P1-P4)
-- **Definition of Done** criteria for each development phase
-- **Technical Implementation** details with specific technologies
-- **Measurable Acceptance Criteria** for all major features
-- **Clear File Naming Conventions** for consistent development
-- **Structured Task Breakdown** for systematic implementation
+- **Canvas Components** with clear responsibilities and interfaces
+- **State Patterns** for efficient history management
+- **Performance Targets** with specific millisecond metrics
+- **Mobile Patterns** for touch-based interactions
+- **Export Specifications** for multiple formats
+- **Component Architecture** for design tool structure
 
 ---
 
-**Project Status**: Ready for AI-Assisted Development  
-**Timeline**: 5 weeks with prioritized phases  
-**Next Action**: Begin Phase 1 - Foundation (Setup Next.js + Public Tree View)  
-**Priority Order**: Public viewing → Authentication → CRUD Operations → Advanced Features  
-**Success Definition**: Beautiful, functional family tree tool with secure editing that families love to use
+**Project Status**: Ready for Design Tool Transformation  
+**Timeline**: 4 weeks with focused phases  
+**Next Action**: Begin Phase 1 - Enhanced UI Foundation  
+**Priority Order**: Canvas UI → State Management → Share/Export → Mobile  
+**Success Definition**: Professional design tool that makes family tree creation intuitive and enjoyable

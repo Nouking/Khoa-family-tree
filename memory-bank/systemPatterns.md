@@ -7,80 +7,114 @@
 - **Composition**: Favor composition over inheritance
 - **Single Responsibility**: Each component has one clear purpose
 - **Reusability**: Design components for reuse across the application
+- **Canvas-Based**: Interactive canvas with absolute positioning and drag-and-drop
 
 ### **State Management**
 - **React Hooks**: Use useState, useEffect, useContext for local state
 - **Component State**: Keep state as close to usage as possible
 - **Context API**: Share authentication state across components
 - **Local Storage**: Persist user preferences and session data
+- **History Stack**: Implement undo/redo functionality with state management
 
 ### **Data Flow**
 - **Unidirectional**: Data flows down, events flow up
 - **Props Drilling**: Minimize prop drilling with context
 - **Event Handling**: Centralized event handling patterns
 - **Error Boundaries**: Catch and handle component errors gracefully
+- **Canvas Events**: Handle drag-and-drop, pan, zoom, and selection events
 
 ## Code Organization Patterns
 
 ### **File Naming Conventions**
 ```
 components/
-  MemberCard.tsx          # PascalCase for components
-  FamilyTree.tsx
-  AuthForm.tsx
+  Canvas/
+    FamilyTreeCanvas.tsx     # Main canvas component
+    MemberBanner.tsx         # Enhanced member cards
+    ConnectionLines.tsx      # Dynamic SVG connections
+    CanvasControls.tsx       # Pan, zoom, grid controls
+  Toolbar/
+    MainToolbar.tsx          # Professional design tool header
+    ActionButtons.tsx        # Undo/redo, share, export
+    UserSection.tsx          # User avatar and settings
+  Modals/
+    AddMemberModal.tsx       # Add member form
+    EditMemberModal.tsx      # Edit member form
+    DeleteConfirmModal.tsx   # Delete confirmation
+    ShareModal.tsx           # Share link generation
+  Export/
+    ExportModal.tsx          # Export options modal
+    ExportOptions.tsx        # CSV and image export
+  Mobile/
+    MobileActionBar.tsx      # Touch-friendly action bar
+    MobileModals.tsx        # Mobile-optimized modals
 lib/
-  auth.ts                 # camelCase for utilities
-  data.ts
-  utils.ts
+  canvas.ts                  # Canvas utilities and state
+  export.ts                  # Export functionality
+  share.ts                   # Share link generation
+  crud.ts                    # CRUD operations
 types/
-  index.ts               # Centralized type definitions
+  design-tool.ts            # Enhanced type definitions
 ```
 
 ### **Import Organization**
 ```typescript
 // External libraries
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import { useDrag, useDrop } from 'react-dnd';
 
 // Internal components
-import { MemberCard } from '@/components/MemberCard';
-import { FamilyTree } from '@/components/FamilyTree';
+import { FamilyTreeCanvas } from '@/components/Canvas/FamilyTreeCanvas';
+import { MemberBanner } from '@/components/Canvas/MemberBanner';
+import { MainToolbar } from '@/components/Toolbar/MainToolbar';
 
 // Utilities and types
-import { auth } from '@/lib/auth';
-import { FamilyMember } from '@/types';
+import { useFamilyTree } from '@/contexts/FamilyTreeContext';
+import { FamilyMember, Position } from '@/types';
 ```
 
 ### **Component Structure**
 ```typescript
 // 1. Imports
 import React from 'react';
-import { FamilyMember } from '@/types';
+import { FamilyMember, Position } from '@/types';
 
 // 2. Interface definition
-interface MemberCardProps {
+interface MemberBannerProps {
   member: FamilyMember;
-  onEdit?: (id: string) => void;
-  onDelete?: (id: string) => void;
+  onDrag: (id: string, position: Position) => void;
+  isSelected: boolean;
+  onSelect: (id: string) => void;
 }
 
 // 3. Component definition
-export const MemberCard: React.FC<MemberCardProps> = ({
+export const MemberBanner: React.FC<MemberBannerProps> = ({
   member,
-  onEdit,
-  onDelete
+  onDrag,
+  isSelected,
+  onSelect
 }) => {
   // 4. Hooks
-  const [isLoading, setIsLoading] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
 
   // 5. Event handlers
-  const handleEdit = () => {
-    onEdit?.(member.id);
-  };
+  const handleDrag = useCallback((newPosition: Position) => {
+    onDrag(member.id, newPosition);
+  }, [member.id, onDrag]);
 
   // 6. Render
   return (
-    <div className="member-card">
+    <div 
+      className={`member-banner ${isSelected ? 'selected' : ''}`}
+      style={{
+        position: 'absolute',
+        left: member.position.x,
+        top: member.position.y,
+        width: member.size.width,
+        height: member.size.height
+      }}
+    >
       {/* Component JSX */}
     </div>
   );
@@ -89,189 +123,374 @@ export const MemberCard: React.FC<MemberCardProps> = ({
 
 ## Current Component Patterns
 
-### **MemberCard Component Pattern**
+### **Canvas Component Pattern**
 ```typescript
-// Current MemberCard implementation pattern
-interface MemberCardProps {
-  member: FamilyMember;
-}
-
-export default function MemberCard({ member }: MemberCardProps) {
-  return (
-    <div className="bg-white rounded-lg shadow-md p-4 border border-gray-200">
-      <div className="flex items-center space-x-4">
-        {member.photo ? (
-          <img 
-            src={member.photo} 
-            alt={member.name} 
-            className="w-16 h-16 rounded-full object-cover"
-          />
-        ) : (
-          <div className="w-16 h-16 rounded-full bg-gray-300 flex items-center justify-center">
-            <span className="text-gray-600 text-xl">
-              {member.name.charAt(0)}
-            </span>
-          </div>
-        )}
-        
-        <div>
-          <h3 className="font-bold text-lg">{member.name}</h3>
-          {member.title && <p className="text-gray-600">{member.title}</p>}
-          <p className="text-sm text-gray-500">
-            {member.birthDate && `Born: ${member.birthDate}`}
-            {member.deathDate && ` • Died: ${member.deathDate}`}
-          </p>
-        </div>
-      </div>
-    </div>
-  )
-}
-```
-
-### **FamilyTree Component Pattern**
-```typescript
-// Current FamilyTree component pattern
-interface FamilyTreeProps {
+// FamilyTreeCanvas.tsx
+interface CanvasState {
   members: FamilyMember[];
+  selectedMember: string | null;
+  viewport: { x: number; y: number; zoom: number };
+  connections: Connection[];
+  isDragging: boolean;
+  dragStart: Position | null;
 }
 
-export const FamilyTree: React.FC<FamilyTreeProps> = ({ members }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [connectionPoints, setConnectionPoints] = useState<Map<string, ConnectionPoint>>(new Map());
-  const [connections, setConnections] = useState<{from: ConnectionPoint, to: ConnectionPoint, type: 'parent-child' | 'spouse'}[]>([]);
-  
-  // Group members by generation
-  const generations = groupMembersByGeneration(members);
-  
-  // Calculate connection points after render
-  useEffect(() => {
-    if (!containerRef.current) return;
+export const FamilyTreeCanvas: React.FC = () => {
+  const [canvasState, setCanvasState] = useState<CanvasState>({
+    members: [],
+    selectedMember: null,
+    viewport: { x: 0, y: 0, zoom: 1 },
+    connections: [],
+    isDragging: false,
+    dragStart: null
+  });
+
+  // Pan and zoom handlers
+  const handlePan = useCallback((e: React.MouseEvent) => {
+    if (!canvasState.isDragging) return;
     
-    const newConnectionPoints = new Map<string, ConnectionPoint>();
-    const memberElements = containerRef.current.querySelectorAll('[data-member-id]');
+    const dx = e.clientX - (canvasState.dragStart?.x || 0);
+    const dy = e.clientY - (canvasState.dragStart?.y || 0);
     
-    memberElements.forEach((element) => {
-      const id = element.getAttribute('data-member-id');
-      if (!id) return;
-      
-      const rect = element.getBoundingClientRect();
-      const containerRect = containerRef.current!.getBoundingClientRect();
-      
-      // Calculate center point of the element relative to the container
-      const x = rect.left + rect.width / 2 - containerRect.left;
-      const y = rect.top + rect.height / 2 - containerRect.top;
-      
-      newConnectionPoints.set(id, { id, x, y });
-    });
-    
-    setConnectionPoints(newConnectionPoints);
-    
-    // Create connections based on relationships
-    const newConnections: {from: ConnectionPoint, to: ConnectionPoint, type: 'parent-child' | 'spouse'}[] = [];
-    
-    // Add parent-child connections
-    members.forEach(member => {
-      const parentPoint = newConnectionPoints.get(member.parentId || '');
-      const childPoint = newConnectionPoints.get(member.id);
-      
-      if (parentPoint && childPoint) {
-        newConnections.push({
-          from: parentPoint,
-          to: childPoint,
-          type: 'parent-child'
-        });
+    setCanvasState(prev => ({
+      ...prev,
+      viewport: {
+        ...prev.viewport,
+        x: prev.viewport.x + dx,
+        y: prev.viewport.y + dy
       }
-    });
+    }));
+  }, [canvasState.isDragging, canvasState.dragStart]);
+
+  // Member dragging handlers
+  const handleMemberDrag = useCallback((memberId: string, newPosition: Position) => {
+    setCanvasState(prev => ({
+      ...prev,
+      members: prev.members.map(m => 
+        m.id === memberId 
+          ? { ...m, position: newPosition }
+          : m
+      )
+    }));
     
-    // Add spouse connections
-    members.forEach(member => {
-      const memberPoint = newConnectionPoints.get(member.id);
-      
-      member.spouseIds.forEach(spouseId => {
-        const spousePoint = newConnectionPoints.get(spouseId);
-        
-        // Only add connection once per spouse pair
-        if (memberPoint && spousePoint && member.id < spouseId) {
-          newConnections.push({
-            from: memberPoint,
-            to: spousePoint,
-            type: 'spouse'
-          });
-        }
-      });
-    });
-    
-    setConnections(newConnections);
-  }, [members]);
-  
+    // Recalculate connections
+    recalculateConnections();
+  }, []);
+
   return (
-    <div className="family-tree-container overflow-x-auto" data-testid="family-tree">
-      <div 
-        ref={containerRef} 
-        className="relative p-8"
-        style={{ minWidth: 'max-content' }}
-      >
-        {/* Render generations */}
-        <div className="flex flex-col space-y-16">
-          {generations.map((generation, genIndex) => (
-            <div key={`gen-${genIndex}`} className="flex space-x-8">
-              {generation.map(member => (
-                <div 
-                  key={member.id} 
-                  data-member-id={member.id}
-                  className="member-container"
-                >
-                  <MemberCard member={member} />
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
-        
-        {/* Render connections */}
-        <svg className="absolute top-0 left-0 w-full h-full pointer-events-none" style={{ zIndex: -1 }}>
-          {connections.map((connection, index) => (
-            <TreeConnection
-              key={`connection-${index}`}
-              from={{ x: connection.from.x, y: connection.from.y }}
-              to={{ x: connection.to.x, y: connection.to.y }}
-              type={connection.type}
-            />
-          ))}
-        </svg>
+    <div 
+      className="canvas-container relative w-full h-full overflow-hidden"
+      onMouseMove={handlePan}
+      style={{
+        transform: `translate(${canvasState.viewport.x}px, ${canvasState.viewport.y}px) scale(${canvasState.viewport.zoom})`
+      }}
+    >
+      <svg className="connection-layer absolute inset-0 pointer-events-none">
+        {canvasState.connections.map(connection => (
+          <ConnectionLine key={connection.id} {...connection} />
+        ))}
+      </svg>
+      
+      <div className="members-layer relative">
+        {canvasState.members.map(member => (
+          <MemberBanner 
+            key={member.id}
+            member={member}
+            onDrag={handleMemberDrag}
+            isSelected={member.id === canvasState.selectedMember}
+            onSelect={(id) => setCanvasState(prev => ({ ...prev, selectedMember: id }))}
+          />
+        ))}
       </div>
     </div>
   );
 };
 ```
 
-### **TreeConnection Component Pattern**
+### **Enhanced Member Banner Pattern**
 ```typescript
-// Current TreeConnection component pattern
-interface TreeConnectionProps {
-  from: { x: number; y: number };
-  to: { x: number; y: number };
-  type: 'parent-child' | 'spouse';
+// MemberBanner.tsx
+interface MemberBannerProps {
+  member: FamilyMember;
+  onDrag: (id: string, position: Position) => void;
+  isSelected: boolean;
+  onSelect: (id: string) => void;
 }
 
-const TreeConnection: React.FC<TreeConnectionProps> = ({
-  from,
-  to,
-  type
+export const MemberBanner: React.FC<MemberBannerProps> = ({
+  member,
+  onDrag,
+  isSelected,
+  onSelect
 }) => {
-  const strokeColor = type === 'parent-child' ? '#3b82f6' : '#10b981';
-  const strokeWidth = type === 'parent-child' ? 2 : 1;
-  
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: 'MEMBER',
+    item: { id: member.id, type: 'MEMBER' },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging()
+    })
+  }));
+
   return (
-    <line
-      x1={from.x}
-      y1={from.y}
-      x2={to.x}
-      y2={to.y}
-      stroke={strokeColor}
-      strokeWidth={strokeWidth}
-      strokeDasharray={type === 'spouse' ? '5,5' : 'none'}
-    />
+    <div 
+      ref={drag}
+      className={`member-banner rounded-lg bg-white shadow-md border-2 transition-all
+        ${isSelected ? 'border-blue-500' : 'border-transparent'}
+        ${isDragging ? 'opacity-50' : 'opacity-100'}
+        hover:border-blue-300`}
+      style={{
+        position: 'absolute',
+        left: member.position.x,
+        top: member.position.y,
+        width: member.size.width,
+        height: member.size.height
+      }}
+      onClick={() => onSelect(member.id)}
+    >
+      <div className="banner-content p-4">
+        <div className="photo-section">
+          {member.photo ? (
+            <img 
+              src={member.photo} 
+              alt={member.name}
+              className="w-16 h-16 rounded-full object-cover"
+            />
+          ) : (
+            <div className="w-16 h-16 rounded-full bg-gray-300 flex items-center justify-center">
+              <span className="text-gray-600 text-xl">
+                {member.name.charAt(0)}
+              </span>
+            </div>
+          )}
+        </div>
+        
+        <div className="info-section mt-2">
+          <h3 className="font-bold text-lg">{member.name}</h3>
+          <p className="text-sm text-gray-600">{member.relationship}</p>
+          {member.title && (
+            <p className="text-xs text-gray-500">{member.title}</p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+```
+
+### **Professional Toolbar Pattern**
+```typescript
+// MainToolbar.tsx
+interface MainToolbarProps {
+  onUndo: () => void;
+  onRedo: () => void;
+  onShare: () => void;
+  onExport: () => void;
+  onAddMember: () => void;
+  canUndo: boolean;
+  canRedo: boolean;
+}
+
+export const MainToolbar: React.FC<MainToolbarProps> = ({
+  onUndo,
+  onRedo,
+  onShare,
+  onExport,
+  onAddMember,
+  canUndo,
+  canRedo
+}) => {
+  return (
+    <header className="toolbar bg-white shadow-sm border-b h-16 flex items-center px-6">
+      <div className="toolbar-left flex items-center space-x-4">
+        <button className="btn-home text-gray-600 hover:text-gray-900">
+          ← Home
+        </button>
+        <button className="btn-resize text-gray-600 hover:text-gray-900">
+          Resize
+        </button>
+        <div className="undo-redo flex space-x-2">
+          <button 
+            className={`btn-undo p-2 rounded ${canUndo ? 'text-gray-600 hover:text-gray-900' : 'text-gray-400'}`}
+            onClick={onUndo}
+            disabled={!canUndo}
+          >
+            ↶
+          </button>
+          <button 
+            className={`btn-redo p-2 rounded ${canRedo ? 'text-gray-600 hover:text-gray-900' : 'text-gray-400'}`}
+            onClick={onRedo}
+            disabled={!canRedo}
+          >
+            ↷
+          </button>
+        </div>
+      </div>
+      
+      <div className="toolbar-center flex-1 flex justify-center">
+        <h1 className="title text-xl font-semibold text-gray-900">Family Tree</h1>
+      </div>
+      
+      <div className="toolbar-right flex items-center space-x-4">
+        <button 
+          className="btn-share px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          onClick={onShare}
+        >
+          Share
+        </button>
+        <button 
+          className="btn-export px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+          onClick={onExport}
+        >
+          Export
+        </button>
+        <button 
+          className="btn-add-member w-10 h-10 bg-purple-600 text-white rounded-full text-xl hover:bg-purple-700"
+          onClick={onAddMember}
+        >
+          +
+        </button>
+        <div className="user-section">
+          <div className="user-avatars flex space-x-2">
+            {/* User avatars for collaboration */}
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+};
+```
+
+### **Modal Component Pattern**
+```typescript
+// Base Modal Component
+interface ModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  title: string;
+  children: React.ReactNode;
+}
+
+export const Modal: React.FC<ModalProps> = ({
+  isOpen,
+  onClose,
+  title,
+  children
+}) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="modal-content bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
+        <div className="modal-header flex justify-between items-center p-6 border-b">
+          <h3 className="text-lg font-semibold">{title}</h3>
+          <button 
+            className="close-button text-gray-400 hover:text-gray-600"
+            onClick={onClose}
+          >
+            ×
+          </button>
+        </div>
+        <div className="modal-body p-6">
+          {children}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Add Member Modal
+export const AddMemberModal: React.FC<{
+  isOpen: boolean;
+  onClose: () => void;
+  onAdd: (member: Partial<FamilyMember>) => void;
+}> = ({ isOpen, onClose, onAdd }) => {
+  const [formData, setFormData] = useState({
+    name: '',
+    gender: 'male' as const,
+    birthDate: '',
+    relationship: '',
+    photo: ''
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onAdd(formData);
+    onClose();
+  };
+
+  return (
+    <Modal isOpen={isOpen} onClose={onClose} title="Add Family Member">
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <input
+          type="text"
+          placeholder="Full Name"
+          value={formData.name}
+          onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+          className="w-full p-2 border rounded"
+          required
+        />
+        <select
+          value={formData.gender}
+          onChange={(e) => setFormData(prev => ({ ...prev, gender: e.target.value as 'male' | 'female' | 'other' }))}
+          className="w-full p-2 border rounded"
+          required
+        >
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other</option>
+        </select>
+        <input
+          type="date"
+          value={formData.birthDate}
+          onChange={(e) => setFormData(prev => ({ ...prev, birthDate: e.target.value }))}
+          className="w-full p-2 border rounded"
+        />
+        <select
+          value={formData.relationship}
+          onChange={(e) => setFormData(prev => ({ ...prev, relationship: e.target.value }))}
+          className="w-full p-2 border rounded"
+          required
+        >
+          <option value="">Select Relationship</option>
+          <option value="Father">Father</option>
+          <option value="Mother">Mother</option>
+          <option value="Brother">Brother</option>
+          <option value="Sister">Sister</option>
+          <option value="Spouse">Spouse</option>
+          <option value="Child">Child</option>
+        </select>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.onload = (e) => {
+                setFormData(prev => ({ ...prev, photo: e.target?.result as string }));
+              };
+              reader.readAsDataURL(file);
+            }
+          }}
+          className="w-full p-2 border rounded"
+        />
+        <div className="flex space-x-4">
+          <button
+            type="submit"
+            className="flex-1 bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+          >
+            Add Member
+          </button>
+          <button
+            type="button"
+            onClick={onClose}
+            className="flex-1 bg-gray-300 text-gray-700 py-2 rounded hover:bg-gray-400"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </Modal>
   );
 };
 ```
@@ -470,81 +689,106 @@ export const validateFamilyMember = (data: any): FamilyMember => {
 };
 ```
 
-## Tree Layout Patterns
+## Canvas Layout Patterns
 
-### **Horizontal Tree Layout**
+### **Interactive Canvas Layout**
 ```typescript
-// Tree layout utility functions
-export const groupMembersByGeneration = (members: FamilyMember[]) => {
-  if (members.length === 0) {
-    return [];
+// Canvas layout utility functions
+export const calculateMemberPosition = (
+  member: FamilyMember,
+  canvasSize: { width: number; height: number }
+): Position => {
+  // Calculate optimal position based on relationships
+  const parent = members.find(m => m.id === member.parentId);
+  if (parent) {
+    return {
+      x: parent.position.x + 200, // Offset from parent
+      y: parent.position.y
+    };
   }
   
-  // Create a map to track processed members
-  const processedMembers = new Set<string>();
-  const generations: FamilyMember[][] = [];
+  // Default position for root members
+  return {
+    x: canvasSize.width / 2,
+    y: 100
+  };
+};
+
+export const recalculateConnections = (members: FamilyMember[]): Connection[] => {
+  const connections: Connection[] = [];
   
-  // Find root members (no parents)
-  const rootMembers = members.filter(m => !m.parentId);
-  
-  if (rootMembers.length > 0) {
-    generations[0] = rootMembers;
-    rootMembers.forEach(member => processedMembers.add(member.id));
-    
-    // Process remaining generations
-    let currentLevel = 1;
-    let hasMoreGenerations = true;
-    
-    while (hasMoreGenerations) {
-      const currentGeneration: FamilyMember[] = [];
-      
-      // Find members whose parents are in the previous generation
-      members.forEach(member => {
-        if (!processedMembers.has(member.id) && member.parentId && 
-            generations[currentLevel - 1]?.some(parent => parent.id === member.parentId)) {
-          currentGeneration.push(member);
-          processedMembers.add(member.id);
-        }
-      });
-      
-      if (currentGeneration.length > 0) {
-        generations[currentLevel] = currentGeneration;
-        currentLevel++;
-      } else {
-        hasMoreGenerations = false;
+  // Add parent-child connections
+  members.forEach(member => {
+    if (member.parentId) {
+      const parent = members.find(m => m.id === member.parentId);
+      if (parent) {
+        connections.push({
+          id: `parent-${member.id}`,
+          from: { x: parent.position.x + parent.size.width / 2, y: parent.position.y + parent.size.height },
+          to: { x: member.position.x + member.size.width / 2, y: member.position.y },
+          type: 'parent-child'
+        });
       }
     }
-  }
+  });
   
-  return generations;
+  // Add spouse connections
+  members.forEach(member => {
+    member.spouseIds.forEach(spouseId => {
+      const spouse = members.find(m => m.id === spouseId);
+      if (spouse && member.id < spouseId) { // Only add once per pair
+        connections.push({
+          id: `spouse-${member.id}-${spouseId}`,
+          from: { x: member.position.x + member.size.width, y: member.position.y + member.size.height / 2 },
+          to: { x: spouse.position.x, y: spouse.position.y + spouse.size.height / 2 },
+          type: 'spouse'
+        });
+      }
+    });
+  });
+  
+  return connections;
 };
 ```
 
 ### **SVG Connection Patterns**
 ```typescript
-// SVG connection component for tree lines
-interface TreeConnectionProps {
+// SVG connection component for canvas lines
+interface ConnectionLineProps {
   from: { x: number; y: number };
   to: { x: number; y: number };
   type: 'parent-child' | 'spouse';
+  className?: string;
 }
 
-export const TreeConnection: React.FC<TreeConnectionProps> = ({
+export const ConnectionLine: React.FC<ConnectionLineProps> = ({
   from,
   to,
-  type
+  type,
+  className = ''
 }) => {
+  // Calculate control points for curved lines
+  const controlPoint = {
+    x: (from.x + to.x) / 2,
+    y: type === 'spouse' 
+      ? from.y // Horizontal line for spouses
+      : (from.y + to.y) / 2 // Curved line for parent-child
+  };
+
+  const path = type === 'spouse'
+    ? `M ${from.x} ${from.y} L ${to.x} ${to.y}`
+    : `M ${from.x} ${from.y} Q ${controlPoint.x} ${controlPoint.y} ${to.x} ${to.y}`;
+
   const strokeColor = type === 'parent-child' ? '#3b82f6' : '#10b981';
   const strokeWidth = type === 'parent-child' ? 2 : 1;
-  
+
   return (
-    <line
-      x1={from.x}
-      y1={from.y}
-      x2={to.x}
-      y2={to.y}
+    <path
+      d={path}
+      className={`stroke-current ${className}`}
       stroke={strokeColor}
       strokeWidth={strokeWidth}
+      fill="none"
       strokeDasharray={type === 'spouse' ? '5,5' : 'none'}
     />
   );
@@ -555,34 +799,35 @@ export const TreeConnection: React.FC<TreeConnectionProps> = ({
 
 ### **Responsive Design Patterns**
 ```typescript
-// Tailwind responsive classes
+// Tailwind responsive classes for canvas
 const responsiveClasses = {
-  container: 'w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8',
-  grid: 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4',
-  card: 'p-4 sm:p-6 lg:p-8',
-  text: 'text-sm sm:text-base lg:text-lg'
+  canvas: 'w-full h-full overflow-hidden',
+  toolbar: 'h-16 md:h-20 lg:h-16',
+  memberBanner: 'w-48 h-32 md:w-56 md:h-36 lg:w-64 lg:h-40',
+  modal: 'max-w-md w-full mx-4 md:max-w-lg lg:max-w-xl',
+  actionBar: 'fixed bottom-0 left-0 right-0 md:hidden'
 };
 ```
 
 ### **Loading States**
 ```typescript
-// Loading component pattern
-export const LoadingSpinner = () => (
-  <div className="flex justify-center items-center p-8">
-    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+// Loading component pattern for canvas
+export const CanvasLoadingSpinner = () => (
+  <div className="flex justify-center items-center h-full">
+    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
   </div>
 );
 
-// Loading state management
+// Loading state management for canvas operations
 const [isLoading, setIsLoading] = useState(false);
 const [error, setError] = useState<string | null>(null);
 
-const handleSubmit = async (data: any) => {
+const handleCanvasOperation = async (operation: () => Promise<void>) => {
   setIsLoading(true);
   setError(null);
   
   try {
-    await saveData(data);
+    await operation();
   } catch (err) {
     setError(err.message);
   } finally {
@@ -593,13 +838,14 @@ const handleSubmit = async (data: any) => {
 
 ### **Form Patterns**
 ```typescript
-// Controlled form components
+// Controlled form components for modals
 export const MemberForm = () => {
   const [formData, setFormData] = useState({
     name: '',
-    gender: 'male',
+    gender: 'male' as const,
     birthDate: '',
-    email: ''
+    relationship: '',
+    photo: ''
   });
 
   const handleChange = (field: string, value: string) => {
@@ -617,7 +863,7 @@ export const MemberForm = () => {
         type="text"
         value={formData.name}
         onChange={(e) => handleChange('name', e.target.value)}
-        className="form-input"
+        className="form-input w-full p-2 border rounded"
         placeholder="Full Name"
         required
       />
@@ -629,31 +875,133 @@ export const MemberForm = () => {
 
 ## Testing Patterns
 
-### **Component Testing**
+### **Canvas Component Testing**
 ```typescript
-// Component test pattern
+// Canvas component test pattern
 import { render, screen, fireEvent } from '@testing-library/react';
-import { MemberCard } from '@/components/MemberCard';
+import userEvent from '@testing-library/user-event';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import FamilyTreeCanvas from './FamilyTreeCanvas';
 
-describe('MemberCard', () => {
+describe('FamilyTreeCanvas', () => {
+  const renderWithDnd = (ui: React.ReactElement) => {
+    return render(
+      <DndProvider backend={HTML5Backend}>
+        {ui}
+      </DndProvider>
+    );
+  };
+
+  it('renders empty canvas initially', () => {
+    renderWithDnd(<FamilyTreeCanvas />);
+    expect(screen.getByTestId('canvas-container')).toBeInTheDocument();
+  });
+
+  it('handles pan gesture correctly', () => {
+    renderWithDnd(<FamilyTreeCanvas />);
+    const canvas = screen.getByTestId('canvas-container');
+    
+    fireEvent.mouseDown(canvas, { clientX: 0, clientY: 0 });
+    fireEvent.mouseMove(canvas, { clientX: 100, clientY: 100 });
+    fireEvent.mouseUp(canvas);
+    
+    expect(canvas).toHaveStyle({
+      transform: expect.stringContaining('translate(100px, 100px)')
+    });
+  });
+
+  it('allows member dragging', async () => {
+    const mockMember = {
+      id: '1',
+      name: 'John Doe',
+      position: { x: 0, y: 0 },
+      size: { width: 200, height: 120 }
+    };
+    
+    renderWithDnd(<FamilyTreeCanvas initialMembers={[mockMember]} />);
+    const memberCard = screen.getByText('John Doe');
+    
+    fireEvent.dragStart(memberCard);
+    fireEvent.dragOver(canvas, { clientX: 200, clientY: 200 });
+    fireEvent.drop(canvas);
+    
+    expect(memberCard).toHaveStyle({
+      transform: expect.stringContaining('translate(200px, 200px)')
+    });
+  });
+});
+```
+
+### **Member Banner Testing**
+```typescript
+// Member banner test pattern
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import MemberBanner from './MemberBanner';
+
+describe('MemberBanner', () => {
   const mockMember = {
     id: '1',
     name: 'John Doe',
-    gender: 'male' as const,
-    birthDate: '1990-01-01'
+    position: { x: 100, y: 100 },
+    size: { width: 200, height: 120 },
+    relationship: 'Father'
+  };
+
+  const renderWithDnd = (ui: React.ReactElement) => {
+    return render(
+      <DndProvider backend={HTML5Backend}>
+        {ui}
+      </DndProvider>
+    );
   };
 
   it('renders member information correctly', () => {
-    render(<MemberCard member={mockMember} />);
+    renderWithDnd(
+      <MemberBanner 
+        member={mockMember}
+        onDrag={jest.fn()}
+        isSelected={false}
+        onSelect={jest.fn()}
+      />
+    );
+    
     expect(screen.getByText('John Doe')).toBeInTheDocument();
+    expect(screen.getByText('Father')).toBeInTheDocument();
   });
 
-  it('calls onEdit when edit button is clicked', () => {
-    const onEdit = jest.fn();
-    render(<MemberCard member={mockMember} onEdit={onEdit} />);
+  it('shows selection state correctly', () => {
+    renderWithDnd(
+      <MemberBanner 
+        member={mockMember}
+        onDrag={jest.fn()}
+        isSelected={true}
+        onSelect={jest.fn()}
+      />
+    );
     
-    fireEvent.click(screen.getByText('Edit'));
-    expect(onEdit).toHaveBeenCalledWith('1');
+    const banner = screen.getByTestId('member-banner');
+    expect(banner).toHaveClass('border-blue-500');
+  });
+
+  it('calls onSelect when clicked', () => {
+    const handleSelect = jest.fn();
+    renderWithDnd(
+      <MemberBanner 
+        member={mockMember}
+        onDrag={jest.fn()}
+        isSelected={false}
+        onSelect={handleSelect}
+      />
+    );
+    
+    const banner = screen.getByTestId('member-banner');
+    fireEvent.click(banner);
+    
+    expect(handleSelect).toHaveBeenCalledWith('1');
   });
 });
 ```
@@ -661,22 +1009,24 @@ describe('MemberCard', () => {
 ## Performance Patterns
 
 ### **Optimization Strategies**
-- **Memoization**: Use React.memo for expensive components
-- **Lazy Loading**: Load components and data on demand
-- **Virtualization**: For large lists and trees
-- **Image Optimization**: Compress and resize images
-- **Caching**: Cache API responses and computed values
+- **Memoization**: Use React.memo for expensive canvas components
+- **Lazy Loading**: Load canvas components and data on demand
+- **Virtualization**: For large family trees with many members
+- **Image Optimization**: Compress and resize member photos
+- **Caching**: Cache canvas state and computed values
+- **Throttling**: Throttle canvas operations during drag
 
 ### **Bundle Optimization**
 ```typescript
 // Dynamic imports for code splitting
-const MemberForm = dynamic(() => import('@/components/MemberForm'), {
+const MemberForm = dynamic(() => import('@/components/Modals/MemberForm'), {
   loading: () => <LoadingSpinner />
 });
 
-// Tree component with virtualization
+// Canvas component with virtualization
 import { FixedSizeList as List } from 'react-window';
 ```
 
 ---
-*This file contains development patterns and architectural decisions.* 
+
+*This file contains development patterns and architectural decisions for the canvas-based design tool.* 
