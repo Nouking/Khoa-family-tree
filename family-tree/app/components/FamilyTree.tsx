@@ -60,10 +60,38 @@ interface ConnectionPoint {
   y: number;
 }
 
+// Viewport breakpoints
+const MOBILE_BREAKPOINT = 640; // sm
+const TABLET_BREAKPOINT = 768; // md
+
 const FamilyTree: React.FC<FamilyTreeProps> = ({ members }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [connectionPoints, setConnectionPoints] = useState<Map<string, ConnectionPoint>>(new Map());
   const [connections, setConnections] = useState<{from: ConnectionPoint, to: ConnectionPoint, type: 'parent-child' | 'spouse'}[]>([]);
+  const [viewportSize, setViewportSize] = useState<'mobile' | 'tablet' | 'desktop'>('desktop');
+  
+  // Determine viewport size on mount and resize
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      if (width < MOBILE_BREAKPOINT) {
+        setViewportSize('mobile');
+      } else if (width < TABLET_BREAKPOINT) {
+        setViewportSize('tablet');
+      } else {
+        setViewportSize('desktop');
+      }
+    };
+    
+    // Set initial viewport size
+    handleResize();
+    
+    // Listen for resize events
+    window.addEventListener('resize', handleResize);
+    
+    // Clean up event listener
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   
   // Group members by generation
   const generations = groupMembersByGeneration(members);
@@ -127,19 +155,55 @@ const FamilyTree: React.FC<FamilyTreeProps> = ({ members }) => {
     });
     
     setConnections(newConnections);
-  }, [members]);
+  }, [members, viewportSize]); // Recalculate when viewport size changes
+  
+  // Apply appropriate classes based on viewport size
+  const getViewportClasses = () => {
+    const baseClasses = "family-tree-container overflow-x-auto";
+    switch (viewportSize) {
+      case 'mobile':
+        return `${baseClasses} mobile-view`;
+      case 'tablet':
+        return `${baseClasses} tablet-view`;
+      default:
+        return baseClasses;
+    }
+  };
+  
+  // Get spacing classes based on viewport size
+  const getGenerationSpacing = () => {
+    switch (viewportSize) {
+      case 'mobile':
+        return 'space-y-8';
+      case 'tablet':
+        return 'space-y-12';
+      default:
+        return 'space-y-16';
+    }
+  };
+  
+  const getMemberSpacing = () => {
+    switch (viewportSize) {
+      case 'mobile':
+        return 'space-x-4';
+      case 'tablet':
+        return 'space-x-6';
+      default:
+        return 'space-x-8';
+    }
+  };
   
   return (
-    <div className="family-tree-container overflow-x-auto" data-testid="family-tree">
+    <div className={getViewportClasses()} data-testid="family-tree">
       <div 
         ref={containerRef} 
-        className="relative p-8"
+        className="relative p-4 md:p-6 lg:p-8"
         style={{ minWidth: 'max-content' }} // Ensure container expands to fit content
       >
         {/* Render generations */}
-        <div className="flex flex-col space-y-16">
+        <div className={`flex flex-col ${getGenerationSpacing()}`}>
           {generations.map((generation, genIndex) => (
-            <div key={`gen-${genIndex}`} className="flex space-x-8">
+            <div key={`gen-${genIndex}`} className={`flex ${getMemberSpacing()}`}>
               {generation.map(member => (
                 <div 
                   key={member.id} 

@@ -120,6 +120,13 @@ describe('groupMembersByGeneration', () => {
   });
 });
 
+// Mock ResizeObserver
+global.ResizeObserver = jest.fn().mockImplementation(() => ({
+  observe: jest.fn(),
+  unobserve: jest.fn(),
+  disconnect: jest.fn(),
+}));
+
 describe('FamilyTree', () => {
   mockBoundingClientRect();
   
@@ -180,5 +187,39 @@ describe('FamilyTree', () => {
     
     // Restore the original implementation
     Element.prototype.querySelectorAll = originalQuerySelector;
+  });
+
+  it('should apply responsive classes based on viewport width', () => {
+    // Mock window.innerWidth to simulate mobile viewport
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      configurable: true,
+      value: 375, // Mobile width
+    });
+    
+    // Create a minimal member for testing
+    const mockMembers = [
+      {
+        id: '1',
+        name: 'Test Member',
+        gender: 'male' as 'male' | 'female' | 'other',
+        spouseIds: [],
+        childrenIds: [],
+        order: 1,
+      }
+    ];
+    
+    // Fire resize event to trigger responsive behavior
+    const resizeEvent = new Event('resize');
+    window.dispatchEvent(resizeEvent);
+    
+    // Render component
+    render(<FamilyTree members={mockMembers} />);
+    
+    // Check for mobile class
+    expect(screen.getByTestId('family-tree')).toHaveClass('mobile-view');
+    
+    // Cleanup
+    jest.resetAllMocks();
   });
 }); 
