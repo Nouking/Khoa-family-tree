@@ -12,6 +12,7 @@ IMPORTANT: Must read @project-goal.md to understand the project.
   1. Read the specific task details from @family-tree/docs/task-tracking.md and @family-tree/docs/completed-tasks.md
   2. Locate the exact task by ID and understand: Description, Status, Agent, Issues/Blockers, Notes
   3. Verify task dependencies and prerequisites are met
+  4. Read the  @family-tree\docs\project-overview.md and @family-tree\docs\success-criteria.md
   4. Only proceed with implementation after confirming task understanding
 
 ## 2️⃣ GIT WORKFLOW - MANDATORY
