@@ -18,6 +18,7 @@
 3. **Document & Commit**: Update docs → Commit → Push → PR → Merge
 
 **See [Git Workflow Guidelines](./git-workflow.md) for detailed procedures.**
+**See [Memory Bank Tasks](../../memory-bank/tasks.md) for current task status.**
 
 ## Context7 Integration
 Always use these library IDs for accurate documentation:
