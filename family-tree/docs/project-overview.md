@@ -7,11 +7,11 @@
 Transform the current **Next.js 15 Family Tree** project into a **professional design tool** similar to Canva, with canvas-based editing, CRUD operations, sharing, and export capabilities.
 
 ### Core Requirements
-- **CRUD Operations**: Add, edit, delete family members
-- **Share Link**: Generate shareable URLs for family trees  
-- **Export**: CSV and image export functionality
-- **Frontend Only**: No server changes, keep JSON storage
-- **Design Tool UI**: Canvas-based interface with professional toolbar
+- **CRUD Operations**: Add, edit, delete family members via API routes.
+- **Share Link**: Generate shareable URLs for family trees.  
+- **Export**: CSV and image export functionality.
+- **API-based JSON Storage**: Utilize existing Next.js API routes for all data interactions with `family-tree.json`. No external database required.
+- **Design Tool UI**: Canvas-based interface with professional toolbar.
 
 ## 🏗️ Technical Architecture
 
@@ -172,11 +172,22 @@ interface HistoryState {
 
 ### Data Storage Strategy
 ```typescript
-// Local storage with versioning
-const saveTreeData = (data: FamilyTreeData) => {
-  localStorage.setItem('family-tree-data', JSON.stringify(data));
-  // Also save to JSON file for backup
-  saveToFile(data, 'family-tree.json');
+// Call API to save data, which then writes to JSON file
+const saveTreeData = async (data: FamilyTreeData) => {
+  try {
+    const response = await fetch('/api/members', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) {
+      throw new Error('Failed to save tree data');
+    }
+  } catch (error) {
+    console.error('Error saving data:', error);
+    // Fallback to localStorage if API fails
+    localStorage.setItem('family-tree-data-backup', JSON.stringify(data));
+  }
 };
 ```
 
