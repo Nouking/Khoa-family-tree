@@ -1,5 +1,5 @@
 
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
 import { findUserByUsername, updateUserLastLogin } from '@/app/lib/data';
 import { generateToken, verifyPassword, setTokenCookie } from '@/app/lib/auth';
 
