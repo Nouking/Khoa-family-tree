@@ -65,11 +65,6 @@ Always use these library IDs for accurate documentation:
 ## Active Tasks
 ### Phase 1: Next.js 15 Migration & Foundation (Priority Critical)
 
-**Task 1.8** - Page Components Migration  
-**Status**: Pending  
-**Description**: Update page components to Next.js 15  
-**Notes**: Implement Server Components where appropriate
-
 **Task 1.9** - Codemod Application  
 **Status**: Pending  
 **Description**: Apply Next.js 15 codemods  
