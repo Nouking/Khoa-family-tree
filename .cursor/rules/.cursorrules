@@ -1,81 +1,103 @@
-- Always use command for PowerShell. if computer is window
-- When chat, try to save token as much as posible
-- If code relate to ReactJs, can read file .cursor\rules\rule-reactjs15
-- If code relate to Tailwing, can read file .cursor\rules\rule-tailwing
-- Use the best AI suitable for the task
+---
+description: "Core rules for AI agent interaction, including task workflow, Git procedures, testing protocols, and documentation standards."
+globs: ["**/*"]
+alwaysApply: true
+---
 
-## 🤖 AI Task Workflow Rules
+## 🤖 AI Task Workflow
 
-### MANDATORY Task Reading Protocol
-- **BEFORE any development work**: When given a task ID (e.g., "Task 1.1", "1.2", "Task 2.3"), you MUST:'
-IMPORTANT: Must read @project-goal.md to understand the project. 
-  1. Read the specific task details from @family-tree/docs/task-tracking.md and @family-tree/docs/completed-tasks.md
-  2. Locate the exact task by ID and understand: Description, Status, Agent, Issues/Blockers, Notes
-  3. Verify task dependencies and prerequisites are met
-  4. Read the  @family-tree\docs\project-overview.md and @family-tree\docs\success-criteria.md
-  4. Only proceed with implementation after confirming task understanding
+### 1. Project Understanding (Mandatory)
+Before starting any task, you MUST read and understand the following documents to grasp the project's goals, scope, and current state.
 
-## 2️⃣ GIT WORKFLOW - MANDATORY
-- **BEFORE coding**: `git checkout main` → `git pull` → `git checkout -b task{ID}-{description}`
-- **DURING**: Commit with format: `type(scope): description`
-- **AFTER**: Final push → Create PR with task details and test results
+- **Project Goal**: [project-goal.md](mdc:project-goal.md)
+- **Project Overview**: [project-overview.md](mdc:family-tree/docs/project-overview.md)
+- **Success Criteria**: [success-criteria.md](mdc:family-tree/docs/success-criteria.md)
 
-### MANDATORY Testing Protocol
-- **BEFORE starting development**:
-  1. Run all existing tests to establish baseline: `npm test`
-  2. Write unit tests for the feature/component to be implemented following TDD principles
-  3. Verify tests fail appropriately (red phase of TDD)
-- **DURING development**:
-  1. Implement the minimum code required to make tests pass (green phase of TDD)
-  2. Refactor while keeping tests passing (refactor phase of TDD)
-  3. Run tests frequently to ensure no regressions
-- **AFTER implementation**:
-  1. Run all tests to ensure no regressions: `npm test`
-  2. Add any additional edge case tests if necessary
-  3. Document test coverage with `npm test -- --coverage`
+### 2. Task-Specific Instructions (Mandatory)
+For any given task ID (e.g., "Task 1.1", "1.2"), you MUST:
+1.  Read the main task board to find the specific task:
+    - [task-tracking.md](mdc:family-tree/docs/task-tracking.md)
+2.  Review the archive of completed work for relevant context:
+    - [completed-tasks.md](mdc:family-tree/docs/completed-tasks.md)
+3.  For the specific task, understand its:
+    - Description
+    - Status
+    - Dependencies and prerequisites
+    - Known issues or blockers
+    - Any associated notes
+4.  Only proceed with implementation after you have a clear understanding of the task.
 
-### MANDATORY Task Update Protocol  
-- **AFTER completing any task implementation**: You MUST follow this sequence:
-  1. Update task status in @family-tree/docs/task-tracking.md (Pending → In Progress → Completed)
-  2. Move completed tasks to @family-tree/docs/completed-tasks.md with implementation notes
-  3. Document any issues encountered or deviations from plan
-  4. Update task completion log section
-  5. Mark any dependent tasks as ready if applicable
-  6. Update @memory-bank/progress.md with latest achievements
-  7. **After documentation and memory bank are updated**, proceed with git commit and push.
+### 3. Task Status Updates (Mandatory)
+After completing any task, you MUST perform the following actions in sequence:
+1.  Update the task's status in [task-tracking.md](mdc:family-tree/docs/task-tracking.md).
+2.  Move the completed task details to [completed-tasks.md](mdc:family-tree/docs/completed-tasks.md), including any implementation notes.
+3.  Document any issues encountered or deviations from the original plan.
+4.  Update the [progress.md](mdc:memory-bank/progress.md) in the Memory Bank with your latest achievements.
+5.  After all documentation is updated, you may proceed with the Git workflow (commit, push, etc.).
+
+---
+
+## 💻 Development Workflow
+
+### Git Workflow (Mandatory)
+1.  **Create a Branch**: Before writing any code, use the `new-task-branch.ps1` script to create a feature branch.
+    - **Example**: `.\scripts\new-task-branch.ps1 -TaskID "1.1" -Description "setup-nextjs-project"`
+2.  **Commit Changes**: Write clear and concise commit messages.
+    - **Format**: `type(scope): description`
+    - **Example**: `feat(auth): implement jwt token generation`
+3.  **Create a Pull Request**: After pushing your changes, create a PR. The description should include task details and test results.
+
+### Testing Protocol (Mandatory)
+Follow a Test-Driven Development (TDD) approach.
+
+1.  **Before Coding**:
+    - Run all existing tests to establish a baseline: `npm test`
+    - Write new unit tests for the feature you are about to build.
+    - Confirm that the new tests fail as expected (Red).
+2.  **During Coding**:
+    - Write the minimum amount of code required to make the new tests pass (Green).
+    - Refactor your code for clarity and efficiency while ensuring all tests continue to pass (Refactor).
+    - Run tests frequently.
+3.  **After Coding**:
+    - Run the entire test suite to ensure no regressions: `npm test`
+    - Add tests for any edge cases you discovered.
+    - Check test coverage: `npm test -- --coverage`
+
+---
+
+## 📚 Reference Information
 
 ### Context7 Integration
-- When working on technical implementations, use "use context7" for up-to-date documentation
-- For Next.js, TypeScript, Tailwind, JWT implementations, always reference latest Context7 docs
-- Include Context7 library IDs in prompts when known (e.g., /vercel/next.js)
+- When you need up-to-date documentation for technical implementations (e.g., Next.js, TypeScript, Tailwind, JWT), you should use your `Context7` tools.
+- If you know the library ID, include it in your requests (e.g., /vercel/next.js).
 
 ### Task Status Values
-- **Pending**: Not yet started  
-- **In Progress**: Currently being worked on
-- **Completed**: Finished successfully  
-- **Blocked**: Unable to proceed due to external factors
-- **Error**: Task failed with issues that need resolution
+- `Pending`: Not yet started.
+- `In Progress`: Currently being worked on.
+- `Completed`: Finished successfully.
+- `Blocked`: Unable to proceed.
+- `Error`: Task failed and needs resolution.
 
-
-### Reference Information
-
-#### Git Branch Naming
-- **Format**: `task{ID}-{kebab-case-description}`
-- **Examples**: `task1-1-setup-nextjs-project`, `task2-3-jwt-token-system`
-
-#### Documentation Structure
-- **Project Documentation**: Located in @family-tree/docs/ directory
-- **Memory Bank**: Located in @memory-bank/ directory
-
-### Example Task Reference Format
-When referencing tasks, use format: "Task [ID] - [Title]" (e.g., "Task 1.1 - Setup Next.js Project")
+### Naming and Referencing
+- **Git Branch Name Format**: `task{ID}-{kebab-case-description}`
+  - *Example*: `task1-1-setup-nextjs-project`
+- **Task Reference Format**: "Task [ID] - [Title]"
+  - *Example*: "Task 1.1 - Setup Next.js Project"
 
 ### Documentation Structure
-- **Project Documentation**: Located in @family-tree/docs/ directory
-  - index.md - Main documentation hub
-  - project-overview.md - Project summary, tech stack, and architecture
-  - task-tracking.md - Current tasks and their status
-  - completed-tasks.md - Archive of finished tasks with implementation notes
-  - implementation-notes.md - Technical implementation details and code examples
-    - Unit Testing Guidelines - Setup and examples for Jest and React Testing Library
-  - success-criteria.md - Project goals and metrics for success
+- **Project Documentation**: [family-tree/docs/](mdc:family-tree/docs/)
+  - [index.md](mdc:family-tree/docs/index.md): Main documentation hub.
+  - [project-overview.md](mdc:family-tree/docs/project-overview.md): Project summary, tech stack, and architecture.
+  - [task-tracking.md](mdc:family-tree/docs/task-tracking.md): Current tasks and their status.
+  - [completed-tasks.md](mdc:family-tree/docs/completed-tasks.md): Archive of finished tasks with implementation notes.
+  - [implementation-notes.md](mdc:family-tree/docs/implementation-notes.md): Technical implementation details.
+  - [success-criteria.md](mdc:family-tree/docs/success-criteria.md): Project goals and metrics for success.
+- **Memory Bank**: [memory-bank/](mdc:memory-bank/)
+
+### General Guidelines
+- **Shell**: Always use PowerShell commands, as the environment is Windows.
+- **Token Efficiency**: Be concise in your communication to conserve tokens.
+- **Tool Selection**: Use the most appropriate AI model/tool for the task at hand.
+- **Additional Rules**:
+  - For ReactJS work, consult `rule-reactjs15`.
+  - For Tailwind CSS, consult `rule-tailwing`.

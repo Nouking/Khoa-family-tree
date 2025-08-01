@@ -2,6 +2,8 @@
 
 > **Project Transformation** - Converting basic family tree viewer into professional design tool
 
+*This document is aligned with [project-goal.md](../../project-goal.md) and [upgrade-plan.md](./upgrade-plan.md) and serves as the primary source for task management.*
+
 ## 📋 Task Status Legend
 - **Pending**: Not yet started
 - **In Progress**: Currently being worked on
@@ -33,290 +35,159 @@ Always use these library IDs for accurate documentation:
 | JWT | `/auth0/node-jsonwebtoken` | Authentication |
 | React Testing | `/testing-library/react-testing-library` | Testing |
 
-## Current Sprint
-**Phase 1 - Next.js 15 Migration & Foundation**
-- **Duration**: Week 1
-- **Focus**: Next.js 15 migration and data structure updates
-- **Goal**: Complete Tasks 1.7-1.12
-- **Success Criteria**: Next.js 15 compatibility and enhanced data model
-- **Progress**: Foundation tasks complete, migration in progress
+---
 
-## Completed Tasks
-### Foundation Phase
-**Task 1.4** - MemberCard Component  
-**Status**: Completed | **Agent**: UI_Developer  
-**Description**: Build MemberCard component with photo display  
-**Notes**: Base for enhanced MemberBanner in canvas implementation
+## Phase 1: Enhanced UI Foundation (Week 1 | Priority: CRITICAL)
+- **Goal**: Transform the basic viewer into a canvas-based design tool.
+- **Success Criteria**: Users can interact with family tree on a professional canvas interface.
 
-**Task 1.5** - Tree Layout System  
-**Status**: Completed | **Agent**: UI_Developer  
-**Description**: Create horizontal tree layout with connections  
-**Notes**: Foundation for canvas-based implementation
+**Task 1.11 (P1-CRITICAL): Basic Canvas Component**
+- **Status**: Pending
+- **Description**: Implement the basic `FamilyTreeCanvas` component that renders members using absolute positioning based on the new `position` data.
+- **Details**: The canvas will have separate layers for members and connections. Initially, focus on rendering the `MemberBanner` components correctly as defined in `upgrade-plan.md`.
 
-**Task 1.6** - Responsive Design  
-**Status**: Completed | **Agent**: UI_Developer  
-**Description**: Add responsive design for mobile/tablet/desktop  
-**Notes**: Core principles to be enhanced for canvas design
+**Task 1.12 (P1-CRITICAL): Drag-and-Drop Functionality**
+- **Status**: Pending
+- **Description**: Add drag-and-drop functionality for `MemberBanner` components on the canvas.
+- **Details**: Use native browser events or a library like `react-dnd`. Update the member's `position` in the state and persist it.
 
-**Task 1.10** - Enhanced Data Structure  
-**Status**: Completed | **Agent**: AI_Developer  
-**Description**: Implement new TypeScript interfaces  
-**Notes**: Added `position`, `size`, and `relationship` fields to the `FamilyMember` interface. Also added `TreeSettings` and `FamilyTreeData` interfaces.
+**Task 1.13 (P2-HIGH): Viewport Controls (Pan & Zoom)**
+- **Status**: Pending
+- **Description**: Implement viewport controls for panning and zooming the canvas.
+- **Details**: Use CSS transforms. Manage viewport state (`x`, `y`, `zoom`). Add UI controls for zoom and allow panning via mouse drag.
 
-**Task 1.9** - Codemod Application  
-**Status**: Completed | **Agent**: AI_Developer  
-**Description**: Apply Next.js 15 codemods  
-**Notes**: Use official migration tools. Ran `next-og-import`, `built-in-next-font`, `new-link`, and `metadata-to-viewport-export` codemods.
+**Task 1.14 (P2-HIGH): Enhanced Member Banners**
+- **Status**: Pending
+- **Description**: Redesign the `MemberCard` into an enhanced `MemberBanner` component with relationship labels and professional styling.
+- **Details**: Follow the design specs in `upgrade-plan.md`, including size, hover states, and context menu placeholders.
 
-**Task 2.1** - User Data Setup  
-**Status**: Completed | **Agent**: Auth_Specialist  
-**Notes**: Created with bcrypt (10+ salt rounds), moved to Phase 4
+**Task 1.15 (P3-MEDIUM): Professional Toolbar**
+- **Status**: Pending
+- **Description**: Create the main `MainToolbar` component with essential actions like Home, Undo/Redo placeholders, Share, Export, and Add Member.
+- **Details**: Structure the toolbar with left, center, and right sections as defined in the `upgrade-plan.md`.
 
-## Active Tasks
-### Phase 1: Next.js 15 Migration & Foundation (Priority Critical)
+---
 
+## Phase 2: CRUD Operations & State Management (Week 2 | Priority: CRITICAL)
+- **Goal**: Implement professional editing capabilities with history tracking.
+- **Success Criteria**: Users can manage family members with undo/redo support.
 
+**Task 2.2 (P1-CRITICAL): Global State Management (React Context)**
+- **Status**: Pending
+- **Description**: Implement a global state management solution using React Context API to handle the family tree data.
+- **Details**: Create `FamilyTreeContext` and `FamilyTreeDispatchContext`. Use `useReducer` for state logic. Define action types for all CRUD operations.
 
-**Task 1.11** - Data Migration Utility  
-**Status**: Pending  
-**Description**: Create data migration tool  
-**Notes**: Convert existing JSON to new format
+**Task 2.3 (P1-CRITICAL): CRUD Member Modals**
+- **Status**: Pending
+- **Description**: Create reusable modal components for Add, Edit, and Delete member operations.
+- **Details**: Build a base modal and specific forms for adding and editing members, including validation and photo upload functionality as specified in `upgrade-plan.md`.
 
-**Task 1.12** - Canvas Foundation  
-**Status**: Pending  
-**Description**: Basic canvas setup with types  
-**Notes**: Prepare for Week 2 implementation
+**Task 2.4 (P1-CRITICAL): Member Selection & Context Menu**
+- **Status**: Pending
+- **Description**: Implement a system for selecting single and multiple members on the canvas. Add a context menu for quick actions.
+- **Details**: Manage selection state in React Context. Use Shift/Ctrl for multi-select. The context menu should show Edit/Delete options.
 
-## Upcoming Tasks
-### Phase 2: Enhanced UI Foundation (Week 2)
+**Task 2.5 (P1-CRITICAL): Dynamic Connection Recalculation**
+- **Status**: Pending
+- **Description**: Implement logic to dynamically recalculate and re-render the SVG connection lines when members are moved.
+- **Details**: This should be triggered after a drag-and-drop operation completes. Optimize to prevent performance issues on large trees.
 
-**Task 2.1** - Canvas Layout System  
-**Status**: Pending  
-**Description**: Implement interactive canvas with drag-and-drop positioning  
-**Notes**: Following `/react-dnd/react-dnd` patterns for smooth interactions
+**Task 2.6 (P2-HIGH): Undo/Redo History Stack**
+- **Status**: Pending
+- **Description**: Implement an undo/redo system for all state-changing actions.
+- **Details**: Manage a history of state snapshots (`past`, `present`, `future`). Connect this to the Undo/Redo buttons in the toolbar.
 
-**Task 2.2** - Professional Toolbar  
-**Status**: Pending  
-**Description**: Create design tool toolbar with essential actions  
-**Components**:
-- Home and navigation buttons
-- Undo/redo functionality
-- Resize controls
-- Share/Export buttons
-- Add member button (+)
-- User section with settings
+**Task 2.7 (P2-HIGH): Form Validation**
+- **Status**: Pending
+- **Description**: Add client-side validation for all forms in the CRUD modals.
+- **Details**: Ensure required fields are filled, data formats are correct, and provide clear error messages to the user.
 
-**Task 2.3** - Enhanced Member Banner  
-**Status**: Pending  
-**Description**: Transform MemberCard into canvas-ready banner  
-**Components**:
-- Rounded rectangular design
-- Relationship labels
-- Larger profile photos (64px)
-- Hover and selection states
-- Context menu integration
+**Task 2.8 (P3-MEDIUM): Bulk Operations Support**
+- **Status**: Pending
+- **Description**: Add support for performing actions on multiple selected members.
+- **Details**: Allow users to delete or apply certain changes to all selected members at once.
 
-**Task 2.4** - Viewport Controls  
-**Status**: Pending  
-**Description**: Implement canvas navigation and zoom  
-**Components**:
-- Pan functionality
-- Zoom controls
-- Viewport state management
-- Mobile touch support
+---
 
-**Task 2.5** - History Stack  
-**Status**: Pending  
-**Description**: Implement undo/redo system with state management  
-**Components**:
-- Action history tracking
-- State restoration
-- Memory optimization
-- Keyboard shortcuts
+## Phase 3: Share & Export (Week 3 | Priority: HIGH)
+- **Goal**: Enable comprehensive sharing and export capabilities.
+- **Success Criteria**: Users can share and export family trees in multiple formats.
 
-**Task 2.6** - Grid System  
-**Status**: Pending  
-**Description**: Add professional grid system with snap functionality  
-**Components**:
-- Configurable grid size
-- Snap-to-grid toggle
-- Grid visibility toggle
-- Alignment helpers
+**Task 3.1 (P1-CRITICAL): Share Link System**
+- **Status**: Pending
+- **Description**: Implement a system to generate secure, shareable links for the family tree.
+- **Details**: Create a `ShareModal` component. The link should encode the tree identifier. Implement the `/view/[shareCode]` page to load the shared tree.
 
-### Phase 3: CRUD Operations (Week 3)
+**Task 3.2 (P1-CRITICAL): CSV Export**
+- **Status**: Pending
+- **Description**: Implement functionality to export the family tree data as a CSV file.
+- **Details**: Include all relevant member fields. Create a utility function to convert the JSON data to a CSV string and trigger a download.
 
-**Task 3.1** - State Management Context Setup  
-**Status**: Pending  
-**Description**: Implement global state management using React Context API  
-**Components**:
-- Create FamilyTreeContext and FamilyTreeDispatchContext
-- Implement useReducer for state management
-- Define action types (ADD_MEMBER, UPDATE_MEMBER, etc.)
-- Create custom hooks for state access
-- Add TypeScript interfaces for actions
-**Notes**: Following `/context7/react_dev` patterns for context setup
+**Task 3.3 (P1-CRITICAL): PNG Image Export**
+- **Status**: Pending
+- **Description**: Implement functionality to export the current canvas view as a PNG image.
+- **Details**: Use a library like `html2canvas` to capture the family tree container element and convert it to an image for download.
 
-**Task 3.2** - Member Modal Components  
-**Status**: Pending  
-**Description**: Create reusable modal components for member operations  
-**Components**:
-- Base Modal component with Tailwind styling
-- Add Member form with validation
-- Edit Member form with pre-filled data
-- Photo upload/preview functionality
-- Form state management with controlled inputs
-**Notes**: Using `/tailwindlabs/tailwindcss` for styling
+**Task 3.4 (P1-CRITICAL): Export Options Modal**
+- **Status**: Pending
+- **Description**: Create a modal to provide users with options for exporting, such as format (CSV/PNG), image dimensions, and quality.
+- **Details**: This modal will be triggered by the 'Export' button in the toolbar.
 
-**Task 3.3** - CRUD Operations Implementation  
-**Status**: Pending  
-**Description**: Implement core CRUD operations with error handling  
-**Components**:
-- Add member with validation
-- Update member details
-- Delete member with cascade
-- Batch operations support
-- Optimistic updates
-**Notes**: Following `/vercel/next.js` API patterns
+**Task 3.5 (P2-HIGH): Share Link Validation**
+- **Status**: Pending
+- **Description**: Add validation for share links, with potential for expiry dates or password protection in the future.
+- **Details**: For now, focus on robust encoding/decoding to prevent malformed links.
 
-**Task 3.4** - Member Selection System  
-**Status**: Pending  
-**Description**: Implement member selection and multi-select functionality  
-**Components**:
-- Single member selection
-- Multi-select with Shift/Ctrl
-- Selection highlight effects
-- Selection state in Context
-- Keyboard navigation support
-**Notes**: Using `/react-dnd/react-dnd` for interaction
+**Task 3.6 (P2-HIGH): Export Watermarking**
+- **Status**: Pending
+- **Description**: Add an option to include a watermark on exported images.
+- **Details**: The watermark could be text or a logo, with configurable position and opacity.
 
-**Task 3.5** - Position Management  
-**Status**: Pending  
-**Description**: Implement member position management on canvas  
-**Components**:
-- Drag-and-drop positioning
-- Grid snapping system
-- Position persistence
-- Automatic layout options
-- Collision detection
-**Notes**: Integrating with canvas foundation from Task 1.12
+**Task 3.7 (P3-MEDIUM): Batch Export**
+- **Status**: Pending
+- **Description**: Allow users to export data for a selection of members instead of the entire tree.
+- **Details**: The export functions should be able to accept an array of member IDs to filter the data.
 
-**Task 3.6** - Connection Management  
-**Status**: Pending  
-**Description**: Implement relationship connection handling  
-**Components**:
-- Connection creation UI
-- Relationship type selection
-- Auto-connection updates
-- Connection validation
-- Visual connection editor
-**Notes**: Using custom connection calculation algorithms
+---
 
-### Phase 4: Share, Export & Auth (Week 4)
+## Phase 4: Mobile Experience (Week 4 | Priority: HIGH)
+- **Goal**: Optimize the design tool for mobile devices.
+- **Success Criteria**: Full functionality available on mobile with touch support.
 
-**Task 4.1** - Share Link System  
-**Status**: Pending  
-**Description**: Implement secure share link generation and management  
-**Components**:
-- Unique link generation with expiry
-- Access level controls (view/edit)
-- Link management dashboard
-- Share status tracking
-- QR code generation
-**Notes**: Following `/vercel/next.js` API routes and `/auth0/node-jsonwebtoken` for secure tokens
+**Task 4.1 (P1-CRITICAL): Touch-Optimized Interface**
+- **Status**: Pending
+- **Description**: Adapt the canvas and controls for touch-based interactions.
+- **Details**: Implement touch event handlers for drag-and-drop, panning, and selection.
 
-**Task 4.2** - CSV Export Implementation  
-**Status**: Pending  
-**Description**: Create comprehensive CSV export functionality  
-**Components**:
-- Data structure mapping
-- Custom field selection
-- Relationship encoding
-- Progress tracking for large trees
-- Error handling and validation
-**Notes**: Using Node.js streams for efficient processing
+**Task 4.2 (P1-CRITICAL): Mobile Action Bar**
+- **Status**: Pending
+- **Description**: Create a mobile-specific action bar at the bottom of the screen for key actions.
+- **Details**: Follow the design in `upgrade-plan.md`, with large, touch-friendly buttons for Add, Share, and Export.
 
-**Task 4.3** - Image Export System  
-**Status**: Pending  
-**Description**: Implement high-quality tree visualization export  
-**Components**:
-- Canvas to image conversion
-- Multiple format support (PNG/JPG)
-- Custom size options
-- High-DPI support
-- Export progress indicator
-**Notes**: Using `/niklasvh/html2canvas` for accurate rendering
+**Task 4.3 (P1-CRITICAL): Touch-Friendly Selection**
+- **Status**: Pending
+- **Description**: Implement intuitive touch gestures for selecting members.
+- **Details**: Support tap-to-select and potentially tap-and-hold for multi-select or context menus.
 
-**Task 4.4** - Mobile Export Optimization  
-**Status**: Pending  
-**Description**: Optimize export features for mobile devices  
-**Components**:
-- Responsive export UI
-- Memory usage optimization
-- Progressive loading
-- Mobile-specific format options
-- Touch-friendly controls
-**Notes**: Following `/tailwindlabs/tailwindcss` responsive patterns
+**Task 4.4 (P1-CRITICAL): Mobile-Optimized Modals**
+- **Status**: Pending
+- **Description**: Ensure all modals are responsive and easy to use on small screens.
+- **Details**: Modals should take up the full screen width, with larger form inputs and buttons.
 
-**Task 4.5** - Authentication API Routes  
-**Status**: Pending  
-**Description**: Implement Next.js 15 API routes for authentication  
-**Components**:
-- Login endpoint
-- Registration endpoint
-- Password reset flow
-- Email verification
-- Rate limiting
-**Notes**: Using `/vercel/next.js` App Router API patterns
+**Task 4.5 (P2-HIGH): Pinch-to-Zoom Gesture**
+- **Status**: Pending
+- **Description**: Implement pinch-to-zoom functionality on the canvas for mobile devices.
+- **Details**: Use touch events to calculate the distance between fingers and adjust the canvas zoom level.
 
-**Task 4.6** - JWT Implementation  
-**Status**: Pending  
-**Description**: Set up secure JWT-based authentication  
-**Components**:
-- Token generation
-- Refresh token system
-- Token rotation
-- Secure storage strategy
-- Revocation system
-**Notes**: Following `/auth0/node-jsonwebtoken` best practices
+**Task 4.6 (P2-HIGH): Mobile Performance Optimization**
+- **Status**: Pending
+- **Description**: Profile and optimize canvas performance on mobile browsers.
+- **Details**: May involve throttling events, simplifying rendering during interactions, or using `requestAnimationFrame`.
 
-**Task 4.7** - Auth UI Components  
-**Status**: Pending  
-**Description**: Create professional authentication interface  
-**Components**:
-- Login form with validation
-- Registration workflow
-- Password reset interface
-- Social login integration
-- Error handling UI
-**Notes**: Using `/tailwindlabs/tailwindcss` for consistent styling
-
-**Task 4.8** - Auth Middleware  
-**Status**: Pending  
-**Description**: Implement robust authentication middleware  
-**Components**:
-- Route protection
-- Role-based access
-- Token validation
-- Error handling
-- Logging system
-**Notes**: Following `/vercel/next.js` middleware patterns
-
-**Task 4.9** - Session Management  
-**Status**: Pending  
-**Description**: Create comprehensive session handling system  
-**Components**:
-- Session storage
-- Multiple device support
-- Activity tracking
-- Timeout handling
-- Secure logout
-**Notes**: Using Next.js 15 session management features
-
-## Dependencies & Critical Path
-- **Critical**: Next.js 15 migration (1.7-1.9) must complete first
-- **Blocking**: Canvas implementation (2.1-2.3) before CRUD
-- **Parallel**: Auth system can progress alongside other Phase 4 tasks
-- **Required**: Data structure updates (1.10-1.12) before canvas work
+**Task 4.7 (P3-MEDIUM): Offline Support (Future Consideration)**
+- **Status**: Pending
+- **Description**: Explore options for allowing offline editing on mobile devices.
+- **Details**: Could involve using Service Workers and local storage to cache data and sync when back online. This is a lower priority.
 
 ---
 

@@ -123,7 +123,33 @@ export const MemberBanner: React.FC<MemberBannerProps> = ({
 
 ## Current Component Patterns
 
-### **Canvas Component Pattern**
+### **Enhanced Data Structure (Completed)**
+```typescript
+// Enhanced FamilyMember interface with canvas support
+interface FamilyMember {
+  id: string;
+  name: string;
+  gender: 'male' | 'female' | 'other';
+  birthDate?: string;
+  deathDate?: string;
+  photo?: string;          // Base64 encoded
+  title?: string;
+  email?: string;
+  phone?: string;
+  address?: string;
+  biography?: string;
+  parentId?: string | null;
+  spouseIds: string[];
+  childrenIds: string[];
+  order: number;
+  // Canvas-specific fields (✅ implemented)
+  position: { x: number; y: number };
+  size: { width: number; height: number };
+  relationship: string;     // Father, Mother, Brother, etc.
+}
+```
+
+### **Canvas Component Pattern (Ready for Implementation)**
 ```typescript
 // FamilyTreeCanvas.tsx
 interface CanvasState {
@@ -207,7 +233,7 @@ export const FamilyTreeCanvas: React.FC = () => {
 };
 ```
 
-### **Enhanced Member Banner Pattern**
+### **Enhanced Member Banner Pattern (Ready for Implementation)**
 ```typescript
 // MemberBanner.tsx
 interface MemberBannerProps {
@@ -277,7 +303,7 @@ export const MemberBanner: React.FC<MemberBannerProps> = ({
 };
 ```
 
-### **Professional Toolbar Pattern**
+### **Professional Toolbar Pattern (Ready for Implementation)**
 ```typescript
 // MainToolbar.tsx
 interface MainToolbarProps {
@@ -360,7 +386,7 @@ export const MainToolbar: React.FC<MainToolbarProps> = ({
 };
 ```
 
-### **Modal Component Pattern**
+### **Modal Component Pattern (Ready for Implementation)**
 ```typescript
 // Base Modal Component
 interface ModalProps {
@@ -646,7 +672,7 @@ import path from 'path';
 
 export const loadFamilyData = async () => {
   try {
-    const filePath = path.join(process.cwd(), 'data', 'family-tree.json');
+    const filePath = path.join(process.cwd(), 'data', 'family-tree-v2.json');
     const data = await fs.readFile(filePath, 'utf8');
     return JSON.parse(data);
   } catch (error) {
@@ -656,7 +682,7 @@ export const loadFamilyData = async () => {
 
 export const saveFamilyData = async (data: any) => {
   try {
-    const filePath = path.join(process.cwd(), 'data', 'family-tree.json');
+    const filePath = path.join(process.cwd(), 'data', 'family-tree-v2.json');
     await fs.writeFile(filePath, JSON.stringify(data, null, 2));
     return data;
   } catch (error) {

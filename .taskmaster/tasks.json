@@ -1,0 +1,328 @@
+
+{
+  "projectName": "family-tree",
+  "version": "0.1.0",
+  "author": "",
+  "description": "Family tree project",
+  "tags": {
+    "master": {
+      "createdAt": "2024-07-26T12:00:00Z",
+      "description": "Default task list",
+      "tasks": [
+        {
+          "id": "1.4",
+          "title": "MemberCard Component",
+          "description": "Build MemberCard component with photo display",
+          "status": "completed",
+          "dependencies": [],
+          "priority": "medium",
+          "details": "Base for enhanced MemberBanner in canvas implementation",
+          "testStrategy": "",
+          "subtasks": []
+        },
+        {
+          "id": "1.5",
+          "title": "Tree Layout System",
+          "description": "Create horizontal tree layout with connections",
+          "status": "completed",
+          "dependencies": [],
+          "priority": "medium",
+          "details": "Foundation for canvas-based implementation",
+          "testStrategy": "",
+          "subtasks": []
+        },
+        {
+          "id": "1.6",
+          "title": "Responsive Design",
+          "description": "Add responsive design for mobile/tablet/desktop",
+          "status": "completed",
+          "dependencies": [],
+          "priority": "medium",
+          "details": "Core principles to be enhanced for canvas design",
+          "testStrategy": "",
+          "subtasks": []
+        },
+        {
+          "id": "1.10",
+          "title": "Enhanced Data Structure",
+          "description": "Implement new TypeScript interfaces",
+          "status": "completed",
+          "dependencies": [],
+          "priority": "medium",
+          "details": "Added `position`, `size`, and `relationship` fields to the `FamilyMember` interface. Also added `TreeSettings` and `FamilyTreeData` interfaces.",
+          "testStrategy": "",
+          "subtasks": []
+        },
+        {
+          "id": "1.9",
+          "title": "Codemod Application",
+          "description": "Apply Next.js 15 codemods",
+          "status": "completed",
+          "dependencies": [],
+          "priority": "medium",
+          "details": "Use official migration tools. Ran `next-og-import`, `built-in-next-font`, `new-link`, and `metadata-to-viewport-export` codemods.",
+          "testStrategy": "",
+          "subtasks": []
+        },
+        {
+          "id": "1.11",
+          "title": "Data Migration Utility",
+          "description": "Create data migration tool",
+          "status": "pending",
+          "dependencies": [],
+          "priority": "medium",
+          "details": "Convert existing JSON to new format",
+          "testStrategy": "",
+          "subtasks": []
+        },
+        {
+          "id": "1.12",
+          "title": "Canvas Foundation",
+          "description": "Basic canvas setup with types",
+          "status": "pending",
+          "dependencies": [],
+          "priority": "medium",
+          "details": "Prepare for Week 2 implementation",
+          "testStrategy": "",
+          "subtasks": []
+        },
+        {
+          "id": "2.1",
+          "title": "Canvas Layout System",
+          "description": "Implement interactive canvas with drag-and-drop positioning",
+          "status": "pending",
+          "dependencies": [],
+          "priority": "medium",
+          "details": "Following /react-dnd/react-dnd patterns for smooth interactions",
+          "testStrategy": "",
+          "subtasks": []
+        },
+        {
+          "id": "2.2",
+          "title": "Professional Toolbar",
+          "description": "Create design tool toolbar with essential actions",
+          "status": "pending",
+          "dependencies": [],
+          "priority": "medium",
+          "details": "- Home and navigation buttons\n- Undo/redo functionality\n- Resize controls\n- Share/Export buttons\n- Add member button (+)\n- User section with settings",
+          "testStrategy": "",
+          "subtasks": []
+        },
+        {
+          "id": "2.3",
+          "title": "Enhanced Member Banner",
+          "description": "Transform MemberCard into canvas-ready banner",
+          "status": "pending",
+          "dependencies": [],
+          "priority": "medium",
+          "details": "- Rounded rectangular design\n- Relationship labels\n- Larger profile photos (64px)\n- Hover and selection states\n- Context menu integration",
+          "testStrategy": "",
+          "subtasks": []
+        },
+        {
+          "id": "2.4",
+          "title": "Viewport Controls",
+          "description": "Implement canvas navigation and zoom",
+          "status": "pending",
+          "dependencies": [],
+          "priority": "medium",
+          "details": "- Pan functionality\n- Zoom controls\n- Viewport state management\n- Mobile touch support",
+          "testStrategy": "",
+          "subtasks": []
+        },
+        {
+          "id": "2.5",
+          "title": "History Stack",
+          "description": "Implement undo/redo system with state management",
+          "status": "pending",
+          "dependencies": [],
+          "priority": "medium",
+          "details": "- Action history tracking\n- State restoration\n- Memory optimization\n- Keyboard shortcuts",
+          "testStrategy": "",
+          "subtasks": []
+        },
+        {
+          "id": "2.6",
+          "title": "Grid System",
+          "description": "Add professional grid system with snap functionality",
+          "status": "pending",
+          "dependencies": [],
+          "priority": "medium",
+          "details": "- Configurable grid size\n- Snap-to-grid toggle\n- Grid visibility toggle\n- Alignment helpers",
+          "testStrategy": "",
+          "subtasks": []
+        },
+        {
+          "id": "3.1",
+          "title": "State Management Context Setup",
+          "description": "Implement global state management using React Context API",
+          "status": "pending",
+          "dependencies": [],
+          "priority": "medium",
+          "details": "- Create FamilyTreeContext and FamilyTreeDispatchContext\n- Implement useReducer for state management\n- Define action types (ADD_MEMBER, UPDATE_MEMBER, etc.)\n- Create custom hooks for state access\n- Add TypeScript interfaces for actions\n\nFollowing /context7/react_dev patterns for context setup",
+          "testStrategy": "",
+          "subtasks": []
+        },
+        {
+          "id": "3.2",
+          "title": "Member Modal Components",
+          "description": "Create reusable modal components for member operations",
+          "status": "pending",
+          "dependencies": [],
+          "priority": "medium",
+          "details": "- Base Modal component with Tailwind styling\n- Add Member form with validation\n- Edit Member form with pre-filled data\n- Photo upload/preview functionality\n- Form state management with controlled inputs\n\nUsing /tailwindlabs/tailwindcss for styling",
+          "testStrategy": "",
+          "subtasks": []
+        },
+        {
+          "id": "3.3",
+          "title": "CRUD Operations Implementation",
+          "description": "Implement core CRUD operations with error handling",
+          "status": "pending",
+          "dependencies": [],
+          "priority": "medium",
+          "details": "- Add member with validation\n- Update member details\n- Delete member with cascade\n- Batch operations support\n- Optimistic updates\n\nFollowing /vercel/next.js API patterns",
+          "testStrategy": "",
+          "subtasks": []
+        },
+        {
+          "id": "3.4",
+          "title": "Member Selection System",
+          "description": "Implement member selection and multi-select functionality",
+          "status": "pending",
+          "dependencies": [],
+          "priority": "medium",
+          "details": "- Single member selection\n- Multi-select with Shift/Ctrl\n- Selection highlight effects\n- Selection state in Context\n- Keyboard navigation support\n\nUsing /react-dnd/react-dnd for interaction",
+          "testStrategy": "",
+          "subtasks": []
+        },
+        {
+          "id": "3.5",
+          "title": "Position Management",
+          "description": "Implement member position management on canvas",
+          "status": "pending",
+          "dependencies": ["1.12"],
+          "priority": "medium",
+          "details": "- Drag-and-drop positioning\n- Grid snapping system\n- Position persistence\n- Automatic layout options\n- Collision detection\n\nIntegrating with canvas foundation from Task 1.12",
+          "testStrategy": "",
+          "subtasks": []
+        },
+        {
+          "id": "3.6",
+          "title": "Connection Management",
+          "description": "Implement relationship connection handling",
+          "status": "pending",
+          "dependencies": [],
+          "priority": "medium",
+          "details": "- Connection creation UI\n- Relationship type selection\n- Auto-connection updates\n- Connection validation\n- Visual connection editor\n\nUsing custom connection calculation algorithms",
+          "testStrategy": "",
+          "subtasks": []
+        },
+        {
+          "id": "4.1",
+          "title": "Share Link System",
+          "description": "Implement secure share link generation and management",
+          "status": "pending",
+          "dependencies": [],
+          "priority": "medium",
+          "details": "- Unique link generation with expiry\n- Access level controls (view/edit)\n- Link management dashboard\n- Share status tracking\n- QR code generation\n\nFollowing /vercel/next.js API routes and /auth0/node-jsonwebtoken for secure tokens",
+          "testStrategy": "",
+          "subtasks": []
+        },
+        {
+          "id": "4.2",
+          "title": "CSV Export Implementation",
+          "description": "Create comprehensive CSV export functionality",
+          "status": "pending",
+          "dependencies": [],
+          "priority": "medium",
+          "details": "- Data structure mapping\n- Custom field selection\n- Relationship encoding\n- Progress tracking for large trees\n- Error handling and validation\n\nUsing Node.js streams for efficient processing",
+          "testStrategy": "",
+          "subtasks": []
+        },
+        {
+          "id": "4.3",
+          "title": "Image Export System",
+          "description": "Implement high-quality tree visualization export",
+          "status": "pending",
+          "dependencies": [],
+          "priority": "medium",
+          "details": "- Canvas to image conversion\n- Multiple format support (PNG/JPG)\n- Custom size options\n- High-DPI support\n- Export progress indicator\n\nUsing /niklasvh/html2canvas for accurate rendering",
+          "testStrategy": "",
+          "subtasks": []
+        },
+        {
+          "id": "4.4",
+          "title": "Mobile Export Optimization",
+          "description": "Optimize export features for mobile devices",
+          "status": "pending",
+          "dependencies": [],
+          "priority": "medium",
+          "details": "- Responsive export UI\n- Memory usage optimization\n- Progressive loading\n- Mobile-specific format options\n- Touch-friendly controls\n\nFollowing /tailwindlabs/tailwindcss responsive patterns",
+          "testStrategy": "",
+          "subtasks": []
+        },
+        {
+          "id": "4.5",
+          "title": "Authentication API Routes",
+          "description": "Implement Next.js 15 API routes for authentication",
+          "status": "pending",
+          "dependencies": [],
+          "priority": "medium",
+          "details": "- Login endpoint\n- Registration endpoint\n- Password reset flow\n- Email verification\n- Rate limiting\n\nUsing /vercel/next.js App Router API patterns",
+          "testStrategy": "",
+          "subtasks": []
+        },
+        {
+          "id": "4.6",
+          "title": "JWT Implementation",
+          "description": "Set up secure JWT-based authentication",
+          "status": "pending",
+          "dependencies": [],
+          "priority": "medium",
+          "details": "- Token generation\n- Refresh token system\n- Token rotation\n- Secure storage strategy\n- Revocation system\n\nFollowing /auth0/node-jsonwebtoken best practices",
+          "testStrategy": "",
+          "subtasks": []
+        },
+        {
+          "id": "4.7",
+          "title": "Auth UI Components",
+          "description": "Create professional authentication interface",
+          "status": "pending",
+          "dependencies": [],
+          "priority": "medium",
+          "details": "- Login form with validation\n- Registration workflow\n- Password reset interface\n- Social login integration\n- Error handling UI\n\nUsing /tailwindlabs/tailwindcss for consistent styling",
+          "testStrategy": "",
+          "subtasks": []
+        },
+        {
+          "id": "4.8",
+          "title": "Auth Middleware",
+          "description": "Implement robust authentication middleware",
+          "status": "pending",
+          "dependencies": [],
+          "priority": "medium",
+          "details": "- Route protection\n- Role-based access\n- Token validation\n- Error handling\n- Logging system\n\nFollowing /vercel/next.js middleware patterns",
+          "testStrategy": "",
+          "subtasks": []
+        },
+        {
+          "id": "4.9",
+          "title": "Session Management",
+          "description": "Create comprehensive session handling system",
+          "status": "pending",
+          "dependencies": [],
+          "priority": "medium",
+          "details": "- Session storage\n- Multiple device support\n- Activity tracking\n- Timeout handling\n- Secure logout\n\nUsing Next.js 15 session management features",
+          "testStrategy": "",
+          "subtasks": []
+        }
+      ]
+    }
+  },
+  "state": {
+    "currentTag": "master",
+    "lastSwitched": "2024-07-26T12:00:00Z",
+    "migrationNoticeShown": true
+  }
+}

@@ -213,6 +213,12 @@ interface User {
   - User authentication data management
   - Proper error handling and validation
 
+- ✅ **Enhanced Data Structure**: Complete with canvas support
+  - Position and size fields added to FamilyMember interface
+  - Data migration utility implemented
+  - V2 JSON format with canvas-ready data
+  - All 6 Vietnamese family members migrated to new format
+
 ### **Planned Components**
 - ⏳ **FamilyTreeCanvas**: Interactive canvas with drag-and-drop positioning
 - ⏳ **MemberBanner**: Enhanced member cards with relationship labels
