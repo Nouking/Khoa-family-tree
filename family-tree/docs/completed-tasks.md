@@ -6,6 +6,12 @@
 
 ### Phase 1: Foundation
 
+**Task 1.7** - Next.js 15 API Routes  
+**Status**: Completed | **Agent**: AI_Developer
+**Description**: Update API routes to Next.js 15 patterns  
+**Issues/Blockers**: None
+**Notes**: Following `/vercel/next.js` v15 guidelines. Created new API route handlers for members and auth. Implemented GET, POST, PUT, and DELETE methods for member data, and POST for login/logout.
+
 **Task 1.1** - Setup Next.js Project  
 **Status**: Completed | **Agent**: Setup_Specialist  
 **Description**: Setup Next.js 15 + TypeScript + Tailwind  
