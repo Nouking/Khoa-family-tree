@@ -35,13 +35,14 @@ IMPORTANT: Must read @project-goal.md to understand the project.
   3. Document test coverage with `npm test -- --coverage`
 
 ### MANDATORY Task Update Protocol  
-- **AFTER completing any task implementation**: You MUST:
+- **AFTER completing any task implementation**: You MUST follow this sequence:
   1. Update task status in @family-tree/docs/task-tracking.md (Pending → In Progress → Completed)
   2. Move completed tasks to @family-tree/docs/completed-tasks.md with implementation notes
   3. Document any issues encountered or deviations from plan
   4. Update task completion log section
   5. Mark any dependent tasks as ready if applicable
   6. Update @memory-bank/progress.md with latest achievements
+  7. **After documentation and memory bank are updated**, proceed with git commit and push.
 
 ### Context7 Integration
 - When working on technical implementations, use "use context7" for up-to-date documentation
