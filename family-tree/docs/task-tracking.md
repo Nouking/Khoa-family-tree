@@ -65,11 +65,6 @@ Always use these library IDs for accurate documentation:
 ## Active Tasks
 ### Phase 1: Next.js 15 Migration & Foundation (Priority Critical)
 
-**Task 1.7** - Next.js 15 API Routes  
-**Status**: In Progress  
-**Description**: Update API routes to Next.js 15 patterns  
-**Notes**: Following `/vercel/next.js` v15 guidelines
-
 **Task 1.8** - Page Components Migration  
 **Status**: Pending  
 **Description**: Update page components to Next.js 15  
