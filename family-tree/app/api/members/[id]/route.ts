@@ -1,5 +1,5 @@
 
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
 import { getMemberById, updateMember, deleteMember } from '@/app/lib/data';
 import { FamilyMember } from '@/types';
 
