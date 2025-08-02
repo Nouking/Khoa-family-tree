@@ -10,7 +10,7 @@ Transform the current **Next.js 15 Family Tree** project into a **professional d
 - **CRUD Operations**: Add, edit, delete family members via API routes.
 - **Share Link**: Generate shareable URLs for family trees.  
 - **Export**: CSV and image export functionality.
-- **API-based JSON Storage**: Utilize existing Next.js API routes for all data interactions with `family-tree.json`. No external database required.
+- **API-based JSON Storage**: Utilize existing Next.js API routes for all data interactions with `family-tree-v2.json`. No external database required.
 - **Design Tool UI**: Canvas-based interface with professional toolbar.
 
 ## 🏗️ Technical Architecture
