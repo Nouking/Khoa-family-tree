@@ -41,11 +41,6 @@ Always use these library IDs for accurate documentation:
 - **Goal**: Transform the basic viewer into a canvas-based design tool.
 - **Success Criteria**: Users can interact with family tree on a professional canvas interface.
 
-**Task 1.11 (P1-CRITICAL): Basic Canvas Component**
-- **Status**: Pending
-- **Description**: Implement the basic `FamilyTreeCanvas` component that renders members using absolute positioning based on the new `position` data.
-- **Details**: The canvas will have separate layers for members and connections. Initially, focus on rendering the `MemberBanner` components correctly as defined in `upgrade-plan.md`.
-
 **Task 1.12 (P1-CRITICAL): Drag-and-Drop Functionality**
 - **Status**: Pending
 - **Description**: Add drag-and-drop functionality for `MemberBanner` components on the canvas.

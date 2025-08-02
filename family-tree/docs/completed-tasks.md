@@ -6,6 +6,13 @@
 
 ### Phase 1: Foundation
 
+**Task 1.11 (P1-CRITICAL): Basic Canvas Component**
+- **Status**: Completed
+- **Description**: Implemented the basic `FamilyTreeCanvas` component that renders members using absolute positioning and includes a separate SVG layer for connections.
+- **Details**: The component now correctly displays family members from the `familyTree` prop and is prepared for connection rendering. This forms the foundational canvas for the new design tool.
+- **Issues/Blockers**: None
+- **Notes**: This task successfully sets up the initial canvas, enabling subsequent drag-and-drop and connection rendering features.
+
 **Task 1.2 (P1-CRITICAL): Data Migration Utility**
 - **Status**: Completed
 - **Description**: Create a data migration utility to convert existing `family-tree.json` data to the new enhanced format.
