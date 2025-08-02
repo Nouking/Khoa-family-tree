@@ -1,38 +1,30 @@
 # Active Tasks
 
 ## Current Task
-**Task 1.11** - Basic Canvas Component  
-**Status**: Pending | **Agent**: Canvas_Specialist  
-**Description**: Implement the basic `FamilyTreeCanvas` component that renders members using absolute positioning based on the new `position` data
-**Issues/Blockers**: None  
-**Notes**: 
-- All migration tasks (1.1-1.12) completed successfully
-- Enhanced data structure with position/size fields ready for canvas
-- Foundation components (MemberCard, FamilyTree, TreeConnection) completed
-- Ready to implement canvas with absolute positioning
+**Task 1.13** - Viewport Controls (Pan & Zoom)
+**Status**: In Progress | **Agent**: UI_Designer
+**Description**: Implement viewport controls for panning and zooming the canvas.
+**Issues/Blockers**: None
+**Notes**: We are now entering Phase 2 of the project, focusing on UI Enhancement. Tasks 1.11 and 1.12 are completed.
 
 ## Task Queue
 **Next Priority Tasks:**
-1. **Task 1.12** - Drag-and-Drop Functionality (Pending)
-   - Add drag-and-drop functionality for `MemberBanner` components
-   - Use native browser events or React DnD library
-   - Update member position in state and persist changes
+1. **Task 1.14** - Enhanced Member Banners (Pending)
+   - Redesign the `MemberCard` into an enhanced `MemberBanner` component with relationship labels and professional styling.
+   - Follow the design specs in `upgrade-plan.md`, including size, hover states, and context menu placeholders.
 
-2. **Task 1.13** - Viewport Controls (Pending)
-   - Implement pan and zoom functionality for canvas
-   - Use CSS transforms for viewport management
-   - Add UI controls for zoom and pan operations
+2. **Task 1.15** - Professional Toolbar (Pending)
+   - Create the main `MainToolbar` component with essential actions like Home, Undo/Redo placeholders, Share, Export, and Add Member.
+   - Structure the toolbar with left, center, and right sections as defined in the `upgrade-plan.md`.
 
 ## Completed Tasks
-**Task 1.12** - Canvas Foundation (Completed)
-- Enhanced data structure with position, size, and relationship fields
-- Data migration utility for converting existing JSON to new format
-- Canvas foundation setup with drag-and-drop types
+**Task 1.12** - Drag-and-Drop Functionality (Completed)
+- Added drag-and-drop for `MemberCard` components using `react-dnd` and updated member positions in state. Mock files for testing were created.
+- This task is now fully completed and verified.
 
-**Task 1.11** - Data Migration Utility (Completed)
-- Created data migration tool for converting existing JSON to new format
-- Implemented enhanced data structure with position/size fields
-- Successfully migrated family tree data to V2 format
+**Task 1.11** - Basic Canvas Component (Completed)
+- Implemented the `FamilyTreeCanvas` component, which now renders members using absolute positioning based on data, and a connections SVG layer has been added.
+- This task is now fully completed and verified.
 
 **Task 1.10** - Enhanced Data Structure (Completed)
 - Added position, size, and relationship fields to TypeScript interfaces
@@ -107,7 +99,7 @@
 
 ## Phase Overview
 - **Phase 1 (Foundation & Migration)**: 12/12 tasks completed (100% complete)
-- **Phase 2 (Canvas & UI Enhancement)**: 0/6 tasks completed  
+- **Phase 2 (Canvas & UI Enhancement)**: 1/6 tasks completed (5% complete)
 - **Phase 3 (CRUD Operations)**: 0/6 tasks completed
 - **Phase 4 (Share & Export)**: 0/9 tasks completed
 
@@ -125,10 +117,13 @@
 - ✅ **Responsive design foundation with viewport detection and adaptive spacing**
 - ✅ **All migration tasks completed successfully**
 - ✅ **Enhanced data structure with position/size fields ready for canvas**
+- ✅ **Task 1.11: Basic Canvas Component** - Complete (connections layer added)
+- ✅ **Task 1.12: Drag-and-Drop Functionality** - Complete (Drag-and-drop implemented)
 
 ## Current Implementation Status
 
 ### **Completed Components**
+- ✅ **FamilyTreeCanvas**: Basic implementation that renders members.
 - ✅ **FamilyTree**: Horizontal tree layout with SVG connections (foundation for canvas)
 - ✅ **TreeConnection**: SVG connection lines for family relationships (to be enhanced)
 - ✅ **MemberCard**: Photo display with fallback avatar and responsive design (to become MemberBanner)
@@ -163,30 +158,33 @@
 
 ## Next Development Priorities
 
-### **Immediate (Canvas Foundation)**
-1. **Basic Canvas Component (Task 1.11)**
-   - Implement `FamilyTreeCanvas` with absolute positioning
-   - Render `MemberBanner` components on canvas
-   - Set up canvas state management
+### **Immediate (Phase 2 - Canvas & UI Enhancement)**
+1. **Viewport Controls (Task 1.13)**
+   - Implement pan and zoom functionality for canvas
+   - Use CSS transforms for viewport management
+   - Add UI controls for zoom and pan operations
 
-2. **Drag-and-Drop Functionality (Task 1.12)**
-   - Add drag-and-drop for member banners
-   - Update member positions in state
-   - Persist position changes
+2. **Enhanced Member Banners (Task 1.14)**
+   - Redesign the `MemberCard` into an enhanced `MemberBanner` component with relationship labels and professional styling.
+   - Follow the design specs in `upgrade-plan.md`, including size, hover states, and context menu placeholders.
 
-### **Short-term (Phase 2)**
-1. **Canvas Implementation (Task 2.1)**
+3. **Professional Toolbar (Task 1.15)**
+   - Create the main `MainToolbar` component with essential actions like Home, Undo/Redo placeholders, Share, Export, and Add Member.
+   - Structure the toolbar with left, center, and right sections as defined in the `upgrade-plan.md`.
+
+### **Short-term (Phase 2 - Continued)**
+1. **Canvas Implementation (Task 2.5)**
    - Interactive canvas with absolute positioning
    - Drag-and-drop functionality
    - Viewport state management
 
-2. **Professional Toolbar (Task 2.2)**
+2. **Professional Toolbar (Task 2.6)**
    - Design tool header with essential actions
    - Undo/redo buttons
    - Share and export buttons
    - Add member button
 
-3. **Enhanced Member Banners (Task 2.3)**
+3. **Enhanced Member Banners (Task 2.7)**
    - Rounded banner design
    - Relationship labels
    - Larger profile photos
