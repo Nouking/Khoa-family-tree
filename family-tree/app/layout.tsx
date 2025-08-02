@@ -1,19 +1,19 @@
-import './globals.css'
-import type { Metadata } from 'next'
+'use client';
 
-export const metadata: Metadata = {
-  title: 'Family Tree',
-  description: 'Next.js 15 Family Tree Website with public viewing and authenticated editing'
-}
+import './globals.css';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <DndProvider backend={HTML5Backend}>{children}</DndProvider>
+      </body>
     </html>
-  )
+  );
 }

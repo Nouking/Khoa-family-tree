@@ -13,6 +13,13 @@
 - **Issues/Blockers**: None
 - **Notes**: This task successfully sets up the initial canvas, enabling subsequent drag-and-drop and connection rendering features.
 
+**Task 1.12 (P1-CRITICAL): Drag-and-Drop Functionality**
+- **Status**: Completed
+- **Description**: Added drag-and-drop functionality for `MemberBanner` components on the canvas using `react-dnd`.
+- **Details**: Integrated `react-dnd` to enable draggable `MemberCard` components within `FamilyTreeCanvas`. Implemented `useDrag` and `useDrop` hooks to manage drag operations and update member positions. Also created mock files for `react-dnd` and `react-dnd-html5-backend` for Jest testing compatibility. The component now correctly updates the member's `position` in the state upon successful drop.
+- **Issues/Blockers**: None
+- **Notes**: This feature significantly enhances user interaction, allowing for dynamic arrangement of family members on the canvas.
+
 **Task 1.2 (P1-CRITICAL): Data Migration Utility**
 - **Status**: Completed
 - **Description**: Create a data migration utility to convert existing `family-tree.json` data to the new enhanced format.
