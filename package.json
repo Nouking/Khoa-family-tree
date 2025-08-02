@@ -1,5 +1,7 @@
 {
   "devDependencies": {
+    "react-dnd-test-backend": "^16.0.1",
+    "react-dnd-test-utils": "^16.0.1",
     "ts-node": "^10.9.2"
   }
 }

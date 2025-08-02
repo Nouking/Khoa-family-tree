@@ -14,8 +14,11 @@ const customJestConfig = {
     '^@/components/(.*)$': '<rootDir>/app/components/$1',
     '^@/lib/(.*)$': '<rootDir>/app/lib/$1',
     '^@/types/(.*)$': '<rootDir>/types/$1',
+    // Mock react-dnd
+    '^react-dnd$': '<rootDir>/__mocks__/react-dnd.js',
+    '^react-dnd-html5-backend$': '<rootDir>/__mocks__/react-dnd-html5-backend.js',
   },
 };
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
-module.exports = createJestConfig(customJestConfig); 
+module.exports = createJestConfig(customJestConfig);

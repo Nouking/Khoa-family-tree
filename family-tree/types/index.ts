@@ -22,6 +22,10 @@ export interface FamilyMember {
   relationship: string;     // Father, Mother, Brother, etc.
 }
 
+export const ItemTypes = {
+  MEMBER_CARD: 'memberCard',
+};
+
 export interface TreeSettings {
   canvasSize: { width: number; height: number };
   gridEnabled: boolean;

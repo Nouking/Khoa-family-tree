@@ -42,7 +42,7 @@ Always use these library IDs for accurate documentation:
 - **Success Criteria**: Users can interact with family tree on a professional canvas interface.
 
 **Task 1.12 (P1-CRITICAL): Drag-and-Drop Functionality**
-- **Status**: Pending
+- **Status**: Completed
 - **Description**: Add drag-and-drop functionality for `MemberBanner` components on the canvas.
 - **Details**: Use native browser events or a library like `react-dnd`. Update the member's `position` in the state and persist it.
 
