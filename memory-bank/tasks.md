@@ -1,36 +1,57 @@
 # Active Tasks
 
 ## Current Task
-**Task 1.14** - Enhanced Member Banners
-**Status**: Pending | **Agent**: UI_Designer
-**Description**: Redesign the `MemberCard` into an enhanced `MemberBanner` component with relationship labels and professional styling.
+**Task 2.1** - CRUD API Endpoints
+**Status**: Pending | **Agent**: Backend_Developer
+**Description**: Create Next.js API routes to handle all CRUD operations for family members.
 **Issues/Blockers**: None
-**Notes**: We are continuing with Phase 2 of the project. Task 1.13 has been successfully completed.
+**Notes**: Need to implement API routes for `POST /api/members`, `PUT /api/members/[id]`, and `DELETE /api/members/[id]` to support the upcoming CRUD operations.
 
 ## Task Queue
 **Next Priority Tasks:**
-1. **Task 1.14** - Enhanced Member Banners (In Progress)
-   - Redesign the `MemberCard` into an enhanced `MemberBanner` component with relationship labels and professional styling.
-   - Follow the design specs in `upgrade-plan.md`, including size, hover states, and context menu placeholders.
+1. **Task 2.2** - Global State Management (Pending)
+   - Implement a global state management solution using React Context API to handle the family tree data.
+   - Create `FamilyTreeContext` and `FamilyTreeDispatchContext`.
 
-2. **Task 1.15** - Professional Toolbar (Pending)
-   - Create the main `MainToolbar` component with essential actions like Home, Undo/Redo placeholders, Share, Export, and Add Member.
-   - Structure the toolbar with left, center, and right sections as defined in the `upgrade-plan.md`.
+2. **Task 2.3** - Modal Components (Pending)
+   - Create modal components for add/edit/delete operations with form validation.
+   - Implement proper form handling and error states.
+
+3. **Task 2.4** - Member Selection (Pending)
+   - Implement member selection and multi-select functionality.
+   - Add visual feedback for selected members.
 
 ## Completed Tasks
+**Task 1.15** - Professional Toolbar (Completed)
+- Created the main `MainToolbar` component with essential actions like Home, Undo/Redo placeholders, Share, Export, and Add Member.
+- Implemented responsive design that adapts to different screen sizes.
+- Added proper event handlers and button styling.
+- Integrated the toolbar with the view page using a client/server component split.
+- Created comprehensive test coverage for the component.
+
+**Task 1.14** - Enhanced Member Banners (Completed)
+- Redesigned the `MemberCard` into an enhanced `MemberBanner` component with relationship labels and professional styling.
+- Added hover effects with blue border highlights and support for title display.
+- Updated the `FamilyTree` component to set proper size properties for banners.
+- Added comprehensive test coverage for the new component.
+- Successfully replaced the old MemberCard with the new MemberBanner throughout the application.
+
 **Task 1.13** - Viewport Controls (Pan & Zoom) (Completed)
 - Implemented viewport controls for panning and zooming the canvas with UI buttons and mouse drag support.
 - Added state management for viewport coordinates and zoom level, with constraints for optimal user experience.
 - Created UI controls for zoom-in, zoom-out, and reset view, with proper styling and hover states.
 - Implemented mouse events for intuitive canvas panning when dragging.
 - Added zoom level indicator for user feedback.
+- Used CSS transforms for efficient rendering with transform-origin centered for intuitive zooming.
 
 **Task 1.12** - Drag-and-Drop Functionality (Completed)
 - Added drag-and-drop for `MemberCard` components using `react-dnd` and updated member positions in state. Mock files for testing were created.
+- The component now correctly updates the member's `position` in the state upon successful drop.
 - This task is now fully completed and verified.
 
 **Task 1.11** - Basic Canvas Component (Completed)
 - Implemented the `FamilyTreeCanvas` component, which now renders members using absolute positioning based on data, and a connections SVG layer has been added.
+- This forms the foundational canvas for the new design tool.
 - This task is now fully completed and verified.
 
 **Task 1.10** - Enhanced Data Structure (Completed)
@@ -105,13 +126,15 @@
 - Validated user data against TypeScript interfaces
 
 ## Phase Overview
-- **Phase 1 (Foundation & Migration)**: 12/12 tasks completed (100% complete)
-- **Phase 2 (Canvas & UI Enhancement)**: 1/6 tasks completed (15% complete)
+- **Phase 1 (Foundation & Migration)**: 15/15 tasks completed (100% complete)
+- **Phase 2 (Canvas & UI Enhancement)**: 3/8 tasks completed (37.5% complete)
 - **Phase 3 (CRUD Operations)**: 0/6 tasks completed
 - **Phase 4 (Share & Export)**: 0/9 tasks completed
 
 ## Recent Achievements
-- ✅ **Task 1.13: Viewport Controls (Pan & Zoom)** - Implemented viewport controls with state management, UI buttons, and mouse events for intuitive canvas navigation.
+- ✅ **Task 1.15: Professional Toolbar** - Created the main `MainToolbar` component with essential actions and responsive design
+- ✅ **Task 1.14: Enhanced Member Banners** - Redesigned the `MemberCard` into an enhanced `MemberBanner` component with relationship labels and professional styling
+- ✅ **Task 1.13: Viewport Controls (Pan & Zoom)** - Implemented viewport controls with state management, UI buttons, and mouse events for intuitive canvas navigation
 - ✅ Complete project structure with proper Next.js 15 setup
 - ✅ Sample data files with realistic Vietnamese family data
 - ✅ Core pages (home, view, login) implemented
@@ -128,14 +151,18 @@
 - ✅ **Task 1.11: Basic Canvas Component** - Complete (connections layer added)
 - ✅ **Task 1.12: Drag-and-Drop Functionality** - Complete (Drag-and-drop implemented)
 - ✅ **Task 1.13: Viewport Controls (Pan & Zoom)** - Complete (panning and zooming implemented)
+- ✅ **Task 1.14: Enhanced Member Banners** - Complete (professional styling and relationship labels)
+- ✅ **Task 1.15: Professional Toolbar** - Complete (essential actions and responsive design)
 
 ## Current Implementation Status
 
 ### **Completed Components**
-- ✅ **FamilyTreeCanvas**: Implementation with viewport controls for panning and zooming.
+- ✅ **MainToolbar**: Professional toolbar with essential actions and responsive design
+- ✅ **MemberBanner**: Enhanced member display with relationship labels and professional styling
+- ✅ **FamilyTreeCanvas**: Implementation with viewport controls for panning and zooming
 - ✅ **FamilyTree**: Horizontal tree layout with SVG connections (foundation for canvas)
 - ✅ **TreeConnection**: SVG connection lines for family relationships (to be enhanced)
-- ✅ **MemberCard**: Photo display with fallback avatar and responsive design (to become MemberBanner)
+- ✅ **MemberCard**: Photo display with fallback avatar and responsive design (replaced by MemberBanner)
 - ✅ **Data Utilities**: Complete CRUD operations for family members
 - ✅ **Sample Data**: 6 Vietnamese family members with realistic relationships
 
@@ -167,40 +194,46 @@
 
 ## Next Development Priorities
 
-### **Immediate (Phase 2 - Canvas & UI Enhancement)**
-1. **Enhanced Member Banners (Task 1.14)**
-   - Redesign the `MemberCard` into an enhanced `MemberBanner` component with relationship labels and professional styling.
-   - Follow the design specs in `upgrade-plan.md`, including size, hover states, and context menu placeholders.
+### **Immediate (Phase 2 - CRUD Operations)**
+1. **CRUD API Endpoints (Task 2.1)**
+   - Create Next.js API routes for all CRUD operations for family members.
+   - Implement API routes for `POST /api/members`, `PUT /api/members/[id]`, and `DELETE /api/members/[id]`.
 
-2. **Professional Toolbar (Task 1.15)**
-   - Create the main `MainToolbar` component with essential actions like Home, Undo/Redo placeholders, Share, Export, and Add Member.
-   - Structure the toolbar with left, center, and right sections as defined in the `upgrade-plan.md`.
+2. **Global State Management (Task 2.2)**
+   - Implement a global state management solution using React Context API to handle the family tree data.
+   - Create `FamilyTreeContext` and `FamilyTreeDispatchContext`.
 
-### **Short-term (Phase 2 - Continued)**
+3. **Modal Components (Task 2.3)**
+   - Create modal components for add/edit/delete operations with form validation.
+   - Implement proper form handling and error states.
+
+4. **Member Selection (Task 2.4)**
+   - Implement member selection and multi-select functionality.
+   - Add visual feedback for selected members.
+
+### **Short-term (Phase 2 - Continued Canvas Enhancement)**
 1. **Canvas Implementation (Task 2.5)**
    - Interactive canvas with absolute positioning
    - Drag-and-drop functionality
    - Viewport state management
 
-2. **Professional Toolbar (Task 2.6)**
-   - Design tool header with essential actions
-   - Undo/redo buttons
-   - Share and export buttons
-   - Add member button
+2. **Position Management (Task 2.6)**
+   - Position management on canvas
+   - Grid system with snap functionality
 
-3. **Enhanced Member Banners (Task 2.7)**
-   - Rounded banner design
-   - Relationship labels
-   - Larger profile photos
-   - Selection states
+3. **Connection Management (Task 2.7)**
+   - Connection management system
+   - Dynamic connection updates
+
+4. **History Stack (Task 2.8)**
+   - Undo/redo functionality with state management
+   - Action history tracking
 
 ### **Medium-term (Phase 3)**
-1. **CRUD Operations (Tasks 3.1-3.6)**
-   - React Context for state management
-   - Modal components for add/edit/delete
-   - Member selection system
-   - Position management
-   - Connection management
+1. **Advanced CRUD Operations (Tasks 3.1-3.6)**
+   - Enhanced form validation
+   - Bulk operations
+   - Advanced filtering and search
 
 ### **Long-term (Phase 4)**
 1. **Share & Export (Tasks 4.1-4.9)**
