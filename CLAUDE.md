@@ -25,15 +25,19 @@ For any given task ID (e.g., "Task 1.1", "1.2"), you MUST:
    - Any associated notes
 4. Only proceed with implementation after you have a clear understanding of the task.
 
-### 3. Task Status Updates (Mandatory)
-Follow this workflow order for completing tasks:
-1. **Complete Code Implementation**: Finish writing and testing all code changes for the task.
-2. **Update Documentation**: After code is complete but BEFORE git operations, update the following:
-   - Update the task's status in family-tree/docs/task-tracking.md
-   - Move the completed task details to family-tree/docs/completed-tasks.md, including any implementation notes
-   - Document any issues encountered or deviations from the original plan
-   - Update documentation with your latest achievements
-3. **Perform Git Operations**: Only after all documentation is updated, proceed with git commits and pushes.
+### 3. Task Status Updates (MANDATORY - DO NOT SKIP)
+**CRITICAL**: You MUST complete ALL steps below in EXACT ORDER. Do NOT proceed to git operations without completing documentation updates first.
+
+**Required Steps (Must Complete in Order):**
+- [ ] **Step 1 - Complete Code Implementation**: Finish writing and testing all code changes for the task.
+- [ ] **Step 2 - Update Documentation (MANDATORY BEFORE GIT)**: After code is complete but BEFORE any git operations, you MUST update the following:
+  - [ ] Update the task's status in `family-tree/docs/task-tracking.md`
+  - [ ] Move the completed task details to `family-tree/docs/completed-tasks.md`, including any implementation notes
+  - [ ] Document any issues encountered or deviations from the original plan
+  - [ ] Update documentation with your latest achievements
+- [ ] **Step 3 - Perform Git Operations**: ONLY after ALL documentation is updated, proceed with git commits and pushes.
+
+**WARNING**: Skipping Step 2 documentation updates is a critical workflow violation. Always verify documentation is updated before any git commit.
 
 ## Working Directory
 
