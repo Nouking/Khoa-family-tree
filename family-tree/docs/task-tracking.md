@@ -85,7 +85,7 @@ Always use these library IDs for accurate documentation:
 - **Success Criteria**: Users can manage family members with undo/redo support.
 
 **Task 2.1 (P1-CRITICAL): CRUD API Endpoints**
-- **Status**: Pending
+- **Status**: Completed
 - **Description**: Create Next.js API routes to handle all CRUD operations for family members.
 - **Dependencies**: None
 - **Acceptance Criteria**:
@@ -95,7 +95,17 @@ Always use these library IDs for accurate documentation:
     - THEN the corresponding member is updated in `family-tree-v2.json`.
     - GIVEN a `DELETE` request to `/api/members/[id]`
     - THEN the corresponding member is removed from `family-tree-v2.json`.
-- **Details**: Implement API routes for `POST /api/members`, `PUT /api/members/[id]`, and `DELETE /api/members/[id]`. These routes will read and write to the `/data/family-tree-v2.json` file. Ensure proper error handling and authentication checks.
+- **Details**: ✅ Implemented complete CRUD API routes with:
+  - `GET /api/members` - Public access to get all members
+  - `POST /api/members` - Protected route to create new members
+  - `GET /api/members/[id]` - Public access to get single member
+  - `PUT /api/members/[id]` - Protected route to update members
+  - `DELETE /api/members/[id]` - Protected route to delete members
+  - JWT authentication middleware for protected routes
+  - Comprehensive input validation and error handling
+  - Secure ID generation using crypto.randomUUID()
+  - Proper relationship cleanup on member deletion
+  - Metadata tracking for lastModified timestamps
 
 **Task 2.2 (P1-CRITICAL): Global State Management (React Context)**
 - **Status**: Pending
