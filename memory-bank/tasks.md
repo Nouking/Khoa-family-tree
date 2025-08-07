@@ -1,15 +1,15 @@
 # Active Tasks
 
 ## Current Task
-**Task 1.13** - Viewport Controls (Pan & Zoom)
-**Status**: In Progress | **Agent**: UI_Designer
-**Description**: Implement viewport controls for panning and zooming the canvas.
+**Task 1.14** - Enhanced Member Banners
+**Status**: Pending | **Agent**: UI_Designer
+**Description**: Redesign the `MemberCard` into an enhanced `MemberBanner` component with relationship labels and professional styling.
 **Issues/Blockers**: None
-**Notes**: We are now entering Phase 2 of the project, focusing on UI Enhancement. Tasks 1.11 and 1.12 are completed.
+**Notes**: We are continuing with Phase 2 of the project. Task 1.13 has been successfully completed.
 
 ## Task Queue
 **Next Priority Tasks:**
-1. **Task 1.14** - Enhanced Member Banners (Pending)
+1. **Task 1.14** - Enhanced Member Banners (In Progress)
    - Redesign the `MemberCard` into an enhanced `MemberBanner` component with relationship labels and professional styling.
    - Follow the design specs in `upgrade-plan.md`, including size, hover states, and context menu placeholders.
 
@@ -18,6 +18,13 @@
    - Structure the toolbar with left, center, and right sections as defined in the `upgrade-plan.md`.
 
 ## Completed Tasks
+**Task 1.13** - Viewport Controls (Pan & Zoom) (Completed)
+- Implemented viewport controls for panning and zooming the canvas with UI buttons and mouse drag support.
+- Added state management for viewport coordinates and zoom level, with constraints for optimal user experience.
+- Created UI controls for zoom-in, zoom-out, and reset view, with proper styling and hover states.
+- Implemented mouse events for intuitive canvas panning when dragging.
+- Added zoom level indicator for user feedback.
+
 **Task 1.12** - Drag-and-Drop Functionality (Completed)
 - Added drag-and-drop for `MemberCard` components using `react-dnd` and updated member positions in state. Mock files for testing were created.
 - This task is now fully completed and verified.
@@ -99,11 +106,12 @@
 
 ## Phase Overview
 - **Phase 1 (Foundation & Migration)**: 12/12 tasks completed (100% complete)
-- **Phase 2 (Canvas & UI Enhancement)**: 1/6 tasks completed (5% complete)
+- **Phase 2 (Canvas & UI Enhancement)**: 1/6 tasks completed (15% complete)
 - **Phase 3 (CRUD Operations)**: 0/6 tasks completed
 - **Phase 4 (Share & Export)**: 0/9 tasks completed
 
 ## Recent Achievements
+- ✅ **Task 1.13: Viewport Controls (Pan & Zoom)** - Implemented viewport controls with state management, UI buttons, and mouse events for intuitive canvas navigation.
 - ✅ Complete project structure with proper Next.js 15 setup
 - ✅ Sample data files with realistic Vietnamese family data
 - ✅ Core pages (home, view, login) implemented
@@ -119,11 +127,12 @@
 - ✅ **Enhanced data structure with position/size fields ready for canvas**
 - ✅ **Task 1.11: Basic Canvas Component** - Complete (connections layer added)
 - ✅ **Task 1.12: Drag-and-Drop Functionality** - Complete (Drag-and-drop implemented)
+- ✅ **Task 1.13: Viewport Controls (Pan & Zoom)** - Complete (panning and zooming implemented)
 
 ## Current Implementation Status
 
 ### **Completed Components**
-- ✅ **FamilyTreeCanvas**: Basic implementation that renders members.
+- ✅ **FamilyTreeCanvas**: Implementation with viewport controls for panning and zooming.
 - ✅ **FamilyTree**: Horizontal tree layout with SVG connections (foundation for canvas)
 - ✅ **TreeConnection**: SVG connection lines for family relationships (to be enhanced)
 - ✅ **MemberCard**: Photo display with fallback avatar and responsive design (to become MemberBanner)
@@ -159,16 +168,11 @@
 ## Next Development Priorities
 
 ### **Immediate (Phase 2 - Canvas & UI Enhancement)**
-1. **Viewport Controls (Task 1.13)**
-   - Implement pan and zoom functionality for canvas
-   - Use CSS transforms for viewport management
-   - Add UI controls for zoom and pan operations
-
-2. **Enhanced Member Banners (Task 1.14)**
+1. **Enhanced Member Banners (Task 1.14)**
    - Redesign the `MemberCard` into an enhanced `MemberBanner` component with relationship labels and professional styling.
    - Follow the design specs in `upgrade-plan.md`, including size, hover states, and context menu placeholders.
 
-3. **Professional Toolbar (Task 1.15)**
+2. **Professional Toolbar (Task 1.15)**
    - Create the main `MainToolbar` component with essential actions like Home, Undo/Redo placeholders, Share, Export, and Add Member.
    - Structure the toolbar with left, center, and right sections as defined in the `upgrade-plan.md`.
 

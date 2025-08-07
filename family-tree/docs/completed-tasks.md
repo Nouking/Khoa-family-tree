@@ -93,6 +93,13 @@
 **Issues/Blockers**: None  
 **Notes**: Successfully implemented responsive design for all device sizes using Tailwind CSS breakpoints. Components and layouts automatically adjust to screen size with viewport detection.
 
+**Task 1.13 (P2-HIGH): Viewport Controls (Pan & Zoom)**
+- **Status**: Completed
+- **Description**: Implemented viewport controls for panning and zooming the canvas to enhance user interaction.
+- **Details**: Added viewport state management to track `x`, `y`, and `zoom` values. Implemented UI controls for zoom-in, zoom-out, and reset functions. Added mouse events to enable canvas panning when dragging. Used CSS transforms for efficient rendering, with transform-origin centered for intuitive zooming. Added a zoom level indicator for user feedback. All controls are visually accessible with hover states for better UX.
+- **Issues/Blockers**: None
+- **Notes**: This feature significantly improves usability by allowing users to navigate large family trees more efficiently. The implementation includes constraints to prevent extreme zoom levels (0.5x to 2.0x) and smooth transitions for a polished feel.
+
 **Task 2.1** - User Data Setup  
 **Status**: Completed | **Agent**: Auth_Specialist  
 **Description**: Create users.json with bcrypt hashed passwords

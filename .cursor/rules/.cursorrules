@@ -28,12 +28,14 @@ For any given task ID (e.g., "Task 1.1", "1.2"), you MUST:
 4.  Only proceed with implementation after you have a clear understanding of the task.
 
 ### 3. Task Status Updates (Mandatory)
-After completing any task, you MUST perform the following actions in sequence:
-1.  Update the task's status in [task-tracking.md](mdc:family-tree/docs/task-tracking.md).
-2.  Move the completed task details to [completed-tasks.md](mdc:family-tree/docs/completed-tasks.md), including any implementation notes.
-3.  Document any issues encountered or deviations from the original plan.
-4.  Update the [progress.md](mdc:memory-bank/progress.md) in the Memory Bank with your latest achievements.
-5.  After all documentation is updated, you may proceed with the Git workflow (commit, push, etc.).
+Follow this workflow order for completing tasks:
+1.  **Complete Code Implementation**: Finish writing and testing all code changes for the task.
+2.  **Update Documentation**: After code is complete but BEFORE git operations, update the following:
+    - Update the task's status in [task-tracking.md](mdc:family-tree/docs/task-tracking.md).
+    - Move the completed task details to [completed-tasks.md](mdc:family-tree/docs/completed-tasks.md), including any implementation notes.
+    - Document any issues encountered or deviations from the original plan.
+    - Update the [progress.md](mdc:memory-bank/progress.md) in the Memory Bank with your latest achievements.
+3.  **Perform Git Operations**: Only after all documentation is updated, proceed with git commits and pushes.
 
 ---
 

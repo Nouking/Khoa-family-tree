@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useCallback, useRef, MouseEvent } from 'react';
 import { useDrop, DropTargetMonitor } from 'react-dnd';
 import { FamilyMember, ItemTypes } from '../../types';
 import MemberCard from './MemberCard';
@@ -16,32 +16,179 @@ interface DragItem {
   y: number;
 }
 
+interface Viewport {
+  x: number;
+  y: number;
+  zoom: number;
+}
+
 const FamilyTreeCanvas: React.FC<FamilyTreeCanvasProps> = ({ members, moveMember }) => {
+  // Viewport state for pan and zoom
+  const [viewport, setViewport] = useState<Viewport>({ x: 0, y: 0, zoom: 1 });
+  
+  // State to track panning
+  const [isPanning, setIsPanning] = useState(false);
+  const [startPanPos, setStartPanPos] = useState<{ x: number; y: number } | null>(null);
+  
+  // Constants for zoom
+  const ZOOM_STEP = 0.1;
+  const MIN_ZOOM = 0.5;
+  const MAX_ZOOM = 2.0;
+
+  // Reference to the canvas div for mouse events
+  const canvasRef = useRef<HTMLDivElement>(null);
+
   const [, drop] = useDrop(
     () => ({
       accept: ItemTypes.MEMBER_CARD,
       drop: (item: DragItem, monitor: DropTargetMonitor) => {
-        const delta = monitor.getDifferenceFromInitialOffset() as XYCoord;
-        const x = Math.round(item.x + delta.x);
-        const y = Math.round(item.y + delta.y);
-        moveMember(item.id, x, y);
+        // Only handle drop if we're not currently panning
+        if (!isPanning) {
+          const delta = monitor.getDifferenceFromInitialOffset() as XYCoord;
+          const x = Math.round(item.x + delta.x);
+          const y = Math.round(item.y + delta.y);
+          moveMember(item.id, x, y);
+        }
         return undefined;
       },
     }),
-    [moveMember]
+    [moveMember, isPanning]
   );
 
-  return (
-    <div ref={drop as unknown as React.Ref<HTMLDivElement>} data-testid="family-tree-canvas" className="relative w-full h-screen bg-gray-100">
-      {/* Connections Layer */}
-      <svg className="absolute inset-0 w-full h-full pointer-events-none">
-        {/* Connection lines will be rendered here */}
-      </svg>
+  // Set up combined ref for canvas
+  const setRefs = useCallback(
+    (node: HTMLDivElement | null) => {
+      // Apply the drop ref from react-dnd
+      (drop as unknown as React.RefCallback<HTMLDivElement>)(node);
+      // Store our own ref
+      canvasRef.current = node;
+    },
+    [drop]
+  );
 
-      {/* Members Layer */}
-      {members.map((member) => (
-        <MemberCard key={member.id} member={member} />
-      ))}
+  // Handle zoom in
+  const handleZoomIn = useCallback(() => {
+    setViewport(prev => ({
+      ...prev,
+      zoom: Math.min(prev.zoom + ZOOM_STEP, MAX_ZOOM)
+    }));
+  }, []);
+
+  // Handle zoom out
+  const handleZoomOut = useCallback(() => {
+    setViewport(prev => ({
+      ...prev,
+      zoom: Math.max(prev.zoom - ZOOM_STEP, MIN_ZOOM)
+    }));
+  }, []);
+
+  // Handle mouse down for panning
+  const handleMouseDown = useCallback((e: MouseEvent<HTMLDivElement>) => {
+    // Only start panning with left mouse button
+    if (e.button !== 0) return;
+    
+    setIsPanning(true);
+    setStartPanPos({ x: e.clientX, y: e.clientY });
+  }, []);
+
+  // Handle mouse move for panning
+  const handleMouseMove = useCallback((e: MouseEvent<HTMLDivElement>) => {
+    if (!isPanning || !startPanPos) return;
+
+    const deltaX = e.clientX - startPanPos.x;
+    const deltaY = e.clientY - startPanPos.y;
+
+    setViewport(prev => ({
+      ...prev,
+      x: prev.x + deltaX,
+      y: prev.y + deltaY
+    }));
+
+    setStartPanPos({ x: e.clientX, y: e.clientY });
+  }, [isPanning, startPanPos]);
+
+  // Handle mouse up to end panning
+  const handleMouseUp = useCallback(() => {
+    setIsPanning(false);
+    setStartPanPos(null);
+  }, []);
+
+  // Reset viewport to center
+  const handleResetView = useCallback(() => {
+    setViewport({ x: 0, y: 0, zoom: 1 });
+  }, []);
+
+  return (
+    <div 
+      data-testid="family-tree-canvas"
+      className="relative w-full h-screen bg-gray-100 overflow-hidden"
+      ref={setRefs}
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseUp}
+      style={{ cursor: isPanning ? 'grabbing' : 'default' }}
+    >
+      {/* Viewport Controls */}
+      <div className="absolute top-4 right-4 z-10 flex flex-col space-y-2 bg-white rounded-lg shadow-md p-2">
+        <button 
+          data-testid="zoom-in-button"
+          className="p-2 bg-blue-50 hover:bg-blue-100 rounded-lg text-blue-600"
+          onClick={handleZoomIn}
+          aria-label="Zoom In"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
+          </svg>
+        </button>
+        <button 
+          data-testid="zoom-out-button"
+          className="p-2 bg-blue-50 hover:bg-blue-100 rounded-lg text-blue-600"
+          onClick={handleZoomOut}
+          aria-label="Zoom Out"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" clipRule="evenodd" />
+          </svg>
+        </button>
+        <button 
+          data-testid="reset-view-button"
+          className="p-2 bg-blue-50 hover:bg-blue-100 rounded-lg text-blue-600"
+          onClick={handleResetView}
+          aria-label="Reset View"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clipRule="evenodd" />
+          </svg>
+        </button>
+      </div>
+
+      {/* Transformed Canvas Content */}
+      <div 
+        data-testid="family-tree-canvas-content"
+        className="absolute inset-0 w-full h-full"
+        style={{
+          transform: `translate(${viewport.x}px, ${viewport.y}px) scale(${viewport.zoom})`,
+          transformOrigin: 'center',
+          transition: isPanning ? 'none' : 'transform 0.15s ease-out'
+        }}
+      >
+        {/* Connections Layer */}
+        <svg className="absolute inset-0 w-full h-full pointer-events-none">
+          {/* Connection lines will be rendered here */}
+        </svg>
+
+        {/* Members Layer */}
+        {members.map((member) => (
+          <MemberCard key={member.id} member={member} />
+        ))}
+      </div>
+
+      {/* Info Text */}
+      <div className="absolute bottom-4 left-4 text-sm text-gray-500 bg-white bg-opacity-75 p-2 rounded-md">
+        <p>Zoom: {(viewport.zoom * 100).toFixed(0)}%</p>
+        <p className="text-xs">Drag canvas to pan • Use buttons to zoom</p>
+      </div>
     </div>
   );
 };

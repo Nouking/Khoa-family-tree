@@ -42,7 +42,7 @@ Always use these library IDs for accurate documentation:
 - **Success Criteria**: Users can interact with family tree on a professional canvas interface.
 
 **Task 1.13 (P2-HIGH): Viewport Controls (Pan & Zoom)**
-- **Status**: Pending
+- **Status**: Completed
 - **Description**: Implement viewport controls for panning and zooming the canvas.
 - **Dependencies**: None
 - **Acceptance Criteria**:
