@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useRef, MouseEvent } from 'react';
 import { useDrop, DropTargetMonitor } from 'react-dnd';
 import { FamilyMember, ItemTypes } from '../../types';
-import MemberCard from './MemberCard';
+import MemberBanner from './MemberBanner';
 import { XYCoord } from 'dnd-core';
 
 interface FamilyTreeCanvasProps {
@@ -180,7 +180,7 @@ const FamilyTreeCanvas: React.FC<FamilyTreeCanvasProps> = ({ members, moveMember
 
         {/* Members Layer */}
         {members.map((member) => (
-          <MemberCard key={member.id} member={member} />
+          <MemberBanner key={member.id} member={member} />
         ))}
       </div>
 

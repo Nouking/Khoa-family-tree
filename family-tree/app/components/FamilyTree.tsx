@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FamilyMember } from '../../types';
 import FamilyTreeCanvas from './FamilyTreeCanvas';
 
@@ -9,7 +9,20 @@ interface FamilyTreeProps {
 }
 
 const FamilyTree: React.FC<FamilyTreeProps> = ({ initialMembers }) => {
-  const [members, setMembers] = useState<FamilyMember[]>(initialMembers);
+  const [members, setMembers] = useState<FamilyMember[]>([]);
+
+  // Process members to ensure they have size properties
+  useEffect(() => {
+    const processedMembers = initialMembers.map(member => ({
+      ...member,
+      // Set default size if not already set
+      size: member.size || { width: 250, height: 120 },
+      // Ensure relationship field exists
+      relationship: member.relationship || 'Member'
+    }));
+    
+    setMembers(processedMembers);
+  }, [initialMembers]);
 
   const moveMember = async (id: string, x: number, y: number) => {
     // Optimistically update the local state

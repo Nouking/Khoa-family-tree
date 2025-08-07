@@ -55,7 +55,7 @@ Always use these library IDs for accurate documentation:
 - **Details**: Use CSS transforms. Manage viewport state (`x`, `y`, `zoom`). Add UI controls for zoom and allow panning via mouse drag.
 
 **Task 1.14 (P2-HIGH): Enhanced Member Banners**
-- **Status**: Pending
+- **Status**: Completed
 - **Description**: Redesign the `MemberCard` into an enhanced `MemberBanner` component with relationship labels and professional styling.
 - **Dependencies**: None
 - **Acceptance Criteria**:
