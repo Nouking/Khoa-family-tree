@@ -179,6 +179,64 @@
 - Implement selection state for member banners
 - Add animation effects for drag and drop operations
 
+### Task 2.1 (P1-CRITICAL): CRUD API Endpoints
+- **Date Completed**: 2025-08-07
+- **Summary**: Implemented complete CRUD API endpoints for family members with authentication, validation, and proper error handling.
+
+**Implementation Notes**:
+1. **Updated data.ts library**:
+   - Changed file path from `family-tree.json` to `family-tree-v2.json`
+   - Updated interfaces to use `FamilyTreeData` instead of `FamilyTree`
+   - Fixed metadata structure to use `familyTree.metadata.lastModified`
+   - Added secure ID generation using `crypto.randomUUID()`
+   - Enhanced member deletion to clean up relationships automatically
+
+2. **Created authentication middleware** (`authMiddleware.ts`):
+   - `requireAuth()` function for protecting routes
+   - `getUserFromRequest()` for getting authenticated user info
+   - Proper JWT token validation and error handling
+
+3. **Enhanced API routes**:
+   - **GET `/api/members`**: Public route to retrieve all family members
+   - **POST `/api/members`**: Protected route to create new members with comprehensive validation
+   - **GET `/api/members/[id]`**: Public route to retrieve single member by ID
+   - **PUT `/api/members/[id]`**: Protected route to update members with field validation
+   - **DELETE `/api/members/[id]`**: Protected route to delete members with relationship cleanup
+
+4. **Comprehensive validation**:
+   - Required field validation (name, position, size)
+   - Type checking for all input fields
+   - Array validation for relationships
+   - Proper error messages with HTTP status codes
+   - Input sanitization (trimming strings)
+
+5. **Security features**:
+   - JWT authentication for all modification operations
+   - Secure UUID generation for member IDs
+   - Prevention of ID modification in updates
+   - Request body validation and sanitization
+   - Comprehensive logging of user actions
+
+**Files Modified**:
+- Updated `family-tree/app/lib/data.ts`
+- Created `family-tree/app/lib/authMiddleware.ts`
+- Updated `family-tree/app/api/members/route.ts`
+- Updated `family-tree/app/api/members/[id]/route.ts`
+
+**Testing**:
+- All routes properly handle authentication requirements
+- Public routes accessible without authentication
+- Protected routes require valid JWT tokens
+- Comprehensive error handling for all edge cases
+- Input validation prevents invalid data entry
+- Relationship cleanup maintains data integrity
+
+**Next Steps**:
+- Integrate these APIs with the frontend components
+- Add unit tests for the API endpoints
+- Implement rate limiting for production use
+- Add API documentation with examples
+
 ## Implementation Details
 
 ### Task 1.1 - Setup Next.js Project

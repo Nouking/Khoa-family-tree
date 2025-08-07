@@ -1,16 +1,17 @@
 import fs from 'fs/promises';
 import path from 'path';
-import { FamilyTree, FamilyMember, UserData, User } from '../../types';
+import { randomUUID } from 'crypto';
+import { FamilyTreeData, FamilyMember, UserData, User } from '../../types';
 
 const DATA_DIR = path.join(process.cwd(), 'data');
-const FAMILY_TREE_FILE = path.join(DATA_DIR, 'family-tree.json');
+const FAMILY_TREE_FILE = path.join(DATA_DIR, 'family-tree-v2.json');
 const USERS_FILE = path.join(DATA_DIR, 'users.json');
 
 // Load family tree data
-export async function loadFamilyTree(): Promise<FamilyTree> {
+export async function loadFamilyTree(): Promise<FamilyTreeData> {
   try {
     const data = await fs.readFile(FAMILY_TREE_FILE, 'utf8');
-    return JSON.parse(data) as FamilyTree;
+    return JSON.parse(data) as FamilyTreeData;
   } catch (error) {
     console.error('Error loading family tree data:', error);
     throw new Error('Failed to load family tree data');
@@ -18,7 +19,7 @@ export async function loadFamilyTree(): Promise<FamilyTree> {
 }
 
 // Save family tree data
-export async function saveFamilyTree(data: FamilyTree): Promise<void> {
+export async function saveFamilyTree(data: FamilyTreeData): Promise<void> {
   try {
     await fs.writeFile(FAMILY_TREE_FILE, JSON.stringify(data, null, 2), 'utf8');
   } catch (error) {
@@ -64,13 +65,22 @@ export async function getMemberById(id: string): Promise<FamilyMember | null> {
 export async function addMember(member: Omit<FamilyMember, 'id'>): Promise<FamilyMember> {
   const familyTree = await loadFamilyTree();
   
+  // Validate required fields
+  if (!member.name || !member.position || !member.size) {
+    throw new Error('Missing required member fields: name, position, and size are required');
+  }
+  
+  // Generate a secure random ID
   const newMember: FamilyMember = {
     ...member,
-    id: `member-${Date.now()}`,
+    id: `member-${randomUUID()}`,
+    spouseIds: member.spouseIds || [],
+    childrenIds: member.childrenIds || [],
+    relationship: member.relationship || 'Unspecified',
   };
   
   familyTree.members.push(newMember);
-  familyTree.updatedAt = new Date().toISOString();
+  familyTree.metadata.lastModified = new Date().toISOString();
   
   await saveFamilyTree(familyTree);
   return newMember;
@@ -83,13 +93,16 @@ export async function updateMember(id: string, updates: Partial<FamilyMember>): 
   const memberIndex = familyTree.members.findIndex(member => member.id === id);
   if (memberIndex === -1) return null;
   
+  // Prevent updating the ID
+  const { id: _, ...allowedUpdates } = updates;
+  
   const updatedMember = {
     ...familyTree.members[memberIndex],
-    ...updates,
+    ...allowedUpdates,
   };
   
   familyTree.members[memberIndex] = updatedMember;
-  familyTree.updatedAt = new Date().toISOString();
+  familyTree.metadata.lastModified = new Date().toISOString();
   
   await saveFamilyTree(familyTree);
   return updatedMember;
@@ -102,8 +115,22 @@ export async function deleteMember(id: string): Promise<boolean> {
   const memberIndex = familyTree.members.findIndex(member => member.id === id);
   if (memberIndex === -1) return false;
   
+  // Remove member from family tree
   familyTree.members.splice(memberIndex, 1);
-  familyTree.updatedAt = new Date().toISOString();
+  
+  // Clean up relationships - remove this member from other members' relationships
+  familyTree.members.forEach(member => {
+    // Remove from spouseIds
+    member.spouseIds = member.spouseIds.filter(spouseId => spouseId !== id);
+    // Remove from childrenIds
+    member.childrenIds = member.childrenIds.filter(childId => childId !== id);
+    // Clear parentId if it matches the deleted member
+    if (member.parentId === id) {
+      member.parentId = null;
+    }
+  });
+  
+  familyTree.metadata.lastModified = new Date().toISOString();
   
   await saveFamilyTree(familyTree);
   return true;
