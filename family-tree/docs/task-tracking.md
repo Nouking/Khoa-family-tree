@@ -67,7 +67,7 @@ Always use these library IDs for accurate documentation:
 - **Details**: Follow the design specs in `upgrade-plan.md`, including size, hover states, and context menu placeholders.
 
 **Task 1.15 (P3-MEDIUM): Professional Toolbar**
-- **Status**: Pending
+- **Status**: Completed
 - **Description**: Create the main `MainToolbar` component with essential actions like Home, Undo/Redo placeholders, Share, Export, and Add Member.
 - **Dependencies**: None
 - **Acceptance Criteria**:
