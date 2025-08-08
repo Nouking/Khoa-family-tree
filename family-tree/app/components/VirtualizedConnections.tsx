@@ -1,6 +1,8 @@
 import React, { memo, useMemo } from 'react';
+
+import { Connection } from '../lib/connectionCalculator';
+
 import TreeConnection from './TreeConnection';
-import { Connection } from '../../lib/connectionCalculator';
 
 interface VirtualizedConnectionsProps {
   connections: Connection[];

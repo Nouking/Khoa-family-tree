@@ -1,6 +1,7 @@
 'use client';
 
-import React, { createContext, useContext, useReducer, ReactNode, useMemo, memo } from 'react';
+import React, { createContext, memo, ReactNode, useContext, useMemo, useReducer } from 'react';
+
 import { FamilyMember, FamilyTreeData, TreeSettings } from '@/types';
 
 // State interfaces
@@ -83,18 +84,6 @@ const initialState: FamilyTreeState = {
   error: null,
 };
 
-// Persistent state loader
-const loadPersistedState = (): FamilyTreeState => {
-  if (typeof window === 'undefined') return initialState;
-  
-  try {
-    const persisted = localStorage.getItem('familyTreeState');
-    return persisted ? JSON.parse(persisted) : initialState;
-  } catch (error) {
-    console.error('Failed to load persisted state:', error);
-    return initialState;
-  }
-};
 
 const initialHistoryState: HistoryState = {
   past: [],

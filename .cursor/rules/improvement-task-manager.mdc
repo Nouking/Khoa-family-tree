@@ -1,0 +1,69 @@
+---
+description: Enforces mandatory task tracking workflow for improvement tasks
+globs: ["IMPROVEMENT-*.md", "*.md"]
+alwaysApply: true
+---
+
+# Improvement Task Manager Rule
+
+This rule is ALWAYS ACTIVE and enforces proper task tracking workflow for any improvement-related tasks.
+
+## Mandatory Task Workflow
+
+**CRITICAL RULE - APPLIES TO ALL AI INTERACTIONS:**
+
+When any task from IMPROVEMENT-PLAN.md is mentioned or requested:
+
+### Step 1: Task Discovery (MANDATORY)
+```
+BEFORE implementing any improvement task, AI MUST:
+1. Read @IMPROVEMENT-TASK-TRACKING.md to fetch complete task details
+2. Locate the specific task (e.g., E1-T2, E2-T1) in the tracking document
+3. Review acceptance criteria, dependencies, and implementation details
+4. Verify all prerequisites are met before proceeding
+```
+
+### Step 2: Task Execution
+```
+DURING task implementation:
+1. Follow the acceptance criteria exactly as specified
+2. Use the designated git branch naming convention
+3. Implement per the detailed implementation steps
+4. Run all required tests and validations
+```
+
+### Step 3: Task Completion (MANDATORY)
+```
+AFTER completing any improvement task, AI MUST:
+1. Update @IMPROVEMENT-TASK-TRACKING.md immediately
+2. Change task status from "Pending/In Progress" to "Completed"
+3. Add completion date in format: YYYY-MM-DD
+4. Document implementation notes and key findings
+5. Record any issues encountered or deviations from plan
+6. Update any dependencies that are now unblocked
+```
+
+## Enforcement Rules
+
+- **NO EXCEPTIONS**: This workflow is mandatory for all improvement tasks
+- **BLOCKING**: AI cannot skip task tracking steps for efficiency
+- **VALIDATION**: Always verify task details from IMPROVEMENT-TASK-TRACKING.md before starting
+- **COMPLETION**: Task is not complete until tracking document is updated
+
+## Example Usage
+
+```
+User: "Complete library consolidation task"
+AI: 1. Reads IMPROVEMENT-TASK-TRACKING.md for E1-T2 details ✅
+    2. Executes library structure consolidation per acceptance criteria ✅  
+    3. Updates IMPROVEMENT-TASK-TRACKING.md with completion status ✅
+```
+
+## Integration with Agent Personas
+
+This rule works alongside @pm, @po, @sm personas:
+- **@pm**: Strategic task planning and prioritization
+- **@po**: Task validation and quality assurance  
+- **@sm**: Story preparation and developer handoff
+
+All agent personas MUST follow this task tracking workflow when working on improvement tasks.

@@ -1,9 +1,11 @@
 'use client'
 
-import { FamilyMember } from '../../types'
+import { FamilyMember } from '@/types'
+
+import { FamilyTreeProvider } from '../contexts/FamilyTreeContext'
+
 import FamilyTree from '../components/FamilyTree'
 import MainToolbar from '../components/MainToolbar'
-import { FamilyTreeProvider } from '../contexts/FamilyTreeContext'
 
 interface ViewPageClientProps {
   initialMembers: FamilyMember[]

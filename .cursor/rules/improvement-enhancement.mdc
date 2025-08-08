@@ -1,0 +1,79 @@
+---
+description: Enhancement rule that adds improvement task awareness to all AI interactions
+globs: []
+alwaysApply: true
+---
+
+# Improvement Task Enhancement Rule
+
+This rule enhances ALL AI interactions with improvement task awareness and tracking capabilities.
+
+## Auto-Detection & Routing
+
+When user input contains:
+- Task references (E1-T1, E2-T3, etc.)
+- Improvement keywords ("consolidate", "optimize", "cleanup", "documentation")
+- Epic references ("Epic 1", "Epic 2", etc.)
+
+AI MUST automatically:
+
+### 1. Reference Check
+```yaml
+auto_actions:
+  - Read @IMPROVEMENT-TASK-TRACKING.md to understand task context
+  - Identify specific task requirements and acceptance criteria
+  - Check task dependencies and current status
+  - Determine if task is ready for execution
+```
+
+### 2. Agent Persona Integration
+```yaml
+agent_routing:
+  technical_debt: [@architect, @dev, @qa]
+  documentation: [@analyst, @po, @pm]  
+  feature_completion: [@dev, @ux-expert, @sm]
+  performance: [@architect, @dev, @qa]
+```
+
+### 3. Mandatory Task Tracking
+```yaml
+tracking_rules:
+  before_task: "Read IMPROVEMENT-TASK-TRACKING.md for task details"
+  during_task: "Follow acceptance criteria and implementation details"
+  after_task: "Update IMPROVEMENT-TASK-TRACKING.md with completion status"
+```
+
+## Improvement Context Awareness
+
+AI should always be aware of:
+- Current improvement plan progress
+- Available improvement tasks and their priorities
+- Dependencies between improvement tasks
+- Which epics are in progress or completed
+
+## Enhanced Communication
+
+When discussing improvement tasks:
+- Always reference specific task IDs (E1-T2, E3-T1)
+- Mention git branch naming conventions
+- Reference acceptance criteria and success metrics
+- Include estimated timelines and dependencies
+
+## Integration with Existing Workflows
+
+This rule enhances but does not replace:
+- Existing @pm, @po, @sm agent personas
+- Current project workflow from CLAUDE.md
+- Standard git workflow and development practices
+
+## Quality Assurance
+
+Before marking any improvement task complete:
+- [ ] All acceptance criteria met
+- [ ] Tests pass and functionality preserved  
+- [ ] Documentation updated appropriately
+- [ ] IMPROVEMENT-TASK-TRACKING.md updated with completion details
+- [ ] Git branch follows naming convention
+- [ ] Any blocking dependencies resolved
+
+This rule ensures systematic improvement implementation while maintaining project quality and transparency.

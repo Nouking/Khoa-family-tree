@@ -1,7 +1,9 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import { FamilyMember } from '../../types';
+import React, { useEffect, useState } from 'react';
+
+import { FamilyMember } from '@/types';
+
 import FamilyTreeCanvas from './FamilyTreeCanvas';
 
 interface FamilyTreeProps {

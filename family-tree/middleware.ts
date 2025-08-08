@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+
 import { verifyToken, getToken } from './app/lib/auth';
 
 // Protected API routes that require authentication

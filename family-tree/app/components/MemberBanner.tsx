@@ -1,6 +1,8 @@
-import React, { useState, useCallback, useRef, useMemo, memo } from 'react';
+import React, { useCallback, memo, useMemo, useRef, useState } from 'react';
 import { useDrag } from 'react-dnd';
-import { FamilyMember, ItemTypes } from '../../types';
+
+import { FamilyMember, ItemTypes } from '@/types';
+
 import ContextMenu from './ContextMenu';
 
 interface MemberBannerProps {

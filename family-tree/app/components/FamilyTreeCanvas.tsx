@@ -1,16 +1,19 @@
-import React, { useState, useCallback, useRef, MouseEvent, useMemo, memo, useEffect } from 'react';
+import React, { useCallback, useEffect, memo, MouseEvent, useMemo, useRef, useState } from 'react';
 import { useDrop, DropTargetMonitor } from 'react-dnd';
-import { FamilyMember, ItemTypes } from '../../types';
+import { XYCoord } from 'dnd-core';
+
+import { FamilyMember, ItemTypes } from '@/types';
+
+import { useFamilyTreeWithDispatch, useSelectedMembers } from '../contexts/FamilyTreeContext';
+import { useVirtualization, useConnectionVirtualization } from '../hooks/useVirtualization';
+import { usePerformanceMonitor } from '../hooks/usePerformanceMonitor';
+import { calculateConnections } from '../lib/connectionCalculator';
+
 import MemberBanner from './MemberBanner';
 import EditMemberModal from './EditMemberModal';
 import DeleteMemberModal from './DeleteMemberModal';
 import BulkDeleteModal from './BulkDeleteModal';
 import VirtualizedConnections from './VirtualizedConnections';
-import { XYCoord } from 'dnd-core';
-import { useFamilyTreeWithDispatch, useSelectedMembers } from '../contexts/FamilyTreeContext';
-import { calculateConnections } from '../../lib/connectionCalculator';
-import { useVirtualization, useConnectionVirtualization } from '../hooks/useVirtualization';
-import { usePerformanceMonitor } from '../hooks/usePerformanceMonitor';
 
 interface FamilyTreeCanvasProps {
   members: FamilyMember[];

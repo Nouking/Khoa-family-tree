@@ -1,7 +1,8 @@
 
 import { NextResponse } from "next/server";
-import { findUserByUsername, updateUserLastLogin } from '@/app/lib/data';
+
 import { generateToken, verifyPassword, setTokenCookie } from '@/app/lib/auth';
+import { findUserByUsername, updateUserLastLogin } from '@/app/lib/data';
 
 export async function POST(request: Request) {
   try {

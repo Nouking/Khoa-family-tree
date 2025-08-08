@@ -1,9 +1,12 @@
 'use client';
 
-import React, { useState, useCallback, useEffect } from 'react';
-import Modal from './Modal';
+import React, { useCallback, useEffect, useState } from 'react';
+
 import { FamilyMember } from '@/types';
+
 import { useFamilyTreeWithDispatch, useFamilyMembers } from '../contexts/FamilyTreeContext';
+
+import Modal from './Modal';
 
 interface EditMemberModalProps {
   isOpen: boolean;
