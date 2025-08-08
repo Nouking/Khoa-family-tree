@@ -1,73 +1,112 @@
-# Family Tree Website Documentation
+# Family Tree Project Documentation Hub
 
-> **Documentation Index** - Central hub for project documentation
+> **📚 Consolidated Documentation Index** - AI-optimized navigation for project information
 
-## Overview
-Next.js 15 Family Tree Website with public viewing and authenticated editing capabilities.
+## 🎯 **Quick Navigation**
 
-## Documentation Sections
+### **📋 Master Documents** (Start Here)
+| Document | Description | Use Case |
+|----------|-------------|----------|
+| [📄 PROJECT-OVERVIEW.md](../../PROJECT-OVERVIEW.md) | **Master project reference** - Vision, architecture, status | Project understanding, onboarding |
+| [📄 UNIFIED-TASK-TRACKING.md](../../UNIFIED-TASK-TRACKING.md) | **Integrated task management** - All development phases | Task assignment, progress tracking |
+| [📄 CLAUDE.md](../../CLAUDE.md) | **AI workflow rules** - Development protocols | AI agent guidance, standards |
 
-| Document | Description |
-|----------|-------------|
-| [Project Overview](./project-overview.md) | Project summary, tech stack, architecture |
-| [Task Tracking](./task-tracking.md) | Current tasks and status |
-| [Completed Tasks](./completed-tasks.md) | Archive of finished tasks |
-| [Implementation Notes](./implementation-notes.md) | Technical details and code examples |
-| [Git Workflow](./git-workflow.md) | Mandatory Git workflow procedures |
-| [Git Quick Reference](./git-quick-reference.md) | Copy-paste ready Git commands |
-| [Success Criteria](./success-criteria.md) | Project goals and metrics |
+### **🔧 Technical Implementation**
+| Document | Description | Use Case |
+|----------|-------------|----------|
+| [Implementation Notes](./implementation-notes.md) | Code examples, technical patterns | Development reference |
+| [Git Workflow](./git-workflow.md) | Development procedures and standards | Branch management, commit standards |
+| [Success Criteria](./success-criteria.md) | Quality metrics and acceptance criteria | Testing, validation |
 
-## Project Status
+### **📜 Historical Archive**
+| Document | Description | Use Case |
+|----------|-------------|----------|
+| [Completed Tasks](./completed-tasks.md) | Implementation archive with details | Historical reference, patterns |
+| [Task Tracking](./task-tracking.md) | Original development phases | Legacy reference |
+| [Project Overview](./project-overview.md) | Original technical architecture | Legacy technical details |
 
-- **Current Phase**: Foundation (Phase 1)
-- **Progress**: 83% complete (5/6 tasks in Phase 1)
-- **Next Task**: Responsive Design (Task 1.6)
-- **Recent Completion**: Tree Layout System (Task 1.5)
-- **Development Process**: TDD with Git workflow
+## 📊 **Current Project Status**
 
-## Development Workflow
+- **🎯 Active Epic**: Epic 2 - Documentation Enhancement (📚 High Priority)
+- **📈 Overall Progress**: 
+  - Original Development: 85% complete (Phase 1-2 ✅ done, Phase 3-4 ⏳ pending)
+  - Improvement Plan: 45% complete (Epic 1 ✅ mostly done, Epic 2 🔄 in progress)
+- **🔄 Current Task**: E2-T3 - AI-Optimized Documentation Structure
+- **👥 Active Agent**: @po (Sarah - Quality assurance for AI readability)
+- **⚡ Development Process**: TDD with Git workflow + agent-based task management
 
+## 🚀 **Quick Start for AI Agents**
+
+### **🤖 Before Starting Any Task**
+1. **Read**: @PROJECT-OVERVIEW.md for complete project context
+2. **Check**: @UNIFIED-TASK-TRACKING.md for current task status and dependencies  
+3. **Follow**: @CLAUDE.md for AI workflow rules and development protocols
+4. **Verify**: Task acceptance criteria and implementation requirements
+
+### **🛠️ Development Commands**
 ```bash
-# 1. Git Setup
-git checkout main
-git pull origin main
-git checkout -b task{ID}-{description}
+# Project Setup (Always work from family-tree/ directory)
+cd family-tree/                    # Navigate to app directory
+npm install                        # Install dependencies
+npm run dev                        # Start development server
 
-# 2. Development
-npm test                    # Run existing tests
-# ... implement feature ...
-npm test                    # Verify tests pass
+# Quality Assurance
+npm test                           # Run unit tests
+npm run type-check                 # TypeScript validation
+npm run lint                       # ESLint code quality
+npm run build                      # Production build verification
 
-# 3. Completion
-git commit -m "feat(task{ID}): {description}"
-git push origin task{ID}-{description}
-# Create Pull Request
+# Git Workflow (Following @CLAUDE.md standards)
+git checkout main                  # Switch to main branch
+git pull origin main               # Pull latest changes
+git checkout -b {branch-name}      # Create feature branch
+git commit -m "type(scope): desc"  # Conventional commit format
 ```
 
-## Key Commands
+### **📚 Context7 Integration Protocol**
+Always use these Context7 library IDs for up-to-date technical guidance:
 
-| Category | Command | Purpose |
-|----------|---------|---------|
-| **Development** | `npm run dev` | Start dev server |
-| | `npm run build` | Build for production |
-| | `npm run type-check` | Check TypeScript |
-| **Testing** | `npm test` | Run unit tests |
-| | `npm test -- --watch` | Watch mode tests |
-| | `npm test -- --coverage` | Coverage report |
-| **Git** | `git checkout main` | Switch to main |
-| | `git pull origin main` | Pull latest |
-| | `git checkout -b task{ID}-{description}` | Create branch |
+| Technology | Context7 ID | Primary Use Case |
+|------------|-------------|------------------|
+| **Next.js 15** | `/vercel/next.js` | App Router, API routes, middleware patterns |
+| **TypeScript** | `/microsoft/typescript` | Interface design, strict mode configuration |
+| **Tailwind CSS** | `/tailwindlabs/tailwindcss` | Component styling, responsive design |
+| **React DnD** | `/react-dnd/react-dnd` | Canvas drag-and-drop implementation |
+| **React Testing** | `/testing-library/react-testing-library` | Component testing patterns |
+| **JWT Auth** | `/auth0/node-jsonwebtoken` | Authentication and security |
 
-## Context7 Integration
+## 🔗 **Cross-Reference Navigation**
 
-| Technology | Context7 ID | Use Case |
-|------------|-------------|----------|
-| Next.js 15 | `/vercel/next.js` | Async patterns, routing |
-| TypeScript | `/microsoft/typescript` | Type definitions |
-| Tailwind CSS | `/tailwindlabs/tailwindcss` | Styling |
-| JWT | `/auth0/node-jsonwebtoken` | Authentication |
-| React Testing | `/testing-library/react-testing-library` | Testing |
+### **For Project Understanding**
+- **Vision & Goals**: @PROJECT-OVERVIEW.md (sections: Project Vision, Technical Architecture)
+- **Current Status**: @UNIFIED-TASK-TRACKING.md (sections: Project Status Overview, Active Focus)
+- **Implementation History**: @family-tree/docs/completed-tasks.md
+
+### **For Development Work**
+- **Workflow Rules**: @CLAUDE.md (sections: AI Task Workflow, Development Commands)
+- **Technical Patterns**: @family-tree/docs/implementation-notes.md  
+- **Git Procedures**: @family-tree/docs/git-workflow.md
+
+### **For Quality Assurance**
+- **Acceptance Criteria**: @family-tree/docs/success-criteria.md
+- **Performance Standards**: @PROJECT-OVERVIEW.md (section: Success Criteria & Quality Standards)
+- **Testing Patterns**: @family-tree/docs/implementation-notes.md
+
+## 🎯 **Agent Role Integration**
+
+This documentation structure is optimized for the following agent workflows:
+
+- **@pm (John - Product Manager)**: Strategic planning using @PROJECT-OVERVIEW.md
+- **@po (Sarah - Product Owner)**: Quality validation using @UNIFIED-TASK-TRACKING.md  
+- **@sm (Bob - Scrum Master)**: Task management using @family-tree/docs/git-workflow.md
+- **@analyst (Mary)**: Research and analysis using Context7 integration protocols
+- **@architect (Winston)**: System design using technical architecture sections
+- **@dev (James)**: Implementation using @family-tree/docs/implementation-notes.md
+- **@qa (Quinn)**: Testing and validation using @family-tree/docs/success-criteria.md
+- **@ux-expert (Sally)**: Design work using user experience sections
 
 ---
 
-*Documentation maintained as part of development process*
+*📝 **Documentation Status**: Consolidated and AI-optimized for Epic 2: Documentation Enhancement*  
+*🔄 **Last Updated**: 2025-08-08 | Maintained as part of @po quality assurance workflow*  
+*🤖 **AI-Ready**: Structured for agent-based development with Context7 integration*

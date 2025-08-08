@@ -4,26 +4,58 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## AI Task Workflow
 
-### 1. Project Understanding (Mandatory)
+### 1. Project Understanding (Mandatory - Updated for Consolidated Documentation)
 Before starting any task, you MUST read and understand the following documents to grasp the project's goals, scope, and current state.
 
-- **Project Goal**: project-goal.md (root level)
-- **Project Overview**: family-tree/docs/project-overview.md  
-- **Success Criteria**: family-tree/docs/success-criteria.md
+**📋 Master Documents (Start Here)**:
+- **Project Overview**: PROJECT-OVERVIEW.md (consolidated project vision, architecture, and status)
+- **Task Management**: UNIFIED-TASK-TRACKING.md (integrated task tracking for all development phases)
+- **Documentation Hub**: family-tree/docs/index.md (AI-optimized navigation and quick start)
 
-### 2. Task-Specific Instructions (Mandatory)
-For any given task ID (e.g., "Task 1.1", "1.2"), you MUST:
-1. Read the main task board to find the specific task:
-   - family-tree/docs/task-tracking.md
-2. Review the archive of completed work for relevant context:
-   - family-tree/docs/completed-tasks.md
-3. For the specific task, understand its:
-   - Description
-   - Status
-   - Dependencies and prerequisites
-   - Known issues or blockers
-   - Any associated notes
-4. Only proceed with implementation after you have a clear understanding of the task.
+**🔧 Supporting References**:
+- **Success Criteria**: family-tree/docs/success-criteria.md (quality standards and acceptance criteria)
+- **Implementation Archive**: family-tree/docs/completed-tasks.md (historical patterns and examples)
+
+### 2. Task-Specific Instructions (Enhanced for Multi-Phase Development)
+For any given task ID (e.g., "Task 3.1", "E2-T3"), you MUST:
+
+**For Original Development Tasks (Task X.Y format)**:
+1. Read UNIFIED-TASK-TRACKING.md section "Original Development Phases"
+2. Check the specific phase (1-4) for task details and dependencies
+3. Review family-tree/docs/completed-tasks.md for related implementation patterns
+
+**For Improvement Plan Tasks (EX-TY format)**:
+1. Read UNIFIED-TASK-TRACKING.md section "Improvement Plan Epics"  
+2. Check the specific epic (E1-E4) for task details and agent assignments
+3. Review IMPROVEMENT-TASK-TRACKING.md for detailed acceptance criteria
+
+**For Both Task Types**:
+4. Understand task description, status, dependencies, and acceptance criteria
+5. Check agent assignments and role-specific requirements
+6. Verify prerequisites are met before proceeding
+7. Only proceed with implementation after confirming complete understanding
+
+## Task Detail Location Guide
+
+**Before starting any task, follow this lookup flow:**
+
+1. **Task Assignment**: "Do Task 2.2 (P1-CRITICAL): Global State Management"
+2. **Quick Status Check**: Read UNIFIED-TASK-TRACKING.md for current status
+3. **Get Full Details**:
+   - **Original Tasks (Task X.Y)**: Read family-tree/docs/task-tracking.md
+   - **Improvement Tasks (EX-TY)**: Read IMPROVEMENT-TASK-TRACKING.md
+4. **Proceed**: Only start implementation after reading full acceptance criteria
+
+**Example Command Flow**:
+```
+"Read CLAUDE.md, follow the task workflow, then do Task 3.1"
+```
+
+**Detail Lookup Examples**:
+- Task 2.2 details → family-tree/docs/task-tracking.md (lines 110-127)
+- Task 3.1 details → family-tree/docs/task-tracking.md (lines 249-260)
+- E1-T5 details → IMPROVEMENT-TASK-TRACKING.md (lines 307-326)
+- E3-T1 details → IMPROVEMENT-TASK-TRACKING.md (lines 467-485)
 
 ### 3. Task Status Updates (MANDATORY - DO NOT SKIP)
 **CRITICAL**: You MUST complete ALL steps below in EXACT ORDER. Do NOT proceed to git operations without completing documentation updates first.
