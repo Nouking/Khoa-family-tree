@@ -70,6 +70,10 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({
     // Required fields
     if (!formData.name.trim()) {
       errors.name = 'Name is required';
+    } else if (formData.name.trim().length < 2) {
+      errors.name = 'Name must be at least 2 characters long';
+    } else if (formData.name.trim().length > 100) {
+      errors.name = 'Name must be less than 100 characters';
     }
 
     if (!formData.relationship.trim()) {
@@ -81,9 +85,14 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({
       errors.email = 'Please enter a valid email address';
     }
 
-    // Phone validation (basic)
-    if (formData.phone && !/^[\d\s+()-]+$/.test(formData.phone)) {
-      errors.phone = 'Please enter a valid phone number';
+    // Phone validation (enhanced)
+    if (formData.phone) {
+      const phoneRegex = /^[\d\s+()-]+$/;
+      if (!phoneRegex.test(formData.phone)) {
+        errors.phone = 'Please enter a valid phone number (digits, spaces, +, -, () only)';
+      } else if (formData.phone.replace(/[\s+()-]/g, '').length < 7) {
+        errors.phone = 'Phone number must have at least 7 digits';
+      }
     }
 
     // Date validation
@@ -93,6 +102,20 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({
       if (deathDate <= birthDate) {
         errors.deathDate = 'Death date must be after birth date';
       }
+    }
+
+    // Future date validation
+    if (formData.birthDate) {
+      const birthDate = new Date(formData.birthDate);
+      const today = new Date();
+      if (birthDate > today) {
+        errors.birthDate = 'Birth date cannot be in the future';
+      }
+    }
+
+    // Biography length validation
+    if (formData.biography && formData.biography.length > 1000) {
+      errors.biography = 'Biography must be less than 1000 characters';
     }
 
     setFormErrors(errors);
@@ -390,9 +413,14 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({
               name="birthDate"
               value={formData.birthDate}
               onChange={handleInputChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                formErrors.birthDate ? 'border-red-300' : 'border-gray-300'
+              }`}
               disabled={isSubmitting}
             />
+            {formErrors.birthDate && (
+              <p className="mt-1 text-sm text-red-600">{formErrors.birthDate}</p>
+            )}
           </div>
 
           <div>
@@ -579,6 +607,9 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({
         <div>
           <label htmlFor="biography" className="block text-sm font-medium text-gray-700 mb-1">
             Biography
+            <span className="text-sm text-gray-500 ml-2">
+              ({formData.biography.length}/1000 characters)
+            </span>
           </label>
           <textarea
             id="biography"
@@ -586,10 +617,16 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({
             value={formData.biography}
             onChange={handleInputChange}
             rows={3}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-vertical"
+            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-vertical ${
+              formErrors.biography ? 'border-red-300' : 'border-gray-300'
+            }`}
             placeholder="Brief biography or notes..."
             disabled={isSubmitting}
+            maxLength={1000}
           />
+          {formErrors.biography && (
+            <p className="mt-1 text-sm text-red-600">{formErrors.biography}</p>
+          )}
         </div>
 
         {/* Form Actions */}

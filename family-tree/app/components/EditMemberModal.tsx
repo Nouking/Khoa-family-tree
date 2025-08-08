@@ -97,6 +97,10 @@ const EditMemberModal: React.FC<EditMemberModalProps> = ({
     // Required fields
     if (!formData.name.trim()) {
       errors.name = 'Name is required';
+    } else if (formData.name.trim().length < 2) {
+      errors.name = 'Name must be at least 2 characters long';
+    } else if (formData.name.trim().length > 100) {
+      errors.name = 'Name must be less than 100 characters';
     }
 
     if (!formData.relationship.trim()) {
@@ -108,9 +112,14 @@ const EditMemberModal: React.FC<EditMemberModalProps> = ({
       errors.email = 'Please enter a valid email address';
     }
 
-    // Phone validation (basic)
-    if (formData.phone && !/^[\d\s+()-]+$/.test(formData.phone)) {
-      errors.phone = 'Please enter a valid phone number';
+    // Phone validation (enhanced)
+    if (formData.phone) {
+      const phoneRegex = /^[\d\s+()-]+$/;
+      if (!phoneRegex.test(formData.phone)) {
+        errors.phone = 'Please enter a valid phone number (digits, spaces, +, -, () only)';
+      } else if (formData.phone.replace(/[\s+()-]/g, '').length < 7) {
+        errors.phone = 'Phone number must have at least 7 digits';
+      }
     }
 
     // Date validation
@@ -120,6 +129,30 @@ const EditMemberModal: React.FC<EditMemberModalProps> = ({
       if (deathDate <= birthDate) {
         errors.deathDate = 'Death date must be after birth date';
       }
+    }
+
+    // Future date validation
+    if (formData.birthDate) {
+      const birthDate = new Date(formData.birthDate);
+      const today = new Date();
+      if (birthDate > today) {
+        errors.birthDate = 'Birth date cannot be in the future';
+      }
+    }
+
+    // Biography length validation
+    if (formData.biography && formData.biography.length > 1000) {
+      errors.biography = 'Biography must be less than 1000 characters';
+    }
+
+    // Position validation
+    if (formData.position.x < 0 || formData.position.y < 0) {
+      errors.position = 'Position coordinates must be positive numbers';
+    }
+
+    // Size validation
+    if (formData.size.width < 50 || formData.size.height < 30) {
+      errors.size = 'Size must be at least 50x30 pixels';
     }
 
     // Prevent self-reference in relationships
