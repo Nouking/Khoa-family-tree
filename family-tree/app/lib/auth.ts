@@ -46,8 +46,9 @@ export async function verifyPassword(password: string, hashedPassword: string) {
 }
 
 // Set token in cookies
-export function setTokenCookie(token: string) {
-  cookies().set('token', token, {
+export async function setTokenCookie(token: string) {
+  const cookieStore = await cookies();
+  cookieStore.set('token', token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     maxAge: 60 * 60 * 24, // 1 day
@@ -69,6 +70,7 @@ export function getToken(req: NextRequest) {
 }
 
 // Clear token cookie
-export function clearTokenCookie() {
-  cookies().delete('token');
+export async function clearTokenCookie() {
+  const cookieStore = await cookies();
+  cookieStore.delete('token');
 }

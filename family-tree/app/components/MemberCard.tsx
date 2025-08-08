@@ -1,3 +1,4 @@
+import React, { useRef } from 'react';
 import { useDrag } from 'react-dnd';
 import { FamilyMember, ItemTypes } from '../../types';
 
@@ -6,6 +7,8 @@ interface MemberCardProps {
 }
 
 export default function MemberCard({ member }: MemberCardProps) {
+  const dragRef = useRef<HTMLDivElement>(null);
+  
   const [{ isDragging }, drag] = useDrag(() => ({
     type: ItemTypes.MEMBER_CARD,
     item: { id: member.id, x: member.position.x, y: member.position.y },
@@ -14,9 +17,12 @@ export default function MemberCard({ member }: MemberCardProps) {
     }),
   }));
 
+  // Connect drag ref
+  drag(dragRef);
+
   return (
     <div
-      ref={drag}
+      ref={dragRef}
       data-testid={`member-card-${member.id}`}
       style={{
         position: 'absolute',

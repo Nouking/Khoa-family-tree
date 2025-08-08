@@ -71,6 +71,17 @@ const initialTreeSettings: TreeSettings = {
   layout: 'hierarchical',
 };
 
+const initialState: FamilyTreeState = {
+  familyTree: null,
+  members: [],
+  selectedMemberIds: [],
+  isEditing: false,
+  viewport: initialViewportState,
+  settings: initialTreeSettings,
+  loading: false,
+  error: null,
+};
+
 // Persistent state loader
 const loadPersistedState = (): FamilyTreeState => {
   if (typeof window === 'undefined') return initialState;
@@ -82,14 +93,6 @@ const loadPersistedState = (): FamilyTreeState => {
     console.error('Failed to load persisted state:', error);
     return initialState;
   }
-};
-
-const initialState: FamilyTreeState = {
-  ...loadPersistedState(),
-  // Ensure fresh transient states
-  loading: false,
-  error: null,
-  selectedMemberIds: [],
 };
 
 const initialHistoryState: HistoryState = {
@@ -364,10 +367,6 @@ export function useTreeSettings() {
 export function useSelectedMembers() {
   const { selectedMemberIds } = useFamilyTree();
   return React.useMemo(() => selectedMemberIds, [selectedMemberIds]);
-  if (!context) {
-    throw new Error('useFamilyTree must be used within a FamilyTreeProvider');
-  }
-  return context;
 }
 
 export function useFamilyTreeDispatch(): React.Dispatch<FamilyTreeAction> {
