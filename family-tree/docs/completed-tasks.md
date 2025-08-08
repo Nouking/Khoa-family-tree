@@ -4,6 +4,32 @@
 
 ## 📊 Task Completion Log
 
+### Phase 2: CRUD Operations & State Management
+
+**Task 2.4 (P1-CRITICAL): Member Selection & Context Menu**
+- **Status**: Completed - 2025-08-08
+- **Description**: Implemented a comprehensive system for selecting single and multiple members on the canvas with context menu for quick actions.
+- **Implementation Details**:
+    - Integrated member selection with global React Context state management
+    - Added support for single-click selection and multi-select using Ctrl/Cmd modifiers  
+    - Enhanced visual feedback for selected members with improved styling
+    - Auto-select members when right-clicking if not already selected (UX improvement)
+    - Context menu shows "Edit Member" and "Delete Member" options with proper icons
+    - Updated FamilyTreeCanvas component to use global selectedMemberIds state
+    - Fixed test compatibility by wrapping components with FamilyTreeProvider
+    - Context menu positioning automatically adjusts to stay within viewport
+    - Clicking on canvas background clears all selections
+    - Selection state automatically cleared when member is deleted
+- **Key Features**:
+    - Single-click member selection
+    - Multi-select with Ctrl/Cmd + click
+    - Right-click context menu with Edit/Delete options
+    - Visual selection indicators (blue border + ring)
+    - Auto-select on right-click for better UX
+    - Global state integration via React Context
+- **Issues/Blockers**: None
+- **Notes**: All acceptance criteria met. Context menu functionality was already implemented and enhanced. Selection system now properly integrated with global state management.
+
 ### Phase 1: Foundation
 
 **Task 1.11 (P1-CRITICAL): Basic Canvas Component**

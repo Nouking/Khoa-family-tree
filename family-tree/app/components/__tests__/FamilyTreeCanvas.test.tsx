@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import FamilyTreeCanvas from '../FamilyTreeCanvas';
+import { FamilyTreeProvider } from '../../contexts/FamilyTreeContext';
 
 // Mock the react-dnd hooks
 jest.mock('react-dnd', () => ({
@@ -11,11 +12,11 @@ jest.mock('react-dnd', () => ({
   ]
 }));
 
-// Mock MemberCard component
-jest.mock('../MemberCard', () => {
-  return function MockMemberCard({ member }: { member: { id: string; name: string } }) {
+// Mock MemberBanner component
+jest.mock('../MemberBanner', () => {
+  return function MockMemberBanner({ member }: { member: { id: string; name: string } }) {
     return (
-      <div data-testid={`member-card-${member.id}`}>
+      <div data-testid={`member-banner-${member.id}`}>
         {member.name}
       </div>
     );
@@ -39,19 +40,28 @@ const mockMembers = [
 
 const mockMoveMember = jest.fn();
 
+// Helper function to render with provider
+const renderWithProvider = (component: React.ReactElement) => {
+  return render(
+    <FamilyTreeProvider>
+      {component}
+    </FamilyTreeProvider>
+  );
+};
+
 describe('FamilyTreeCanvas', () => {
   beforeEach(() => {
     // Clear mocks before each test
     jest.clearAllMocks();
   });
 
-  it('renders member cards', () => {
-    render(<FamilyTreeCanvas members={mockMembers} moveMember={mockMoveMember} />);
-    expect(screen.getByTestId('member-card-1')).toBeInTheDocument();
+  it('renders member banners', () => {
+    renderWithProvider(<FamilyTreeCanvas members={mockMembers} moveMember={mockMoveMember} />);
+    expect(screen.getByTestId('member-banner-1')).toBeInTheDocument();
   });
 
   it('initializes with default viewport values', () => {
-    render(<FamilyTreeCanvas members={mockMembers} moveMember={mockMoveMember} />);
+    renderWithProvider(<FamilyTreeCanvas members={mockMembers} moveMember={mockMoveMember} />);
     const canvasContent = screen.getByTestId('family-tree-canvas-content');
     
     // Check that the canvas has the default transform style
@@ -59,7 +69,7 @@ describe('FamilyTreeCanvas', () => {
   });
 
   it('increases zoom level when zoom in button is clicked', () => {
-    render(<FamilyTreeCanvas members={mockMembers} moveMember={mockMoveMember} />);
+    renderWithProvider(<FamilyTreeCanvas members={mockMembers} moveMember={mockMoveMember} />);
     
     const zoomInButton = screen.getByTestId('zoom-in-button');
     fireEvent.click(zoomInButton);
@@ -70,7 +80,7 @@ describe('FamilyTreeCanvas', () => {
   });
 
   it('decreases zoom level when zoom out button is clicked', () => {
-    render(<FamilyTreeCanvas members={mockMembers} moveMember={mockMoveMember} />);
+    renderWithProvider(<FamilyTreeCanvas members={mockMembers} moveMember={mockMoveMember} />);
     
     const zoomOutButton = screen.getByTestId('zoom-out-button');
     fireEvent.click(zoomOutButton);
@@ -81,7 +91,7 @@ describe('FamilyTreeCanvas', () => {
   });
 
   it('pans the canvas when mouse drag occurs', () => {
-    render(<FamilyTreeCanvas members={mockMembers} moveMember={mockMoveMember} />);
+    renderWithProvider(<FamilyTreeCanvas members={mockMembers} moveMember={mockMoveMember} />);
     
     const canvas = screen.getByTestId('family-tree-canvas');
     

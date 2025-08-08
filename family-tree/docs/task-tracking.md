@@ -151,15 +151,25 @@ Always use these library IDs for accurate documentation:
     - ✅ Smart deletion with relationship cleanup and confirmation
 
 **Task 2.4 (P1-CRITICAL): Member Selection & Context Menu**
-- **Status**: Pending
-- **Description**: Implement a system for selecting single and multiple members on the canvas. Add a context menu for quick actions.
-- **Dependencies**: [2.2]
+- **Status**: Completed - 2025-08-08
+- **Description**: Implemented a comprehensive system for selecting single and multiple members on the canvas with context menu for quick actions.
+- **Dependencies**: [2.2] ✅
 - **Acceptance Criteria**:
-    - GIVEN a user clicks on a member
-    - THEN that member becomes selected.
-    - GIVEN a user right-clicks on a selected member
-    - THEN a context menu appears with "Edit" and "Delete" options.
-- **Details**: Manage selection state in React Context. Use Shift/Ctrl for multi-select. The context menu should show Edit/Delete options.
+    - ✅ GIVEN a user clicks on a member
+    - ✅ THEN that member becomes selected.
+    - ✅ GIVEN a user right-clicks on a selected member
+    - ✅ THEN a context menu appears with "Edit" and "Delete" options.
+- **Implementation Details**:
+    - ✅ Integrated member selection with global React Context state management
+    - ✅ Added support for single-click selection and multi-select using Ctrl/Cmd modifiers
+    - ✅ Enhanced visual feedback for selected members with improved styling
+    - ✅ Auto-select members when right-clicking if not already selected (UX improvement)
+    - ✅ Context menu shows "Edit Member" and "Delete Member" options with proper icons
+    - ✅ Updated FamilyTreeCanvas component to use global selectedMemberIds state
+    - ✅ Fixed test compatibility by wrapping components with FamilyTreeProvider
+    - ✅ Context menu positioning automatically adjusts to stay within viewport
+    - ✅ Clicking on canvas background clears all selections
+    - ✅ Selection state automatically cleared when member is deleted
 
 **Task 2.5 (P1-CRITICAL): Dynamic Connection Recalculation**
 - **Status**: Pending

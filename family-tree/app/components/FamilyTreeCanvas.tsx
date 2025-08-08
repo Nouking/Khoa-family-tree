@@ -5,6 +5,7 @@ import MemberBanner from './MemberBanner';
 import EditMemberModal from './EditMemberModal';
 import DeleteMemberModal from './DeleteMemberModal';
 import { XYCoord } from 'dnd-core';
+import { useFamilyTreeWithDispatch, useSelectedMembers } from '../contexts/FamilyTreeContext';
 
 interface FamilyTreeCanvasProps {
   members: FamilyMember[];
@@ -25,15 +26,16 @@ interface Viewport {
 }
 
 const FamilyTreeCanvas: React.FC<FamilyTreeCanvasProps> = ({ members, moveMember }) => {
+  // Global state for member selection
+  const { dispatch } = useFamilyTreeWithDispatch();
+  const selectedMemberIds = useSelectedMembers();
+  
   // Viewport state for pan and zoom
   const [viewport, setViewport] = useState<Viewport>({ x: 0, y: 0, zoom: 1 });
   
   // State to track panning
   const [isPanning, setIsPanning] = useState(false);
   const [startPanPos, setStartPanPos] = useState<{ x: number; y: number } | null>(null);
-  
-  // Member selection state
-  const [selectedMember, setSelectedMember] = useState<FamilyMember | null>(null);
   
   // Modal states
   const [showEditModal, setShowEditModal] = useState(false);
@@ -129,18 +131,31 @@ const FamilyTreeCanvas: React.FC<FamilyTreeCanvasProps> = ({ members, moveMember
     setViewport({ x: 0, y: 0, zoom: 1 });
   }, []);
 
-  // Handle member selection
-  const handleMemberSelect = useCallback((member: FamilyMember) => {
-    setSelectedMember(member);
-  }, []);
+  // Handle member selection with support for multi-select
+  const handleMemberSelect = useCallback((member: FamilyMember, event?: React.MouseEvent) => {
+    if (event?.ctrlKey || event?.metaKey) {
+      // Multi-select with Ctrl/Cmd
+      if (selectedMemberIds.includes(member.id)) {
+        dispatch({ type: 'DESELECT_MEMBER', payload: member.id });
+      } else {
+        dispatch({ type: 'SELECT_MEMBER', payload: member.id });
+      }
+    } else if (event?.shiftKey && selectedMemberIds.length > 0) {
+      // TODO: Could implement range selection here in future
+      dispatch({ type: 'SELECT_MEMBER', payload: member.id });
+    } else {
+      // Single select - clear existing and select new
+      dispatch({ type: 'SET_SELECTED_MEMBERS', payload: [member.id] });
+    }
+  }, [dispatch, selectedMemberIds]);
 
-  // Handle canvas click (deselect member)
+  // Handle canvas click (deselect members)
   const handleCanvasClick = useCallback((e: MouseEvent<HTMLDivElement>) => {
     // Only deselect if clicking on the canvas background (not during panning)
     if (e.target === e.currentTarget && !isPanning) {
-      setSelectedMember(null);
+      dispatch({ type: 'CLEAR_SELECTION' });
     }
-  }, [isPanning]);
+  }, [dispatch, isPanning]);
 
   // Handle member edit
   const handleMemberEdit = useCallback((member: FamilyMember) => {
@@ -220,8 +235,8 @@ const FamilyTreeCanvas: React.FC<FamilyTreeCanvasProps> = ({ members, moveMember
           <MemberBanner 
             key={member.id} 
             member={member}
-            isSelected={selectedMember?.id === member.id}
-            onSelect={handleMemberSelect}
+            isSelected={selectedMemberIds.includes(member.id)}
+            onSelect={(member, event) => handleMemberSelect(member, event)}
             onEdit={handleMemberEdit}
             onDelete={handleMemberDelete}
           />
@@ -259,7 +274,7 @@ const FamilyTreeCanvas: React.FC<FamilyTreeCanvasProps> = ({ members, moveMember
         onMemberDeleted={() => {
           setShowDeleteModal(false);
           setMemberToDelete(null);
-          setSelectedMember(null); // Clear selection if deleted member was selected
+          // Selection is automatically cleared when member is deleted via context reducer
           // Optional: Show success notification
         }}
       />
