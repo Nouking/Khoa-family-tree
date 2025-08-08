@@ -46,12 +46,17 @@ The main application code is located in the `family-tree/` subdirectory. Always 
 ## Development Workflow
 
 ### Git Workflow (Mandatory)
-1. **Create a Branch**: Before writing any code, create a feature branch.
+1. **Branch Management**: ALWAYS verify you're on the correct branch before any git operations.
+   - **Before any git action**: Run `git status` to confirm current branch
+   - **Switch branches**: Use `git checkout [branch-name]` if needed
+   - **Create a Branch**: Before writing any code, create a feature branch.
    - **Format**: `task{ID}-{kebab-case-description}`
    - **Example**: `task1-1-setup-nextjs-project`
-2. **Commit Changes**: Write clear and concise commit messages.
+2. **Commit Changes**: Write clear and comprehensive commit messages.
    - **Format**: `type(scope): description`
    - **Example**: `feat(auth): implement jwt token generation`
+   - **NO Claude branding**: Do NOT include Claude Code attribution or co-authored-by lines
+   - **Comprehensive descriptions**: Include detailed explanation of changes made
 3. **Create a Pull Request**: After pushing your changes, create a PR. The description should include task details and test results.
 
 ### Testing Protocol (Mandatory)
