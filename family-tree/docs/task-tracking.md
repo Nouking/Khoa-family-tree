@@ -239,15 +239,6 @@ Always use these library IDs for accurate documentation:
     - Cross-platform compatibility and accessibility compliance
 - **Issues/Blockers**: None - all acceptance criteria exceeded
 
-**Task 2.9 (P2-HIGH): Performance Optimization**
-- **Status**: Pending
-- **Description**: Optimize application performance for large family trees and improve rendering efficiency.
-- **Dependencies**: [2.8] ✅
-- **Acceptance Criteria**:
-    - GIVEN a family tree with 50+ members
-    - WHEN interacting with the canvas (pan, zoom, drag)
-    - THEN interactions remain smooth (>30fps)
-- **Details**: Implement virtualization, memoization, and optimize re-renders for better performance.
 
 ---
 

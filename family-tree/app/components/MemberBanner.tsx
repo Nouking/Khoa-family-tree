@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, useMemo } from 'react';
+import React, { useState, useCallback, useRef, useMemo, memo } from 'react';
 import { useDrag } from 'react-dnd';
 import { FamilyMember, ItemTypes } from '../../types';
 import ContextMenu from './ContextMenu';
@@ -13,7 +13,7 @@ interface MemberBannerProps {
   onBulkDelete?: () => void;
 }
 
-export default function MemberBanner({ 
+const MemberBanner = memo<MemberBannerProps>(function MemberBanner({ 
   member, 
   isSelected = false,
   selectedCount = 0,
@@ -21,7 +21,7 @@ export default function MemberBanner({
   onEdit,
   onDelete,
   onBulkDelete
-}: MemberBannerProps) {
+}) {
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
   const dragRef = useRef<HTMLDivElement>(null);
   
@@ -33,16 +33,21 @@ export default function MemberBanner({
     }),
   }));
   
-  // Connect drag ref
-  drag(dragRef);
+  // Connect drag ref with error handling
+  const connectDragRef = useCallback((node: HTMLDivElement | null) => {
+    dragRef.current = node;
+    if (typeof drag === 'function') {
+      drag(node);
+    }
+  }, [drag]);
 
-  // Handle member selection
+  // Handle member selection with memoized member reference
   const handleClick = useCallback((event: React.MouseEvent) => {
     event.stopPropagation();
     onSelect?.(member, event);
-  }, [member, onSelect]);
+  }, [member.id, onSelect]);
 
-  // Handle context menu
+  // Handle context menu with optimized dependencies
   const handleContextMenu = useCallback((event: React.MouseEvent) => {
     event.preventDefault();
     event.stopPropagation();
@@ -56,7 +61,7 @@ export default function MemberBanner({
       x: event.clientX,
       y: event.clientY
     });
-  }, [isSelected, member, onSelect]);
+  }, [isSelected, member.id, onSelect]);
 
   // Context menu items - different based on selection state
   const contextMenuItems = useMemo(() => {
@@ -103,27 +108,32 @@ export default function MemberBanner({
     }
   }, [selectedCount, member, onEdit, onDelete, onBulkDelete]);
 
+  // Memoize inline styles to prevent recreating objects
+  const bannerStyle = useMemo(() => ({
+    position: 'absolute' as const,
+    left: member.position.x,
+    top: member.position.y,
+    width: member.size.width,
+    height: member.size.height,
+    opacity: isDragging ? 0.5 : 1,
+    cursor: isDragging ? 'grabbing' : 'move',
+  }), [member.position.x, member.position.y, member.size.width, member.size.height, isDragging]);
+  
+  // Memoize className to prevent recalculation
+  const bannerClassName = useMemo(() => 
+    `member-banner rounded-lg bg-white shadow-md border-2 transition-all p-4 ${
+      isSelected 
+        ? 'border-blue-500 ring-2 ring-blue-200 shadow-lg' 
+        : 'border-transparent hover:border-blue-300 hover:shadow-lg'
+    }`, [isSelected]);
+
   return (
     <>
       <div
-        ref={dragRef}
+        ref={connectDragRef}
         data-testid={`member-banner-${member.id}`}
-        style={{
-          position: 'absolute',
-          left: member.position.x,
-          top: member.position.y,
-          width: member.size.width,
-          height: member.size.height,
-          opacity: isDragging ? 0.5 : 1,
-          cursor: isDragging ? 'grabbing' : 'move',
-        }}
-        className={`
-          member-banner rounded-lg bg-white shadow-md border-2 transition-all p-4
-          ${isSelected 
-            ? 'border-blue-500 ring-2 ring-blue-200 shadow-lg' 
-            : 'border-transparent hover:border-blue-300 hover:shadow-lg'
-          }
-        `}
+        style={bannerStyle}
+        className={bannerClassName}
         onClick={handleClick}
         onContextMenu={handleContextMenu}
       >
@@ -170,4 +180,6 @@ export default function MemberBanner({
       />
     </>
   );
-}
+});
+
+export default MemberBanner;

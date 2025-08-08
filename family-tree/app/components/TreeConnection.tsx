@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo, useMemo } from 'react';
 
 interface TreeConnectionProps {
   from: { x: number; y: number };
@@ -6,13 +6,17 @@ interface TreeConnectionProps {
   type: 'parent-child' | 'spouse';
 }
 
-const TreeConnection: React.FC<TreeConnectionProps> = ({
+const TreeConnection: React.FC<TreeConnectionProps> = memo(({
   from,
   to,
   type
 }) => {
-  const strokeColor = type === 'parent-child' ? '#3b82f6' : '#10b981';
-  const strokeWidth = type === 'parent-child' ? 2 : 1;
+  // Memoize visual properties to avoid recalculation
+  const connectionProps = useMemo(() => ({
+    strokeColor: type === 'parent-child' ? '#3b82f6' : '#10b981',
+    strokeWidth: type === 'parent-child' ? 2 : 1,
+    strokeDasharray: type === 'spouse' ? '5,5' : 'none'
+  }), [type]);
   
   return (
     <line
@@ -20,12 +24,14 @@ const TreeConnection: React.FC<TreeConnectionProps> = ({
       y1={from.y}
       x2={to.x}
       y2={to.y}
-      stroke={strokeColor}
-      strokeWidth={strokeWidth}
-      strokeDasharray={type === 'spouse' ? '5,5' : 'none'}
+      stroke={connectionProps.strokeColor}
+      strokeWidth={connectionProps.strokeWidth}
+      strokeDasharray={connectionProps.strokeDasharray}
       data-testid={`tree-connection-${type}`}
     />
   );
-};
+});
+
+TreeConnection.displayName = 'TreeConnection';
 
 export default TreeConnection; 

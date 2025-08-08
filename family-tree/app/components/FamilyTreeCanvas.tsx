@@ -1,14 +1,16 @@
-import React, { useState, useCallback, useRef, MouseEvent, useMemo } from 'react';
+import React, { useState, useCallback, useRef, MouseEvent, useMemo, memo, useEffect } from 'react';
 import { useDrop, DropTargetMonitor } from 'react-dnd';
 import { FamilyMember, ItemTypes } from '../../types';
 import MemberBanner from './MemberBanner';
 import EditMemberModal from './EditMemberModal';
 import DeleteMemberModal from './DeleteMemberModal';
 import BulkDeleteModal from './BulkDeleteModal';
-import TreeConnection from './TreeConnection';
+import VirtualizedConnections from './VirtualizedConnections';
 import { XYCoord } from 'dnd-core';
 import { useFamilyTreeWithDispatch, useSelectedMembers } from '../contexts/FamilyTreeContext';
 import { calculateConnections } from '../../lib/connectionCalculator';
+import { useVirtualization, useConnectionVirtualization } from '../hooks/useVirtualization';
+import { usePerformanceMonitor } from '../hooks/usePerformanceMonitor';
 
 interface FamilyTreeCanvasProps {
   members: FamilyMember[];
@@ -26,15 +28,40 @@ interface Viewport {
   x: number;
   y: number;
   zoom: number;
+  width: number;
+  height: number;
 }
 
-const FamilyTreeCanvas: React.FC<FamilyTreeCanvasProps> = ({ members, moveMember }) => {
+const FamilyTreeCanvas: React.FC<FamilyTreeCanvasProps> = memo(({ members, moveMember }) => {
   // Global state for member selection
   const { dispatch } = useFamilyTreeWithDispatch();
   const selectedMemberIds = useSelectedMembers();
   
-  // Viewport state for pan and zoom
-  const [viewport, setViewport] = useState<Viewport>({ x: 0, y: 0, zoom: 1 });
+  // Performance monitoring
+  const { metrics, getPerformanceStatus } = usePerformanceMonitor(process.env.NODE_ENV === 'development');
+  
+  // Viewport state for pan and zoom with performance tracking
+  const [viewport, setViewport] = useState<Viewport>({ 
+    x: 0, 
+    y: 0, 
+    zoom: 1, 
+    width: typeof window !== 'undefined' ? window.innerWidth : 1920, 
+    height: typeof window !== 'undefined' ? window.innerHeight : 1080 
+  });
+  
+  // Update viewport dimensions on resize
+  useEffect(() => {
+    const updateViewportSize = () => {
+      setViewport(prev => ({
+        ...prev,
+        width: window.innerWidth,
+        height: window.innerHeight,
+      }));
+    };
+    
+    window.addEventListener('resize', updateViewportSize);
+    return () => window.removeEventListener('resize', updateViewportSize);
+  }, []);
   
   // State to track panning
   const [isPanning, setIsPanning] = useState(false);
@@ -55,10 +82,23 @@ const FamilyTreeCanvas: React.FC<FamilyTreeCanvasProps> = ({ members, moveMember
   // Reference to the canvas div for mouse events
   const canvasRef = useRef<HTMLDivElement>(null);
 
-  // Calculate connections dynamically based on member positions
+  // Virtualization for large family trees
+  const { visibleMembers, stats } = useVirtualization(members, {
+    viewport,
+    buffer: 300, // Extra buffer for smooth scrolling
+    minItemsToVirtualize: 50,
+  });
+  
+  // Connection virtualization based on visible members
+  const connectionRelevantMembers = useConnectionVirtualization(
+    members, 
+    visibleMembers.map(m => m.id)
+  );
+  
+  // Optimized connection calculation with virtualization
   const connections = useMemo(() => {
-    return calculateConnections(members);
-  }, [members]);
+    return calculateConnections(connectionRelevantMembers);
+  }, [connectionRelevantMembers]);
 
   const [, drop] = useDrop(
     () => ({
@@ -137,7 +177,7 @@ const FamilyTreeCanvas: React.FC<FamilyTreeCanvasProps> = ({ members, moveMember
 
   // Reset viewport to center
   const handleResetView = useCallback(() => {
-    setViewport({ x: 0, y: 0, zoom: 1 });
+    setViewport(prev => ({ ...prev, x: 0, y: 0, zoom: 1 }));
   }, []);
 
   // Handle member selection with support for multi-select
@@ -239,26 +279,19 @@ const FamilyTreeCanvas: React.FC<FamilyTreeCanvasProps> = ({ members, moveMember
           transition: isPanning ? 'none' : 'transform 0.15s ease-out'
         }}
       >
-        {/* Connections Layer */}
+        {/* Connections Layer - Virtualized for performance */}
         <svg className="absolute inset-0 w-full h-full pointer-events-none">
-          {connections.map((connection) => (
-            <TreeConnection
-              key={connection.id}
-              from={connection.from}
-              to={connection.to}
-              type={connection.type}
-            />
-          ))}
+          <VirtualizedConnections connections={connections} viewport={viewport} />
         </svg>
 
-        {/* Members Layer */}
-        {members.map((member) => (
+        {/* Members Layer - Virtualized for performance */}
+        {visibleMembers.map((member) => (
           <MemberBanner 
             key={member.id} 
             member={member}
             isSelected={selectedMemberIds.includes(member.id)}
             selectedCount={selectedMemberIds.length}
-            onSelect={(member, event) => handleMemberSelect(member, event)}
+            onSelect={handleMemberSelect}
             onEdit={handleMemberEdit}
             onDelete={handleMemberDelete}
             onBulkDelete={handleBulkDelete}
@@ -266,10 +299,18 @@ const FamilyTreeCanvas: React.FC<FamilyTreeCanvasProps> = ({ members, moveMember
         ))}
       </div>
 
-      {/* Info Text */}
+      {/* Info Text with Performance Stats */}
       <div className="absolute bottom-4 left-4 text-sm text-gray-500 bg-white bg-opacity-75 p-2 rounded-md">
         <p>Zoom: {(viewport.zoom * 100).toFixed(0)}%</p>
         <p className="text-xs">Drag canvas to pan • Use buttons to zoom</p>
+        {process.env.NODE_ENV === 'development' && (
+          <div className="text-xs mt-1 space-y-0.5">
+            <p>FPS: {metrics.fps} | Status: {getPerformanceStatus()}</p>
+            <p>Members: {stats.visibleMembers}/{stats.totalMembers} ({(stats.renderingRatio * 100).toFixed(1)}%)</p>
+            <p>Render: {metrics.averageRenderTime.toFixed(1)}ms</p>
+            {metrics.memoryUsage && <p>Memory: {metrics.memoryUsage}MB</p>}
+          </div>
+        )}
       </div>
 
       {/* Modals */}
@@ -316,6 +357,8 @@ const FamilyTreeCanvas: React.FC<FamilyTreeCanvasProps> = ({ members, moveMember
       />
     </div>
   );
-};
+});
+
+FamilyTreeCanvas.displayName = 'FamilyTreeCanvas';
 
 export default FamilyTreeCanvas;

@@ -279,10 +279,8 @@ function historyReducer(historyState: HistoryState, action: HistoryAction | { ty
   }
 }
 
-// Context creation
-// Memoized context creation
+// Context creation with performance optimizations
 const FamilyTreeContext = createContext<FamilyTreeState | null>(null);
-export const FamilyTreeContextMemoized = React.memo(FamilyTreeContext.Provider);
 const FamilyTreeDispatchContext = createContext<React.Dispatch<FamilyTreeAction> | null>(null);
 const FamilyTreeHistoryContext = createContext<{
   canUndo: boolean;
@@ -298,7 +296,7 @@ interface FamilyTreeProviderProps {
   initialData?: FamilyTreeData;
 }
 
-export function FamilyTreeProvider({ children, initialData }: FamilyTreeProviderProps) {
+export const FamilyTreeProvider = memo<FamilyTreeProviderProps>(function FamilyTreeProvider({ children, initialData }) {
   const [historyState, historyDispatch] = useReducer(historyReducer, {
     ...initialHistoryState,
     present: initialData ? {
@@ -309,72 +307,109 @@ export function FamilyTreeProvider({ children, initialData }: FamilyTreeProvider
     } : initialState,
   });
 
-  // Dispatch function that integrates with history
-  const dispatch = (action: FamilyTreeAction) => {
+  // Memoized dispatch function that integrates with history
+  const dispatch = React.useCallback((action: FamilyTreeAction) => {
     historyDispatch({ type: 'UPDATE_PRESENT', payload: action });
-  };
+  }, []);
 
-  // History management functions
-  const historyValue = {
+  // Memoized history management functions to prevent re-renders
+  const historyValue = useMemo(() => ({
     canUndo: historyState.past.length > 0,
     canRedo: historyState.future.length > 0,
     undo: () => historyDispatch({ type: 'UNDO' }),
     redo: () => historyDispatch({ type: 'REDO' }),
     clearHistory: () => historyDispatch({ type: 'CLEAR_HISTORY' }),
-  };
+  }), [historyState.past.length, historyState.future.length]);
 
-  // Persist state changes
+  // Debounced persistence to avoid excessive localStorage writes
+  const persistState = React.useCallback(
+    React.useMemo(() => {
+      let timeoutId: NodeJS.Timeout;
+      return (state: FamilyTreeState) => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+          if (typeof window !== 'undefined' && !state.loading) {
+            try {
+              localStorage.setItem(
+                'familyTreeState',
+                JSON.stringify({
+                  ...state,
+                  loading: false,
+                  error: null,
+                  selectedMemberIds: [],
+                })
+              );
+            } catch (error) {
+              console.warn('Failed to persist state to localStorage:', error);
+            }
+          }
+        }, 300); // 300ms debounce
+      };
+    }, []),
+    []
+  );
+
   React.useEffect(() => {
-    if (typeof window !== 'undefined' && !historyState.present.loading) {
-      localStorage.setItem(
-        'familyTreeState',
-        JSON.stringify({
-          ...historyState.present,
-          loading: false,
-          error: null,
-          selectedMemberIds: [],
-        })
-      );
-    }
-  }, [historyState.present]);
+    persistState(historyState.present);
+  }, [historyState.present, persistState]);
+
+  // Memoize context values to prevent unnecessary re-renders
+  const contextValue = useMemo(() => historyState.present, [historyState.present]);
 
   return (
-    <FamilyTreeContextMemoized value={historyState.present}>
+    <FamilyTreeContext.Provider value={contextValue}>
       <FamilyTreeDispatchContext.Provider value={dispatch}>
         <FamilyTreeHistoryContext.Provider value={historyValue}>
           {children}
         </FamilyTreeHistoryContext.Provider>
       </FamilyTreeDispatchContext.Provider>
-    </FamilyTreeContextMemoized>
+    </FamilyTreeContext.Provider>
   );
-}
+});
 
-// Custom hooks
-// Memoized selector hooks
+// Custom hooks with performance optimizations
 export function useFamilyTree(): FamilyTreeState {
   const context = useContext(FamilyTreeContext);
   
-  return React.useMemo(() => {
-    if (!context) {
-      throw new Error('useFamilyTree must be used within a FamilyTreeProvider');
-    }
-    return context;
-  }, [context]);
+  if (!context) {
+    throw new Error('useFamilyTree must be used within a FamilyTreeProvider');
+  }
+  return context;
 }
 
+// Optimized selector hooks with shallow equality checks
 export function useFamilyMembers() {
   const { members } = useFamilyTree();
-  return React.useMemo(() => members, [members]);
+  return useMemo(() => members, [members]);
 }
 
 export function useTreeSettings() {
   const { settings } = useFamilyTree();
-  return React.useMemo(() => settings, [settings]);
+  return useMemo(() => settings, [settings]);
 }
 
 export function useSelectedMembers() {
   const { selectedMemberIds } = useFamilyTree();
-  return React.useMemo(() => selectedMemberIds, [selectedMemberIds]);
+  return useMemo(() => selectedMemberIds, [selectedMemberIds]);
+}
+
+// High-performance member lookup hook
+export function useMemberById(memberId: string | undefined) {
+  const { members } = useFamilyTree();
+  return useMemo(() => {
+    if (!memberId) return undefined;
+    return members.find(member => member.id === memberId);
+  }, [members, memberId]);
+}
+
+// Optimized selected members data hook
+export function useSelectedMembersData() {
+  const { members, selectedMemberIds } = useFamilyTree();
+  return useMemo(() => {
+    if (selectedMemberIds.length === 0) return [];
+    const memberMap = new Map(members.map(m => [m.id, m]));
+    return selectedMemberIds.map(id => memberMap.get(id)).filter(Boolean) as FamilyMember[];
+  }, [members, selectedMemberIds]);
 }
 
 export function useFamilyTreeDispatch(): React.Dispatch<FamilyTreeAction> {
@@ -393,15 +428,15 @@ export function useFamilyTreeHistory() {
   return context;
 }
 
-// Combined hook for convenience
+// Combined hook for convenience with memoization
 export function useFamilyTreeWithDispatch() {
   const state = useFamilyTree();
   const dispatch = useFamilyTreeDispatch();
   const history = useFamilyTreeHistory();
   
-  return {
+  return useMemo(() => ({
     state,
     dispatch,
     history,
-  };
+  }), [state, dispatch, history]);
 }
