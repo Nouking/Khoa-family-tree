@@ -22,8 +22,8 @@
   - Adjusted styles without breaking existing tests; `MemberBanner` test suite passes
 
 **E5-T3 (P1-CRITICAL): Navigation & Toolbar Enhancement**
-- Status: In Progress - 2025-08-08
-- Summary: Applied E5-T1 tokens to `MainToolbar`, introduced mobile-first responsive layout with hamburger menu, tokenized focus rings, and button hierarchy.
+- Status: Completed - 2025-08-08
+- Summary: Applied E5-T1 tokens to `MainToolbar` and delivered a mobile-first navigation experience with a hamburger menu, responsive hierarchy, and accessible focus states.
 - Implementation Details:
   - Token usage: `--color-primary`, `--color-neutral-*`, `--radius-*`, `--elevation-*` applied via Tailwind v4 arbitrary values
   - Layout: CSS Grid for header with three zones; mobile actions drawer toggled by hamburger on < md
@@ -34,7 +34,7 @@
 - Files Modified:
   - `family-tree/app/components/MainToolbar.tsx`
 - Tests:
-  - `MainToolbar` test suite passes
+  - `MainToolbar` test suite passes; no regressions introduced
 
 ### Phase 2: CRUD Operations & State Management
 
