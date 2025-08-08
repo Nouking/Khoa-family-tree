@@ -6,6 +6,34 @@
 
 ### Phase 2: CRUD Operations & State Management
 
+**Task 2.5 (P1-CRITICAL): Dynamic Connection Recalculation**
+- **Status**: Completed - 2025-08-08
+- **Description**: Implemented logic to dynamically recalculate and re-render the SVG connection lines when members are moved.
+- **Implementation Details**:
+    - Created comprehensive connection calculation system in `lib/connectionCalculator.ts`
+    - Implemented `calculateConnections()` function that automatically generates all parent-child and spouse connections
+    - Added flexible `getConnectionPoint()` function supporting multiple connection positions (top, bottom, left, right, center)
+    - Integrated dynamic connection rendering in `FamilyTreeCanvas` with performance optimization using `useMemo`
+    - Connections automatically recalculate whenever members array changes (positions, relationships, additions, deletions)
+    - Used existing `TreeConnection` component for consistent visual styling
+    - Added comprehensive unit tests covering all connection calculation scenarios and edge cases
+    - Implemented duplicate prevention for spouse connections (avoids rendering same connection twice)
+    - SVG connection layer properly positioned with z-indexing below member banners
+- **Key Features**:
+    - Real-time connection updates when members are dragged to new positions
+    - Support for both parent-child (solid blue lines) and spouse (dashed green lines) connections
+    - Performance optimized with memoization to prevent unnecessary recalculations
+    - Graceful handling of missing or invalid relationship references
+    - Scalable design supporting large family trees
+    - Comprehensive test coverage ensuring reliability
+- **Technical Architecture**:
+    - Connection calculations separated into reusable utility library
+    - Memoized connection calculation in FamilyTreeCanvas prevents performance issues
+    - SVG layer renders dynamically based on current member positions and relationships
+    - Integration with existing drag-and-drop system triggers automatic connection updates
+- **Issues/Blockers**: None - all acceptance criteria met
+- **Notes**: This completes the core dynamic connection system. Connections now update automatically whenever members are moved, relationships are changed, or members are added/removed. The system is optimized for performance and handles all edge cases gracefully.
+
 **Task 2.4 (P1-CRITICAL): Member Selection & Context Menu**
 - **Status**: Completed - 2025-08-08
 - **Description**: Implemented a comprehensive system for selecting single and multiple members on the canvas with context menu for quick actions.

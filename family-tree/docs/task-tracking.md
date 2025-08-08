@@ -172,14 +172,23 @@ Always use these library IDs for accurate documentation:
     - ✅ Selection state automatically cleared when member is deleted
 
 **Task 2.5 (P1-CRITICAL): Dynamic Connection Recalculation**
-- **Status**: Pending
+- **Status**: Completed - 2025-08-08
 - **Description**: Implement logic to dynamically recalculate and re-render the SVG connection lines when members are moved.
-- **Dependencies**: [2.2]
+- **Dependencies**: [2.2] ✅
 - **Acceptance Criteria**:
-    - GIVEN a member is dragged and dropped to a new position
-    - WHEN the drop is complete
-    - THEN the SVG connections to that member are redrawn to the new position.
-- **Details**: This should be triggered after a drag-and-drop operation completes. Optimize to prevent performance issues on large trees.
+    - ✅ GIVEN a member is dragged and dropped to a new position
+    - ✅ WHEN the drop is complete
+    - ✅ THEN the SVG connections to that member are redrawn to the new position.
+- **Implementation Details**:
+    - ✅ Created `lib/connectionCalculator.ts` with comprehensive connection calculation logic
+    - ✅ Implemented `calculateConnections()` function that generates all parent-child and spouse connections
+    - ✅ Added `getConnectionPoint()` function for flexible connection positioning (top, bottom, left, right, center)
+    - ✅ Integrated dynamic connection rendering in `FamilyTreeCanvas` using `useMemo` for performance optimization
+    - ✅ Connections automatically recalculate when members array changes (including position updates)
+    - ✅ Used existing `TreeConnection` component for consistent styling of parent-child and spouse connections
+    - ✅ Added comprehensive unit tests covering all connection calculation scenarios
+    - ✅ Optimized to prevent duplicate spouse connections and handle edge cases gracefully
+    - ✅ SVG connection layer renders dynamically with proper z-indexing below member banners
 
 **Task 2.6 (P2-HIGH): Undo/Redo History Stack**
 - **Status**: Pending
