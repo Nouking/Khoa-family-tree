@@ -29,7 +29,7 @@ For any given task ID (e.g., "Task 1.1", "1.2"), you MUST:
 **CRITICAL**: You MUST complete ALL steps below in EXACT ORDER. Do NOT proceed to git operations without completing documentation updates first.
 
 **Required Steps (Must Complete in Order):**
-- [ ] **Step 1 - Complete Code Implementation**: Finish writing and testing all code changes for the task.
+- [ ] **Step 1 - Complete Code Implementation**: Finish writing all code changes for the task.
 - [ ] **Step 2 - Update Documentation (MANDATORY BEFORE GIT)**: After code is complete but BEFORE any git operations, you MUST update the following:
   - [ ] Update the task's status in `family-tree/docs/task-tracking.md`
   - [ ] Move the completed task details to `family-tree/docs/completed-tasks.md`, including any implementation notes
@@ -46,34 +46,14 @@ The main application code is located in the `family-tree/` subdirectory. Always 
 ## Development Workflow
 
 ### Git Workflow (Mandatory)
-1. **Branch Management**: ALWAYS verify you're on the correct branch before any git operations.
-   - **Before any git action**: Run `git status` to confirm current branch
-   - **Switch branches**: Use `git checkout [branch-name]` if needed
-   - **Create a Branch**: Before writing any code, create a feature branch.
+1. **Create a Branch**: Before writing any code, create a feature branch.
    - **Format**: `task{ID}-{kebab-case-description}`
    - **Example**: `task1-1-setup-nextjs-project`
-2. **Commit Changes**: Write clear and comprehensive commit messages.
+2. **Commit Changes**: Write clear and concise commit messages.
    - **Format**: `type(scope): description`
    - **Example**: `feat(auth): implement jwt token generation`
-   - **NO Claude branding**: Do NOT include Claude Code attribution or co-authored-by lines
-   - **Comprehensive descriptions**: Include detailed explanation of changes made
-3. **Create a Pull Request**: After pushing your changes, create a PR. The description should include task details and test results.
+3. **Create a Pull Request**: After pushing your changes, create a PR. The description should include task details and not mention Claude
 
-### Testing Protocol (Mandatory)
-Follow a Test-Driven Development (TDD) approach.
-
-1. **Before Coding**:
-   - Run all existing tests to establish a baseline: `npm test`
-   - Write new unit tests for the feature you are about to build
-   - Confirm that the new tests fail as expected (Red)
-2. **During Coding**:
-   - Write the minimum amount of code required to make the new tests pass (Green)
-   - Refactor your code for clarity and efficiency while ensuring all tests continue to pass (Refactor)
-   - Run tests frequently
-3. **After Coding**:
-   - Run the entire test suite to ensure no regressions: `npm test`
-   - Add tests for any edge cases you discovered
-   - Check test coverage: `npm test -- --coverage`
 
 ## Development Commands & Architecture
 
@@ -104,31 +84,3 @@ For development commands, tech stack details, and architecture overview, refer t
   - *Example*: `task1-1-setup-nextjs-project`
 - **Task Reference Format**: "Task [ID] - [Title]"
   - *Example*: "Task 1.1 - Setup Next.js Project"
-
-## Current Project Status (Last Updated: 2025-08-08)
-
-### Recently Completed
-- **Task 2.6**: Undo/Redo History Stack - Professional undo/redo system with keyboard shortcuts
-- **Task 2.5**: Dynamic Connection Recalculation - Implemented real-time SVG connection system
-- **Task 2.4**: Member Selection & Context Menu - Added multi-select and right-click functionality  
-- **Task 2.3**: CRUD Member Modals - Complete add/edit/delete modal system
-- **Task 2.2**: Global State Management - React Context implementation
-- **Task 2.1**: CRUD API Endpoints - Full REST API for member management
-
-### Key Technical Achievements
-- ✅ Canvas-based family tree editing with drag-and-drop
-- ✅ Dynamic SVG connection rendering system (`lib/connectionCalculator.ts`)
-- ✅ Comprehensive state management with React Context
-- ✅ Complete CRUD operations with authentication
-- ✅ Professional toolbar and enhanced member banners
-- ✅ Real-time connection updates when members are moved
-- ✅ Professional undo/redo system with keyboard shortcuts
-- ✅ Performance optimized for large family trees
-
-### Current Phase: Phase 2 - CRUD Operations & State Management
-**Status**: 100% Complete (6 of 6 P1-CRITICAL tasks completed)
-
-**All P1-CRITICAL Tasks Completed**:
-- ✅ Task 2.6: Undo/Redo History Stack (Completed)
-
-**Next Phase**: Phase 3 - Share & Export (Share links, CSV/PNG export, export options)
