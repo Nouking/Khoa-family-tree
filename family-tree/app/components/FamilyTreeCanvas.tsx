@@ -1,11 +1,13 @@
-import React, { useState, useCallback, useRef, MouseEvent } from 'react';
+import React, { useState, useCallback, useRef, MouseEvent, useMemo } from 'react';
 import { useDrop, DropTargetMonitor } from 'react-dnd';
 import { FamilyMember, ItemTypes } from '../../types';
 import MemberBanner from './MemberBanner';
 import EditMemberModal from './EditMemberModal';
 import DeleteMemberModal from './DeleteMemberModal';
+import TreeConnection from './TreeConnection';
 import { XYCoord } from 'dnd-core';
 import { useFamilyTreeWithDispatch, useSelectedMembers } from '../contexts/FamilyTreeContext';
+import { calculateConnections } from '../../lib/connectionCalculator';
 
 interface FamilyTreeCanvasProps {
   members: FamilyMember[];
@@ -50,6 +52,11 @@ const FamilyTreeCanvas: React.FC<FamilyTreeCanvasProps> = ({ members, moveMember
 
   // Reference to the canvas div for mouse events
   const canvasRef = useRef<HTMLDivElement>(null);
+
+  // Calculate connections dynamically based on member positions
+  const connections = useMemo(() => {
+    return calculateConnections(members);
+  }, [members]);
 
   const [, drop] = useDrop(
     () => ({
@@ -227,7 +234,14 @@ const FamilyTreeCanvas: React.FC<FamilyTreeCanvasProps> = ({ members, moveMember
       >
         {/* Connections Layer */}
         <svg className="absolute inset-0 w-full h-full pointer-events-none">
-          {/* Connection lines will be rendered here */}
+          {connections.map((connection) => (
+            <TreeConnection
+              key={connection.id}
+              from={connection.from}
+              to={connection.to}
+              type={connection.type}
+            />
+          ))}
         </svg>
 
         {/* Members Layer */}
