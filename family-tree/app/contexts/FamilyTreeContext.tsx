@@ -36,6 +36,7 @@ export type FamilyTreeAction =
   | { type: 'ADD_MEMBER'; payload: FamilyMember }
   | { type: 'UPDATE_MEMBER'; payload: { id: string; updates: Partial<FamilyMember> } }
   | { type: 'DELETE_MEMBER'; payload: string }
+  | { type: 'DELETE_MULTIPLE_MEMBERS'; payload: string[] }
   | { type: 'SET_SELECTED_MEMBERS'; payload: string[] }
   | { type: 'SELECT_MEMBER'; payload: string }
   | { type: 'DESELECT_MEMBER'; payload: string }
@@ -140,6 +141,13 @@ function familyTreeReducer(state: FamilyTreeState, action: FamilyTreeAction): Fa
         ...state,
         members: state.members.filter(member => member.id !== action.payload),
         selectedMemberIds: state.selectedMemberIds.filter(id => id !== action.payload),
+      };
+
+    case 'DELETE_MULTIPLE_MEMBERS':
+      return {
+        ...state,
+        members: state.members.filter(member => !action.payload.includes(member.id)),
+        selectedMemberIds: state.selectedMemberIds.filter(id => !action.payload.includes(id)),
       };
 
     case 'SET_SELECTED_MEMBERS':
