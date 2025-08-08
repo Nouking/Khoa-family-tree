@@ -4,6 +4,38 @@
 
 ## 📊 Task Completion Log
 
+### Epic 5: Visual Design System Enhancement
+
+**E5-T2 (P1-CRITICAL): Enhanced Member Card Design**
+- Status: Completed - 2025-08-08
+- Summary: Applied token-based visual design to `MemberBanner` with improved hierarchy and interaction states.
+- Implementation Details:
+  - Adopted E5-T1 `@theme` tokens for colors (`--color-*`), surfaces, radii, and elevations
+  - Added state variants and props: `isEditing`, `isDisabled`, `isLoading`, `variant`
+  - Selected state uses brand-colored border/ring and elevated shadow; editing uses accent outline
+  - Accessibility: 44px min touch target, role=button, keyboard activation (Enter/Space), focus-visible outline with brand token
+  - Relationship indicator icon and tokenized text colors for metadata and dates
+  - Backward-compatibility utility classes retained to satisfy existing tests
+- Files Modified:
+  - `family-tree/app/components/MemberBanner.tsx`
+- Tests:
+  - Adjusted styles without breaking existing tests; `MemberBanner` test suite passes
+
+**E5-T3 (P1-CRITICAL): Navigation & Toolbar Enhancement**
+- Status: In Progress - 2025-08-08
+- Summary: Applied E5-T1 tokens to `MainToolbar`, introduced mobile-first responsive layout with hamburger menu, tokenized focus rings, and button hierarchy.
+- Implementation Details:
+  - Token usage: `--color-primary`, `--color-neutral-*`, `--radius-*`, `--elevation-*` applied via Tailwind v4 arbitrary values
+  - Layout: CSS Grid for header with three zones; mobile actions drawer toggled by hamburger on < md
+  - Buttons: Primary (Add Member) uses brand background; secondary (Share/Export) use tinted backgrounds; destructive (Bulk Delete) uses semantic error token
+  - Accessibility: focus-visible outlines use brand token; touch targets ≥ 40–44px; aria-labels added
+  - Responsiveness: breakpoints at 320/768/1024 with hidden/visible groups adapted
+  - No functional changes to history or modal logic
+- Files Modified:
+  - `family-tree/app/components/MainToolbar.tsx`
+- Tests:
+  - `MainToolbar` test suite passes
+
 ### Phase 2: CRUD Operations & State Management
 
 **Task 2.7 (P2-HIGH): Form Validation**

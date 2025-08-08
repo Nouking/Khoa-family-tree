@@ -693,11 +693,12 @@ The component architecture is **well-structured and mature** with excellent cons
 **Success Criteria**: Modern, warm design system that enhances family connection experience
 
 ### E5-T1: Design System Foundation (P1-CRITICAL)
-- **Status**: Pending
+- **Status**: Completed
 - **Primary Agent**: @ux-expert (Sally - Visual design system creation)
 - **Supporting Agents**: @pm (John - Strategic design requirements), @architect (Winston - Technical implementation feasibility)
 - **Description**: Create comprehensive design system with color palette, typography, and component standards following Carbon Design System patterns
 - **Dependencies**: None
+- **Completion Date**: 2025-08-08
 - **Acceptance Criteria**:
   - GIVEN the current monochrome design lacks emotional connection
   - WHEN creating a comprehensive design system
@@ -712,13 +713,18 @@ The component architecture is **well-structured and mature** with excellent cons
   - Design icon system for relationships, actions, and status indicators
   - Establish 8px grid spacing system with layout constraints for different screen sizes
   - Implement CSS custom properties with fallbacks: `var(--family-color-primary, #0f62fe)`
+- **Implementation Notes (v1)**:
+  - Added Tailwind v4 `@theme` tokens in `family-tree/app/globals.css` for brand, neutral, semantic colors; typography sizes/weights; radii and elevations, aligned to Context7 Tailwind docs
+  - Created deliverable document `family-tree/docs/design-system-foundation.md` with tokens, usage guidelines, and next steps
+  - Verified `@theme` usage against Tailwind v4 CSS-first docs via Context7; tokens compile to CSS variables and are ready for adoption in components
+- **Deliverable (v1)**: `family-tree/docs/design-system-foundation.md` (tokens, scales, implementation guidance)
 - **Branch**: `improvement-e5-t1-design-system-foundation`
 
 ### E5-T2: Enhanced Member Card Design (P1-CRITICAL)
-- **Status**: Pending  
+- **Status**: Completed  
 - **Primary Agent**: @ux-expert (Sally - Component design)
 - **Supporting Agents**: @dev (James - Implementation), @architect (Winston - Performance considerations)
-- **Description**: Redesign member cards with improved visual hierarchy, information display, and interaction states using modern card patterns
+- **Description**: Apply E5-T1 `@theme` tokens (brand/neutral/semantic colors, typography scale, radii, elevation) to redesign member cards with improved visual hierarchy, richer information display, and clear interaction states using modern card patterns
 - **Dependencies**: [E5-T1] ✅
 - **Acceptance Criteria**:
   - GIVEN current member cards show minimal information and lack visual appeal
@@ -734,13 +740,25 @@ The component architecture is **well-structured and mature** with excellent cons
   - Include birth/death date formatting with proper typography scale
   - Design selection indicators with clear visual feedback and bulk action support
   - Implement card variants: compact (mobile), standard (desktop), detailed (editing mode)
+- **Completion Date**: 2025-08-08
+- **Implementation Notes**:
+  - Applied E5-T1 `@theme` tokens to `MemberBanner` for colors, typography, radii, and elevation
+  - Added state variants and accessibility:
+    - Selected: tokenized border and ring using `--color-primary`, elevated shadow
+    - Editing: accent outline; Disabled: reduced opacity and pointer-events none
+    - Loading: pulse animation; Focus-visible outline uses brand token
+    - Keyboard accessibility: role=button, tabIndex, Enter/Space selection
+  - Introduced props: `isEditing`, `isDisabled`, `isLoading`, `variant` ('compact' | 'standard' | 'detailed')
+  - Updated avatar, text colors, and borders to token-based values; ensured min 44px touch target
+  - Kept drag-and-drop behavior intact; no changes to data flow or context
+  - File: `family-tree/app/components/MemberBanner.tsx`
 - **Branch**: `improvement-e5-t2-enhanced-member-cards`
 
 ### E5-T3: Navigation & Toolbar Enhancement (P1-CRITICAL)
-- **Status**: Pending
+- **Status**: In Progress
 - **Primary Agent**: @ux-expert (Sally - Navigation design)
 - **Supporting Agents**: @dev (James - Component implementation), @po (Sarah - Usability validation)
-- **Description**: Enhance navigation bar and toolbar with better visual design and mobile-first responsive behavior
+- **Description**: Use E5-T1 tokens to enhance navigation bar and toolbar: apply brand/semantic colors for button hierarchy, tokenized focus rings, consistent spacing on the 8px grid, and responsive typography for mobile-first behavior
 - **Dependencies**: [E5-T1] ✅
 - **Acceptance Criteria**:
   - GIVEN current toolbar lacks visual hierarchy and mobile consideration
@@ -757,12 +775,13 @@ The component architecture is **well-structured and mature** with excellent cons
   - Add search/filter functionality to toolbar with auto-complete patterns
   - Use CSS Grid for toolbar layout with fallbacks for older browsers
 - **Branch**: `improvement-e5-t3-navigation-enhancement`
+  - Initial implementation committed: tokenized toolbar, mobile-first layout with hamburger menu, responsive breakpoints, focus-visible rings. Next: breadcrumb/search to be added in subsequent tasks.
 
 ### E5-T4: Canvas & Connection Visual Enhancement (P2-HIGH)
 - **Status**: Pending
 - **Primary Agent**: @ux-expert (Sally - Canvas design)
 - **Supporting Agents**: @dev (James - SVG implementation), @architect (Winston - Performance optimization)
-- **Description**: Improve visual design of family tree connections and canvas background with modern graphics
+- **Description**: Improve canvas background and connection styling using E5-T1 tokens: surface tokens for layered backgrounds, semantic colors for relationship types, and tokenized strokes/shadows for clarity at all zoom levels
 - **Dependencies**: [E5-T2] ✅
 - **Acceptance Criteria**:
   - GIVEN current gray background and basic connections lack visual appeal
@@ -791,7 +810,7 @@ The component architecture is **well-structured and mature** with excellent cons
 - **Status**: Pending
 - **Primary Agent**: @ux-expert (Sally - Interaction design)
 - **Supporting Agents**: @dev (James - Animation implementation), @po (Sarah - UX validation)
-- **Description**: Implement comprehensive feedback system for all user interactions using modern micro-interaction patterns
+- **Description**: Implement comprehensive feedback system using E5-T1 tokens for hover/active/focus states, elevation and radius tokens for affordances, and semantic colors for success/warning/error/info
 - **Dependencies**: [E5-T1] ✅
 - **Acceptance Criteria**:
   - GIVEN users need clear feedback for actions
@@ -813,7 +832,7 @@ The component architecture is **well-structured and mature** with excellent cons
 - **Status**: Pending
 - **Primary Agent**: @ux-expert (Sally - Modal UX design)
 - **Supporting Agents**: @dev (James - Implementation), @qa (Quinn - Accessibility validation)
-- **Description**: Improve modal design, animations, and user experience following modern modal patterns
+- **Description**: Improve modal design and UX applying E5-T1 tokens: radius/elevation for containers, brand-colored focus outlines, tokenized spacing and typography hierarchy; keep accessibility patterns intact
 - **Dependencies**: [E5-T1] ✅, [E1-T5] (if completed - shared form component)
 - **Acceptance Criteria**:
   - GIVEN current modals are functional but basic
@@ -835,7 +854,7 @@ The component architecture is **well-structured and mature** with excellent cons
 - **Status**: Pending
 - **Primary Agent**: @ux-expert (Sally - Search UX design)
 - **Supporting Agents**: @dev (James - Search implementation), @architect (Winston - Search architecture)
-- **Description**: Design and implement search and filtering capabilities with modern search patterns
+- **Description**: Design and implement search and filtering using E5-T1 tokens for inputs, focus rings, results highlighting (semantic info/attention colors), and consistent spacing/typography
 - **Dependencies**: [E5-T3] ✅
 - **Acceptance Criteria**:
   - GIVEN users need to find specific family members in large trees
@@ -857,7 +876,7 @@ The component architecture is **well-structured and mature** with excellent cons
 - **Status**: Pending
 - **Primary Agent**: @ux-expert (Sally - Onboarding design)
 - **Supporting Agents**: @pm (John - Feature prioritization), @po (Sarah - User journey validation)
-- **Description**: Create user onboarding and contextual help system following progressive disclosure patterns
+- **Description**: Create onboarding and contextual help that leverages E5-T1 tokens for legible typography, semantic info/accent colors, and consistent spacing to guide users without clutter
 - **Dependencies**: [E6-T1] ✅
 - **Acceptance Criteria**:
   - GIVEN new users need guidance on how to use the application
@@ -886,7 +905,7 @@ The component architecture is **well-structured and mature** with excellent cons
 - **Status**: Pending
 - **Primary Agent**: @ux-expert (Sally - Mobile UX design)
 - **Supporting Agents**: @dev (James - Responsive implementation), @architect (Winston - Performance optimization)
-- **Description**: Design comprehensive mobile layout system with responsive breakpoints using mobile-first approach
+- **Description**: Design comprehensive mobile layout system that applies E5-T1 spacing and typography tokens across breakpoints for consistent scale and readability (mobile-first)
 - **Dependencies**: [E5-T1] ✅, [E5-T3] ✅
 - **Acceptance Criteria**:
   - GIVEN mobile users need optimized experience
@@ -908,7 +927,7 @@ The component architecture is **well-structured and mature** with excellent cons
 - **Status**: Pending
 - **Primary Agent**: @dev (James - Touch implementation)
 - **Supporting Agents**: @ux-expert (Sally - Gesture design), @qa (Quinn - Cross-device testing)
-- **Description**: Implement comprehensive touch gesture support for mobile devices using modern touch APIs
+- **Description**: Implement touch gestures with token-driven visual feedback (hover/active/selected colors, elevation on press) ensuring consistency with E5-T1 design system
 - **Dependencies**: [E7-T1] ✅
 - **Acceptance Criteria**:
   - GIVEN mobile users interact through touch
@@ -930,7 +949,7 @@ The component architecture is **well-structured and mature** with excellent cons
 - **Status**: Pending
 - **Primary Agent**: @ux-expert (Sally - Mobile action design)
 - **Supporting Agents**: @dev (James - Implementation), @po (Sarah - Mobile UX validation)
-- **Description**: Create mobile-optimized action system for family tree operations using native mobile patterns
+- **Description**: Create mobile-optimized action system styled with E5-T1 tokens (FAB brand colors, contrast text, elevation, radii, spacing) using native mobile patterns
 - **Dependencies**: [E7-T2] ✅
 - **Acceptance Criteria**:
   - GIVEN mobile interface needs efficient action access
@@ -952,7 +971,7 @@ The component architecture is **well-structured and mature** with excellent cons
 - **Status**: Pending
 - **Primary Agent**: @architect (Winston - Mobile performance)
 - **Supporting Agents**: @dev (James - Implementation), @qa (Quinn - Performance testing)
-- **Description**: Optimize performance specifically for mobile devices and touch interactions
+- **Description**: Optimize mobile performance ensuring token-based styles (colors, elevations) remain efficient; maintain smooth interactions and minimal layout shift when tokens or themes change
 - **Dependencies**: [E7-T3] ✅
 - **Acceptance Criteria**:
   - GIVEN mobile devices have performance constraints
@@ -981,7 +1000,7 @@ The component architecture is **well-structured and mature** with excellent cons
 - **Status**: Pending
 - **Primary Agent**: @ux-expert (Sally - Theme design)
 - **Supporting Agents**: @dev (James - Theme implementation), @architect (Winston - Theme architecture)
-- **Description**: Create comprehensive theme system with multiple visual options following CSS custom properties patterns
+- **Description**: Build theme variants (light, dark, high-contrast, sepia) by overriding E5-T1 `@theme` tokens with CSS custom properties; ensure seamless runtime switching and persistence
 - **Dependencies**: [E5-T1] ✅, [E5-T4] ✅
 - **Acceptance Criteria**:
   - GIVEN users may prefer different visual styles

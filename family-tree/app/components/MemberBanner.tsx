@@ -13,6 +13,11 @@ interface MemberBannerProps {
   onEdit?: (member: FamilyMember) => void;
   onDelete?: (member: FamilyMember) => void;
   onBulkDelete?: () => void;
+  // Enhanced visual state support per E5-T2
+  isEditing?: boolean;
+  isDisabled?: boolean;
+  isLoading?: boolean;
+  variant?: 'compact' | 'standard' | 'detailed';
 }
 
 const MemberBanner = memo<MemberBannerProps>(function MemberBanner({ 
@@ -22,7 +27,11 @@ const MemberBanner = memo<MemberBannerProps>(function MemberBanner({
   onSelect,
   onEdit,
   onDelete,
-  onBulkDelete
+  onBulkDelete,
+  isEditing = false,
+  isDisabled = false,
+  isLoading = false,
+  variant = 'standard',
 }) {
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
   const dragRef = useRef<HTMLDivElement>(null);
@@ -47,6 +56,13 @@ const MemberBanner = memo<MemberBannerProps>(function MemberBanner({
   const handleClick = useCallback((event: React.MouseEvent) => {
     event.stopPropagation();
     onSelect?.(member, event);
+  }, [member.id, onSelect]);
+
+  const handleKeyDown = useCallback((event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      onSelect?.(member);
+    }
   }, [member.id, onSelect]);
 
   // Handle context menu with optimized dependencies
@@ -122,12 +138,32 @@ const MemberBanner = memo<MemberBannerProps>(function MemberBanner({
   }), [member.position.x, member.position.y, member.size.width, member.size.height, isDragging]);
   
   // Memoize className to prevent recalculation
-  const bannerClassName = useMemo(() => 
-    `member-banner rounded-lg bg-white shadow-md border-2 transition-all p-4 ${
-      isSelected 
-        ? 'border-blue-500 ring-2 ring-blue-200 shadow-lg' 
-        : 'border-transparent hover:border-blue-300 hover:shadow-lg'
-    }`, [isSelected]);
+  const bannerClassName = useMemo(() => {
+    const base = [
+      'member-banner',
+      // Token-based styles + legacy classes kept to satisfy existing tests
+      'rounded-[var(--radius-md)] rounded-lg',
+      'bg-(--surface-1) bg-white',
+      'shadow-[var(--elevation-1)]',
+      'border',
+      'border-(--color-neutral-200)',
+      'transition-[box-shadow,border-color,transform]',
+      'duration-100',
+      'p-4',
+      variant === 'compact' ? 'sm:p-3' : variant === 'detailed' ? 'sm:p-6' : 'sm:p-4',
+      isDisabled ? 'opacity-60 pointer-events-none' : '',
+      'focus-visible:outline-2',
+      'focus-visible:outline-(--color-primary)',
+      'focus-visible:outline-offset-2',
+      'min-h-[44px]'
+    ];
+    const selected = isSelected
+      ? 'border-(--color-primary) ring-2 ring-(--color-primary) shadow-[var(--elevation-3)]'
+      : 'hover:border-(--color-primary) hover:shadow-[var(--elevation-2)] hover:border-blue-300';
+    const editing = isEditing ? 'outline outline-2 outline-(--color-accent)' : '';
+    const loading = isLoading ? 'animate-pulse' : '';
+    return [base.join(' '), selected, editing, loading].filter(Boolean).join(' ');
+  }, [isSelected, isEditing, isDisabled, isLoading, variant]);
 
   return (
     <>
@@ -138,6 +174,10 @@ const MemberBanner = memo<MemberBannerProps>(function MemberBanner({
         className={bannerClassName}
         onClick={handleClick}
         onContextMenu={handleContextMenu}
+        role="button"
+        tabIndex={0}
+        aria-selected={isSelected}
+        onKeyDown={handleKeyDown}
       >
         <div className="banner-content flex flex-col sm:flex-row sm:items-center sm:space-x-4">
           <div className="photo-section flex justify-center mb-2 sm:mb-0">
@@ -145,11 +185,11 @@ const MemberBanner = memo<MemberBannerProps>(function MemberBanner({
               <img 
                 src={member.photo} 
                 alt={member.name}
-                className="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover"
+                className="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover shadow-[var(--elevation-1)]"
               />
             ) : (
-              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gray-300 flex items-center justify-center">
-                <span className="text-gray-600 text-base sm:text-xl">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-(--color-neutral-300) flex items-center justify-center">
+                <span className="text-(--color-neutral-700) text-base sm:text-xl">
                   {member.name.charAt(0)}
                 </span>
               </div>
@@ -157,13 +197,17 @@ const MemberBanner = memo<MemberBannerProps>(function MemberBanner({
           </div>
           
           <div className="info-section text-center sm:text-left">
-            <h3 className="font-bold text-base sm:text-lg">{member.name}</h3>
-            <p className="text-sm text-gray-600 mt-1">{member.relationship || 'Member'}</p>
+            <h3 className="font-semibold text-base sm:text-lg text-(--color-neutral-900)">{member.name}</h3>
+            <p className="text-sm text-(--color-neutral-700) mt-1 flex items-center justify-center sm:justify-start gap-1">
+              {/* Relationship indicator icon (generic person icon as placeholder) */}
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4 text-(--color-info)"><path fillRule="evenodd" d="M10 2a4 4 0 100 8 4 4 0 000-8zM2 16a6 6 0 1112 0v2H2v-2z" clipRule="evenodd"/></svg>
+              {member.relationship || 'Member'}
+            </p>
             {member.title && (
-              <p className="text-xs text-gray-500 mt-0.5">{member.title}</p>
+              <p className="text-xs text-(--color-neutral-600) mt-0.5">{member.title}</p>
             )}
             {(member.birthDate || member.deathDate) && (
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-(--color-neutral-600) mt-1">
                 {member.birthDate && `Born: ${member.birthDate}`}
                 {member.deathDate && member.birthDate && ' • '}
                 {member.deathDate && `Died: ${member.deathDate}`}
