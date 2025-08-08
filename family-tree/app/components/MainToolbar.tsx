@@ -3,7 +3,8 @@ import React, { useState, useEffect } from 'react';
 import AddMemberModal from './AddMemberModal';
 import EditMemberModal from './EditMemberModal';
 import DeleteMemberModal from './DeleteMemberModal';
-import { useFamilyTreeWithDispatch } from '../contexts/FamilyTreeContext';
+import BulkDeleteModal from './BulkDeleteModal';
+import { useFamilyTreeWithDispatch, useSelectedMembers } from '../contexts/FamilyTreeContext';
 import { FamilyMember } from '@/types';
 
 interface MainToolbarProps {
@@ -20,11 +21,13 @@ const MainToolbar: React.FC<MainToolbarProps> = ({
   selectedMember = null,
 }) => {
   const { state, history } = useFamilyTreeWithDispatch();
+  const selectedMemberIds = useSelectedMembers();
   
   // Modal states
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showBulkDeleteModal, setShowBulkDeleteModal] = useState(false);
   const [memberToEdit, setMemberToEdit] = useState<FamilyMember | null>(null);
   const [memberToDelete, setMemberToDelete] = useState<FamilyMember | null>(null);
 
@@ -41,6 +44,10 @@ const MainToolbar: React.FC<MainToolbarProps> = ({
   const handleDeleteMember = (member?: FamilyMember) => {
     setMemberToDelete(member || selectedMember);
     setShowDeleteModal(true);
+  };
+
+  const handleBulkDelete = () => {
+    setShowBulkDeleteModal(true);
   };
 
   const handleUndo = () => {
@@ -121,6 +128,21 @@ const MainToolbar: React.FC<MainToolbarProps> = ({
           </div>
           
           <div className="toolbar-right flex items-center space-x-2">
+            {/* Bulk delete button - only show when multiple members selected */}
+            {selectedMemberIds.length > 1 && (
+              <button 
+                className="btn-bulk-delete p-2 rounded-md bg-red-600 text-white hover:bg-red-700 flex items-center justify-center"
+                onClick={handleBulkDelete}
+                aria-label={`Delete ${selectedMemberIds.length} Members`}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
+                </svg>
+                <span className="hidden md:inline">Delete {selectedMemberIds.length}</span>
+                <span className="md:hidden">{selectedMemberIds.length}</span>
+              </button>
+            )}
+            
             <button 
               className="btn-share p-2 rounded-md text-blue-600 hover:bg-blue-50 hidden sm:flex items-center"
               onClick={onShare}
@@ -194,6 +216,19 @@ const MainToolbar: React.FC<MainToolbarProps> = ({
         onMemberDeleted={() => {
           setShowDeleteModal(false);
           setMemberToDelete(null);
+          // Optional: Show success notification
+        }}
+      />
+
+      <BulkDeleteModal 
+        isOpen={showBulkDeleteModal}
+        onClose={() => {
+          setShowBulkDeleteModal(false);
+        }}
+        memberIds={selectedMemberIds}
+        onMembersDeleted={() => {
+          setShowBulkDeleteModal(false);
+          // Selections are automatically cleared when members are deleted via context reducer
           // Optional: Show success notification
         }}
       />

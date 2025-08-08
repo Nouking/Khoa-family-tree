@@ -4,6 +4,7 @@ import { FamilyMember, ItemTypes } from '../../types';
 import MemberBanner from './MemberBanner';
 import EditMemberModal from './EditMemberModal';
 import DeleteMemberModal from './DeleteMemberModal';
+import BulkDeleteModal from './BulkDeleteModal';
 import TreeConnection from './TreeConnection';
 import { XYCoord } from 'dnd-core';
 import { useFamilyTreeWithDispatch, useSelectedMembers } from '../contexts/FamilyTreeContext';
@@ -42,6 +43,7 @@ const FamilyTreeCanvas: React.FC<FamilyTreeCanvasProps> = ({ members, moveMember
   // Modal states
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showBulkDeleteModal, setShowBulkDeleteModal] = useState(false);
   const [memberToEdit, setMemberToEdit] = useState<FamilyMember | null>(null);
   const [memberToDelete, setMemberToDelete] = useState<FamilyMember | null>(null);
   
@@ -176,6 +178,11 @@ const FamilyTreeCanvas: React.FC<FamilyTreeCanvasProps> = ({ members, moveMember
     setShowDeleteModal(true);
   }, []);
 
+  // Handle bulk delete
+  const handleBulkDelete = useCallback(() => {
+    setShowBulkDeleteModal(true);
+  }, []);
+
   return (
     <div 
       data-testid="family-tree-canvas"
@@ -250,9 +257,11 @@ const FamilyTreeCanvas: React.FC<FamilyTreeCanvasProps> = ({ members, moveMember
             key={member.id} 
             member={member}
             isSelected={selectedMemberIds.includes(member.id)}
+            selectedCount={selectedMemberIds.length}
             onSelect={(member, event) => handleMemberSelect(member, event)}
             onEdit={handleMemberEdit}
             onDelete={handleMemberDelete}
+            onBulkDelete={handleBulkDelete}
           />
         ))}
       </div>
@@ -289,6 +298,19 @@ const FamilyTreeCanvas: React.FC<FamilyTreeCanvasProps> = ({ members, moveMember
           setShowDeleteModal(false);
           setMemberToDelete(null);
           // Selection is automatically cleared when member is deleted via context reducer
+          // Optional: Show success notification
+        }}
+      />
+
+      <BulkDeleteModal 
+        isOpen={showBulkDeleteModal}
+        onClose={() => {
+          setShowBulkDeleteModal(false);
+        }}
+        memberIds={selectedMemberIds}
+        onMembersDeleted={() => {
+          setShowBulkDeleteModal(false);
+          // Selections are automatically cleared when members are deleted via context reducer
           // Optional: Show success notification
         }}
       />
