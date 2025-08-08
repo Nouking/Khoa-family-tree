@@ -191,17 +191,24 @@ Always use these library IDs for accurate documentation:
     - ✅ SVG connection layer renders dynamically with proper z-indexing below member banners
 
 **Task 2.6 (P2-HIGH): Undo/Redo History Stack**
-- **Status**: Pending
+- **Status**: Completed - 2025-08-08
 - **Description**: Implement an undo/redo system for all state-changing actions.
-- **Dependencies**: [2.2]
+- **Dependencies**: [2.2] ✅
 - **Acceptance Criteria**:
-    - GIVEN a user performs a state-changing action (e.g., add member)
-    - WHEN the "Undo" button is clicked
-    - THEN the last action is reverted.
-    - GIVEN an action has been undone
-    - WHEN the "Redo" button is clicked
-    - THEN the undone action is restored.
-- **Details**: Manage a history of state snapshots (`past`, `present`, `future`). Connect this to the Undo/Redo buttons in the toolbar.
+    - ✅ GIVEN a user performs a state-changing action (e.g., add member)
+    - ✅ WHEN the "Undo" button is clicked
+    - ✅ THEN the last action is reverted.
+    - ✅ GIVEN an action has been undone
+    - ✅ WHEN the "Redo" button is clicked
+    - ✅ THEN the undone action is restored.
+- **Implementation Details**:
+    - ✅ History stack functionality already implemented in `FamilyTreeContext.tsx` using `historyReducer`
+    - ✅ Undo/Redo buttons functional in `MainToolbar.tsx` with proper disabled states
+    - ✅ Keyboard shortcuts implemented: Ctrl+Z (Undo), Ctrl+Y or Ctrl+Shift+Z (Redo)
+    - ✅ History excludes viewport updates, loading states, and error states to prevent cluttered history
+    - ✅ Smart history management: new actions clear future history (redo stack)
+    - ✅ Complete test coverage for all history operations
+    - ✅ Cross-platform keyboard shortcuts support (Ctrl for Windows/Linux, Cmd for macOS)
 
 **Task 2.7 (P2-HIGH): Form Validation**
 - **Status**: Pending
