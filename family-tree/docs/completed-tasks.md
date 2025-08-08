@@ -6,6 +6,34 @@
 
 ### Phase 2: CRUD Operations & State Management
 
+**Task 2.6 (P2-HIGH): Undo/Redo History Stack**
+- **Status**: Completed - 2025-08-08
+- **Description**: Implemented a complete undo/redo system for all state-changing actions with keyboard shortcuts and visual feedback.
+- **Implementation Details**:
+    - Enhanced existing history stack functionality in `FamilyTreeContext.tsx` using `historyReducer`
+    - Connected undo/redo functionality to toolbar buttons with proper disabled states and visual feedback
+    - Added comprehensive keyboard shortcuts: Ctrl+Z (Undo), Ctrl+Y or Ctrl+Shift+Z (Redo)
+    - Cross-platform support: Ctrl key for Windows/Linux, Cmd key for macOS
+    - Smart history management: excludes viewport updates, loading states, and error states to prevent cluttered history
+    - New actions automatically clear future history (redo stack) for intuitive user experience
+    - Added complete test coverage for all history operations and keyboard shortcuts
+    - Updated MainToolbar tests to work with FamilyTreeProvider context
+- **Key Features**:
+    - Visual button states show when undo/redo is available (enabled/disabled styling)
+    - Keyboard shortcuts work globally within the application
+    - History tracks all meaningful state changes: add/edit/delete members, selections, etc.
+    - Performance optimized: non-essential actions don't clutter history stack
+    - Intuitive behavior: performing new action clears redo history
+    - Complete integration with existing state management system
+- **Technical Architecture**:
+    - History state structure: `{ past: [], present: currentState, future: [] }`
+    - History reducer manages state transitions and maintains proper stack behavior
+    - Event listeners for keyboard shortcuts with proper cleanup
+    - Memoized history context prevents unnecessary re-renders
+    - Integration with existing FamilyTreeContext maintains single source of truth
+- **Issues/Blockers**: None - all acceptance criteria exceeded
+- **Notes**: This completes the professional undo/redo system. Users can now easily revert and restore changes using both UI buttons and standard keyboard shortcuts. The system intelligently manages history to provide optimal user experience while maintaining performance.
+
 **Task 2.5 (P1-CRITICAL): Dynamic Connection Recalculation**
 - **Status**: Completed - 2025-08-08
 - **Description**: Implemented logic to dynamically recalculate and re-render the SVG connection lines when members are moved.

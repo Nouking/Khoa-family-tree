@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AddMemberModal from './AddMemberModal';
 import EditMemberModal from './EditMemberModal';
 import DeleteMemberModal from './DeleteMemberModal';
@@ -54,6 +54,28 @@ const MainToolbar: React.FC<MainToolbarProps> = ({
       history.redo();
     }
   };
+
+  // Keyboard shortcuts for undo/redo
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      // Check if Ctrl (Windows/Linux) or Cmd (Mac) is pressed
+      const ctrlOrCmd = event.ctrlKey || event.metaKey;
+      
+      if (ctrlOrCmd && event.key === 'z' && !event.shiftKey) {
+        event.preventDefault();
+        handleUndo();
+      } else if (ctrlOrCmd && (event.key === 'y' || (event.key === 'z' && event.shiftKey))) {
+        event.preventDefault();
+        handleRedo();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [history.canUndo, history.canRedo]);
 
   return (
     <>
