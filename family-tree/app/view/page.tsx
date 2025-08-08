@@ -1,4 +1,5 @@
 import { getAllMembers } from '../lib/data'
+
 import ViewPageClient from './ViewPageClient'
 
 // Server Component for data fetching

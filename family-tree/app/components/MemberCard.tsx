@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { useDrag } from 'react-dnd';
-import { FamilyMember, ItemTypes } from '../../types';
+
+import { FamilyMember, ItemTypes } from '@/types';
 
 interface MemberCardProps {
   member: FamilyMember;

@@ -4,7 +4,7 @@ import {
   getConnectionPoint,
   Connection 
 } from '../connectionCalculator';
-import { FamilyMember } from '../../types';
+import { FamilyMember } from '../../../types';
 
 describe('connectionCalculator', () => {
   const mockMembers: FamilyMember[] = [

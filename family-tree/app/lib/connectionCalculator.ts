@@ -1,4 +1,4 @@
-import { FamilyMember } from '../types';
+import { FamilyMember } from '../../types';
 
 export interface ConnectionPoint {
   x: number;

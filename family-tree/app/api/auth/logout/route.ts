@@ -1,5 +1,6 @@
 
 import { NextResponse } from "next/server";
+
 import { clearTokenCookie } from '@/app/lib/auth';
 
 export async function POST() {

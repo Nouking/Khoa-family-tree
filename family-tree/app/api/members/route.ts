@@ -1,8 +1,10 @@
 
 import { NextRequest, NextResponse } from "next/server";
-import { getAllMembers, addMember } from '@/app/lib/data';
-import { requireAuth, getUserFromRequest } from '@/app/lib/authMiddleware';
+
 import { FamilyMember } from '@/types';
+
+import { requireAuth, getUserFromRequest } from '@/app/lib/authMiddleware';
+import { getAllMembers, addMember } from '@/app/lib/data';
 
 /**
  * GET /api/members - Get all family members

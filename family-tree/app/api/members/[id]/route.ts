@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getMemberById, updateMember, deleteMember } from '@/app/lib/data';
-import { requireAuth, getUserFromRequest } from '@/app/lib/authMiddleware';
+
 import { FamilyMember } from '@/types';
+
+import { requireAuth, getUserFromRequest } from '@/app/lib/authMiddleware';
+import { getMemberById, updateMember, deleteMember } from '@/app/lib/data';
 
 type Params = {
     id: string;

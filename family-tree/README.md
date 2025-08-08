@@ -119,12 +119,12 @@ interface User {
 
 ## 🚀 Getting Started
 
-First, clone the repository and install dependencies:
+First, clone the repository and navigate to the application directory:
 
 ```bash
 # Clone the repository (if not already done)
 git clone <repository-url>
-cd family-tree
+cd Khoa-family-tree/family-tree
 
 # Install dependencies
 npm install
@@ -135,6 +135,8 @@ Then, run the development server:
 ```bash
 npm run dev
 ```
+
+**Important**: All npm commands must be run from the `family-tree/` subdirectory, not from the root project directory.
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the family tree visualization.
 
