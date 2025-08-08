@@ -13,7 +13,7 @@ jest.mock('react-dnd', () => ({
 
 // Mock MemberCard component
 jest.mock('../MemberCard', () => {
-  return function MockMemberCard({ member }: { member: any }) {
+  return function MockMemberCard({ member }: { member: { id: string; name: string } }) {
     return (
       <div data-testid={`member-card-${member.id}`}>
         {member.name}

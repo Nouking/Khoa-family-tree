@@ -2,7 +2,7 @@
 
 import { useCallback } from 'react';
 import { FamilyMember } from '@/types';
-import { useFamilyTreeWithDispatch } from '@/contexts/FamilyTreeContext';
+import { useFamilyTreeWithDispatch } from '../contexts/FamilyTreeContext';
 
 /**
  * Custom hook that provides high-level operations for family tree management

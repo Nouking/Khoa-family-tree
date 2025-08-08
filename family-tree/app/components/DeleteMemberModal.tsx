@@ -256,7 +256,7 @@ const DeleteMemberModal: React.FC<DeleteMemberModalProps> = ({
         {hasCriticalRelationships && (
           <div>
             <label htmlFor="confirmation" className="block text-sm font-medium text-gray-700 mb-2">
-              To confirm deletion, please type the member's name: <strong>{member.name}</strong>
+              To confirm deletion, please type the member&apos;s name: <strong>{member.name}</strong>
             </label>
             <input
               type="text"
@@ -264,7 +264,7 @@ const DeleteMemberModal: React.FC<DeleteMemberModalProps> = ({
               value={confirmationText}
               onChange={handleConfirmationChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
-              placeholder={`Type "${member.name}" to confirm`}
+              placeholder={`Type &quot;${member.name}&quot; to confirm`}
               disabled={isDeleting}
               autoComplete="off"
             />
@@ -307,7 +307,7 @@ const DeleteMemberModal: React.FC<DeleteMemberModalProps> = ({
         {/* Help Text */}
         {hasCriticalRelationships && !canDelete && confirmationText && (
           <p className="text-xs text-red-600 text-center">
-            The name doesn't match. Please type "{member.name}" exactly to confirm deletion.
+            The name doesn&apos;t match. Please type &quot;{member.name}&quot; exactly to confirm deletion.
           </p>
         )}
       </div>

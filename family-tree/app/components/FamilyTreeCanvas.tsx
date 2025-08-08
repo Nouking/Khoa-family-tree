@@ -2,6 +2,8 @@ import React, { useState, useCallback, useRef, MouseEvent } from 'react';
 import { useDrop, DropTargetMonitor } from 'react-dnd';
 import { FamilyMember, ItemTypes } from '../../types';
 import MemberBanner from './MemberBanner';
+import EditMemberModal from './EditMemberModal';
+import DeleteMemberModal from './DeleteMemberModal';
 import { XYCoord } from 'dnd-core';
 
 interface FamilyTreeCanvasProps {
@@ -29,6 +31,15 @@ const FamilyTreeCanvas: React.FC<FamilyTreeCanvasProps> = ({ members, moveMember
   // State to track panning
   const [isPanning, setIsPanning] = useState(false);
   const [startPanPos, setStartPanPos] = useState<{ x: number; y: number } | null>(null);
+  
+  // Member selection state
+  const [selectedMember, setSelectedMember] = useState<FamilyMember | null>(null);
+  
+  // Modal states
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [memberToEdit, setMemberToEdit] = useState<FamilyMember | null>(null);
+  const [memberToDelete, setMemberToDelete] = useState<FamilyMember | null>(null);
   
   // Constants for zoom
   const ZOOM_STEP = 0.1;
@@ -118,6 +129,31 @@ const FamilyTreeCanvas: React.FC<FamilyTreeCanvasProps> = ({ members, moveMember
     setViewport({ x: 0, y: 0, zoom: 1 });
   }, []);
 
+  // Handle member selection
+  const handleMemberSelect = useCallback((member: FamilyMember) => {
+    setSelectedMember(member);
+  }, []);
+
+  // Handle canvas click (deselect member)
+  const handleCanvasClick = useCallback((e: MouseEvent<HTMLDivElement>) => {
+    // Only deselect if clicking on the canvas background (not during panning)
+    if (e.target === e.currentTarget && !isPanning) {
+      setSelectedMember(null);
+    }
+  }, [isPanning]);
+
+  // Handle member edit
+  const handleMemberEdit = useCallback((member: FamilyMember) => {
+    setMemberToEdit(member);
+    setShowEditModal(true);
+  }, []);
+
+  // Handle member delete
+  const handleMemberDelete = useCallback((member: FamilyMember) => {
+    setMemberToDelete(member);
+    setShowDeleteModal(true);
+  }, []);
+
   return (
     <div 
       data-testid="family-tree-canvas"
@@ -127,6 +163,7 @@ const FamilyTreeCanvas: React.FC<FamilyTreeCanvasProps> = ({ members, moveMember
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
+      onClick={handleCanvasClick}
       style={{ cursor: isPanning ? 'grabbing' : 'default' }}
     >
       {/* Viewport Controls */}
@@ -180,7 +217,14 @@ const FamilyTreeCanvas: React.FC<FamilyTreeCanvasProps> = ({ members, moveMember
 
         {/* Members Layer */}
         {members.map((member) => (
-          <MemberBanner key={member.id} member={member} />
+          <MemberBanner 
+            key={member.id} 
+            member={member}
+            isSelected={selectedMember?.id === member.id}
+            onSelect={handleMemberSelect}
+            onEdit={handleMemberEdit}
+            onDelete={handleMemberDelete}
+          />
         ))}
       </div>
 
@@ -189,6 +233,36 @@ const FamilyTreeCanvas: React.FC<FamilyTreeCanvasProps> = ({ members, moveMember
         <p>Zoom: {(viewport.zoom * 100).toFixed(0)}%</p>
         <p className="text-xs">Drag canvas to pan • Use buttons to zoom</p>
       </div>
+
+      {/* Modals */}
+      <EditMemberModal 
+        isOpen={showEditModal}
+        onClose={() => {
+          setShowEditModal(false);
+          setMemberToEdit(null);
+        }}
+        member={memberToEdit}
+        onMemberUpdated={() => {
+          setShowEditModal(false);
+          setMemberToEdit(null);
+          // Optional: Show success notification
+        }}
+      />
+
+      <DeleteMemberModal 
+        isOpen={showDeleteModal}
+        onClose={() => {
+          setShowDeleteModal(false);
+          setMemberToDelete(null);
+        }}
+        member={memberToDelete}
+        onMemberDeleted={() => {
+          setShowDeleteModal(false);
+          setMemberToDelete(null);
+          setSelectedMember(null); // Clear selection if deleted member was selected
+          // Optional: Show success notification
+        }}
+      />
     </div>
   );
 };

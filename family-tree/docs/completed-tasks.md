@@ -405,8 +405,114 @@
 - Updated type definitions in `family-tree/types/index.ts`
 
 **Next Steps**:
-- Integrate with CRUD modals
 - Connect undo/redo to toolbar
 - Add performance monitoring
+
+---
+
+## Phase 2: CRUD Operations & State Management
+
+**Task 2.3 (P1-CRITICAL): CRUD Member Modals**
+- **Date Completed**: 2025-08-08
+- **Summary**: Implemented comprehensive CRUD modal system for family member management with full validation, API integration, and accessibility features
+
+**Implementation Details**:
+
+1. **Modal Base Component** (`Modal.tsx`):
+   - Full WCAG accessibility compliance with ARIA attributes
+   - Keyboard navigation support (Tab, Escape, focus trap)
+   - Responsive design with size variants (small, medium, large)
+   - Click-outside-to-close and escape key handling
+   - Smooth animations and transitions
+   - Proper z-index management for stacking
+
+2. **AddMemberModal Component** (`AddMemberModal.tsx`):
+   - Comprehensive form with all family member fields
+   - Real-time form validation with error messages
+   - Photo upload with file type/size validation (5MB limit)
+   - Parent and spouse relationship selection from existing members
+   - API integration with JWT authentication
+   - Global state updates via React Context
+   - Loading states and error handling
+   - Form reset on successful submission
+
+3. **EditMemberModal Component** (`EditMemberModal.tsx`):
+   - Pre-populated form with existing member data
+   - Advanced position and size controls for canvas layout
+   - Self-reference validation prevents circular relationships
+   - Smart filtering excludes current member from relationship options
+   - Comprehensive validation including date logic
+   - API integration for member updates
+   - Proper error handling and success feedback
+
+4. **DeleteMemberModal Component** (`DeleteMemberModal.tsx`):
+   - Smart relationship detection and impact analysis
+   - Visual warnings for members with existing relationships
+   - Confirmation flow requiring exact name typing for critical deletions
+   - Safe deletion with automatic relationship cleanup
+   - Different UI flows for simple vs. complex deletions
+   - Member preview with photo and relationship information
+   - API integration with proper error handling
+
+5. **Context Menu Integration** (`ContextMenu.tsx`):
+   - Professional right-click context menus
+   - Smart positioning with viewport bounds checking
+   - Customizable menu items with icons and actions
+   - Keyboard navigation support
+   - Proper event handling and cleanup
+
+6. **Integration Points**:
+   - **MainToolbar**: Add Member button opens AddMemberModal
+   - **FamilyTreeCanvas**: Edit/Delete modals accessible from member interactions
+   - **MemberBanner**: Right-click context menu for Edit/Delete actions
+   - **Global State**: All operations update React Context with history tracking
+   - **API Layer**: Full integration with `/api/members` CRUD endpoints
+
+**Key Features Delivered**:
+- ✅ Complete CRUD operations (Create, Read, Update, Delete)
+- ✅ Advanced form validation with real-time error feedback
+- ✅ Photo upload functionality with comprehensive validation
+- ✅ Relationship management (parent, spouse, children connections)
+- ✅ Smart relationship cleanup on member deletion
+- ✅ Professional accessibility compliance (WCAG guidelines)
+- ✅ Mobile-responsive design for all screen sizes
+- ✅ JWT authentication integration
+- ✅ Loading states and comprehensive error handling
+- ✅ Context menu integration for quick actions
+- ✅ Position and size controls for canvas layout
+- ✅ TypeScript type safety throughout
+
+**Files Created/Modified**:
+- Created `family-tree/app/components/Modal.tsx`
+- Created `family-tree/app/components/AddMemberModal.tsx`  
+- Created `family-tree/app/components/EditMemberModal.tsx`
+- Created `family-tree/app/components/DeleteMemberModal.tsx`
+- Updated `family-tree/app/components/MainToolbar.tsx`
+- Updated `family-tree/app/components/FamilyTreeCanvas.tsx`
+- Updated `family-tree/app/components/MemberBanner.tsx`
+- Created comprehensive test suite for all modal components
+
+**Testing**:
+- Unit tests for all modal components
+- Form validation testing
+- API integration testing
+- Accessibility compliance verification
+- Mobile responsiveness testing
+- Error handling edge cases
+
+**Technical Achievements**:
+- Professional UX patterns for complex form workflows
+- Robust client-side validation with server-side integration
+- Smart relationship management preventing data corruption
+- Performance-optimized rendering with proper React patterns
+- Complete TypeScript type safety
+- Comprehensive error boundaries and graceful degradation
+
+**Next Steps**:
+- Implement member selection and multi-select operations
+- Add bulk operations support for selected members
+- Integrate undo/redo functionality with modal operations
+- Add animation effects for better user feedback
+- Implement advanced search and filtering within modals
 
 *See [Task Tracking](./task-tracking.md) for current active tasks.*

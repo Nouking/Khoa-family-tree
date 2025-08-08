@@ -36,9 +36,6 @@ export default function ViewPageClient({ initialMembers }: ViewPageClientProps) 
         title="Family Tree View"
         onShare={handleShare}
         onExport={handleExport}
-        onAddMember={handleAddMember}
-        onUndo={handleUndo}
-        onRedo={handleRedo}
       />
       
       <main className="container mx-auto px-2 sm:px-4 py-4 sm:py-8">
