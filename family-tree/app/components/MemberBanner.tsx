@@ -2,12 +2,11 @@ import React, { useState, useCallback, useRef } from 'react';
 import { useDrag } from 'react-dnd';
 import { FamilyMember, ItemTypes } from '../../types';
 import ContextMenu from './ContextMenu';
-import { useFamilyTreeWithDispatch } from '../contexts/FamilyTreeContext';
 
 interface MemberBannerProps {
   member: FamilyMember;
   isSelected?: boolean;
-  onSelect?: (member: FamilyMember) => void;
+  onSelect?: (member: FamilyMember, event?: React.MouseEvent) => void;
   onEdit?: (member: FamilyMember) => void;
   onDelete?: (member: FamilyMember) => void;
 }
@@ -19,7 +18,6 @@ export default function MemberBanner({
   onEdit,
   onDelete 
 }: MemberBannerProps) {
-  const { dispatch } = useFamilyTreeWithDispatch();
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
   const dragRef = useRef<HTMLDivElement>(null);
   
@@ -37,7 +35,7 @@ export default function MemberBanner({
   // Handle member selection
   const handleClick = useCallback((event: React.MouseEvent) => {
     event.stopPropagation();
-    onSelect?.(member);
+    onSelect?.(member, event);
   }, [member, onSelect]);
 
   // Handle context menu
@@ -45,11 +43,16 @@ export default function MemberBanner({
     event.preventDefault();
     event.stopPropagation();
     
+    // Auto-select member if not already selected when right-clicking
+    if (!isSelected) {
+      onSelect?.(member, event);
+    }
+    
     setContextMenu({
       x: event.clientX,
       y: event.clientY
     });
-  }, []);
+  }, [isSelected, member, onSelect]);
 
   // Context menu items
   const contextMenuItems = [
@@ -93,8 +96,8 @@ export default function MemberBanner({
         className={`
           member-banner rounded-lg bg-white shadow-md border-2 transition-all p-4
           ${isSelected 
-            ? 'border-blue-500 ring-2 ring-blue-200' 
-            : 'border-transparent hover:border-blue-300'
+            ? 'border-blue-500 ring-2 ring-blue-200 shadow-lg' 
+            : 'border-transparent hover:border-blue-300 hover:shadow-lg'
           }
         `}
         onClick={handleClick}
