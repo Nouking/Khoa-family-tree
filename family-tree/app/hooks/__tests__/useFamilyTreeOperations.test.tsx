@@ -1,7 +1,7 @@
 import React from 'react';
 import { renderHook, act } from '@testing-library/react';
 import { useFamilyTreeOperations } from '../useFamilyTreeOperations';
-import { FamilyTreeProvider } from '@/contexts/FamilyTreeContext';
+import { FamilyTreeProvider } from '../../contexts/FamilyTreeContext';
 import { FamilyMember, FamilyTreeData } from '@/types';
 
 // Mock fetch globally
