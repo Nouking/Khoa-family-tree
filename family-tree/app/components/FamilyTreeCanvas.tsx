@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, memo, MouseEvent, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, memo, MouseEvent, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import { useDrop, DropTargetMonitor } from 'react-dnd';
 import { XYCoord } from 'dnd-core';
 
@@ -16,9 +16,10 @@ import BulkDeleteModal from './BulkDeleteModal';
 import VirtualizedConnections from './VirtualizedConnections';
 import { useToast } from './ToastProvider';
 
-interface FamilyTreeCanvasProps {
+export interface FamilyTreeCanvasProps {
   members: FamilyMember[];
   moveMember: (id: string, x: number, y: number) => void;
+  highlightedIds?: string[];
 }
 
 interface DragItem {
@@ -36,7 +37,12 @@ interface Viewport {
   height: number;
 }
 
-const FamilyTreeCanvas: React.FC<FamilyTreeCanvasProps> = memo(({ members, moveMember }) => {
+export interface FamilyTreeCanvasHandle {
+  focusMember: (memberId: string) => void;
+  zoomToFitMembers: (memberIds: string[]) => void;
+}
+
+const FamilyTreeCanvas = memo(React.forwardRef<FamilyTreeCanvasHandle, FamilyTreeCanvasProps>(function FamilyTreeCanvas({ members, moveMember, highlightedIds = [] }, ref) {
   // Global state for member selection
   const { dispatch } = useFamilyTreeWithDispatch();
   const { showToast } = useToast();
@@ -86,6 +92,36 @@ const FamilyTreeCanvas: React.FC<FamilyTreeCanvasProps> = memo(({ members, moveM
 
   // Reference to the canvas div for mouse events
   const canvasRef = useRef<HTMLDivElement>(null);
+  // Expose imperative API for search focus/zoom
+  useImperativeHandle(ref, () => ({
+    focusMember: (memberId: string) => {
+      const member = members.find(m => m.id === memberId);
+      if (!member) return;
+      const targetX = (viewport.width / 2) - member.position.x;
+      const targetY = (viewport.height / 2) - member.position.y;
+      setViewport(prev => ({ ...prev, x: targetX, y: targetY }));
+    },
+    zoomToFitMembers: (memberIds: string[]) => {
+      if (memberIds.length === 0) return;
+      const selected = members.filter(m => memberIds.includes(m.id));
+      if (selected.length === 0) return;
+      const minX = Math.min(...selected.map(m => m.position.x));
+      const minY = Math.min(...selected.map(m => m.position.y));
+      const maxX = Math.max(...selected.map(m => m.position.x + m.size.width));
+      const maxY = Math.max(...selected.map(m => m.position.y + m.size.height));
+      const boundsWidth = maxX - minX;
+      const boundsHeight = maxY - minY;
+      const padding = 80;
+      const zoomX = (viewport.width - padding) / boundsWidth;
+      const zoomY = (viewport.height - padding) / boundsHeight;
+      const nextZoom = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, Math.min(zoomX, zoomY)));
+      const centerX = minX + boundsWidth / 2;
+      const centerY = minY + boundsHeight / 2;
+      const targetX = (viewport.width / 2) - centerX;
+      const targetY = (viewport.height / 2) - centerY;
+      setViewport(prev => ({ ...prev, x: targetX, y: targetY, zoom: nextZoom }));
+    }
+  }), [members, viewport.width, viewport.height]);
 
   // Virtualization for large family trees
   const { visibleMembers, stats } = useVirtualization(members, {
@@ -334,6 +370,7 @@ const FamilyTreeCanvas: React.FC<FamilyTreeCanvasProps> = memo(({ members, moveM
           <MemberBanner 
             key={member.id} 
             member={member}
+            isHighlighted={highlightedIds.includes(member.id)}
             isSelected={selectedMemberIds.includes(member.id)}
             selectedCount={selectedMemberIds.length}
             onSelect={handleMemberSelect}
@@ -400,7 +437,7 @@ const FamilyTreeCanvas: React.FC<FamilyTreeCanvasProps> = memo(({ members, moveM
       />
     </div>
   );
-});
+}));
 
 FamilyTreeCanvas.displayName = 'FamilyTreeCanvas';
 

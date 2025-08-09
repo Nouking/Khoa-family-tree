@@ -16,6 +16,12 @@ interface MainToolbarProps {
   onShare?: () => void;
   onExport?: () => void;
   selectedMember?: FamilyMember | null;
+  onOpenFilters?: () => void;
+  onSearchFocus?: () => void;
+  searchQuery?: string;
+  onSearchChange?: (value: string) => void;
+  onSearchSubmit?: () => void;
+  searchSuggestions?: string[];
 }
 
 const MainToolbar: React.FC<MainToolbarProps> = ({
@@ -23,6 +29,12 @@ const MainToolbar: React.FC<MainToolbarProps> = ({
   onShare = () => {},
   onExport = () => {},
   selectedMember = null,
+  onOpenFilters = () => {},
+  onSearchFocus = () => {},
+  searchQuery = '',
+  onSearchChange = () => {},
+  onSearchSubmit = () => {},
+  searchSuggestions = [],
 }) => {
   const { state, history } = useFamilyTreeWithDispatch();
   const selectedMemberIds = useSelectedMembers();
@@ -81,6 +93,9 @@ const MainToolbar: React.FC<MainToolbarProps> = ({
       } else if (ctrlOrCmd && (event.key === 'y' || (event.key === 'z' && event.shiftKey))) {
         event.preventDefault();
         handleRedo();
+      } else if (ctrlOrCmd && event.key === '/') {
+        event.preventDefault();
+        onSearchFocus();
       }
     };
 
@@ -149,6 +164,40 @@ const MainToolbar: React.FC<MainToolbarProps> = ({
           </div>
           
           <div className="toolbar-right hidden md:flex items-center gap-2 justify-end">
+            <div className="relative">
+              <input
+                type="search"
+                value={searchQuery}
+                onChange={(e) => onSearchChange(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    onSearchSubmit();
+                  }
+                }}
+                placeholder="Search members (Ctrl+/)"
+                className="h-10 w-56 px-3 rounded-[var(--radius-md)] border border-(--color-neutral-200) focus-visible:outline-2 focus-visible:outline-(--color-primary)"
+                aria-label="Search family members"
+                list="toolbar-search-suggestions"
+              />
+              {searchSuggestions.length > 0 && (
+                <datalist id="toolbar-search-suggestions">
+                  {searchSuggestions.slice(0, 10).map((s, i) => (
+                    <option key={s + i} value={s} />
+                  ))}
+                </datalist>
+              )}
+            </div>
+            <button
+              className="btn-filters h-10 px-3 rounded-[var(--radius-md)] bg-[color-mix(in_oklch,_var(--color-primary),_white_88%)] text-(--color-primary) hover:bg-[color-mix(in_oklch,_var(--color-primary),_white_80%)] flex items-center focus-visible:outline-2 focus-visible:outline-(--color-primary)"
+              onClick={onOpenFilters}
+              aria-label="Open Filters"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 011 1v1a1 1 0 01-.293.707L12 11.414V16a1 1 0 01-1.447.894l-2-1A1 1 0 018 15v-3.586L3.293 6.707A1 1 0 013 6V5z" clipRule="evenodd" />
+              </svg>
+              Filters
+            </button>
             {/* Bulk delete button - only show when multiple members selected */}
             {selectedMemberIds.length > 1 && (
               <button 

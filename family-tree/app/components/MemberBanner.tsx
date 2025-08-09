@@ -8,6 +8,7 @@ import ContextMenu from './ContextMenu';
 interface MemberBannerProps {
   member: FamilyMember;
   isSelected?: boolean;
+  isHighlighted?: boolean;
   selectedCount?: number;
   onSelect?: (member: FamilyMember, event?: React.MouseEvent) => void;
   onEdit?: (member: FamilyMember) => void;
@@ -23,6 +24,7 @@ interface MemberBannerProps {
 const MemberBanner = memo<MemberBannerProps>(function MemberBanner({ 
   member, 
   isSelected = false,
+  isHighlighted = false,
   selectedCount = 0,
   onSelect,
   onEdit,
@@ -160,10 +162,13 @@ const MemberBanner = memo<MemberBannerProps>(function MemberBanner({
     const selected = isSelected
       ? 'border-(--color-primary) ring-2 ring-(--color-primary) shadow-[var(--elevation-3)]'
       : 'hover:border-(--color-primary) hover:shadow-[var(--elevation-2)] hover:border-blue-300';
+    const highlighted = !isSelected && isHighlighted
+      ? 'ring-2 ring-[color-mix(in_oklch,_var(--color-info),_white_20%)] border-(--color-info)'
+      : '';
     const editing = isEditing ? 'outline outline-2 outline-(--color-accent)' : '';
     const loading = isLoading ? 'skeleton' : '';
-    return [base.join(' '), selected, editing, loading].filter(Boolean).join(' ');
-  }, [isSelected, isEditing, isDisabled, isLoading, variant]);
+    return [base.join(' '), selected, highlighted, editing, loading].filter(Boolean).join(' ');
+  }, [isSelected, isHighlighted, isEditing, isDisabled, isLoading, variant]);
 
   return (
     <>
