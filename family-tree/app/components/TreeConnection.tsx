@@ -6,7 +6,7 @@ interface TreeConnectionProps {
   type: 'parent-child' | 'spouse';
 }
 
-const TreeConnection: React.FC<TreeConnectionProps> = memo(({ from, to, type }) => {
+  const TreeConnection: React.FC<TreeConnectionProps> = memo(({ from, to, type }) => {
   // Memoize visual properties to avoid recalculation
   const connectionProps = useMemo(() => {
     const base = {
