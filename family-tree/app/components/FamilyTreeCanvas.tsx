@@ -229,7 +229,7 @@ const FamilyTreeCanvas: React.FC<FamilyTreeCanvasProps> = memo(({ members, moveM
   return (
     <div 
       data-testid="family-tree-canvas"
-      className="relative w-full h-screen bg-gray-100 overflow-hidden"
+      className="relative w-full h-screen overflow-hidden"
       ref={setRefs}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
@@ -238,6 +238,24 @@ const FamilyTreeCanvas: React.FC<FamilyTreeCanvasProps> = memo(({ members, moveM
       onClick={handleCanvasClick}
       style={{ cursor: isPanning ? 'grabbing' : 'default' }}
     >
+      {/* Background layers: subtle gradient + optional grid */}
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            'linear-gradient(180deg, var(--surface-2, #F4F4F4), var(--surface-1, #FFFFFF))',
+        }}
+      />
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundSize: '40px 40px, 200px 200px',
+          backgroundImage:
+            'linear-gradient(to right, rgba(0,0,0,0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.04) 1px, transparent 1px)',
+        }}
+      />
       {/* Viewport Controls */}
       <div className="absolute top-4 right-4 z-10 flex flex-col space-y-2 bg-white rounded-lg shadow-md p-2">
         <button 
@@ -283,7 +301,17 @@ const FamilyTreeCanvas: React.FC<FamilyTreeCanvasProps> = memo(({ members, moveM
         }}
       >
         {/* Connections Layer - Virtualized for performance */}
-        <svg className="absolute inset-0 w-full h-full pointer-events-none">
+        <svg className="absolute inset-0 w-full h-full" style={{ overflow: 'visible' }}>
+          <defs>
+            {/* Tokenized stroke styles for connections */}
+            <style>{`
+              .connection-line { 
+                transition: stroke 200ms ease-out, stroke-width 200ms ease-out, opacity 200ms ease-out; 
+                opacity: 0.9; 
+              }
+              .connections-group:hover .connection-line { opacity: 1; }
+            `}</style>
+          </defs>
           <VirtualizedConnections connections={connections} viewport={viewport} />
         </svg>
 
