@@ -254,6 +254,11 @@ For all technical implementations, reference these Context7 library IDs:
 - ⏳ 0/5 tasks started (0% complete)
 - Dependencies: Phase 3 original development tasks
 
+### UX Enhancements (Epic 6) — In Progress
+- E6-T4: Onboarding & Help System — In Progress
+  - Implemented first-run tour, Help panel (Shift+?), toolbar Help button
+  - Docs: `family-tree/docs/onboarding-help.md`
+
 **Epic 4 (Performance)**:
 - ⏳ 0/4 tasks started (0% complete)
 - Note: Some performance work completed in original Phase 2 (Task 2.9)

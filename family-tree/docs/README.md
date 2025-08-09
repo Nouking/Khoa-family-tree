@@ -12,6 +12,7 @@ Our documentation is organized into logical sections to make it easy to find the
 - [Completed Tasks](./completed-tasks.md) - Archive of finished tasks with implementation notes
 - [Implementation Notes](./implementation-notes.md) - Technical implementation details and code examples
 - [Success Criteria](./success-criteria.md) - Project goals and metrics for success
+- [Onboarding & Help System](./onboarding-help.md) - Guided tour, contextual help, and shortcuts
 
 ## Documentation Best Practices
 

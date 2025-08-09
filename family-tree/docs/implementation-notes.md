@@ -578,6 +578,44 @@ describe('MemberBanner', () => {
 ```
 
 ### Connection Line Tests
+### Onboarding & Help Tests
+
+```typescript
+// Onboarding.test.tsx
+import React from 'react';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { OnboardingProvider } from '../components/OnboardingProvider';
+import OnboardingTour from '../components/OnboardingTour';
+import HelpPanel from '../components/HelpPanel';
+
+describe('Onboarding system', () => {
+  test('tour opens on first load and can be skipped', () => {
+    window.localStorage.removeItem('onboardingCompleted');
+    render(
+      <OnboardingProvider>
+        <OnboardingTour />
+      </OnboardingProvider>
+    );
+    expect(screen.getByText(/Welcome to Family Tree/i)).toBeInTheDocument();
+    fireEvent.click(screen.getByText(/Skip/i));
+    expect(window.localStorage.getItem('onboardingCompleted')).toBe('true');
+  });
+
+  test('help panel renders with shortcuts and can start tour', () => {
+    render(
+      <OnboardingProvider>
+        <HelpPanel />
+        <OnboardingTour />
+      </OnboardingProvider>
+    );
+    fireEvent.keyDown(document, { key: '/', shiftKey: true });
+    expect(screen.getByText(/Help & Shortcuts/i)).toBeInTheDocument();
+    fireEvent.click(screen.getByText(/Start Tour/i));
+    expect(screen.getByText(/Welcome to Family Tree/i)).toBeInTheDocument();
+  });
+});
+```
+
 
 ```typescript
 // ConnectionLine.test.tsx

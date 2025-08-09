@@ -919,7 +919,7 @@ The component architecture is **well-structured and mature** with excellent cons
 - **Branch**: `improvement-e6-t3-search-filter-interface`
 
 ### E6-T4: Onboarding & Help System (P2-HIGH)
-- **Status**: Pending
+- **Status**: In Progress
 - **Primary Agent**: @ux-expert (Sally - Onboarding design)
 - **Supporting Agents**: @pm (John - Feature prioritization), @po (Sarah - User journey validation)
 - **Description**: Create onboarding and contextual help that leverages E5-T1 tokens for legible typography, semantic info/accent colors, and consistent spacing to guide users without clutter
@@ -939,6 +939,13 @@ The component architecture is **well-structured and mature** with excellent cons
   - Design empty state guidance for new family trees with suggested actions
   - Use localStorage to track onboarding completion and user preferences
 - **Branch**: `improvement-e6-t4-onboarding-help`
+ - **Files Added/Updated (WIP)**:
+   - Added: `app/components/OnboardingProvider.tsx`, `app/components/OnboardingTour.tsx`, `app/components/HelpPanel.tsx`, test `app/components/__tests__/Onboarding.test.tsx`
+   - Updated: `app/layout.tsx` (provider + overlays), `app/components/MainToolbar.tsx` (Help button)
+- **Implementation Notes (WIP)**:
+  - Added `OnboardingProvider`, `OnboardingTour`, and `HelpPanel` with localStorage persistence and global shortcut (Shift+?)
+  - Wired into `app/layout.tsx` and added Help entry in `MainToolbar`
+  - Tour uses spotlight overlay and Modal steps; help panel documents shortcuts and can launch tour
 
 ---
 

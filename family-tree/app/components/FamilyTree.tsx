@@ -123,8 +123,18 @@ const FamilyTree: React.FC<FamilyTreeProps> = ({ initialMembers, searchQuery = '
     }
   };
 
+  const hasMembers = members.length > 0;
   return (
     <div className="w-full h-full relative">
+      {!hasMembers && (
+        <div className="absolute inset-0 z-10 flex items-center justify-center p-4">
+          <div className="max-w-xl w-full bg-(--surface-1) border border-(--color-neutral-200) rounded-[var(--radius-lg)] shadow-[var(--elevation-2)] p-4 text-center">
+            <h3 className="text-lg font-semibold mb-2">Welcome! Your family tree is empty.</h3>
+            <p className="text-(--text-sm) mb-4">Get started by adding your first member using the Add button in the toolbar. You can also import data later.</p>
+            <p className="text-(--text-sm)">Tip: Use the Help (Shift+?) to view shortcuts and a quick tour.</p>
+          </div>
+        </div>
+      )}
       {/* Floating control for results */}
       {filteredIds.length > 0 && (
         <div className="absolute top-2 left-2 z-10">
