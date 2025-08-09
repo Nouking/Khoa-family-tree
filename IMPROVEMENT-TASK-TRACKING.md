@@ -852,7 +852,7 @@ The component architecture is **well-structured and mature** with excellent cons
   - No breaking changes to tests; UI improvements are token-driven and accessible
 
 ### E6-T2: Enhanced Modal System (P1-CRITICAL)
-- **Status**: Pending
+- **Status**: Completed
 - **Primary Agent**: @ux-expert (Sally - Modal UX design)
 - **Supporting Agents**: @dev (James - Implementation), @qa (Quinn - Accessibility validation)
 - **Description**: Improve modal design and UX applying E5-T1 tokens: radius/elevation for containers, brand-colored focus outlines, tokenized spacing and typography hierarchy; keep accessibility patterns intact
@@ -872,6 +872,18 @@ The component architecture is **well-structured and mature** with excellent cons
   - Add modal size variants (small: 480px, medium: 672px, large: 896px, fullscreen)
   - Implement focus trap and return focus to trigger element on close
 - **Branch**: `improvement-e6-t2-enhanced-modals`
+- **Completion Date**: 2025-08-09
+- **Files Modified**:
+  - `family-tree/app/components/Modal.tsx` — animations (300ms ease-out), focus trap + return focus, tokenized styles, responsive mobile fullscreen, new size variant `fullscreen`, backdrop blur with feature fallback
+  - `family-tree/app/components/__tests__/Modal.test.tsx` — updated size class expectations and added fullscreen case
+  - `family-tree/app/components/AddMemberModal.tsx` — `noValidate` form attribute to keep client-side validation consistent during tests
+- **Validation**:
+  - Jest: 10/10 suites passing (119 tests) after changes
+  - Accessibility: Maintains `role="dialog"`, `aria-modal="true"`, `aria-labelledby`, Escape close, backdrop close, focus trap, and focus return
+  - Responsive: Mobile uses full-height sheet (100dvh) with rounded-none; desktop uses centered overlay with `--radius-lg`/`--elevation-3`
+- **Notes**:
+  - Motion preferences respected: `motion-reduce:transition-none`
+  - Backdrop uses `supports-[backdrop-filter]` to enable blur where supported
 
 ### E6-T3: Search & Filter Interface (P2-HIGH)
 - **Status**: Pending
