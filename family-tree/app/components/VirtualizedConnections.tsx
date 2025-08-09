@@ -63,7 +63,7 @@ const VirtualizedConnections = memo<VirtualizedConnectionsProps>(({ connections,
   }
   
   return (
-    <>
+    <g className="connections-group">
       {visibleConnections.map(connection => (
         <TreeConnection
           key={connection.id}
@@ -72,7 +72,7 @@ const VirtualizedConnections = memo<VirtualizedConnectionsProps>(({ connections,
           type={connection.type}
         />
       ))}
-    </>
+    </g>
   );
 });
 

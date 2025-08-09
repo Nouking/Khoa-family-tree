@@ -38,6 +38,10 @@ html, body {
   --color-error: #DA1E28;
   --color-info: #0F62FE;
 
+  /* Connections (map to semantic tokens by default) */
+  --connection-parent: var(--color-info);
+  --connection-spouse: var(--color-success);
+
   /* Background layers */
   --surface-1: #FFFFFF;
   --surface-2: #F4F4F4;
