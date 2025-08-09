@@ -1144,4 +1144,145 @@ The component architecture is **well-structured and mature** with excellent cons
 
 ---
 
+## Epic 9: Bugfix & UI Polish (Issues File) 🛠️
+**Priority**: High | **Estimated Timeline**: 2–4 days
+**Goal**: Resolve the concrete UX and functionality issues identified in `issue` and align UI with the desired mock (`example/image.png`) while preserving performance and accessibility.
+
+### E9-T1: Wire Up Real Login Flow (Client) (P1-CRITICAL)
+- **Status**: Pending
+- **Primary Agent**: @dev (James – Client integration)
+- **Supporting Agents**: @architect (Winston – Auth flow verification), @po (Sarah – Acceptance validation)
+- **Description**: Replace the login placeholder with a real POST to `/api/auth/login`, handle success/error states, and redirect to `/view` on success.
+- **Dependencies**: None
+- **Acceptance Criteria**:
+  - GIVEN valid credentials, WHEN user submits, THEN login succeeds and user is redirected to `/view`.
+  - GIVEN invalid credentials, THEN an inline error “Invalid credentials” is shown without page reload.
+  - Token is set via HttpOnly cookie (no localStorage token required).
+  - Loading state disables the submit button.
+  - AND session persists across page refresh; no token is stored in localStorage at any time.
+  - AND empty field submission returns validation (400) and server errors (500) show a generic error message.
+- **Implementation Details**:
+  - Update `app/login/page.tsx` to `fetch('/api/auth/login', { method: 'POST', body: { username, password }})` and handle `200/401/400/500` JSON messages.
+  - On 200, `router.push('/view')`.
+  - Keep logic consistent with `app/lib/auth.ts` and `middleware.ts` expectations.
+- **Branch**: `improvement-e9-t1-login-wireup`
+- **Estimate**: 1–2h
+
+### E9-T2: Admin Dev Password Seeding & Change Path (P1-CRITICAL)
+- **Status**: Pending
+- **Primary Agent**: @architect (Winston – Data/seed design)
+- **Supporting Agents**: @dev (James – Implementation), @po (Sarah – Documentation)
+- **Description**: Ensure a known local dev credential exists (username `admin`, password `admin`) and document how to change it later.
+- **Dependencies**: None
+- **Acceptance Criteria**:
+  - `admin/admin` works locally after setup; bcrypt hash stored in `family-tree/data/users.json`.
+  - README clearly documents default dev credentials and a one-command/script method to change the admin password.
+  - Changing the password regenerates hash and updates `users.json` safely.
+  - AND the seed/update script is idempotent (safe to re-run) and documented steps reproduce from a clean clone.
+- **Implementation Details**:
+  - Provide a Node script (e.g., `scripts/seed-admin.mjs`) to set/update admin password using bcrypt with cost 10; idempotent by username.
+  - Document usage in `family-tree/docs/README.md` (Dev Setup section) and root `README.md` quickstart.
+- **Branch**: `improvement-e9-t2-admin-credential-seed`
+- **Estimate**: 1–2h
+
+### E9-T3: Remove Duplicate Help Button (Toolbar) (P1-HIGH)
+- **Status**: Pending
+- **Primary Agent**: @dev (James – Component edit)
+- **Supporting Agents**: @ux-expert (Sally – UI sanity), @qa (Quinn – Quick regression check)
+- **Description**: Remove the duplicated Help button in `MainToolbar`.
+- **Dependencies**: None
+- **Acceptance Criteria**:
+  - Only a single Help button is rendered on desktop.
+  - Keyboard shortcut (Shift+?) still opens Help.
+  - AND Help remains available from the mobile actions menu.
+- **Implementation Details**:
+  - Delete the second Help button block in `app/components/MainToolbar.tsx`.
+- **Branch**: `improvement-e9-t3-toolbar-help-dup`
+- **Estimate**: 10–15m
+
+### E9-T4: Fix Title/Search Overlap in Toolbar (Responsive) (P1-HIGH)
+- **Status**: Pending
+- **Primary Agent**: @ux-expert (Sally – Responsive layout)
+- **Supporting Agents**: @dev (James – Implementation), @po (Sarah – Usability validation)
+- **Description**: Prevent the “Family Tree” title and search input from overlapping at smaller widths.
+- **Dependencies**: [E5-T3] ✅
+- **Acceptance Criteria**:
+  - No overlap at 320/768/1024px; title truncates with ellipsis if needed.
+  - Search remains usable: either fits or collapses into the mobile menu at < md.
+  - AND focus styles on search remain visible and tokenized per E5-T1.
+- **Implementation Details**:
+  - Refine the 3-column grid; ensure center title uses `truncate` and search hides/moves for narrow widths.
+  - Keep tokenized focus rings and spacing (E5-T1 tokens).
+- **Branch**: `improvement-e9-t4-toolbar-layout`
+- **Estimate**: 1–2h
+
+### E9-T5: Separate Member Drag vs Canvas Pan (P1-HIGH)
+- **Status**: Pending
+- **Primary Agent**: @architect (Winston – Interaction guard design)
+- **Supporting Agents**: @dev (James – Implementation), @qa (Quinn – Interaction testing)
+- **Description**: Ensure dragging a member moves only that member; canvas panning happens only when dragging empty background (left-drag background per user choice).
+- **Dependencies**: None
+- **Acceptance Criteria**:
+  - Left-drag on a member moves the member; left-drag on empty background pans the canvas.
+  - No jitter or accidental pan when starting drag on a member.
+  - AND multi-select behavior is preserved and connections update correctly after moves.
+- **Implementation Details**:
+  - In `FamilyTreeCanvas.handleMouseDown`, bail out if `e.target.closest('.member-banner')` is truthy.
+  - Keep current zoom controls; no change to right/middle click.
+- **Branch**: `improvement-e9-t5-drag-pan-behavior`
+- **Estimate**: 1–2h
+
+### E9-T6: Context Menu Visibility & Layering (P2-MEDIUM)
+- **Status**: Pending
+- **Primary Agent**: @dev (James – UI behavior)
+- **Supporting Agents**: @ux-expert (Sally – Menu UX), @qa (Quinn – Edge cases)
+- **Description**: Ensure the right-click context menu consistently appears over the canvas and other UI.
+- **Dependencies**: None
+- **Acceptance Criteria**:
+  - Right-click on single selection shows Edit/Delete; on multi-selection shows Bulk Delete.
+  - Menu positions within viewport; no clipping beneath canvas; ESC/click-out closes.
+  - AND keyboard navigation cycles items (Tab/Shift+Tab) and ESC closes the menu.
+- **Implementation Details**:
+  - Consider rendering `ContextMenu` via a portal to `document.body` with `z-50+` if needed.
+  - Verify no global `onContextMenu` suppression; keep current transitions/tokens.
+- **Branch**: `improvement-e9-t6-context-menu-visibility`
+- **Estimate**: 1h
+
+### E9-T7: Shared Member Form + Modal Polish (P1-HIGH)
+- **Status**: Pending
+- **Primary Agent**: @ux-expert (Sally – Form spec & visual polish)
+- **Supporting Agents**: @dev (James – Refactor), @po (Sarah – Validation parity), @qa (Quinn – Regression tests)
+- **Description**: Extract a shared `MemberForm` to unify Add/Edit modals; apply E5 design tokens for spacing/typography/inputs; match the target style in `example/image.png` (esp. the add/edit panel).
+- **Dependencies**: [E1-T4] ✅ (Component analysis)
+- **Acceptance Criteria**:
+  - Add/Edit modals use `MemberForm` with identical validation behaviors as before.
+  - Visual spacing, hierarchy, and controls match the target UI within 90%.
+  - Accessible labels, 44px min touch targets, and keyboard navigation preserved.
+  - AND error messages remain unchanged; no duplicate form logic remains; unit tests cover the shared form.
+- **Implementation Details**:
+  - Create `app/components/shared/MemberForm.tsx` and move duplicate fields/validation.
+  - Keep or extract validation to `app/lib/validation/memberValidation.ts` (see E1-T7).
+  - Update `AddMemberModal.tsx` and `EditMemberModal.tsx` to consume `MemberForm`.
+- **Branch**: `improvement-e9-t7-shared-member-form-ui`
+- **Estimate**: 4–6h
+
+### E9-T8: UI Alignment to Desired Mock (Toolbar/Cards/Canvas) (P2-MEDIUM)
+- **Status**: Pending
+- **Primary Agent**: @ux-expert (Sally – Visual spec)
+- **Supporting Agents**: @dev (James – Styling), @architect (Winston – Perf guardrails)
+- **Description**: Adjust tokens/layout/details across toolbar, cards, and background to resemble `example/image.png` while keeping E5 token system.
+- **Dependencies**: [E5-T1] ✅, [E5-T2] ✅, [E5-T3] ✅, [E5-T4] ✅
+- **Acceptance Criteria**:
+  - Toolbar, member cards, and canvas background match the desired style within 90% visual fidelity.
+  - No new accessibility regressions; color contrast meets AA.
+  - No noticeable performance regressions (maintain current render/FPS metrics).
+  - AND only tokenized colors/styles are used (no ad-hoc colors), and dev FPS metrics remain stable.
+- **Implementation Details**:
+  - Leverage existing `@theme` tokens in `globals.css`; avoid ad-hoc colors.
+  - Fine-tune paddings, radii, elevations, and typography scale per mock.
+- **Branch**: `improvement-e9-t8-ui-alignment`
+- **Estimate**: 2–4h
+
+---
+
 *This task tracking document aligns with existing project workflow and is optimized for AI agent implementation following @pm, @po, @sm persona guidelines. Enhanced with modern design system patterns from Carbon Design System and Cloudscape for industry-standard UI/UX implementations.*
