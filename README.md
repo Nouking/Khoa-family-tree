@@ -163,3 +163,6 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ## 📚 Learn More
 
 For detailed implementation notes and technical guidance, see the [documentation](./docs).
+
+### New: Onboarding & Help
+- See `family-tree/docs/onboarding-help.md` for details on the guided tour, keyboard shortcuts (Shift+?), and how to repeat the tour.

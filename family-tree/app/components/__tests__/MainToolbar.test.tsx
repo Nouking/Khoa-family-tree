@@ -1,6 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import MainToolbar from '../MainToolbar';
 import { FamilyTreeProvider } from '../../contexts/FamilyTreeContext';
+import { OnboardingProvider } from '../OnboardingProvider';
 import '@testing-library/jest-dom';
 
 // Mock next/navigation instead of next/router for app router
@@ -20,7 +21,9 @@ jest.mock('next/navigation', () => ({
 const renderWithProvider = (ui: React.ReactElement) => {
   return render(
     <FamilyTreeProvider>
-      {ui}
+      <OnboardingProvider>
+        {ui}
+      </OnboardingProvider>
     </FamilyTreeProvider>
   );
 };

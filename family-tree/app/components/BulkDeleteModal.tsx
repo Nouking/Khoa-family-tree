@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { FamilyMember } from '@/types';
 
@@ -26,6 +26,13 @@ const BulkDeleteModal: React.FC<BulkDeleteModalProps> = ({
   
   const [isDeleting, setIsDeleting] = useState(false);
   const [confirmationText, setConfirmationText] = useState('');
+  const isMountedRef = useRef(true);
+
+  useEffect(() => {
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
 
   // Get the members to delete
   const membersToDelete = useMemo(() => {
@@ -142,14 +149,14 @@ const BulkDeleteModal: React.FC<BulkDeleteModalProps> = ({
         payload: error instanceof Error ? error.message : 'Failed to delete members' 
       });
     } finally {
-      setIsDeleting(false);
+      if (isMountedRef.current) setIsDeleting(false);
     }
   };
 
   // Handle modal close
   const handleClose = useCallback(() => {
     if (!isDeleting) {
-      setConfirmationText('');
+      if (isMountedRef.current) setConfirmationText('');
       onClose();
     }
   }, [isDeleting, onClose]);

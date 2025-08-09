@@ -151,6 +151,11 @@ const { metrics, getPerformanceStatus } = usePerformanceMonitor(
 - **RequestAnimationFrame**: Universal support
 - **Performance.now()**: Universal support
 
+### UI Overlay Considerations (Onboarding Spotlight)
+- **Spotlight Overlay**: The onboarding tour uses a CSS `clip-path` overlay to create a "hole" spotlight around target UI elements.
+- **Fallback**: When `clip-path` support is limited, a dim overlay is shown without the hole (see `globals.css` fallback utility). This avoids heavy masking operations and ensures consistent performance.
+- **Performance Impact**: The overlay layers are non-interactive and composited; they have negligible impact on frame time during canvas operations (pan/zoom/drag), as animations are not tied to scroll or RAF.
+
 ## Future Optimization Opportunities
 
 ### Phase 2 Enhancements (Future)

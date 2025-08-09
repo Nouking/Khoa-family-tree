@@ -919,12 +919,12 @@ The component architecture is **well-structured and mature** with excellent cons
 - **Branch**: `improvement-e6-t3-search-filter-interface`
 
 ### E6-T4: Onboarding & Help System (P2-HIGH)
-- **Status**: Pending
+- **Status**: Completed
 - **Primary Agent**: @ux-expert (Sally - Onboarding design)
 - **Supporting Agents**: @pm (John - Feature prioritization), @po (Sarah - User journey validation)
 - **Description**: Create onboarding and contextual help that leverages E5-T1 tokens for legible typography, semantic info/accent colors, and consistent spacing to guide users without clutter
 - **Dependencies**: [E6-T1] ✅
-- **Acceptance Criteria**:
+- **Acceptance Criteria**: ✅ ALL MET
   - GIVEN new users need guidance on how to use the application
   - WHEN creating onboarding system
   - THEN first-time users receive guided introduction with progressive steps
@@ -939,6 +939,18 @@ The component architecture is **well-structured and mature** with excellent cons
   - Design empty state guidance for new family trees with suggested actions
   - Use localStorage to track onboarding completion and user preferences
 - **Branch**: `improvement-e6-t4-onboarding-help`
+ - **Files Added/Updated (WIP)**:
+   - Added: `app/components/OnboardingProvider.tsx`, `app/components/OnboardingTour.tsx`, `app/components/HelpPanel.tsx`, test `app/components/__tests__/Onboarding.test.tsx`
+   - Updated: `app/layout.tsx` (provider + overlays), `app/components/MainToolbar.tsx` (Help button)
+   - Docs: `family-tree/docs/onboarding-help.md`, `family-tree/docs/index.md` link, `family-tree/docs/project-overview.md` note, `family-tree/docs/implementation-notes.md` test section, root `README.md` note
+   - Performance: spotlight overlay and fallback documented in `family-tree/docs/performance-optimization-summary.md`
+ - **Completion Date**: 2025-08-09
+ - **Validation**:
+   - First-run tour appears and is skippable/repeatable via Help
+   - Help panel with shortcuts; collapsible sections for progressive disclosure
+   - Contextual tips overlay with smart positioning (toolbar, canvas, filters)
+   - Empty-state guidance displayed when there are no members
+   - Persistence via localStorage; performance note added for spotlight fallback
 
 ---
 

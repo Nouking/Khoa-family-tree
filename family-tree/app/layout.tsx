@@ -5,6 +5,9 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import './globals.css';
 import { ToastProvider } from './components/ToastProvider';
+import { OnboardingProvider } from './components/OnboardingProvider';
+import OnboardingTour from './components/OnboardingTour';
+import HelpPanel from './components/HelpPanel';
 
 export default function RootLayout({
   children,
@@ -16,7 +19,12 @@ export default function RootLayout({
       <body>
         <DndProvider backend={HTML5Backend}>
           <ToastProvider>
-            {children}
+            <OnboardingProvider>
+              {children}
+              {/* Onboarding & Help mounted at root so they can overlay pages */}
+              <OnboardingTour />
+              <HelpPanel />
+            </OnboardingProvider>
           </ToastProvider>
         </DndProvider>
       </body>

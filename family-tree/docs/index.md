@@ -15,6 +15,7 @@
 | Document | Description | Use Case |
 |----------|-------------|----------|
 | [Implementation Notes](./implementation-notes.md) | Code examples, technical patterns | Development reference |
+| [Onboarding & Help System](./onboarding-help.md) | Guided tour and contextual help | UX onboarding, shortcuts |
 | [Git Workflow](./git-workflow.md) | Development procedures and standards | Branch management, commit standards |
 | [Success Criteria](./success-criteria.md) | Quality metrics and acceptance criteria | Testing, validation |
 
