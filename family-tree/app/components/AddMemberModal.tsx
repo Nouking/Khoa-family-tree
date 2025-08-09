@@ -580,7 +580,7 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({
               <option value="">Select parent</option>
               {existingMembers.map((member: FamilyMember) => (
                 <option key={member.id} value={member.id}>
-                  {member.name} ({member.relationship})
+                  {member.name} {'('}{member.relationship}{')'}
                 </option>
               ))}
             </select>
@@ -603,7 +603,7 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({
             >
               {existingMembers.map((member: FamilyMember) => (
                 <option key={member.id} value={member.id}>
-                  {member.name} ({member.relationship})
+                  {member.name}
                 </option>
               ))}
             </select>
@@ -651,7 +651,7 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({
             className="px-4 py-2 btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={isSubmitting}
           >
-            {isSubmitting ? 'Adding…' : 'Add Member'}
+            {isSubmitting ? 'Adding Member...' : 'Add Member'}
           </button>
         </div>
       </form>

@@ -38,12 +38,16 @@ export type FamilyTreeAction =
   | { type: 'UPDATE_MEMBER'; payload: { id: string; updates: Partial<FamilyMember> } }
   | { type: 'DELETE_MEMBER'; payload: string }
   | { type: 'DELETE_MULTIPLE_MEMBERS'; payload: string[] }
+  | { type: 'DELETE_SELECTED_MEMBERS' }
   | { type: 'SET_SELECTED_MEMBERS'; payload: string[] }
   | { type: 'SELECT_MEMBER'; payload: string }
   | { type: 'DESELECT_MEMBER'; payload: string }
   | { type: 'CLEAR_SELECTION' }
   | { type: 'SET_EDITING'; payload: boolean }
   | { type: 'UPDATE_VIEWPORT'; payload: Partial<ViewportState> }
+  | { type: 'ZOOM_IN' }
+  | { type: 'ZOOM_OUT' }
+  | { type: 'MOVE_SELECTED_MEMBERS'; payload: { deltaX: number; deltaY: number } }
   | { type: 'SET_SETTINGS'; payload: TreeSettings }
   | { type: 'SET_LOADING'; payload: boolean }
   | { type: 'SET_ERROR'; payload: string | null }
@@ -139,6 +143,16 @@ function familyTreeReducer(state: FamilyTreeState, action: FamilyTreeAction): Fa
         selectedMemberIds: state.selectedMemberIds.filter(id => !action.payload.includes(id)),
       };
 
+    case 'DELETE_SELECTED_MEMBERS': {
+      const idsToDelete = state.selectedMemberIds;
+      if (idsToDelete.length === 0) return state;
+      return {
+        ...state,
+        members: state.members.filter(member => !idsToDelete.includes(member.id)),
+        selectedMemberIds: [],
+      };
+    }
+
     case 'SET_SELECTED_MEMBERS':
       return {
         ...state,
@@ -176,6 +190,44 @@ function familyTreeReducer(state: FamilyTreeState, action: FamilyTreeAction): Fa
         ...state,
         viewport: { ...state.viewport, ...action.payload },
       };
+
+    case 'ZOOM_IN': {
+      const MAX_ZOOM = 3.0;
+      const next = state.viewport.zoom * 1.2;
+      return {
+        ...state,
+        viewport: { ...state.viewport, zoom: next >= MAX_ZOOM ? MAX_ZOOM : next },
+      };
+    }
+
+    case 'ZOOM_OUT': {
+      const MIN_ZOOM = 0.3;
+      const next = state.viewport.zoom / 1.2;
+      return {
+        ...state,
+        viewport: { ...state.viewport, zoom: next <= MIN_ZOOM ? MIN_ZOOM : next },
+      };
+    }
+
+    case 'MOVE_SELECTED_MEMBERS': {
+      const { deltaX, deltaY } = action.payload;
+      if (state.selectedMemberIds.length === 0) return state;
+      const selectedSet = new Set(state.selectedMemberIds);
+      return {
+        ...state,
+        members: state.members.map(member =>
+          selectedSet.has(member.id)
+            ? {
+                ...member,
+                position: {
+                  x: member.position.x + deltaX,
+                  y: member.position.y + deltaY,
+                },
+              }
+            : member
+        ),
+      };
+    }
 
     case 'SET_SETTINGS':
       return {

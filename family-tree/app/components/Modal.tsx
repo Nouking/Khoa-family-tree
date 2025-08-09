@@ -51,12 +51,18 @@ const Modal: React.FC<ModalProps> = ({
   // Handle focus trap
   useEffect(() => {
     if (isOpen && modalRef.current) {
-      const focusableElements = modalRef.current.querySelectorAll(
+      // Prefer focusing first focusable element inside content area, if present
+      const content = modalRef.current.querySelector('[data-modal-content]') as HTMLElement | null;
+      const containerForQuery = content ?? modalRef.current;
+      const focusable = containerForQuery.querySelectorAll(
         'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
       );
-      
-      if (focusableElements.length > 0) {
-        (focusableElements[0] as HTMLElement).focus();
+      if (focusable.length > 0) {
+        (focusable[0] as HTMLElement).focus();
+      } else {
+        // Fallback to close button to ensure focus is trapped inside modal
+        const closeBtn = modalRef.current.querySelector('[aria-label="Close modal"]') as HTMLElement | null;
+        closeBtn?.focus();
       }
     }
   }, [isOpen]);
@@ -113,7 +119,7 @@ const Modal: React.FC<ModalProps> = ({
         </div>
 
         {/* Modal Content */}
-        <div className="p-6">
+        <div className="p-6" data-modal-content>
           {children}
         </div>
       </div>
