@@ -80,8 +80,8 @@ const Modal: React.FC<ModalProps> = ({
       <div
         ref={modalRef}
         className={`
-          bg-white rounded-lg shadow-xl w-full ${sizeClasses[size]} 
-          max-h-[90vh] overflow-y-auto transform transition-all duration-200 
+          bg-white rounded-lg shadow-xl w-full ${sizeClasses[size]}
+          max-h-[90vh] overflow-y-auto transform transition-all duration-300 ease-out
           scale-100 opacity-100 ${className}
         `}
       >
