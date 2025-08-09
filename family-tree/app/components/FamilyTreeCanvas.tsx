@@ -14,6 +14,7 @@ import EditMemberModal from './EditMemberModal';
 import DeleteMemberModal from './DeleteMemberModal';
 import BulkDeleteModal from './BulkDeleteModal';
 import VirtualizedConnections from './VirtualizedConnections';
+import { useToast } from './ToastProvider';
 
 interface FamilyTreeCanvasProps {
   members: FamilyMember[];
@@ -38,6 +39,7 @@ interface Viewport {
 const FamilyTreeCanvas: React.FC<FamilyTreeCanvasProps> = memo(({ members, moveMember }) => {
   // Global state for member selection
   const { dispatch } = useFamilyTreeWithDispatch();
+  const { showToast } = useToast();
   const selectedMemberIds = useSelectedMembers();
   
   // Performance monitoring
@@ -103,7 +105,7 @@ const FamilyTreeCanvas: React.FC<FamilyTreeCanvasProps> = memo(({ members, moveM
     return calculateConnections(connectionRelevantMembers);
   }, [connectionRelevantMembers]);
 
-  const [, drop] = useDrop(
+  const [{ isOver }, drop] = useDrop(
     () => ({
       accept: ItemTypes.MEMBER_CARD,
       drop: (item: DragItem, monitor: DropTargetMonitor) => {
@@ -116,6 +118,9 @@ const FamilyTreeCanvas: React.FC<FamilyTreeCanvasProps> = memo(({ members, moveM
         }
         return undefined;
       },
+      collect: (monitor) => ({
+        isOver: monitor.isOver({ shallow: true }),
+      }),
     }),
     [moveMember, isPanning]
   );
@@ -290,6 +295,15 @@ const FamilyTreeCanvas: React.FC<FamilyTreeCanvasProps> = memo(({ members, moveM
         </button>
       </div>
 
+      {/* Drop-zone highlight while dragging */}
+      {isOver && (
+        <div
+          aria-hidden
+          className="absolute inset-0 z-[5] pointer-events-none border-2 border-dashed border-(--color-primary) rounded-[var(--radius-lg)]"
+          style={{ boxShadow: 'inset 0 0 0 2px color-mix(in oklch, var(--color-primary), white 70%)' }}
+        />
+      )}
+
       {/* Transformed Canvas Content */}
       <div 
         data-testid="family-tree-canvas-content"
@@ -355,7 +369,7 @@ const FamilyTreeCanvas: React.FC<FamilyTreeCanvasProps> = memo(({ members, moveM
         onMemberUpdated={() => {
           setShowEditModal(false);
           setMemberToEdit(null);
-          // Optional: Show success notification
+          showToast({ type: 'success', title: 'Member updated' });
         }}
       />
 
@@ -369,8 +383,7 @@ const FamilyTreeCanvas: React.FC<FamilyTreeCanvasProps> = memo(({ members, moveM
         onMemberDeleted={() => {
           setShowDeleteModal(false);
           setMemberToDelete(null);
-          // Selection is automatically cleared when member is deleted via context reducer
-          // Optional: Show success notification
+          showToast({ type: 'success', title: 'Member deleted' });
         }}
       />
 
@@ -382,8 +395,7 @@ const FamilyTreeCanvas: React.FC<FamilyTreeCanvasProps> = memo(({ members, moveM
         memberIds={selectedMemberIds}
         onMembersDeleted={() => {
           setShowBulkDeleteModal(false);
-          // Selections are automatically cleared when members are deleted via context reducer
-          // Optional: Show success notification
+          showToast({ type: 'success', title: 'Members deleted' });
         }}
       />
     </div>

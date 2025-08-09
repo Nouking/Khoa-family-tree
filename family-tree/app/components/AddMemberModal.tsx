@@ -7,6 +7,7 @@ import { FamilyMember } from '@/types';
 import { useFamilyTreeWithDispatch, useFamilyMembers } from '../contexts/FamilyTreeContext';
 
 import Modal from './Modal';
+import { useToast } from './ToastProvider';
 
 interface AddMemberModalProps {
   isOpen: boolean;
@@ -43,6 +44,7 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({
 }) => {
   const { state, dispatch } = useFamilyTreeWithDispatch();
   const existingMembers = useFamilyMembers();
+  const { showToast } = useToast();
   
   const [formData, setFormData] = useState<FormData>({
     name: '',
@@ -250,6 +252,7 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({
 
       // Call callback if provided
       onMemberAdded?.(newMember);
+      showToast({ type: 'success', title: 'Member added', description: newMember.name });
 
       // Reset form and close modal
       handleReset();
@@ -260,6 +263,7 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({
         type: 'SET_ERROR', 
         payload: error instanceof Error ? error.message : 'Failed to add member' 
       });
+      showToast({ type: 'error', title: 'Failed to add member', description: error instanceof Error ? error.message : undefined });
     } finally {
       setIsSubmitting(false);
     }
@@ -310,10 +314,10 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({
       title="Add Family Member"
       size="large"
     >
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} noValidate className="space-y-6">
         {/* Error Display */}
         {state.error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md">
+          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md" role="alert">
             {state.error}
           </div>
         )}
@@ -576,7 +580,7 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({
               <option value="">Select parent</option>
               {existingMembers.map((member: FamilyMember) => (
                 <option key={member.id} value={member.id}>
-                  {member.name} ({member.relationship})
+                  {member.name} {'('}{member.relationship}{')'}
                 </option>
               ))}
             </select>
@@ -599,7 +603,7 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({
             >
               {existingMembers.map((member: FamilyMember) => (
                 <option key={member.id} value={member.id}>
-                  {member.name} ({member.relationship})
+                  {member.name}
                 </option>
               ))}
             </select>
@@ -644,7 +648,7 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({
           </button>
           <button
             type="submit"
-            className="px-4 py-2 bg-blue-600 border border-transparent rounded-md text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-4 py-2 btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={isSubmitting}
           >
             {isSubmitting ? 'Adding Member...' : 'Add Member'}

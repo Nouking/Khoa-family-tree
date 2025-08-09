@@ -161,7 +161,7 @@ const MemberBanner = memo<MemberBannerProps>(function MemberBanner({
       ? 'border-(--color-primary) ring-2 ring-(--color-primary) shadow-[var(--elevation-3)]'
       : 'hover:border-(--color-primary) hover:shadow-[var(--elevation-2)] hover:border-blue-300';
     const editing = isEditing ? 'outline outline-2 outline-(--color-accent)' : '';
-    const loading = isLoading ? 'animate-pulse' : '';
+    const loading = isLoading ? 'skeleton' : '';
     return [base.join(' '), selected, editing, loading].filter(Boolean).join(' ');
   }, [isSelected, isEditing, isDisabled, isLoading, variant]);
 

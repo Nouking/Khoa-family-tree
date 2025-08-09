@@ -89,7 +89,7 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
   return (
     <div
       ref={menuRef}
-      className="fixed z-50 bg-white rounded-lg shadow-lg border border-gray-200 py-2 min-w-[150px]"
+      className="fixed z-50 bg-white rounded-lg shadow-lg border border-gray-200 py-2 min-w-[150px] transition-[transform,opacity] duration-100 ease-out"
       style={{
         left: position.x,
         top: position.y,

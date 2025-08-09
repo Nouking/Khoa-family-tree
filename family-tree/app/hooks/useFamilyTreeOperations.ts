@@ -64,14 +64,12 @@ export function useFamilyTreeOperations() {
   }, [dispatch]);
 
   const zoomIn = useCallback(() => {
-    const newZoom = Math.min(state.viewport.zoom * 1.2, 3.0);
-    dispatch({ type: 'UPDATE_VIEWPORT', payload: { zoom: newZoom } });
-  }, [dispatch, state.viewport.zoom]);
+    dispatch({ type: 'ZOOM_IN' });
+  }, [dispatch]);
 
   const zoomOut = useCallback(() => {
-    const newZoom = Math.max(state.viewport.zoom / 1.2, 0.3);
-    dispatch({ type: 'UPDATE_VIEWPORT', payload: { zoom: newZoom } });
-  }, [dispatch, state.viewport.zoom]);
+    dispatch({ type: 'ZOOM_OUT' });
+  }, [dispatch]);
 
   const resetZoom = useCallback(() => {
     dispatch({ type: 'UPDATE_VIEWPORT', payload: { zoom: 1, x: 0, y: 0 } });
@@ -124,21 +122,12 @@ export function useFamilyTreeOperations() {
 
   // Bulk operations
   const deleteSelectedMembers = useCallback(() => {
-    state.selectedMemberIds.forEach(id => {
-      dispatch({ type: 'DELETE_MEMBER', payload: id });
-    });
-  }, [dispatch, state.selectedMemberIds]);
+    dispatch({ type: 'DELETE_SELECTED_MEMBERS' });
+  }, [dispatch]);
 
   const moveSelectedMembers = useCallback((deltaX: number, deltaY: number) => {
-    const selectedMembers = getSelectedMembers();
-    selectedMembers.forEach(member => {
-      const newPosition = {
-        x: member.position.x + deltaX,
-        y: member.position.y + deltaY,
-      };
-      dispatch({ type: 'UPDATE_MEMBER', payload: { id: member.id, updates: { position: newPosition } } });
-    });
-  }, [dispatch, getSelectedMembers]);
+    dispatch({ type: 'MOVE_SELECTED_MEMBERS', payload: { deltaX, deltaY } });
+  }, [dispatch]);
 
   // Data loading operations
   const loadFamilyTree = useCallback(async () => {

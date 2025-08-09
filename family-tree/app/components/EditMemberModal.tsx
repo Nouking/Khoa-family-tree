@@ -7,6 +7,7 @@ import { FamilyMember } from '@/types';
 import { useFamilyTreeWithDispatch, useFamilyMembers } from '../contexts/FamilyTreeContext';
 
 import Modal from './Modal';
+import { useToast } from './ToastProvider';
 
 interface EditMemberModalProps {
   isOpen: boolean;
@@ -45,6 +46,7 @@ const EditMemberModal: React.FC<EditMemberModalProps> = ({
 }) => {
   const { state, dispatch } = useFamilyTreeWithDispatch();
   const existingMembers = useFamilyMembers();
+  const { showToast } = useToast();
   
   const [formData, setFormData] = useState<FormData>({
     name: '',
@@ -323,6 +325,7 @@ const EditMemberModal: React.FC<EditMemberModalProps> = ({
 
       // Call callback if provided
       onMemberUpdated?.(updatedMember);
+      showToast({ type: 'success', title: 'Member updated', description: updatedMember.name });
 
       // Close modal
       onClose();
@@ -332,6 +335,7 @@ const EditMemberModal: React.FC<EditMemberModalProps> = ({
         type: 'SET_ERROR', 
         payload: error instanceof Error ? error.message : 'Failed to update member' 
       });
+      showToast({ type: 'error', title: 'Update failed', description: error instanceof Error ? error.message : undefined });
     } finally {
       setIsSubmitting(false);
     }
@@ -369,7 +373,7 @@ const EditMemberModal: React.FC<EditMemberModalProps> = ({
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Error Display */}
         {state.error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md">
+          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md" role="alert">
             {state.error}
           </div>
         )}
@@ -749,10 +753,10 @@ const EditMemberModal: React.FC<EditMemberModalProps> = ({
           </button>
           <button
             type="submit"
-            className="px-4 py-2 bg-blue-600 border border-transparent rounded-md text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-4 py-2 btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={isSubmitting}
           >
-            {isSubmitting ? 'Updating Member...' : 'Update Member'}
+            {isSubmitting ? 'Updating…' : 'Update Member'}
           </button>
         </div>
       </form>

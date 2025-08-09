@@ -110,7 +110,7 @@ describe('Modal Component', () => {
     );
 
     let modalContent = screen.getByRole('dialog').firstChild as HTMLElement;
-    expect(modalContent).toHaveClass('max-w-md');
+    expect(modalContent).toHaveClass('max-w-[480px]');
 
     rerender(
       <Modal isOpen={true} onClose={mockOnClose} title="Test Modal" size="medium">
@@ -119,7 +119,7 @@ describe('Modal Component', () => {
     );
 
     modalContent = screen.getByRole('dialog').firstChild as HTMLElement;
-    expect(modalContent).toHaveClass('max-w-lg');
+    expect(modalContent).toHaveClass('max-w-[672px]');
 
     rerender(
       <Modal isOpen={true} onClose={mockOnClose} title="Test Modal" size="large">
@@ -128,7 +128,16 @@ describe('Modal Component', () => {
     );
 
     modalContent = screen.getByRole('dialog').firstChild as HTMLElement;
-    expect(modalContent).toHaveClass('max-w-2xl');
+    expect(modalContent).toHaveClass('max-w-[896px]');
+
+    rerender(
+      <Modal isOpen={true} onClose={mockOnClose} title="Test Modal" size="fullscreen">
+        <div>Modal content</div>
+      </Modal>
+    );
+
+    modalContent = screen.getByRole('dialog').firstChild as HTMLElement;
+    expect(modalContent).toHaveClass('w-screen');
   });
 
   it('applies custom className', () => {

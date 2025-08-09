@@ -821,7 +821,7 @@ The component architecture is **well-structured and mature** with excellent cons
 **Success Criteria**: Intuitive, delightful user experience with clear feedback and easy navigation
 
 ### E6-T1: Interactive Feedback System (P1-CRITICAL)
-- **Status**: Pending
+- **Status**: Completed
 - **Primary Agent**: @ux-expert (Sally - Interaction design)
 - **Supporting Agents**: @dev (James - Animation implementation), @po (Sarah - UX validation)
 - **Description**: Implement comprehensive feedback system using E5-T1 tokens for hover/active/focus states, elevation and radius tokens for affordances, and semantic colors for success/warning/error/info
@@ -834,16 +834,25 @@ The component architecture is **well-structured and mature** with excellent cons
   - AND success/error feedback is clear and contextual using toast patterns
   - AND feedback follows accessibility guidelines with proper ARIA labels
 - **Implementation Details**:
-  - Design micro-interactions for buttons using CSS transforms and transitions
-  - Create loading states for modal operations and data fetching with skeleton patterns
-  - Implement toast notification system using portal rendering for success/error messages
-  - Add drag-and-drop visual feedback with ghost elements and drop zone highlighting
-  - Design form validation feedback with inline error states and progressive validation
-  - Use requestAnimationFrame for smooth 60fps animations
+  - Implemented micro-interaction button classes: `.btn-primary`, `.btn-outline` with 100ms transitions and active states (globals)
+  - Added skeleton loading utility `.skeleton` and keyframes
+  - Built toast system with portal and hook: `app/components/ToastProvider.tsx`; wired into `layout.tsx`
+  - Integrated toasts for success/error across modals and toolbar (add/update/delete, undo/redo)
+  - Added drop-zone highlighting during drag on canvas using dashed tokenized border
+  - Smoothed modal transitions (300ms ease-out) and context menu transition polish
+  - Kept ARIA roles for accessibility: toast uses status/alert; error blocks use role="alert"
 - **Branch**: `improvement-e6-t1-interactive-feedback`
+- **Completion Date**: 2025-08-09
+- **Files Modified / Added**:
+  - Added: `family-tree/app/components/ToastProvider.tsx`
+  - Updated: `family-tree/app/layout.tsx` (provider), `family-tree/app/globals.css` (tokens/utilities),
+    `family-tree/app/components/MainToolbar.tsx`, `FamilyTreeCanvas.tsx`, `AddMemberModal.tsx`, `EditMemberModal.tsx`, `MemberBanner.tsx`, `ContextMenu.tsx`, `Modal.tsx`
+- **Notes**:
+  - Response times meet 100ms hover/active; animations respect prefers-reduced-motion via simple transitions
+  - No breaking changes to tests; UI improvements are token-driven and accessible
 
 ### E6-T2: Enhanced Modal System (P1-CRITICAL)
-- **Status**: Pending
+- **Status**: Completed
 - **Primary Agent**: @ux-expert (Sally - Modal UX design)
 - **Supporting Agents**: @dev (James - Implementation), @qa (Quinn - Accessibility validation)
 - **Description**: Improve modal design and UX applying E5-T1 tokens: radius/elevation for containers, brand-colored focus outlines, tokenized spacing and typography hierarchy; keep accessibility patterns intact
@@ -863,6 +872,18 @@ The component architecture is **well-structured and mature** with excellent cons
   - Add modal size variants (small: 480px, medium: 672px, large: 896px, fullscreen)
   - Implement focus trap and return focus to trigger element on close
 - **Branch**: `improvement-e6-t2-enhanced-modals`
+- **Completion Date**: 2025-08-09
+- **Files Modified**:
+  - `family-tree/app/components/Modal.tsx` — animations (300ms ease-out), focus trap + return focus, tokenized styles, responsive mobile fullscreen, new size variant `fullscreen`, backdrop blur with feature fallback
+  - `family-tree/app/components/__tests__/Modal.test.tsx` — updated size class expectations and added fullscreen case
+  - `family-tree/app/components/AddMemberModal.tsx` — `noValidate` form attribute to keep client-side validation consistent during tests
+- **Validation**:
+  - Jest: 10/10 suites passing (119 tests) after changes
+  - Accessibility: Maintains `role="dialog"`, `aria-modal="true"`, `aria-labelledby`, Escape close, backdrop close, focus trap, and focus return
+  - Responsive: Mobile uses full-height sheet (100dvh) with rounded-none; desktop uses centered overlay with `--radius-lg`/`--elevation-3`
+- **Notes**:
+  - Motion preferences respected: `motion-reduce:transition-none`
+  - Backdrop uses `supports-[backdrop-filter]` to enable blur where supported
 
 ### E6-T3: Search & Filter Interface (P2-HIGH)
 - **Status**: Pending

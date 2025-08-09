@@ -9,6 +9,7 @@ import AddMemberModal from './AddMemberModal';
 import EditMemberModal from './EditMemberModal';
 import DeleteMemberModal from './DeleteMemberModal';
 import BulkDeleteModal from './BulkDeleteModal';
+import { useToast } from './ToastProvider';
 
 interface MainToolbarProps {
   title?: string;
@@ -25,6 +26,7 @@ const MainToolbar: React.FC<MainToolbarProps> = ({
 }) => {
   const { state, history } = useFamilyTreeWithDispatch();
   const selectedMemberIds = useSelectedMembers();
+  const { showToast } = useToast();
   
   // Modal states
   const [showAddModal, setShowAddModal] = useState(false);
@@ -56,12 +58,14 @@ const MainToolbar: React.FC<MainToolbarProps> = ({
   const handleUndo = () => {
     if (history.canUndo) {
       history.undo();
+      showToast({ type: 'info', title: 'Undid last action' });
     }
   };
 
   const handleRedo = () => {
     if (history.canRedo) {
       history.redo();
+      showToast({ type: 'info', title: 'Redid action' });
     }
   };
 
@@ -238,7 +242,7 @@ const MainToolbar: React.FC<MainToolbarProps> = ({
         onClose={() => setShowAddModal(false)}
         onMemberAdded={() => {
           setShowAddModal(false);
-          // Optional: Show success notification
+          showToast({ type: 'success', title: 'Member added', description: 'New family member has been added.' });
         }}
       />
 
@@ -252,7 +256,7 @@ const MainToolbar: React.FC<MainToolbarProps> = ({
         onMemberUpdated={() => {
           setShowEditModal(false);
           setMemberToEdit(null);
-          // Optional: Show success notification
+          showToast({ type: 'success', title: 'Member updated' });
         }}
       />
 
@@ -266,7 +270,7 @@ const MainToolbar: React.FC<MainToolbarProps> = ({
         onMemberDeleted={() => {
           setShowDeleteModal(false);
           setMemberToDelete(null);
-          // Optional: Show success notification
+          showToast({ type: 'success', title: 'Member deleted' });
         }}
       />
 
@@ -278,8 +282,8 @@ const MainToolbar: React.FC<MainToolbarProps> = ({
         memberIds={selectedMemberIds}
         onMembersDeleted={() => {
           setShowBulkDeleteModal(false);
-          // Selections are automatically cleared when members are deleted via context reducer
-          // Optional: Show success notification
+          // Selections auto-cleared in reducer
+          showToast({ type: 'success', title: `Deleted ${selectedMemberIds.length} members` });
         }}
       />
     </>
