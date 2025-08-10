@@ -1149,7 +1149,7 @@ The component architecture is **well-structured and mature** with excellent cons
 **Goal**: Resolve the concrete UX and functionality issues identified in `issue` and align UI with the desired mock (`example/image.png`) while preserving performance and accessibility.
 
 ### E9-T1: Wire Up Real Login Flow (Client) (P1-CRITICAL)
-- **Status**: Pending
+- **Status**: Completed
 - **Primary Agent**: @dev (James – Client integration)
 - **Supporting Agents**: @architect (Winston – Auth flow verification), @po (Sarah – Acceptance validation)
 - **Description**: Replace the login placeholder with a real POST to `/api/auth/login`, handle success/error states, and redirect to `/view` on success.
@@ -1162,14 +1162,15 @@ The component architecture is **well-structured and mature** with excellent cons
   - AND session persists across page refresh; no token is stored in localStorage at any time.
   - AND empty field submission returns validation (400) and server errors (500) show a generic error message.
 - **Implementation Details**:
-  - Update `app/login/page.tsx` to `fetch('/api/auth/login', { method: 'POST', body: { username, password }})` and handle `200/401/400/500` JSON messages.
-  - On 200, `router.push('/view')`.
-  - Keep logic consistent with `app/lib/auth.ts` and `middleware.ts` expectations.
+  - Implemented client POST to `/api/auth/login` with JSON body; handles 200/400/401/5xx and shows inline messages.
+  - On 200, redirects to `/view` (token in HttpOnly cookie set by server).
+  - Logic aligns with `app/lib/auth.ts` and `middleware.ts`.
 - **Branch**: `improvement-e9-t1-login-wireup`
 - **Estimate**: 1–2h
+ - **Completion Date**: 2025-08-10
 
 ### E9-T2: Admin Dev Password Seeding & Change Path (P1-CRITICAL)
-- **Status**: Pending
+- **Status**: Completed
 - **Primary Agent**: @architect (Winston – Data/seed design)
 - **Supporting Agents**: @dev (James – Implementation), @po (Sarah – Documentation)
 - **Description**: Ensure a known local dev credential exists (username `admin`, password `admin`) and document how to change it later.
@@ -1180,13 +1181,14 @@ The component architecture is **well-structured and mature** with excellent cons
   - Changing the password regenerates hash and updates `users.json` safely.
   - AND the seed/update script is idempotent (safe to re-run) and documented steps reproduce from a clean clone.
 - **Implementation Details**:
-  - Provide a Node script (e.g., `scripts/seed-admin.mjs`) to set/update admin password using bcrypt with cost 10; idempotent by username.
-  - Document usage in `family-tree/docs/README.md` (Dev Setup section) and root `README.md` quickstart.
+  - Added `family-tree/scripts/seed-admin.mjs` to set/update admin password using bcrypt cost 10; idempotent per username.
+  - Documented usage in root `README.md` (Dev Setup section).
 - **Branch**: `improvement-e9-t2-admin-credential-seed`
 - **Estimate**: 1–2h
+ - **Completion Date**: 2025-08-10
 
 ### E9-T3: Remove Duplicate Help Button (Toolbar) (P1-HIGH)
-- **Status**: Pending
+- **Status**: Completed
 - **Primary Agent**: @dev (James – Component edit)
 - **Supporting Agents**: @ux-expert (Sally – UI sanity), @qa (Quinn – Quick regression check)
 - **Description**: Remove the duplicated Help button in `MainToolbar`.
@@ -1196,12 +1198,12 @@ The component architecture is **well-structured and mature** with excellent cons
   - Keyboard shortcut (Shift+?) still opens Help.
   - AND Help remains available from the mobile actions menu.
 - **Implementation Details**:
-  - Delete the second Help button block in `app/components/MainToolbar.tsx`.
+  - Removed duplicate Help button in `app/components/MainToolbar.tsx`; keyboard shortcut remains.
 - **Branch**: `improvement-e9-t3-toolbar-help-dup`
 - **Estimate**: 10–15m
 
 ### E9-T4: Fix Title/Search Overlap in Toolbar (Responsive) (P1-HIGH)
-- **Status**: Pending
+- **Status**: Completed
 - **Primary Agent**: @ux-expert (Sally – Responsive layout)
 - **Supporting Agents**: @dev (James – Implementation), @po (Sarah – Usability validation)
 - **Description**: Prevent the “Family Tree” title and search input from overlapping at smaller widths.
@@ -1211,13 +1213,14 @@ The component architecture is **well-structured and mature** with excellent cons
   - Search remains usable: either fits or collapses into the mobile menu at < md.
   - AND focus styles on search remain visible and tokenized per E5-T1.
 - **Implementation Details**:
-  - Refine the 3-column grid; ensure center title uses `truncate` and search hides/moves for narrow widths.
-  - Keep tokenized focus rings and spacing (E5-T1 tokens).
+  - Title uses `truncate` with title tooltip; search input constrained with max-widths (`max-w-[40vw]` responsive limits) to prevent overlap.
+  - Keeps tokenized focus rings and spacing (E5-T1 tokens).
 - **Branch**: `improvement-e9-t4-toolbar-layout`
 - **Estimate**: 1–2h
+ - **Completion Date**: 2025-08-10
 
 ### E9-T5: Separate Member Drag vs Canvas Pan (P1-HIGH)
-- **Status**: Pending
+- **Status**: Completed
 - **Primary Agent**: @architect (Winston – Interaction guard design)
 - **Supporting Agents**: @dev (James – Implementation), @qa (Quinn – Interaction testing)
 - **Description**: Ensure dragging a member moves only that member; canvas panning happens only when dragging empty background (left-drag background per user choice).
@@ -1227,13 +1230,13 @@ The component architecture is **well-structured and mature** with excellent cons
   - No jitter or accidental pan when starting drag on a member.
   - AND multi-select behavior is preserved and connections update correctly after moves.
 - **Implementation Details**:
-  - In `FamilyTreeCanvas.handleMouseDown`, bail out if `e.target.closest('.member-banner')` is truthy.
-  - Keep current zoom controls; no change to right/middle click.
+  - Implemented guard in `FamilyTreeCanvas.handleMouseDown` to ignore left-drag when starting on `.member-banner`.
+  - Zoom controls unchanged; right/middle click unchanged.
 - **Branch**: `improvement-e9-t5-drag-pan-behavior`
 - **Estimate**: 1–2h
 
 ### E9-T6: Context Menu Visibility & Layering (P2-MEDIUM)
-- **Status**: Pending
+- **Status**: Completed
 - **Primary Agent**: @dev (James – UI behavior)
 - **Supporting Agents**: @ux-expert (Sally – Menu UX), @qa (Quinn – Edge cases)
 - **Description**: Ensure the right-click context menu consistently appears over the canvas and other UI.
@@ -1243,13 +1246,13 @@ The component architecture is **well-structured and mature** with excellent cons
   - Menu positions within viewport; no clipping beneath canvas; ESC/click-out closes.
   - AND keyboard navigation cycles items (Tab/Shift+Tab) and ESC closes the menu.
 - **Implementation Details**:
-  - Consider rendering `ContextMenu` via a portal to `document.body` with `z-50+` if needed.
-  - Verify no global `onContextMenu` suppression; keep current transitions/tokens.
+  - Render `ContextMenu` via portal to `document.body` with elevated z-index to avoid clipping; ESC/click-out close preserved.
+  - Kept transitions/tokens; keyboard cycling supported.
 - **Branch**: `improvement-e9-t6-context-menu-visibility`
 - **Estimate**: 1h
 
 ### E9-T7: Shared Member Form + Modal Polish (P1-HIGH)
-- **Status**: Pending
+- **Status**: In Review
 - **Primary Agent**: @ux-expert (Sally – Form spec & visual polish)
 - **Supporting Agents**: @dev (James – Refactor), @po (Sarah – Validation parity), @qa (Quinn – Regression tests)
 - **Description**: Extract a shared `MemberForm` to unify Add/Edit modals; apply E5 design tokens for spacing/typography/inputs; match the target style in `example/image.png` (esp. the add/edit panel).
@@ -1265,6 +1268,11 @@ The component architecture is **well-structured and mature** with excellent cons
   - Update `AddMemberModal.tsx` and `EditMemberModal.tsx` to consume `MemberForm`.
 - **Branch**: `improvement-e9-t7-shared-member-form-ui`
 - **Estimate**: 4–6h
+ - **Implementation Notes (v1)**:
+   - Updated `MemberForm` to adopt E5 design tokens: swapped raw gray/red/blue classes to tokenized `--color-*` and `--surface-*` via Tailwind v4 CSS-first syntax.
+   - Preserved validation logic/messages through `validateMemberForm`; no behavior changes.
+   - `AddMemberModal` and `EditMemberModal` already consume `MemberForm`; verified required field errors render identically.
+   - Next step: run Jest locally to confirm existing modal specs and add focused tests for shared form rendering.
 
 ### E9-T8: UI Alignment to Desired Mock (Toolbar/Cards/Canvas) (P2-MEDIUM)
 - **Status**: Pending

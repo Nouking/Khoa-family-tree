@@ -157,12 +157,12 @@ describe('AddMemberModal Component', () => {
     const parentSelect = screen.getByLabelText('Parent');
     expect(parentSelect).toBeInTheDocument();
     
-    // Check that existing members are available as options
-    const johnOption = screen.getByText('John Doe (Father)');
-    const janeOption = screen.getByText('Jane Doe (Mother)');
-    
-    expect(johnOption).toBeInTheDocument();
-    expect(janeOption).toBeInTheDocument();
+    // Check that existing members are available as options (may appear in multiple selects)
+    const johnOptions = screen.getAllByText('John Doe (Father)');
+    const janeOptions = screen.getAllByText('Jane Doe (Mother)');
+
+    expect(johnOptions[0]).toBeInTheDocument();
+    expect(janeOptions[0]).toBeInTheDocument();
   });
 
   it('validates email format', async () => {
@@ -250,7 +250,6 @@ describe('AddMemberModal Component', () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer mock-token',
         },
         body: expect.stringContaining('"name":"Test Member"'),
       });

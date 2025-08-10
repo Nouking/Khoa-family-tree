@@ -1,0 +1,263 @@
+'use client';
+
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+
+import { FamilyMember } from '@/types';
+
+import { useFamilyMembers } from '../../contexts/FamilyTreeContext';
+import { MemberFormData, MemberFormErrors, validateMemberForm, validatePhotoFile } from '../../lib/validation/memberValidation';
+
+export interface MemberFormProps {
+  mode: 'add' | 'edit';
+  initialData: MemberFormData;
+  onSubmit: (data: MemberFormData) => Promise<void> | void;
+  onCancel: () => void;
+  isSubmitting?: boolean;
+  currentMember?: FamilyMember | null;
+}
+
+/**
+ * Shared member form used by Add and Edit modals.
+ * Preserves legacy validation messages and input fields.
+ */
+const MemberForm: React.FC<MemberFormProps> = ({ mode, initialData, onSubmit, onCancel, isSubmitting = false, currentMember }) => {
+  const existingMembers = useFamilyMembers();
+
+  const [formData, setFormData] = useState<MemberFormData>(initialData);
+  const [formErrors, setFormErrors] = useState<MemberFormErrors>({});
+  const [photoPreview, setPhotoPreview] = useState<string>('');
+
+  useEffect(() => {
+    setFormData(initialData);
+    setPhotoPreview(initialData.photo || '');
+    setFormErrors({});
+  }, [initialData]);
+
+  const relationshipOptions = useMemo(() => [
+    'Father', 'Mother', 'Son', 'Daughter', 'Brother', 'Sister',
+    'Grandfather', 'Grandmother', 'Grandson', 'Granddaughter',
+    'Uncle', 'Aunt', 'Nephew', 'Niece', 'Cousin', 'Spouse', 'Other'
+  ], []);
+
+  const availableMembers = useMemo(() => existingMembers.filter((m: FamilyMember) => m.id !== currentMember?.id), [existingMembers, currentMember?.id]);
+
+  const handleInputChange = useCallback((event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = event.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    if (formErrors[name]) {
+      setFormErrors(prev => ({ ...prev, [name]: '' }));
+    }
+  }, [formErrors]);
+
+  const handleParentChange = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
+    setFormData(prev => ({ ...prev, parentId: event.target.value || null }));
+  }, []);
+
+  const handleSpouseChange = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selected = Array.from(event.target.selectedOptions).map(o => (o as HTMLOptionElement).value);
+    setFormData(prev => ({ ...prev, spouseIds: selected }));
+  }, []);
+
+  const handlePhotoUpload = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    const photoError = validatePhotoFile(file);
+    if (photoError) {
+      setFormErrors(prev => ({ ...prev, photo: photoError }));
+      return;
+    }
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const base64String = e.target?.result as string;
+        setFormData(prev => ({ ...prev, photo: base64String }));
+        setPhotoPreview(base64String);
+        setFormErrors(prev => ({ ...prev, photo: '' }));
+      };
+      reader.readAsDataURL(file);
+    }
+  }, []);
+
+  const handlePositionChange = useCallback((field: 'x' | 'y', value: string) => {
+    const numValue = parseInt(value, 10);
+    if (!isNaN(numValue)) {
+      setFormData(prev => ({ ...prev, position: { ...prev.position, [field]: numValue } }));
+    }
+  }, []);
+
+  const handleSizeChange = useCallback((field: 'width' | 'height', value: string) => {
+    const numValue = parseInt(value, 10);
+    if (!isNaN(numValue) && numValue > 0) {
+      setFormData(prev => ({ ...prev, size: { ...prev.size, [field]: numValue } }));
+    }
+  }, []);
+
+  const validate = useCallback(() => {
+    const errors = validateMemberForm(formData, { mode, currentMemberId: currentMember?.id });
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  }, [formData, mode, currentMember?.id]);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!validate()) return;
+    await onSubmit({ ...formData, name: formData.name.trim(), relationship: formData.relationship.trim() });
+  };
+
+  return (
+    <form onSubmit={handleSubmit} noValidate className="space-y-6 text-(--color-neutral-900)">
+      {/* Basic Information */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label htmlFor="name" className="block text-sm font-medium text-(--color-neutral-700) mb-1">Name *</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value={formData.name}
+            onChange={handleInputChange}
+            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-(--color-primary) ${formErrors.name ? 'border-(--color-error)/40' : 'border-(--color-neutral-200)'}`}
+            placeholder="Enter full name"
+            disabled={isSubmitting}
+          />
+          {formErrors.name && (<p className="mt-1 text-sm text-(--color-error)">{formErrors.name}</p>)}
+        </div>
+        <div>
+          <label htmlFor="gender" className="block text-sm font-medium text-(--color-neutral-700) mb-1">Gender</label>
+          <select id="gender" name="gender" value={formData.gender} onChange={handleInputChange} className="w-full px-3 py-2 border border-(--color-neutral-200) rounded-md focus:outline-none focus:ring-2 focus:ring-(--color-primary)" disabled={isSubmitting}>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div>
+          <label htmlFor="relationship" className="block text-sm font-medium text-(--color-neutral-700) mb-1">Relationship *</label>
+          <select id="relationship" name="relationship" value={formData.relationship} onChange={handleInputChange} className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-(--color-primary) ${formErrors.relationship ? 'border-(--color-error)/40' : 'border-(--color-neutral-200)'}`} disabled={isSubmitting}>
+            <option value="">Select relationship</option>
+            {relationshipOptions.map(option => (<option key={option} value={option}>{option}</option>))}
+          </select>
+          {formErrors.relationship && (<p className="mt-1 text-sm text-(--color-error)">{formErrors.relationship}</p>)}
+        </div>
+        <div>
+          <label htmlFor="title" className="block text-sm font-medium text-(--color-neutral-700) mb-1">Title/Occupation</label>
+          <input type="text" id="title" name="title" value={formData.title} onChange={handleInputChange} className="w-full px-3 py-2 border border-(--color-neutral-200) rounded-md focus:outline-none focus:ring-2 focus:ring-(--color-primary)" placeholder="e.g., Engineer, Teacher" disabled={isSubmitting} />
+        </div>
+      </div>
+
+      {/* Dates */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label htmlFor="birthDate" className="block text-sm font-medium text-(--color-neutral-700) mb-1">Birth Date</label>
+          <input type="date" id="birthDate" name="birthDate" value={formData.birthDate} onChange={handleInputChange} className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-(--color-primary) ${formErrors.birthDate ? 'border-(--color-error)/40' : 'border-(--color-neutral-200)'}`} disabled={isSubmitting} />
+          {formErrors.birthDate && (<p className="mt-1 text-sm text-(--color-error)">{formErrors.birthDate}</p>)}
+        </div>
+        <div>
+          <label htmlFor="deathDate" className="block text-sm font-medium text-(--color-neutral-700) mb-1">Death Date</label>
+          <input type="date" id="deathDate" name="deathDate" value={formData.deathDate} onChange={handleInputChange} className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-(--color-primary) ${formErrors.deathDate ? 'border-(--color-error)/40' : 'border-(--color-neutral-200)'}`} disabled={isSubmitting} />
+          {formErrors.deathDate && (<p className="mt-1 text-sm text-(--color-error)">{formErrors.deathDate}</p>)}
+        </div>
+      </div>
+
+      {/* Photo Upload */}
+      <div>
+        <label htmlFor="photo" className="block text-sm font-medium text-(--color-neutral-700) mb-1">Photo</label>
+        <div className="flex items-center space-x-4">
+          <input type="file" id="photo" name="photo" accept="image/*" onChange={handlePhotoUpload} className="hidden" disabled={isSubmitting} />
+          <button type="button" onClick={() => document.getElementById('photo')?.click()} className="px-4 py-2 btn-outline text-sm font-medium text-(--color-neutral-700)" disabled={isSubmitting}>
+            {photoPreview ? 'Change Photo' : 'Choose Photo'}
+          </button>
+          {photoPreview && (
+            <div className="relative">
+              <img src={photoPreview} alt="Preview" className="w-16 h-16 rounded-full object-cover" />
+              <button type="button" onClick={() => { setFormData(prev => ({ ...prev, photo: '' })); setPhotoPreview(''); }} className="absolute -top-2 -right-2 bg-(--color-error) text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-red-600" disabled={isSubmitting}>
+                ×
+              </button>
+            </div>
+          )}
+        </div>
+        {formErrors.photo && (<p className="mt-1 text-sm text-(--color-error)">{formErrors.photo}</p>)}
+      </div>
+
+      {/* Contact */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label htmlFor="email" className="block text-sm font-medium text-(--color-neutral-700) mb-1">Email</label>
+          <input type="email" id="email" name="email" value={formData.email} onChange={handleInputChange} className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-(--color-primary) ${formErrors.email ? 'border-(--color-error)/40' : 'border-(--color-neutral-200)'}`} placeholder="email@example.com" disabled={isSubmitting} />
+          {formErrors.email && (<p className="mt-1 text-sm text-(--color-error)">{formErrors.email}</p>)}
+        </div>
+        <div>
+          <label htmlFor="phone" className="block text-sm font-medium text-(--color-neutral-700) mb-1">Phone</label>
+          <input type="tel" id="phone" name="phone" value={formData.phone} onChange={handleInputChange} className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-(--color-primary) ${formErrors.phone ? 'border-(--color-error)/40' : 'border-(--color-neutral-200)'}`} placeholder="+1 (555) 123-4567" disabled={isSubmitting} />
+          {formErrors.phone && (<p className="mt-1 text-sm text-(--color-error)">{formErrors.phone}</p>)}
+        </div>
+      </div>
+
+      {/* Address */}
+      <div>
+        <label htmlFor="address" className="block text-sm font-medium text-(--color-neutral-700) mb-1">Address</label>
+        <input type="text" id="address" name="address" value={formData.address} onChange={handleInputChange} className="w-full px-3 py-2 border border-(--color-neutral-200) rounded-md focus:outline-none focus:ring-2 focus:ring-(--color-primary)" placeholder="Full address" disabled={isSubmitting} />
+      </div>
+
+      {/* Relations */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label htmlFor="parentId" className="block text-sm font-medium text-(--color-neutral-700) mb-1">Parent</label>
+          <select id="parentId" name="parentId" value={formData.parentId || ''} onChange={handleParentChange} className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-(--color-primary) ${formErrors.parentId ? 'border-(--color-error)/40' : 'border-(--color-neutral-200)'}`} disabled={isSubmitting}>
+            <option value="">Select parent</option>
+            {availableMembers.map((m: FamilyMember) => (<option key={m.id} value={m.id}>{m.name} ({m.relationship})</option>))}
+          </select>
+          {formErrors.parentId && (<p className="mt-1 text-sm text-(--color-error)">{formErrors.parentId}</p>)}
+        </div>
+        <div>
+          <label htmlFor="spouseIds" className="block text-sm font-medium text-(--color-neutral-700) mb-1">Spouses (Hold Ctrl/Cmd to select multiple)</label>
+          <select id="spouseIds" name="spouseIds" multiple value={formData.spouseIds} onChange={handleSpouseChange} className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-(--color-primary) ${formErrors.spouseIds ? 'border-(--color-error)/40' : 'border-(--color-neutral-200)'}`} disabled={isSubmitting} size={3}>
+            {availableMembers.map((m: FamilyMember) => (<option key={m.id} value={m.id}>{m.name} ({m.relationship})</option>))}
+          </select>
+          {formErrors.spouseIds && (<p className="mt-1 text-sm text-(--color-error)">{formErrors.spouseIds}</p>)}
+        </div>
+      </div>
+
+      {/* Biography */}
+      <div>
+        <label htmlFor="biography" className="block text-sm font-medium text-(--color-neutral-700) mb-1">Biography <span className="text-sm text-(--color-neutral-500) ml-2">({formData.biography.length}/1000 characters)</span></label>
+        <textarea id="biography" name="biography" value={formData.biography} onChange={handleInputChange} rows={3} className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-(--color-primary) resize-vertical ${formErrors.biography ? 'border-(--color-error)/40' : 'border-(--color-neutral-200)'}`} placeholder="Brief biography or notes..." disabled={isSubmitting} maxLength={1000} />
+        {formErrors.biography && (<p className="mt-1 text-sm text-(--color-error)">{formErrors.biography}</p>)}
+      </div>
+
+      {mode === 'edit' && (
+        <div className="border-t pt-4">
+          <h3 className="text-lg font-medium text-(--color-neutral-900) mb-4">Canvas Position & Size</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-(--color-neutral-700) mb-1">X Position</label>
+              <input type="number" value={formData.position.x} onChange={(e) => handlePositionChange('x', e.target.value)} className="w-full px-3 py-2 border border-(--color-neutral-200) rounded-md focus:outline-none focus:ring-2 focus:ring-(--color-primary)" disabled={isSubmitting} />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-(--color-neutral-700) mb-1">Y Position</label>
+              <input type="number" value={formData.position.y} onChange={(e) => handlePositionChange('y', e.target.value)} className="w-full px-3 py-2 border border-(--color-neutral-200) rounded-md focus:outline-none focus:ring-2 focus:ring-(--color-primary)" disabled={isSubmitting} />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-(--color-neutral-700) mb-1">Width</label>
+              <input type="number" min="100" value={formData.size.width} onChange={(e) => handleSizeChange('width', e.target.value)} className="w-full px-3 py-2 border border-(--color-neutral-200) rounded-md focus:outline-none focus:ring-2 focus:ring-(--color-primary)" disabled={isSubmitting} />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-(--color-neutral-700) mb-1">Height</label>
+              <input type="number" min="80" value={formData.size.height} onChange={(e) => handleSizeChange('height', e.target.value)} className="w-full px-3 py-2 border border-(--color-neutral-200) rounded-md focus:outline-none focus:ring-2 focus:ring-(--color-primary)" disabled={isSubmitting} />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Actions */}
+      <div className="flex justify-end space-x-3 pt-6 border-t border-(--color-neutral-100)">
+        <button type="button" onClick={onCancel} className="px-4 py-2 btn-outline text-sm font-medium text-(--color-neutral-700)" disabled={isSubmitting}>Cancel</button>
+        <button type="submit" className="px-4 py-2 btn-primary disabled:opacity-50 disabled:cursor-not-allowed" disabled={isSubmitting}>
+          {isSubmitting ? (mode === 'add' ? 'Adding Member...' : 'Updating…') : (mode === 'add' ? 'Add Member' : 'Update Member')}
+        </button>
+      </div>
+    </form>
+  );
+};
+
+export default MemberForm;
+
+
