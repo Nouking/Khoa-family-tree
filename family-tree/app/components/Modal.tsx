@@ -162,13 +162,15 @@ const Modal: React.FC<ModalProps> = ({
         `}
       >
         {/* Modal Header */}
-        <div className="flex items-center justify-between p-6 border-b border-(--color-neutral-100)">
+        <div className="relative flex items-center justify-between p-6 border-b border-(--color-neutral-100) before:content-[''] before:absolute before:left-0 before:bottom-0 before:h-1 before:w-full before:bg-transparent before:pointer-events-none">
+          {/* Optional left accent bar for visual emphasis using tokens */}
+          <span aria-hidden="true" className="absolute left-0 top-0 h-full w-1 bg-(--color-primary) rounded-l-[var(--radius-lg)] max-sm:hidden" />
           <h2 id="modal-title" className="text-xl font-semibold">
             {title}
           </h2>
           <button
             onClick={onClose}
-            className="text-(--color-neutral-500) hover:text-(--color-neutral-700) transition-colors focus-visible:outline-2 focus-visible:outline-(--color-primary) rounded-[var(--radius-sm)]"
+            className="text-(--color-neutral-500) hover:text-(--color-neutral-700) transition-colors focus-visible:outline-2 focus-visible:outline-(--color-primary) rounded-[var(--radius-sm)] focus-visible:outline-offset-2"
             aria-label="Close modal"
           >
             <svg
