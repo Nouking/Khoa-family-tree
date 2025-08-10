@@ -768,7 +768,7 @@ Tasks are assigned primary agents with supporting agents based on expertise over
 - **Summary**: MemberForm restructured into clear, tokenized sections with ARIA wiring; visual hierarchy improved; behavior preserved.
 
 ### E10-T5: Photo Uploader Polish (Preview/Actions) (P2-HIGH)
-- **Status**: Pending
+- **Status**: Completed - 2025-08-10
 - **Primary Agent**: @dev (James)
 - **Supporting Agents**: @ux-expert (Sally)
 - **Description**: Refine the photo upload area with clearer affordances and tidy preview/delete affordance aligned to tokens.
@@ -785,6 +785,7 @@ Tasks are assigned primary agents with supporting agents based on expertise over
   - Delete badge: `--color-error`
   - Preview radius: `--radius-full` via `rounded-full`
 - **Branch**: `improvement-e10-t5-photo-uploader-polish`
+- **Summary**: Polished photo uploader per spec: `.btn-outline` trigger with tokenized focus ring, ref-based file input, rounded avatar preview, accessible delete badge using `bg-(--color-error)`, and proper ARIA labeling/associations. Base64 flow preserved; keyboard access verified. No new dependencies.
 
 ### E10-T6: Validation & Error State Styling (P1-HIGH)
 - **Status**: Pending

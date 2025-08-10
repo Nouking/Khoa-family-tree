@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { FamilyMember } from '@/types';
 
@@ -26,6 +26,7 @@ const MemberForm: React.FC<MemberFormProps> = ({ mode, initialData, onSubmit, on
   const [formData, setFormData] = useState<MemberFormData>(initialData);
   const [formErrors, setFormErrors] = useState<MemberFormErrors>({});
   const [photoPreview, setPhotoPreview] = useState<string>('');
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     setFormData(initialData);
@@ -172,15 +173,38 @@ const MemberForm: React.FC<MemberFormProps> = ({ mode, initialData, onSubmit, on
         <h3 id="section-photo" className="text-base font-medium text-(--color-neutral-900) mb-3">Photo</h3>
         <label htmlFor="photo" className="sr-only">Photo</label>
         <div className="flex items-center space-x-4">
-          <input type="file" id="photo" name="photo" accept="image/*" onChange={handlePhotoUpload} className="hidden" disabled={isSubmitting} />
-          <button type="button" onClick={() => document.getElementById('photo')?.click()} className="px-4 py-2 btn-outline text-sm font-medium text-(--color-neutral-700)" disabled={isSubmitting}>
+          <input
+            ref={fileInputRef}
+            type="file"
+            id="photo"
+            name="photo"
+            accept="image/*"
+            onChange={handlePhotoUpload}
+            className="hidden"
+            disabled={isSubmitting}
+            aria-describedby={formErrors.photo ? getErrorId('photo') : undefined}
+          />
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            className="px-4 py-2 btn-outline text-sm font-medium text-(--color-neutral-700) focus-visible:outline-2 focus-visible:outline-(--color-primary) focus-visible:outline-offset-2"
+            disabled={isSubmitting}
+            aria-describedby={formErrors.photo ? getErrorId('photo') : undefined}
+          >
             {photoPreview ? 'Change Photo' : 'Choose Photo'}
           </button>
           {photoPreview && (
             <div className="relative">
               <img src={photoPreview} alt="Preview" className="w-16 h-16 rounded-full object-cover" />
-              <button type="button" onClick={() => { setFormData(prev => ({ ...prev, photo: '' })); setPhotoPreview(''); }} className="absolute -top-2 -right-2 bg-(--color-error) text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-red-600" disabled={isSubmitting}>
-                ×
+              <button
+                type="button"
+                onClick={() => { setFormData(prev => ({ ...prev, photo: '' })); setPhotoPreview(''); }}
+                className="absolute -top-2 -right-2 bg-(--color-error) text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:opacity-90 focus-visible:outline-2 focus-visible:outline-(--color-primary) focus-visible:outline-offset-2"
+                disabled={isSubmitting}
+                aria-label="Remove photo"
+              >
+                <span aria-hidden>×</span>
+                <span className="sr-only">Remove photo</span>
               </button>
             </div>
           )}
