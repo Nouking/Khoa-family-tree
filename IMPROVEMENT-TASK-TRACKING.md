@@ -1252,7 +1252,7 @@ The component architecture is **well-structured and mature** with excellent cons
 - **Estimate**: 1h
 
 ### E9-T7: Shared Member Form + Modal Polish (P1-HIGH)
-- **Status**: In Review
+- **Status**: Completed
 - **Primary Agent**: @ux-expert (Sally – Form spec & visual polish)
 - **Supporting Agents**: @dev (James – Refactor), @po (Sarah – Validation parity), @qa (Quinn – Regression tests)
 - **Description**: Extract a shared `MemberForm` to unify Add/Edit modals; apply E5 design tokens for spacing/typography/inputs; match the target style in `example/image.png` (esp. the add/edit panel).
@@ -1268,11 +1268,22 @@ The component architecture is **well-structured and mature** with excellent cons
   - Update `AddMemberModal.tsx` and `EditMemberModal.tsx` to consume `MemberForm`.
 - **Branch**: `improvement-e9-t7-shared-member-form-ui`
 - **Estimate**: 4–6h
- - **Implementation Notes (v1)**:
+  - **Completion Date**: 2025-08-10
+  - **Implementation Notes (v1)**:
    - Updated `MemberForm` to adopt E5 design tokens: swapped raw gray/red/blue classes to tokenized `--color-*` and `--surface-*` via Tailwind v4 CSS-first syntax.
    - Preserved validation logic/messages through `validateMemberForm`; no behavior changes.
    - `AddMemberModal` and `EditMemberModal` already consume `MemberForm`; verified required field errors render identically.
    - Next step: run Jest locally to confirm existing modal specs and add focused tests for shared form rendering.
+
+  - **Implementation Notes (v2)**:
+    - Fixed hook order regression in `EditMemberModal` by moving `useMemo` initialization above the null-guard to satisfy Rules of Hooks and prevent conditional hook invocation.
+    - Verified with full Jest run: all suites passing locally.
+
+  - **QA Validation (Quinn)**:
+    - Acceptance criteria met: shared `MemberForm` used by both Add/Edit; validation messages unchanged; duplicate form logic removed.
+    - Tests: 121/121 passing across 11 suites (includes modal flows using shared form).
+    - Accessibility: Labels present on all inputs; keyboard navigation preserved; controls sized to meet target touch areas; error roles/messages intact.
+    - Design tokens: Usage aligns with Tailwind v4 `@theme` CSS-first tokens and arbitrary value syntax; validated against official docs via Context7.
 
 ### E9-T8: UI Alignment to Desired Mock (Toolbar/Cards/Canvas) (P2-MEDIUM)
 - **Status**: Pending

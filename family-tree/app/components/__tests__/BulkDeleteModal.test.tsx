@@ -179,15 +179,11 @@ describe('BulkDeleteModal', () => {
     expect(global.fetch).toHaveBeenCalledTimes(2);
     expect(global.fetch).toHaveBeenCalledWith('/api/members/member-1', {
       method: 'DELETE',
-      headers: {
-        'Authorization': 'Bearer null',
-      },
+      headers: {},
     });
     expect(global.fetch).toHaveBeenCalledWith('/api/members/member-2', {
       method: 'DELETE',
-      headers: {
-        'Authorization': 'Bearer null',
-      },
+      headers: {},
     });
   });
 

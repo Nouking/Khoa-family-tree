@@ -34,3 +34,13 @@ When updating this documentation, please follow these guidelines:
 ---
 
 *This documentation is maintained as part of the development process. Last updated: July 30, 2024*
+
+## Dev Credentials
+
+For local development, seed or update the admin credentials:
+
+```
+node ../scripts/seed-admin.mjs --password=admin
+```
+
+The default username is `admin`. Change the password by passing a different value to `--password`. The script safely updates `data/users.json` and is idempotent.

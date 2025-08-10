@@ -190,9 +190,11 @@ const FamilyTreeCanvas = memo(React.forwardRef<FamilyTreeCanvasHandle, FamilyTre
 
   // Handle mouse down for panning
   const handleMouseDown = useCallback((e: MouseEvent<HTMLDivElement>) => {
-    // Only start panning with left mouse button
+    // Only start panning with left mouse button and when clicking background (not on a member)
     if (e.button !== 0) return;
-    
+    const clickedOnMember = (e.target as HTMLElement)?.closest('.member-banner');
+    if (clickedOnMember) return;
+
     setIsPanning(true);
     setStartPanPos({ x: e.clientX, y: e.clientY });
   }, []);
