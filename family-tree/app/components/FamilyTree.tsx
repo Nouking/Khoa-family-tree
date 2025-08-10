@@ -110,16 +110,28 @@ const FamilyTree: React.FC<FamilyTreeProps> = ({ initialMembers, searchQuery = '
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify({ position: { x, y } }),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to update member position');
+        // Handle unauthorized quietly to avoid noisy console errors in view-only mode
+        const status = response.status;
+        let message = 'Failed to update member position';
+        try {
+          const data = await response.json();
+          message = (data && (data.message || data.error)) || message;
+        } catch {}
+        if (status === 401) {
+          console.warn(`[moveMember] Unauthorized (401): ${message}`);
+          return;
+        }
+        console.warn(`[moveMember] Non-OK response (${status}): ${message}`);
       }
     } catch (error) {
-      console.error('Error updating member position:', error);
+      console.warn('Error updating member position (network or unexpected):', error);
       // Optionally, revert the state change if the API call fails
-      // For now, we'll just log the error
+      // For now, we'll just log the warning to avoid breaking UX
     }
   };
 

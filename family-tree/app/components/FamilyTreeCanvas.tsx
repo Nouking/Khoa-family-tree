@@ -44,7 +44,7 @@ export interface FamilyTreeCanvasHandle {
 
 const FamilyTreeCanvas = memo(React.forwardRef<FamilyTreeCanvasHandle, FamilyTreeCanvasProps>(function FamilyTreeCanvas({ members, moveMember, highlightedIds = [] }, ref) {
   // Global state for member selection
-  const { dispatch } = useFamilyTreeWithDispatch();
+  const { state, dispatch } = useFamilyTreeWithDispatch();
   const { showToast } = useToast();
   const selectedMemberIds = useSelectedMembers();
   
@@ -145,12 +145,14 @@ const FamilyTreeCanvas = memo(React.forwardRef<FamilyTreeCanvasHandle, FamilyTre
     () => ({
       accept: ItemTypes.MEMBER_CARD,
       drop: (item: DragItem, monitor: DropTargetMonitor) => {
-        // Only handle drop if we're not currently panning
-        if (!isPanning) {
+        // Only handle drop if we're not currently panning and editing is enabled
+        if (!isPanning && state.isEditing) {
           const delta = monitor.getDifferenceFromInitialOffset() as XYCoord;
           const x = Math.round(item.x + delta.x);
           const y = Math.round(item.y + delta.y);
           moveMember(item.id, x, y);
+        } else if (!state.isEditing) {
+          showToast({ type: 'info', title: 'View only', description: 'Enable edit mode to move members.' });
         }
         return undefined;
       },
@@ -158,7 +160,7 @@ const FamilyTreeCanvas = memo(React.forwardRef<FamilyTreeCanvasHandle, FamilyTre
         isOver: monitor.isOver({ shallow: true }),
       }),
     }),
-    [moveMember, isPanning]
+    [moveMember, isPanning, state.isEditing]
   );
 
   // Set up combined ref for canvas
@@ -300,10 +302,10 @@ const FamilyTreeCanvas = memo(React.forwardRef<FamilyTreeCanvasHandle, FamilyTre
         }}
       />
       {/* Viewport Controls */}
-      <div className="absolute top-4 right-4 z-10 flex flex-col space-y-2 bg-white rounded-lg shadow-md p-2">
+      <div className="absolute top-4 right-4 z-10 flex flex-col space-y-2 bg-(--surface-1) rounded-[var(--radius-md)] shadow-[var(--elevation-2)] p-2 border border-(--color-neutral-100)">
         <button 
           data-testid="zoom-in-button"
-          className="p-2 bg-blue-50 hover:bg-blue-100 rounded-lg text-blue-600"
+          className="p-2 rounded-[var(--radius-md)] text-(--color-primary) bg-[color-mix(in_oklch,_var(--color-primary),_white_88%)] hover:bg-[color-mix(in_oklch,_var(--color-primary),_white_80%)] focus-visible:outline-2 focus-visible:outline-(--color-primary)"
           onClick={handleZoomIn}
           aria-label="Zoom In"
         >
@@ -313,7 +315,7 @@ const FamilyTreeCanvas = memo(React.forwardRef<FamilyTreeCanvasHandle, FamilyTre
         </button>
         <button 
           data-testid="zoom-out-button"
-          className="p-2 bg-blue-50 hover:bg-blue-100 rounded-lg text-blue-600"
+          className="p-2 rounded-[var(--radius-md)] text-(--color-primary) bg-[color-mix(in_oklch,_var(--color-primary),_white_88%)] hover:bg-[color-mix(in_oklch,_var(--color-primary),_white_80%)] focus-visible:outline-2 focus-visible:outline-(--color-primary)"
           onClick={handleZoomOut}
           aria-label="Zoom Out"
         >
@@ -323,7 +325,7 @@ const FamilyTreeCanvas = memo(React.forwardRef<FamilyTreeCanvasHandle, FamilyTre
         </button>
         <button 
           data-testid="reset-view-button"
-          className="p-2 bg-blue-50 hover:bg-blue-100 rounded-lg text-blue-600"
+          className="p-2 rounded-[var(--radius-md)] text-(--color-primary) bg-[color-mix(in_oklch,_var(--color-primary),_white_88%)] hover:bg-[color-mix(in_oklch,_var(--color-primary),_white_80%)] focus-visible:outline-2 focus-visible:outline-(--color-primary)"
           onClick={handleResetView}
           aria-label="Reset View"
         >
@@ -375,6 +377,7 @@ const FamilyTreeCanvas = memo(React.forwardRef<FamilyTreeCanvasHandle, FamilyTre
             isHighlighted={highlightedIds.includes(member.id)}
             isSelected={selectedMemberIds.includes(member.id)}
             selectedCount={selectedMemberIds.length}
+            isEditing={state.isEditing}
             onSelect={handleMemberSelect}
             onEdit={handleMemberEdit}
             onDelete={handleMemberDelete}
@@ -384,7 +387,7 @@ const FamilyTreeCanvas = memo(React.forwardRef<FamilyTreeCanvasHandle, FamilyTre
       </div>
 
       {/* Info Text with Performance Stats */}
-      <div className="absolute bottom-4 left-4 text-sm text-gray-500 bg-white bg-opacity-75 p-2 rounded-md">
+      <div className="absolute bottom-4 left-4 text-(--text-sm) text-(--color-neutral-600) bg-(--surface-1) bg-opacity-80 p-2 rounded-[var(--radius-md)] shadow-[var(--elevation-1)] border border-(--color-neutral-100)">
         <p>Zoom: {(viewport.zoom * 100).toFixed(0)}%</p>
         <p className="text-xs">Drag canvas to pan • Use buttons to zoom</p>
         {process.env.NODE_ENV === 'development' && (
