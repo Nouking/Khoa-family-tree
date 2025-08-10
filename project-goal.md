@@ -203,6 +203,16 @@ middleware.ts        # Route protection
 
 ---
 
+## 🎨 Design System Tokens (Alignment)
+
+Use Tailwind v4 `@theme` tokens defined in `family-tree/app/globals.css` for all colors/typography/elevation instead of hardcoded hex values.
+
+- Colors: `--color-primary`, `--color-secondary`, `--color-accent`, `--color-neutral-50..900`, `--color-error`, `--color-success`
+- Radii & Elevation: `--radius-sm|md|lg`, `--elevation-1|2|3`
+- Typography: `--text-xs..3xl`, `--font-weight-regular|medium|semibold|bold`
+
+Apply via utilities like `bg-(--color-*)`, `text-(--color-*)`, `rounded-[var(--radius-*)]`, `shadow-[var(--elevation-*)]`, and `focus-visible:outline-(--color-primary)`.
+
 ## 🚀 **Development Phases with Implementation Priority**
 
 ### **Phase 1: Enhanced UI Foundation** (Priority: CRITICAL | Week 1)

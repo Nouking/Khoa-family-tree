@@ -1,13 +1,13 @@
 ---
 project: Family Tree Design Tool
 status: In Progress
-current_phase: 2
-current_phase_name: "Phase 2 - CRUD Operations & State Management"
-next_action: "Implement undo/redo history stack (Task 2.6)"
-focus: "Complete Phase 2 and prepare for Share & Export"
+current_phase: 10
+current_phase_name: "Epic 10 - Modal UI Redesign"
+next_action: "E10-T3 Modal Shell Polish using tokens"
+focus: "Execute Epic 10 per spec; then proceed to Share & Export"
 priority: "Undo/redo functionality and Phase 3 preparation"
 version: 1.5.0
-last_updated: 2025-08-08
+last_updated: 2025-08-10
 ---
 # Success Criteria
 
