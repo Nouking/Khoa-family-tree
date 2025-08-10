@@ -698,7 +698,7 @@ Tasks are assigned primary agents with supporting agents based on expertise over
 - **Branch**: `improvement-e10-t1-modal-spec`
 
 ### E10-T2: Visual Style & Token Application Plan (P1-HIGH)
-- **Status**: Pending
+- **Status**: Completed - 2025-08-10
 - **Primary Agent**: @architect (Winston)
 - **Supporting Agents**: @ux-expert (Sally), @dev (James)
 - **Description**: Define how brand, accent, and neutral tokens will be applied to the modal shell, section headers, inputs, buttons, and focus states for consistent theming.
@@ -712,6 +712,9 @@ Tasks are assigned primary agents with supporting agents based on expertise over
   - Output artifacts: Token application table, a11y contrast notes
   - Mandatory update cascade: Append token usage guidance and a11y notes to E10-T3 → E10-T9 task descriptions so implementation is aligned
   - Tracking: Include a "Token Notes" sub-bullet in each affected task listing exact tokens per area (header, inputs, buttons)
+- **Artifacts**:
+  - Spec update: `family-tree/docs/implementation-notes.md` → section "Token Application (E10-T2)"
+  - Contrast and AA notes included; Tailwind v4 `@theme` tokens confirmed
 - **Branch**: `improvement-e10-t2-token-plan`
 
 ### E10-T3: Modal Shell Polish (Header/Backdrop/Layout) (P1-HIGH)
@@ -730,6 +733,10 @@ Tasks are assigned primary agents with supporting agents based on expertise over
   - Add header accent element via tokens (no new deps)
   - Confirm motion-reduce behavior unaffected
   - Spec Impact Summary: Apply header accent `border-(--color-primary)` or `before:bg-(--color-primary)`; backdrop `supports-[backdrop-filter]:backdrop-blur bg-black/50`; container `rounded-[var(--radius-lg)] shadow-[var(--elevation-3)]`
+- **Token Notes**:
+  - Header: `--color-primary`; Border/Divider: `--color-neutral-100`; Title: `--text-xl` + `--font-weight-semibold`
+  - Close button focus: `focus-visible:outline-(--color-primary)`; radius: `--radius-sm`
+  - Container: `--surface-1`, `--radius-lg`, `--elevation-3`
 - **Branch**: `improvement-e10-t3-modal-shell-polish`
 
 ### E10-T4: MemberForm Layout & Sections Redesign (P1-CRITICAL)
@@ -747,6 +754,10 @@ Tasks are assigned primary agents with supporting agents based on expertise over
   - Use existing `.btn-primary` and `.btn-outline` for actions
   - Keep DOM minimal; prefer class updates to logic
   - Spec Impact Summary: Use section separators `border-t border-(--color-neutral-100) pt-4`; inputs `focus:ring-(--color-primary) border-(--color-neutral-200)`; errors `border-(--color-error)/40 text-(--color-error)`
+- **Token Notes**:
+  - Labels: `--color-neutral-700` `--text-sm` `--font-weight-medium`
+  - Inputs: default `--color-neutral-200`; focus `--color-primary`; radius `--radius-md`
+  - Errors: `--color-error` (border/text)
 - **Branch**: `improvement-e10-t4-memberform-redesign`
 
 ### E10-T5: Photo Uploader Polish (Preview/Actions) (P2-HIGH)
@@ -762,6 +773,10 @@ Tasks are assigned primary agents with supporting agents based on expertise over
   - Maintain existing base64 approach; no new dependencies
   - Ensure button/controls are keyboard-accessible
   - Spec Impact Summary: Use `.btn-outline` for choose/change, preview `rounded-full` sizing, delete badge uses `bg-(--color-error)`; errors `text-(--color-error)`
+- **Token Notes**:
+  - Buttons: `.btn-outline`
+  - Delete badge: `--color-error`
+  - Preview radius: `--radius-full` via `rounded-full`
 - **Branch**: `improvement-e10-t5-photo-uploader-polish`
 
 ### E10-T6: Validation & Error State Styling (P1-HIGH)
@@ -777,6 +792,9 @@ Tasks are assigned primary agents with supporting agents based on expertise over
   - Review `MemberFormErrors` rendering and class names
   - Add aria-invalid and aria-describedBy where appropriate
   - Spec Impact Summary: Standardize invalid borders `border-(--color-error)/40`, helper `text-(--color-error)`, preserve screen reader announcements, no layout shift
+- **Token Notes**:
+  - Error border/text: `--color-error`
+  - Help text: `--color-error`; focus ring remains `--color-primary`
 - **Branch**: `improvement-e10-t6-validation-states`
 
 ### E10-T7: Responsive & Mobile Bottom Sheet Variant (P1-HIGH)
@@ -792,6 +810,9 @@ Tasks are assigned primary agents with supporting agents based on expertise over
   - Leverage existing `max-sm:w-screen max-sm:h-[100dvh] max-sm:rounded-none`
   - Add safe-area paddings if needed
   - Spec Impact Summary: Ensure tap target sizing, dvh height, safe-area padding, container query-based internal layout using `@container`, and keyboard avoidance
+- **Token Notes**:
+  - Small screens remove top radius (`rounded-none`); maintain focus ring `--color-primary`
+  - Surfaces remain `--surface-1`; borders `--color-neutral-100`
 - **Branch**: `improvement-e10-t7-mobile-bottom-sheet`
 
 ### E10-T8: A11y & Keyboard Flow Validation (P1-CRITICAL)
@@ -806,6 +827,9 @@ Tasks are assigned primary agents with supporting agents based on expertise over
 - **Implementation Details**:
   - Update or add unit/integration tests for focus and a11y where feasible
 - Spec Impact Summary: Use spec "Accessibility (APG/WCAG)" for verification: ensure `role="dialog"`, `aria-modal`, labeled title (`aria-labelledby`), proper `aria-describedby` where used; verify visible focus rings using `--color-primary`; confirm AA contrast for text and non-text UI; validate error association patterns from spec (invalid borders `border-(--color-error)/40`, helper `text-(--color-error)`); include mobile bottom-sheet checks (full-height `100dvh`, safe-area padding, tap target sizes ≥ 44px).
+- **Token Notes**:
+  - Focus indicators: `--color-primary`
+  - Non-text UI contrast: borders `--color-neutral-200`, errors `--color-error`
 - **Branch**: `improvement-e10-t8-a11y-validation`
 
 ### E10-T9: Tests & Regression Suite Update (P2-HIGH)
@@ -820,6 +844,8 @@ Tasks are assigned primary agents with supporting agents based on expertise over
 - **Implementation Details**:
   - Validate aria attributes and visible labels in tests
 - Spec Impact Summary: Update tests to assert tokenized UI per spec: header accent element present (either `before:bg-(--color-primary)` bar or `border-l-4 border-(--color-primary)`), backdrop blur classes `supports-[backdrop-filter]:backdrop-blur bg-black/50`, container radius/elevation `rounded-[var(--radius-lg)] shadow-[var(--elevation-3)]`, inputs `focus:ring-(--color-primary) border-(--color-neutral-200)`, error states `border-(--color-error)/40 text-(--color-error)`, and mobile bottom-sheet behavior (`max-sm:h-[100dvh]`, no top rounding). Prefer stable, token-based selectors over hardcoded colors.
+- **Token Notes**:
+  - Test selectors should target presence of token-driven classes rather than raw hex values.
 - **Branch**: `improvement-e10-t9-tests-update`
 
 ### E10-T10: PO Review & Acceptance (P1-HIGH)

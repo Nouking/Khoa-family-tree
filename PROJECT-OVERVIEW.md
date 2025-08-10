@@ -55,8 +55,8 @@ UI Components: React 19.1.0 (Latest features and hooks)
 
 # Canvas & Interactions  
 Drag-and-Drop: React DnD 16.0.1 (Canvas interactions)
-Image Export: html2canvas 1.4.1 (Canvas-to-image conversion)
-Performance: React Window 1.8.8 (Virtual scrolling for large trees)
+Image Export: (Planned) html2canvas (Canvas-to-image conversion)
+Performance: (Planned) React Window (Virtual scrolling for large trees)
 Touch Support: React DnD Touch Backend (Mobile interactions)
 
 # Authentication & Security
@@ -407,5 +407,5 @@ git commit -m "type(scope): desc"  # Commit with conventional format
 ---
 
 *📝 **Document Status**: Master consolidated documentation combining project-goal.md, docs/project-overview.md, and memory-bank context files*  
-*🔄 **Last Updated**: 2025-08-08 | Epic 2: Documentation Enhancement*  
+*🔄 **Last Updated**: 2025-08-10 | Epic 10: Modal Redesign Active*  
 *🤖 **AI-Optimized**: Structured for @pm, @po, @sm agent workflows with Context7 integration*

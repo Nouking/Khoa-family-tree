@@ -614,12 +614,9 @@ const loadTreeData = (): FamilyTreeData | null => {
 
 ## 🎨 UI/UX Design System
 
-### Color Palette:
-- **Primary**: Purple/blue theme (#6366f1, #8b5cf6)
-- **Secondary**: Gray scale (#f8fafc, #e2e8f0, #64748b)
-- **Accent**: Green for success (#10b981)
-- **Warning**: Orange for warnings (#f59e0b)
-- **Error**: Red for errors (#ef4444)
+### Color System (Token-Based):
+- Use `@theme` tokens from `app/globals.css` (`--color-primary`, `--color-accent`, `--color-neutral-*`, `--color-error`, `--color-success`)
+- Apply via Tailwind arbitrary values: `bg-(--color-*)`, `text-(--color-*)`, etc.
 
 ### Typography:
 - **Headings**: Inter, font-weight 600-700

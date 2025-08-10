@@ -70,6 +70,34 @@ Spec for Add/Edit Member modals aligned to `example/UI-family-tree-09-08-2025_ad
   - Error text/border: `--color-error`
   - Container elevation: `--elevation-3`; Container radius: `--radius-lg`
 
+#### Token Application (E10-T2)
+
+The following table specifies exactly which tokens apply to each modal area and example utilities to use. No hardcoded colors should be added in components; use tokens exclusively.
+
+| Area | Tokens | Example utilities/classes |
+| --- | --- | --- |
+| Modal container | `--surface-1`, `--radius-lg`, `--elevation-3` | `bg-(--surface-1) rounded-[var(--radius-lg)] shadow-[var(--elevation-3)]` |
+| Modal header | `--color-primary`, `--color-neutral-100`, `--text-xl`, `--font-weight-semibold` | `p-6 border-b border-(--color-neutral-100) text-[var(--text-xl)] font-[var(--font-weight-semibold)] before:block before:h-1 before:bg-(--color-primary)` |
+| Close button | `--color-neutral-500`, `--color-neutral-700`, `--radius-sm`, `--color-primary` | `text-(--color-neutral-500) hover:text-(--color-neutral-700) focus-visible:outline-2 focus-visible:outline-(--color-primary) rounded-[var(--radius-sm)]` |
+| Backdrop | uses opacity tokens via color-mix (no hard hex) | `bg-black/50 supports-[backdrop-filter]:bg-black/25 supports-[backdrop-filter]:backdrop-blur` |
+| Section dividers | `--color-neutral-100` | `border-t border-(--color-neutral-100)` |
+| Labels | `--color-neutral-700`, `--text-sm`, `--font-weight-medium` | `text-(--color-neutral-700) text-[var(--text-sm)] font-[var(--font-weight-medium)]` |
+| Inputs (default) | `--color-neutral-200`, `--radius-md` | `border border-(--color-neutral-200) rounded-[var(--radius-md)]` |
+| Inputs (focus) | `--color-primary` | `focus:outline-none focus:ring-2 focus:ring-(--color-primary)` |
+| Error states | `--color-error` | `border-(--color-error)/40 text-(--color-error)` |
+| Primary button | `--color-primary`, `--color-primary-contrast`, `--radius-md` | `.btn-primary` (uses tokens) |
+| Secondary/outline button | `--color-neutral-200`, `--radius-md` | `.btn-outline` (uses tokens) |
+| Mobile (sheet) | `--radius-lg` (disabled on small) | `max-sm:w-screen max-sm:h-[100dvh] max-sm:rounded-none` |
+
+Accessibility/contrast notes:
+- Primary on white: `--color-primary` (#0F62FE) on `--surface-1` (white) provides AA for normal text (> 4.5:1) and AAA for large text. Prefer using primary for accents, focus, and buttons with `--color-primary-contrast` text.
+- Secondary on white: `--color-secondary` (#24A148) meets AA for normal text. Use for supportive accents; avoid using on low-contrast surfaces.
+- Accent: `--color-accent` (#FF7EB6) is best for non-text accents (bars/badges). Do not use for body text on light surfaces unless contrast is verified ≥ 4.5:1.
+- Input borders and focus rings must meet WCAG 1.4.11 (non-text contrast ≥ 3:1) against surrounding surfaces; the specified tokens satisfy this when used at default opacities.
+- Maintain visible focus rings using `focus-visible:outline-(--color-primary)`/`focus:ring-(--color-primary)` per APG modal dialog pattern.
+
+Confirmation: Tailwind v4 CSS-first tokens are already defined in `app/globals.css`; no `tailwind.config.js` changes are required for this plan.
+
 - Do / Don’t
   - Do enhance clarity, warmth, and polish with tokens; do simplify dense areas into scannable sections.
   - Don’t introduce new logic or change flows; don’t hardcode colors; don’t clone the mock exactly.
