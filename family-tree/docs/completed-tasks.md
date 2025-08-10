@@ -4,8 +4,196 @@
 
 ## 📊 Task Completion Log
 
+### Epic 1: Technical Debt Resolution
+
+<a id="e1-t1"></a>
+#### E1-T1: File System Audit & Cleanup (P2-MEDIUM)
+- Status: Completed - 2025-08-08
+- Primary Agent: @po (Sarah) | Supporting: @analyst (Mary), @architect (Winston)
+- Branch: `improvement-e1-t1-file-audit-documentation`
+- Description: Comprehensive audit of project files to identify safe cleanup opportunities
+- Acceptance Criteria: All met (inventory, identify unused/build artifacts, backup strategy)
+- Implementation Details:
+  - Inventory all files across project
+  - Verify `.next/` artifacts ignored by git; `.DS_Store` safe to remove
+  - Document `family-tree.json` vs `family-tree-v2.json` usage
+  - Create safe cleanup checklist
+- Key Findings: Build artifacts ignored; data file status clarified; minimal cleanup needed
+
+<a id="e1-t2"></a>
+#### E1-T2: Library Structure Consolidation (P3-LOW)
+- Status: Completed - 2025-08-08
+- Primary Agent: @architect (Winston) | Supporting: @sm (Bob), @qa (Quinn)
+- Branch: `improvement-e1-t2-library-consolidation`
+- Description: Standardize library directory structure by consolidating `lib/`
+- Notes: Already consolidated; no root `lib/`; imports correct; tests pass
+
+<a id="e1-t3"></a>
+#### E1-T3: Import Statement Optimization (P3-LOW)
+- Status: Completed - 2025-08-08
+- Primary Agent: @dev (James) | Supporting: @sm (Bob), @qa (Quinn)
+- Branch: `improvement-e1-t3-import-optimization`
+- Description: Clean and optimize imports across the codebase
+- Implementation Highlights:
+  - Standardized import organization and paths; removed unused imports
+  - Applied alphabetical ordering within groups; TS compile clean
+
+<a id="e1-t4"></a>
+#### E1-T4: Component Structure Analysis (P3-LOW)
+- Status: Completed - 2025-08-08
+- Primary Agent: @architect (Winston) | Supporting: @pm (John), @ux-expert (Sally)
+- Branch: `improvement-e1-t4-component-analysis`
+- Description: Analyze component relationships and reusable patterns
+- Component Architecture Analysis Results:
+```
+FamilyTree (Root)
+├── FamilyTreeCanvas (Core Canvas)
+│   ├── MemberBanner (Individual Members)
+│   │   └── ContextMenu (Right-click menu)
+│   ├── VirtualizedConnections (Performance layer)
+│   ├── EditMemberModal (Member editing)
+│   ├── DeleteMemberModal (Single deletion)
+│   └── BulkDeleteModal (Multi-deletion)
+├── MainToolbar (Navigation & Actions)
+│   ├── AddMemberModal (Member creation)
+│   ├── EditMemberModal (Member editing)
+│   ├── DeleteMemberModal (Single deletion)
+│   └── BulkDeleteModal (Multi-deletion)
+└── FamilyTreeContext (Global state)
+```
+- Reusable Patterns: Modal pattern consistency; form validation reuse opportunity (~95%); consolidate MemberCard into MemberBanner; strong context integration
+- Prop Interface Analysis: Consistent member, modal, and selection props
+- Recommendations: Create `MemberForm`, extract `memberValidation`, standardize context menu logic, loading states
+
+<a id="e1-t6"></a>
+#### E1-T6: Consolidate Member Display Components (P1-HIGH)
+- Status: Completed - 2025-08-08
+- Primary Agent: @dev (James) | Supporting: @architect (Winston), @qa (Quinn)
+- Branch: `improvement-e1-t6-member-display-consolidation`
+- Description: Remove unused `MemberCard` and standardize on `MemberBanner`
+- Notes: Confirmed unused; removed without impact; tests pass
+
+### Epic 2: Documentation Enhancement
+
+<a id="e2-t1"></a>
+#### E2-T1: Documentation Inventory & Analysis (P1-CRITICAL)
+- Status: Completed - 2025-08-08
+- Primary Agent: @analyst (Mary) | Supporting: @po (Sarah), @pm (John)
+- Branch: `improvement-e2-t1-documentation-inventory`
+- Description: Audit documentation across project; identify overlaps and quality
+
+<a id="e2-t2"></a>
+#### E2-T2: Documentation Consolidation Strategy (P1-CRITICAL)
+- Status: Completed - 2025-08-08
+- Primary Agent: @pm (John) | Supporting: @analyst (Mary), @architect (Winston)
+- Branch: `improvement-e2-t2-documentation-strategy`
+- Description: Strategy for merging overlapping docs and improving organization
+- Implementation: Merge project goal/overview; consolidate task docs; improve git workflow docs; standardize formatting
+
+<a id="e2-t3"></a>
+#### E2-T3: AI-Optimized Documentation Structure (P1-CRITICAL)
+- Status: Completed - 2025-08-08
+- Primary Agent: @po (Sarah) | Supporting: @analyst (Mary), @sm (Bob)
+- Branch: `improvement-e2-t3-ai-optimized-docs`
+- Description: Implement consolidated docs with AI-optimized formatting and navigation
+
+<a id="e2-t4"></a>
+#### E2-T4: Documentation Validation & Testing (P2-HIGH)
+- Status: Completed - 2025-08-08
+- Primary Agent: @qa (Quinn) | Supporting: @po (Sarah), @sm (Bob)
+- Branch: `improvement-e2-t4-documentation-validation`
+- Description: Validate consolidated docs with agent workflows and feedback
+
 ### Epic 5: Visual Design System Enhancement
 
+<a id="e5-t1"></a>
+#### E5-T1: Design System Foundation (P1-CRITICAL)
+- Status: Completed - 2025-08-08
+- Primary Agent: @ux-expert (Sally) | Supporting: @pm (John), @architect (Winston)
+- Branch: `improvement-e5-t1-design-system-foundation`
+- Description: Create comprehensive design system (tokens, typography, components) aligned with Carbon patterns
+- Implementation Notes:
+  - Added Tailwind v4 `@theme` tokens in `family-tree/app/globals.css`
+  - Authored `family-tree/docs/design-system-foundation.md` with tokens and guidance
+  - Verified CSS-first tokens compile and are ready for component adoption
+
+<a id="e5-t4"></a>
+#### E5-T4: Canvas & Connection Visual Enhancement (P2-HIGH)
+- Status: Completed - 2025-08-09 | Branch: `improvement-e5-t4-canvas-enhancement`
+- Summary:
+  - Subtle layered background (gradient surfaces + optional light grid) placed beneath canvas content
+  - Tokenized connection styles with `--connection-parent` and `--connection-spouse`
+  - True double-line spouse rendering; `vector-effect: non-scaling-stroke` for zoom clarity
+  - Smooth hover emphasis transitions on stroke/width/opacity
+- Files Modified: `FamilyTreeCanvas.tsx`, `VirtualizedConnections.tsx`, `TreeConnection.tsx`, `globals.css`, tests updated for `TreeConnection`
+
+### Epic 9: Bugfix & UI Polish (Issues File)
+
+<a id="e9-t1"></a>
+#### E9-T1: Wire Up Real Login Flow (Client) (P1-CRITICAL)
+- Status: Completed - 2025-08-10 | Branch: `improvement-e9-t1-login-wireup`
+- Summary: Real POST to `/api/auth/login`, handle 200/400/401/5xx; redirect to `/view` on success; HttpOnly cookie session
+
+<a id="e9-t2"></a>
+#### E9-T2: Admin Dev Password Seeding & Change Path (P1-CRITICAL)
+- Status: Completed - 2025-08-10 | Branch: `improvement-e9-t2-admin-credential-seed`
+- Summary: Added `scripts/seed-admin.mjs`; documented defaults and change flow; idempotent
+
+<a id="e9-t3"></a>
+#### E9-T3: Remove Duplicate Help Button (Toolbar) (P1-HIGH)
+- Status: Completed | Branch: `improvement-e9-t3-toolbar-help-dup`
+- Summary: Removed duplicate Help button; shortcut preserved
+
+<a id="e9-t4"></a>
+#### E9-T4: Fix Title/Search Overlap in Toolbar (Responsive) (P1-HIGH)
+- Status: Completed - 2025-08-10 | Branch: `improvement-e9-t4-toolbar-layout`
+- Summary: Constrained search width; title truncates; tokenized focus retained
+
+<a id="e9-t5"></a>
+#### E9-T5: Separate Member Drag vs Canvas Pan (P1-HIGH)
+- Status: Completed | Branch: `improvement-e9-t5-drag-pan-behavior`
+- Summary: Guard to prevent background pan when dragging a member; preserves multi-select
+
+<a id="e9-t6"></a>
+#### E9-T6: Context Menu Visibility & Layering (P2-MEDIUM)
+- Status: Completed | Branch: `improvement-e9-t6-context-menu-visibility`
+- Summary: Portal to `body` with elevated z-index; ESC/click-out and keyboard cycling
+
+<a id="e9-t7"></a>
+#### E9-T7: Shared Member Form + Modal Polish (P1-HIGH)
+- Status: Completed - 2025-08-10 | Branch: `improvement-e9-t7-shared-member-form-ui`
+- Summary: Introduced shared `MemberForm`; preserved validation; tokenized UI; tests pass
+
+<a id="e9-t8"></a>
+#### E9-T8: UI Alignment to Desired Mock (Toolbar/Cards/Canvas) (P2-MEDIUM)
+- Status: Completed - 2025-08-10 | Branch: `improvement-e9-t8-ui-alignment`
+- Summary: Tokenized styling to match mock; no perf/accessibility regressions
+
+### Epic 6: User Experience & Interaction Enhancement
+
+<a id="e6-t1"></a>
+#### E6-T1: Interactive Feedback System (P1-CRITICAL)
+- Status: Completed - 2025-08-09 | Branch: `improvement-e6-t1-interactive-feedback`
+- Summary: Tokenized buttons and micro-interactions; skeleton/loading states; accessible toast notifications
+
+<a id="e6-t2"></a>
+#### E6-T2: Enhanced Modal System (P1-CRITICAL)
+- Status: Completed - 2025-08-09 | Branch: `improvement-e6-t2-enhanced-modals`
+- Summary: Responsive modal variants with animations, focus trap, ESC/click-out; accessibility validated
+
+<a id="e6-t3"></a>
+#### E6-T3: Search & Filter Interface (P2-HIGH)
+- Status: Completed - 2025-08-09 | Branch: `improvement-e6-t3-search-filter-interface`
+- Summary: Toolbar search with fuzzy match + highlight; FiltersPanel; persisted history
+
+<a id="e6-t4"></a>
+#### E6-T4: Onboarding & Help System (P2-HIGH)
+- Status: Completed - 2025-08-09 | Branch: `improvement-e6-t4-onboarding-help`
+- Summary: First-run tour, contextual tips overlay, help panel, empty-state guidance; preferences persisted
+
+### Epic 5: Visual Design System Enhancement
+
+<a id="e5-t2"></a>
 **E5-T2 (P1-CRITICAL): Enhanced Member Card Design**
 - Status: Completed - 2025-08-08
 - Summary: Applied token-based visual design to `MemberBanner` with improved hierarchy and interaction states.
@@ -21,6 +209,7 @@
 - Tests:
   - Adjusted styles without breaking existing tests; `MemberBanner` test suite passes
 
+<a id="e5-t3"></a>
 **E5-T3 (P1-CRITICAL): Navigation & Toolbar Enhancement**
 - Status: Completed - 2025-08-08
 - Summary: Applied E5-T1 tokens to `MainToolbar` and delivered a mobile-first navigation experience with a hamburger menu, responsive hierarchy, and accessible focus states.
