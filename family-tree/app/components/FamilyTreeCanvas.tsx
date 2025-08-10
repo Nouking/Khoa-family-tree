@@ -44,7 +44,7 @@ export interface FamilyTreeCanvasHandle {
 
 const FamilyTreeCanvas = memo(React.forwardRef<FamilyTreeCanvasHandle, FamilyTreeCanvasProps>(function FamilyTreeCanvas({ members, moveMember, highlightedIds = [] }, ref) {
   // Global state for member selection
-  const { dispatch } = useFamilyTreeWithDispatch();
+  const { state, dispatch } = useFamilyTreeWithDispatch();
   const { showToast } = useToast();
   const selectedMemberIds = useSelectedMembers();
   
@@ -145,12 +145,14 @@ const FamilyTreeCanvas = memo(React.forwardRef<FamilyTreeCanvasHandle, FamilyTre
     () => ({
       accept: ItemTypes.MEMBER_CARD,
       drop: (item: DragItem, monitor: DropTargetMonitor) => {
-        // Only handle drop if we're not currently panning
-        if (!isPanning) {
+        // Only handle drop if we're not currently panning and editing is enabled
+        if (!isPanning && state.isEditing) {
           const delta = monitor.getDifferenceFromInitialOffset() as XYCoord;
           const x = Math.round(item.x + delta.x);
           const y = Math.round(item.y + delta.y);
           moveMember(item.id, x, y);
+        } else if (!state.isEditing) {
+          showToast({ type: 'info', title: 'View only', description: 'Enable edit mode to move members.' });
         }
         return undefined;
       },
@@ -158,7 +160,7 @@ const FamilyTreeCanvas = memo(React.forwardRef<FamilyTreeCanvasHandle, FamilyTre
         isOver: monitor.isOver({ shallow: true }),
       }),
     }),
-    [moveMember, isPanning]
+    [moveMember, isPanning, state.isEditing]
   );
 
   // Set up combined ref for canvas
@@ -375,6 +377,7 @@ const FamilyTreeCanvas = memo(React.forwardRef<FamilyTreeCanvasHandle, FamilyTre
             isHighlighted={highlightedIds.includes(member.id)}
             isSelected={selectedMemberIds.includes(member.id)}
             selectedCount={selectedMemberIds.length}
+            isEditing={state.isEditing}
             onSelect={handleMemberSelect}
             onEdit={handleMemberEdit}
             onDelete={handleMemberDelete}

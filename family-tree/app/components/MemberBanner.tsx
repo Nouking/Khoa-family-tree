@@ -41,6 +41,7 @@ const MemberBanner = memo<MemberBannerProps>(function MemberBanner({
   const [{ isDragging }, drag] = useDrag(() => ({
     type: ItemTypes.MEMBER_CARD,
     item: { id: member.id, x: member.position.x, y: member.position.y },
+    canDrag: () => !isDisabled && !isLoading && isEditing,
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
