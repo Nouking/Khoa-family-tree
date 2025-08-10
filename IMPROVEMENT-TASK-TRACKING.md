@@ -690,6 +690,10 @@ Tasks are assigned primary agents with supporting agents based on expertise over
   - Output artifacts: Spec doc section link, annotated screenshots, token map
   - Mandatory update cascade: After spec approval, update the descriptions of E10-T3 → E10-T10 with specific directives and references taken from the spec
   - Tracking: Add a short "Spec Impact Summary" bullet list to each affected task
+- **Spec Artifacts (created)**:
+  - Doc: `family-tree/docs/implementation-notes.md` → section "Modal Redesign (E10-T1)"
+  - Image: `family-tree/docs/assets/e10-modal/reference-add-modal.jpg`
+  - Annotations: `family-tree/docs/assets/e10-modal/annotations.md`
 - **Branch**: `improvement-e10-t1-modal-spec`
 
 ### E10-T2: Visual Style & Token Application Plan (P1-HIGH)
@@ -724,6 +728,7 @@ Tasks are assigned primary agents with supporting agents based on expertise over
   - Keep logic intact; adjust classes only
   - Add header accent element via tokens (no new deps)
   - Confirm motion-reduce behavior unaffected
+  - Spec Impact Summary: Apply header accent `border-(--color-primary)` or `before:bg-(--color-primary)`; backdrop `supports-[backdrop-filter]:backdrop-blur bg-black/50`; container `rounded-[var(--radius-lg)] shadow-[var(--elevation-3)]`
 - **Branch**: `improvement-e10-t3-modal-shell-polish`
 
 ### E10-T4: MemberForm Layout & Sections Redesign (P1-CRITICAL)
@@ -740,6 +745,7 @@ Tasks are assigned primary agents with supporting agents based on expertise over
   - Group sections with `border-(--color-neutral-100)` and tokenized titles
   - Use existing `.btn-primary` and `.btn-outline` for actions
   - Keep DOM minimal; prefer class updates to logic
+  - Spec Impact Summary: Use section separators `border-t border-(--color-neutral-100) pt-4`; inputs `focus:ring-(--color-primary) border-(--color-neutral-200)`; errors `border-(--color-error)/40 text-(--color-error)`
 - **Branch**: `improvement-e10-t4-memberform-redesign`
 
 ### E10-T5: Photo Uploader Polish (Preview/Actions) (P2-HIGH)
@@ -754,6 +760,7 @@ Tasks are assigned primary agents with supporting agents based on expertise over
 - **Implementation Details**:
   - Maintain existing base64 approach; no new dependencies
   - Ensure button/controls are keyboard-accessible
+  - Spec Impact Summary: Use `.btn-outline` for choose/change, preview `rounded-full` sizing, delete badge uses `bg-(--color-error)`; errors `text-(--color-error)`
 - **Branch**: `improvement-e10-t5-photo-uploader-polish`
 
 ### E10-T6: Validation & Error State Styling (P1-HIGH)
@@ -768,6 +775,7 @@ Tasks are assigned primary agents with supporting agents based on expertise over
 - **Implementation Details**:
   - Review `MemberFormErrors` rendering and class names
   - Add aria-invalid and aria-describedBy where appropriate
+  - Spec Impact Summary: Standardize invalid borders `border-(--color-error)/40`, helper `text-(--color-error)`, preserve screen reader announcements, no layout shift
 - **Branch**: `improvement-e10-t6-validation-states`
 
 ### E10-T7: Responsive & Mobile Bottom Sheet Variant (P1-HIGH)
@@ -782,6 +790,7 @@ Tasks are assigned primary agents with supporting agents based on expertise over
 - **Implementation Details**:
   - Leverage existing `max-sm:w-screen max-sm:h-[100dvh] max-sm:rounded-none`
   - Add safe-area paddings if needed
+  - Spec Impact Summary: Ensure tap target sizing, dvh height, safe-area padding, and container query-based internal layout using `@container`
 - **Branch**: `improvement-e10-t7-mobile-bottom-sheet`
 
 ### E10-T8: A11y & Keyboard Flow Validation (P1-CRITICAL)

@@ -4,6 +4,57 @@
 
 ## 🔧 Technical Implementation Notes
 
+### Modal Redesign (E10-T1)
+
+Spec for Add/Edit Member modals aligned to `example/UI-family-tree-09-08-2025_add_modal.jpg` and tokens in `app/globals.css`.
+
+- Layout
+  - Container: `bg-(--surface-1) rounded-[var(--radius-lg)] shadow-[var(--elevation-3)]` with `max-h-[90vh] overflow-y-auto`
+  - Header: `p-6 border-b border-(--color-neutral-100)`; title `text-xl font-semibold`
+  - Backdrop: `fixed inset-0 bg-black/50 supports-[backdrop-filter]:bg-black/25 supports-[backdrop-filter]:backdrop-blur`
+  - Sizes: `small|max-w-[480px]`, `medium|max-w-[672px]`, `large|max-w-[896px]`, `fullscreen|max-w-none w-screen h-screen`
+  - Mobile: `max-sm:w-screen max-sm:h-[100dvh] max-sm:rounded-none` and safe-area paddings if needed
+
+- Header Accent
+  - Add subtle accent element: `before:block before:h-1 before:bg-(--color-primary)` below title or left border `border-l-4 border-(--color-primary)`
+  - Close button: `text-(--color-neutral-500) hover:text-(--color-neutral-700) focus-visible:outline-2 focus-visible:outline-(--color-primary) rounded-[var(--radius-sm)]`
+
+- Sections (in `MemberForm`)
+  - Group blocks with `border-t border-(--color-neutral-100) pt-4 mt-4` as separators
+  - Section headers: `text-(--color-neutral-900) font-medium`
+  - Inputs: base `border border-(--color-neutral-200) rounded-md focus:outline-none focus:ring-2 focus:ring-(--color-primary)`
+  - Error state: `border-(--color-error)/40` and helper `text-(--color-error)`
+  - Actions row: `flex justify-end space-x-3 pt-6 border-t border-(--color-neutral-100)`; buttons `.btn-outline` and `.btn-primary`
+
+- Tokens map (from `@theme` in `globals.css`)
+  - Colors: `--color-primary`, `--color-accent`, `--color-neutral-100..900`, `--color-error`, `--color-success`
+  - Radius: `--radius-sm|md|lg`; Elevation: `--elevation-1|2|3`
+  - Typography: `--text-sm|base|lg|xl`, `--font-weight-medium|semibold|bold`
+
+- States
+  - Idle: default tokens as above
+  - Loading: disable submit; button label swaps to "Adding…"/"Updating…"; keep focus-visible rings
+  - Error: inline messages per field; global alert region optionally above form
+  - Success: toast already implemented; no modal color change
+
+- Accessibility
+  - Keep focus trap, ESC, click-out; preserve ARIA labeling; ensure `focus-visible` rings on interactive controls
+  - Respect `prefers-reduced-motion`: keep transition classes gated with `motion-reduce:transition-none`
+
+- Tailwind/Container queries
+  - Use `@container` on modal content for responsive internal grids: e.g., `@lg:grid-cols-2`
+  - Backdrop feature-detect with `supports-[backdrop-filter]:...`
+
+Artifacts
+- Annotated reference: `family-tree/docs/assets/e10-modal/annotations.md` with callouts corresponding to the spec items
+- Reference image: `family-tree/docs/assets/e10-modal/reference-add-modal.jpg`
+
+Spec Impact Summary (applies to downstream tasks E10-T3 → E10-T10)
+- Header/backdrop classes and tokens defined here
+- Section dividers, input focus/error styles standardized
+- Mobile bottom-sheet behaviors and safe-area notes included
+
+
 ### Canvas-Based Layout System
 
 ```typescript
