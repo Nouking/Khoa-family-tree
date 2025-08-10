@@ -169,6 +169,22 @@ FamilyTree (Root)
 - Status: Completed - 2025-08-10 | Branch: `improvement-e9-t8-ui-alignment`
 - Summary: Tokenized styling to match mock; no perf/accessibility regressions
 
+### Epic 10: Add/Edit Modal UI Redesign
+
+<a id="e10-t4"></a>
+#### E10-T4: MemberForm Layout & Sections Redesign (P1-CRITICAL)
+- Status: Completed - 2025-08-10 | Branch: `improvement-e10-t4-memberform-redesign`
+- Summary: Restructured `MemberForm` into clear, tokenized sections with improved visual hierarchy and accessibility. Preserved all behaviors and validation.
+- Files Modified: `family-tree/app/components/shared/MemberForm.tsx`
+- Implementation Highlights:
+  - Grouped fields into semantic sections: Basic Information, Dates, Photo, Contact, Relations, Biography, and edit-only Canvas Position & Size
+  - Section separators and headers use tokens: `border-(--color-neutral-100) pt-4`, headers `text-base font-medium text-(--color-neutral-900)`
+  - Inputs upgraded with `shadow-sm`, `focus:ring-(--color-primary)`, `focus:border-(--color-primary)`; labels `text-sm font-medium text-(--color-neutral-700)`
+  - Errors wired with `aria-invalid` and `aria-describedby` pointing to `*-error` ids; classes `border-(--color-error)/40 text-(--color-error)`
+  - Photo area retains `.btn-outline`; preview `rounded-full`; delete badge `bg-(--color-error)`
+  - Actions row kept as `.btn-outline` and `.btn-primary` within `border-t border-(--color-neutral-100)` container
+- Testing: Full suite passed (11/11); no linter errors introduced
+
 ### Epic 6: User Experience & Interaction Enhancement
 
 <a id="e6-t1"></a>

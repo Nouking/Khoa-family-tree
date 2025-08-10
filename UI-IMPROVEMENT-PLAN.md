@@ -10,9 +10,9 @@ This document provides a comprehensive plan to enhance the Family Tree applicati
 - Current sync highlights:
   - Epic 5 (Design System Foundation, Member Cards, Toolbar, Canvas) — Completed; tokens live in `app/globals.css`.
   - Epic 6 (Enhanced Modal System, etc.) — Completed; modal focus trap and animations in place.
-  - Epic 10 (Add/Edit Modal UI Redesign) — Active. E10-T3 Modal Shell Polish completed on branch `improvement-e10-t3-modal-shell-polish`.
+  - Epic 10 (Add/Edit Modal UI Redesign) — Active. E10-T3 Modal Shell Polish completed; E10-T4 MemberForm redesign completed on branch `improvement-e10-t4-memberform-redesign`.
     - Spec: `family-tree/docs/implementation-notes.md` → “Modal Redesign (E10-T1)” and `family-tree/docs/assets/e10-modal/annotations.md`.
-    - Code: `app/components/Modal.tsx` updated (header accent, backdrop blur, focus styles, tokens).
+    - Code: `app/components/Modal.tsx` updated (header accent, backdrop blur, focus styles, tokens); `app/components/shared/MemberForm.tsx` sectioned and tokenized per spec.
 
 ## 📋 Current UI Analysis Summary
 
@@ -502,4 +502,4 @@ All tasks follow established patterns:
 - Implementation alignment:
   - Tokenized header accent, backdrop blur/opacity, container radii/elevation.
   - Mobile bottom-sheet behavior using `max-sm:h-[100dvh]` and `max-sm:rounded-none`.
-  - Inputs, sections, and error states will follow token notes in the spec during E10-T4–E10-T6.
+  - Inputs, sections, and error states now applied to `MemberForm` (E10-T4); remaining tasks E10-T5–E10-T6 will extend photo and error styling polish.
