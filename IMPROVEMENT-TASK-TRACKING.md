@@ -742,7 +742,7 @@ Tasks are assigned primary agents with supporting agents based on expertise over
 - **Branch**: `improvement-e10-t3-modal-shell-polish`
 
 ### E10-T4: MemberForm Layout & Sections Redesign (P1-CRITICAL)
-- **Status**: In Progress
+- **Status**: Completed - 2025-08-10
 - **Primary Agent**: @dev (James)
 - **Supporting Agents**: @ux-expert (Sally), @qa (Quinn)
 - **Description**: Redesign `app/components/shared/MemberForm.tsx` with clear sections and tasteful color usage: Basic Info, Dates, Photo, Contact, Relations, Biography, and (edit-only) Canvas Position & Size.
@@ -758,11 +758,14 @@ Tasks are assigned primary agents with supporting agents based on expertise over
   - Actions row unchanged: `.btn-primary` and `.btn-outline`
   - Keep DOM minimal; logic untouched; validation call remains
   - Spec Impact Summary: Section separators `border-t border-(--color-neutral-100) pt-4`; inputs `focus:ring-(--color-primary) border-(--color-neutral-200) shadow-sm`; errors `border-(--color-error)/40 text-(--color-error)`; labels use `text-sm font-medium text-(--color-neutral-700)`
+  - Tests: Full suite green (11/11); no linter errors introduced
+  - Files: `app/components/shared/MemberForm.tsx`
 - **Token Notes**:
   - Labels: `--color-neutral-700` `--text-sm` `--font-weight-medium`
   - Inputs: default `--color-neutral-200`; focus `--color-primary`; radius `--radius-md`
   - Errors: `--color-error` (border/text)
 - **Branch**: `improvement-e10-t4-memberform-redesign`
+- **Summary**: MemberForm restructured into clear, tokenized sections with ARIA wiring; visual hierarchy improved; behavior preserved.
 
 ### E10-T5: Photo Uploader Polish (Preview/Actions) (P2-HIGH)
 - **Status**: Pending

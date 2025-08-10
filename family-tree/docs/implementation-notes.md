@@ -115,6 +115,20 @@ Artifacts
 Spec Impact Summary (applies to downstream tasks E10-T3 → E10-T10)
 - Header/backdrop classes and tokens defined here
 - Section dividers, input focus/error styles standardized
+  - MemberForm finalized (E10-T4): semantic `<section>` with `aria-labelledby`; errors linked via `aria-describedby` to `*-error` ids; inputs use tokenized focus/border and subtle `shadow-sm`
+
+#### MemberForm Redesign (E10-T4)
+
+- Goal: Apply the spec to `app/components/shared/MemberForm.tsx` without changing behavior.
+- Implementation:
+  - Grouped content into sections: Basic Information, Dates, Photo, Contact, Relations, Biography, and (edit-only) Canvas Position & Size
+  - Each section uses `section[aria-labelledby]` and a tokenized header (`text-base font-medium text-(--color-neutral-900)`)
+  - Inputs: `border-(--color-neutral-200) rounded-md shadow-sm focus:ring-2 focus:ring-(--color-primary) focus:border-(--color-primary)`
+  - Errors: `aria-invalid` + `aria-describedby` to `<p id="*-error">…</p>`; classes `border-(--color-error)/40 text-(--color-error)`
+  - Photo: button `.btn-outline`, preview `rounded-full`, delete badge `bg-(--color-error)`
+  - Actions row unchanged: `.btn-outline` and `.btn-primary` inside `border-t border-(--color-neutral-100)` container
+- Notes: DOM kept minimal; validation logic unchanged; a11y improved per WAI-ARIA APG patterns.
+
 - Mobile bottom-sheet behaviors and safe-area notes included
 
 
