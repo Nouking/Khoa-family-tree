@@ -4,6 +4,92 @@
 
 ## 🔧 Technical Implementation Notes
 
+### Modal Redesign (E10-T1)
+
+Spec for Add/Edit Member modals aligned to `example/UI-family-tree-09-08-2025_add_modal.jpg` and tokens in `app/globals.css`.
+
+- Design intent
+  - Create a more modern, colorful, and delightful modal than the current screenshot. Do not clone the mock 1:1; use it as a directional reference and improve it using our token system and accessibility standards.
+  - Preserve existing behavior and flows; this is a visual/UX polish with accessibility upgrades, not a functional rewrite.
+
+- Layout
+  - Container: `bg-(--surface-1) rounded-[var(--radius-lg)] shadow-[var(--elevation-3)]` with `max-h-[90vh] overflow-y-auto`
+  - Header: `p-6 border-b border-(--color-neutral-100)`; title `text-xl font-semibold`
+  - Backdrop: `fixed inset-0 bg-black/50 supports-[backdrop-filter]:bg-black/25 supports-[backdrop-filter]:backdrop-blur`
+  - Sizes: `small|max-w-[480px]`, `medium|max-w-[672px]`, `large|max-w-[896px]`, `fullscreen|max-w-none w-screen h-screen`
+  - Mobile: `max-sm:w-screen max-sm:h-[100dvh] max-sm:rounded-none` and safe-area paddings if needed
+
+- Header Accent
+  - Add subtle accent element: `before:block before:h-1 before:bg-(--color-primary)` below title or left border `border-l-4 border-(--color-primary)`
+  - Close button: `text-(--color-neutral-500) hover:text-(--color-neutral-700) focus-visible:outline-2 focus-visible:outline-(--color-primary) rounded-[var(--radius-sm)]`
+
+- Visual language
+  - Color usage: primary accents for header accent and focus, neutrals for surfaces and borders, accent color sparingly for highlights (`--color-accent`).
+  - Elevation: use `--elevation-3` for the modal, avoid stacking higher than context menus.
+  - Corners and spacing: prefer `--radius-lg` for container, `--radius-md` for controls; respect an 8px spacing grid.
+  - Micro-interactions: hover/active/focus states use tokens; keep transitions short (100–200ms) and honor motion reduction.
+
+- Sections (in `MemberForm`)
+  - Group blocks with `border-t border-(--color-neutral-100) pt-4 mt-4` as separators
+  - Section headers: `text-(--color-neutral-900) font-medium`
+  - Inputs: base `border border-(--color-neutral-200) rounded-md focus:outline-none focus:ring-2 focus:ring-(--color-primary)`
+  - Error state: `border-(--color-error)/40` and helper `text-(--color-error)`
+  - Actions row: `flex justify-end space-x-3 pt-6 border-t border-(--color-neutral-100)`; buttons `.btn-outline` and `.btn-primary`
+
+- Tokens map (from `@theme` in `globals.css`)
+  - Colors: `--color-primary`, `--color-accent`, `--color-neutral-100..900`, `--color-error`, `--color-success`
+  - Radius: `--radius-sm|md|lg`; Elevation: `--elevation-1|2|3`
+  - Typography: `--text-sm|base|lg|xl`, `--font-weight-medium|semibold|bold`
+
+- States
+  - Idle: default tokens as above
+  - Loading: disable submit; button label swaps to "Adding…"/"Updating…"; keep focus-visible rings
+  - Error: inline messages per field; global alert region optionally above form
+  - Success: toast already implemented; no modal color change
+
+- Accessibility (APG/WCAG)
+  - Modal semantics: `role="dialog"` with `aria-modal="true"`; label the dialog via `aria-labelledby` pointing to the title id; optionally use `aria-describedby` for a short description if present (WAI-ARIA APG Modal Dialog pattern).
+  - Focus: move initial focus into the dialog (first interactive control or close button), trap focus within, and return focus to the invoker on close. Support ESC to close and click on backdrop to dismiss when appropriate.
+  - Focus visible: ensure visible rings for keyboard users; avoid outline removal. Maintain logical tab order (WCAG 2.2: 2.4.7 Focus Visible, 2.4.3 Focus Order).
+  - Contrast: meet AA contrast for text and non-text UI components, including input borders and focus indicators (WCAG 1.4.3, 1.4.11).
+  - Motion: respect `prefers-reduced-motion`; disable or reduce non-essential motion (WCAG 2.2: 2.3.3/2.2.2 context-appropriate).
+
+- Tailwind/Container queries
+  - Use `@container` on modal content for responsive internal grids: e.g., `@lg:grid-cols-2`
+  - Backdrop feature-detect with `supports-[backdrop-filter]:...`
+
+- Mobile bottom sheet specifics
+  - Use full-height `100dvh` variant on small screens, disable top rounding, and ensure bottom safe-area padding when needed (e.g., iOS home indicator).
+  - Maintain tap target sizes ≥ 44px with ≥ 8px spacing; ensure keyboard avoidance so active inputs are not overlapped by the OS keyboard.
+
+- Token application quick map
+  - Header accent: `--color-primary`
+  - Dividers/borders: `--color-neutral-100|200`
+  - Text and labels: `--color-neutral-700|900`
+  - Focus ring: `--color-primary`
+  - Error text/border: `--color-error`
+  - Container elevation: `--elevation-3`; Container radius: `--radius-lg`
+
+- Do / Don’t
+  - Do enhance clarity, warmth, and polish with tokens; do simplify dense areas into scannable sections.
+  - Don’t introduce new logic or change flows; don’t hardcode colors; don’t clone the mock exactly.
+
+- QA acceptance checklist (excerpt)
+  - Semantics present (`role=dialog`, `aria-modal`, labeled title).
+  - Initial focus, focus trap, ESC and click-out behaviors verified.
+  - AA contrast on text and interactive elements; visible focus rings.
+  - Mobile bottom-sheet variant respects dvh and safe areas; tap targets ≥ 44px.
+
+Artifacts
+- Annotated reference: `family-tree/docs/assets/e10-modal/annotations.md` with callouts corresponding to the spec items
+- Reference image: `family-tree/docs/assets/e10-modal/reference-add-modal.jpg`
+
+Spec Impact Summary (applies to downstream tasks E10-T3 → E10-T10)
+- Header/backdrop classes and tokens defined here
+- Section dividers, input focus/error styles standardized
+- Mobile bottom-sheet behaviors and safe-area notes included
+
+
 ### Canvas-Based Layout System
 
 ```typescript

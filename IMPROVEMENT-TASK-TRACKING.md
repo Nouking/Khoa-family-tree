@@ -663,33 +663,38 @@ Tasks are assigned primary agents with supporting agents based on expertise over
 ## Epic 10: Add/Edit Modal UI Redesign 🎨
 **Priority**: High | **Estimated Timeline**: 3–5 days
 
-**Goal**: Redesign the Add/Edit Member modals to be modern, colorful, and delightful while preserving functionality and accessibility. Align with the reference mock in `example/UI-family-tree-09-08-2025_add_modal.jpg` and the existing design tokens in `app/globals.css`.
+**Goal**: Redesign the Add/Edit Member modals to be modern, colorful, and delightful while preserving functionality and accessibility. Use `example/UI-family-tree-09-08-2025_add_modal.jpg` as a directional reference (not a 1:1 copy). Apply our design tokens in `app/globals.css` and follow APG/WCAG guidance.
 
-**Success Criteria**: Clear visual hierarchy, token-driven accent colors, improved section grouping, polished inputs, consistent validation/error states, accessible keyboard flow, responsive (desktop → mobile bottom-sheet pattern), and zero regressions.
+**Success Criteria**: Clear visual hierarchy, token-driven accent colors, improved section grouping, polished inputs, consistent validation/error states, accessible keyboard flow (APG modal dialog pattern), WCAG AA contrast, responsive (desktop → mobile bottom-sheet pattern), and zero regressions.
 
 ### Dependencies
 - [E6-T2] ✅ Enhanced Modal System (animations, focus trap)
 - [E5-T1] ✅ Design System Foundation (tokens)
 
 ### E10-T1: UX Audit & Front-End Spec (P1-CRITICAL)
-- **Status**: Pending
+- **Status**: Completed - 2025-08-10
 - **Primary Agent**: @ux-expert (Sally)
 - **Supporting Agents**: @pm (John), @po (Sarah), @architect (Winston)
 - **Description**: Perform a quick UX audit of current modals, then author a precise front-end spec mapping the reference mock to implementable components, tokens, and states.
 - **Acceptance Criteria**:
   - GIVEN the current Add/Edit modals
   - WHEN the audit is completed
-  - THEN a front-end spec exists with: layout structure, spacing, typography, color usage (primary/accent), section groupings, and state diagrams (idle/loading/error/success)
+  - THEN a front-end spec exists with: layout structure, spacing, typography, color usage (primary/accent), section groupings, and state diagrams (idle/loading/error/success), APG/WCAG a11y notes, and mobile bottom-sheet specifics
   - AND annotated screenshots referencing `example/UI-family-tree-09-08-2025_add_modal.jpg`
-  - AND explicit mapping to existing tokens in `globals.css`
+  - AND explicit mapping to existing tokens in `globals.css` (header accent, borders, focus rings, errors, elevation, radii)
   - AND all downstream tasks (E10-T3 → E10-T10) are updated with concrete implementation notes derived from the spec (classes/tokens/screenshots refs) by appending to each task's description
 - **Implementation Details**:
   - Document in `family-tree/docs/implementation-notes.md` under a new "Modal Redesign" section
   - Specify class utilities and token variables to be applied
   - Note any token gaps (propose additions if truly needed)
-  - Output artifacts: Spec doc section link, annotated screenshots, token map
+  - Output artifacts: Spec doc section link, annotated screenshots, token map, QA acceptance checklist excerpt
   - Mandatory update cascade: After spec approval, update the descriptions of E10-T3 → E10-T10 with specific directives and references taken from the spec
   - Tracking: Add a short "Spec Impact Summary" bullet list to each affected task
+- **Spec Artifacts (created)**:
+  - Doc: `family-tree/docs/implementation-notes.md` → section "Modal Redesign (E10-T1)"
+  - Image: `family-tree/docs/assets/e10-modal/reference-add-modal.jpg`
+  - Annotations: `family-tree/docs/assets/e10-modal/annotations.md`
+- **Summary**: Front-end spec completed per acceptance criteria (layout, spacing, typography, color/tokens map, sections, states, APG/WCAG notes, mobile bottom sheet). Downstream tasks E10-T3 → E10-T10 updated with Spec Impact Summaries.
 - **Branch**: `improvement-e10-t1-modal-spec`
 
 ### E10-T2: Visual Style & Token Application Plan (P1-HIGH)
@@ -698,14 +703,14 @@ Tasks are assigned primary agents with supporting agents based on expertise over
 - **Supporting Agents**: @ux-expert (Sally), @dev (James)
 - **Description**: Define how brand, accent, and neutral tokens will be applied to the modal shell, section headers, inputs, buttons, and focus states for consistent theming.
 - **Acceptance Criteria**:
-  - Plan lists specific token variables (e.g., `--color-primary`, `--color-accent`, `--radius-lg`, `--elevation-3`) and where they apply
+  - Plan lists specific token variables (e.g., `--color-primary`, `--color-accent`, `--radius-lg`, `--elevation-3`) and where they apply (header accent, dividers, inputs, buttons, focus ring, errors, elevation)
   - No hardcoded colors in components beyond tokens
   - Accessibility contrast verified (AA minimum)
 - **Implementation Details**:
   - Add a short "Token Application" table in the spec from E10-T1
   - Confirm no Tailwind config changes are required (Tailwind v4 CSS-first already in use)
   - Output artifacts: Token application table, a11y contrast notes
-  - Mandatory update cascade: Append token usage guidance to E10-T3 → E10-T9 task descriptions so implementation is aligned
+  - Mandatory update cascade: Append token usage guidance and a11y notes to E10-T3 → E10-T9 task descriptions so implementation is aligned
   - Tracking: Include a "Token Notes" sub-bullet in each affected task listing exact tokens per area (header, inputs, buttons)
 - **Branch**: `improvement-e10-t2-token-plan`
 
@@ -719,11 +724,12 @@ Tasks are assigned primary agents with supporting agents based on expertise over
   - Close button hover/focus styles use token colors and visible focus ring
   - Backdrop uses blur and opacity tokens without hurting readability
   - Spacing scales correctly at all sizes (`small|medium|large|fullscreen`)
-  - All modal a11y behaviors remain (focus trap, ESC, click-out)
+  - All modal a11y behaviors remain (focus trap, ESC, click-out); ensure `aria-modal`, labeled title, and initial focus placement
 - **Implementation Details**:
   - Keep logic intact; adjust classes only
   - Add header accent element via tokens (no new deps)
   - Confirm motion-reduce behavior unaffected
+  - Spec Impact Summary: Apply header accent `border-(--color-primary)` or `before:bg-(--color-primary)`; backdrop `supports-[backdrop-filter]:backdrop-blur bg-black/50`; container `rounded-[var(--radius-lg)] shadow-[var(--elevation-3)]`
 - **Branch**: `improvement-e10-t3-modal-shell-polish`
 
 ### E10-T4: MemberForm Layout & Sections Redesign (P1-CRITICAL)
@@ -733,13 +739,14 @@ Tasks are assigned primary agents with supporting agents based on expertise over
 - **Description**: Redesign `app/components/shared/MemberForm.tsx` with clear sections and tasteful color usage: Basic Info, Dates, Photo, Contact, Relations, Biography, and (edit-only) Canvas Position & Size.
 - **Acceptance Criteria**:
   - Section headers styled with neutral typography and a thin accent divider using tokens
-  - Inputs have improved focus states, subtle shadows, and rounded corners per tokens
+  - Inputs have improved focus states, subtle shadows, and rounded corners per tokens; maintain `aria-invalid` and helper associations
   - Visual hierarchy matches the mock; form remains compact and readable
   - No functionality removed; validation preserved
 - **Implementation Details**:
   - Group sections with `border-(--color-neutral-100)` and tokenized titles
   - Use existing `.btn-primary` and `.btn-outline` for actions
   - Keep DOM minimal; prefer class updates to logic
+  - Spec Impact Summary: Use section separators `border-t border-(--color-neutral-100) pt-4`; inputs `focus:ring-(--color-primary) border-(--color-neutral-200)`; errors `border-(--color-error)/40 text-(--color-error)`
 - **Branch**: `improvement-e10-t4-memberform-redesign`
 
 ### E10-T5: Photo Uploader Polish (Preview/Actions) (P2-HIGH)
@@ -750,10 +757,11 @@ Tasks are assigned primary agents with supporting agents based on expertise over
 - **Acceptance Criteria**:
   - Choose/Change Photo button uses `.btn-outline`; hover/active match tokens
   - Preview avatar uses rounded, consistent size; delete affordance is visible, accessible, token-colored
-  - Validation errors appear beneath with `--color-error`
+  - Validation errors appear beneath with `--color-error` and are announced to screen readers when applicable
 - **Implementation Details**:
   - Maintain existing base64 approach; no new dependencies
   - Ensure button/controls are keyboard-accessible
+  - Spec Impact Summary: Use `.btn-outline` for choose/change, preview `rounded-full` sizing, delete badge uses `bg-(--color-error)`; errors `text-(--color-error)`
 - **Branch**: `improvement-e10-t5-photo-uploader-polish`
 
 ### E10-T6: Validation & Error State Styling (P1-HIGH)
@@ -763,11 +771,12 @@ Tasks are assigned primary agents with supporting agents based on expertise over
 - **Description**: Standardize error text, borders, and helper messages across the form using semantic tokens.
 - **Acceptance Criteria**:
   - Invalid fields: border uses `--color-error` (with subtle transparency) and message in `--color-error`
-  - Screen reader announcements for error summaries maintained
+  - Screen reader announcements for error summaries maintained; ensure error regions are programmatically associated
   - No layout shift on error appearance
 - **Implementation Details**:
   - Review `MemberFormErrors` rendering and class names
   - Add aria-invalid and aria-describedBy where appropriate
+  - Spec Impact Summary: Standardize invalid borders `border-(--color-error)/40`, helper `text-(--color-error)`, preserve screen reader announcements, no layout shift
 - **Branch**: `improvement-e10-t6-validation-states`
 
 ### E10-T7: Responsive & Mobile Bottom Sheet Variant (P1-HIGH)
@@ -777,11 +786,12 @@ Tasks are assigned primary agents with supporting agents based on expertise over
 - **Description**: Ensure modals adapt to small screens with a bottom-sheet feel (already partially supported). Polish paddings, full-height behavior, and safe-area respect.
 - **Acceptance Criteria**:
   - On small screens, modal uses full height with proper `dvh` handling and rounded top corners disabled
-  - Paddings and tap targets meet mobile guidelines
+  - Paddings and tap targets meet mobile guidelines (≥ 44px targets; ≥ 8px spacing)
   - Keyboard avoidance verified (no hidden inputs under OS keyboard)
 - **Implementation Details**:
   - Leverage existing `max-sm:w-screen max-sm:h-[100dvh] max-sm:rounded-none`
   - Add safe-area paddings if needed
+  - Spec Impact Summary: Ensure tap target sizing, dvh height, safe-area padding, container query-based internal layout using `@container`, and keyboard avoidance
 - **Branch**: `improvement-e10-t7-mobile-bottom-sheet`
 
 ### E10-T8: A11y & Keyboard Flow Validation (P1-CRITICAL)
@@ -792,9 +802,10 @@ Tasks are assigned primary agents with supporting agents based on expertise over
 - **Acceptance Criteria**:
   - Tab order correct; focus trap working; ESC and click-out behave
   - Labels and descriptions present for all inputs; error messages associated
-  - Meets WCAG AA color contrast
+  - Meets WCAG AA color contrast (text and non-text UI); APG modal behavior verified
 - **Implementation Details**:
   - Update or add unit/integration tests for focus and a11y where feasible
+- Spec Impact Summary: Use spec "Accessibility (APG/WCAG)" for verification: ensure `role="dialog"`, `aria-modal`, labeled title (`aria-labelledby`), proper `aria-describedby` where used; verify visible focus rings using `--color-primary`; confirm AA contrast for text and non-text UI; validate error association patterns from spec (invalid borders `border-(--color-error)/40`, helper `text-(--color-error)`); include mobile bottom-sheet checks (full-height `100dvh`, safe-area padding, tap target sizes ≥ 44px).
 - **Branch**: `improvement-e10-t8-a11y-validation`
 
 ### E10-T9: Tests & Regression Suite Update (P2-HIGH)
@@ -808,6 +819,7 @@ Tasks are assigned primary agents with supporting agents based on expertise over
   - No flaky tests introduced
 - **Implementation Details**:
   - Validate aria attributes and visible labels in tests
+- Spec Impact Summary: Update tests to assert tokenized UI per spec: header accent element present (either `before:bg-(--color-primary)` bar or `border-l-4 border-(--color-primary)`), backdrop blur classes `supports-[backdrop-filter]:backdrop-blur bg-black/50`, container radius/elevation `rounded-[var(--radius-lg)] shadow-[var(--elevation-3)]`, inputs `focus:ring-(--color-primary) border-(--color-neutral-200)`, error states `border-(--color-error)/40 text-(--color-error)`, and mobile bottom-sheet behavior (`max-sm:h-[100dvh]`, no top rounding). Prefer stable, token-based selectors over hardcoded colors.
 - **Branch**: `improvement-e10-t9-tests-update`
 
 ### E10-T10: PO Review & Acceptance (P1-HIGH)
@@ -820,6 +832,7 @@ Tasks are assigned primary agents with supporting agents based on expertise over
   - Screenshots captured for docs and added to `family-tree/docs/onboarding-help.md` or implementation notes
 - **Implementation Details**:
   - If gaps exist, open follow-up subtask(s) before closure
+- Spec Impact Summary: Review against spec artifacts: `family-tree/docs/implementation-notes.md#modal-redesign-e10-t1` and annotated image notes. Verify token usage throughout (header accent uses `--color-primary`, borders `--color-neutral-100|200`, focus ring `--color-primary`, error `--color-error`, elevation/radii tokens) and that behaviors match the spec (focus trap, ESC/click-out, mobile bottom-sheet specifics). Confirm E10-T3 → E10-T9 implementations reflect the spec.
 - **Branch**: `improvement-e10-t10-po-acceptance`
 
 ---
