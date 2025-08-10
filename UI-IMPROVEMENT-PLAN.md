@@ -4,6 +4,16 @@
 
 This document provides a comprehensive plan to enhance the Family Tree application's user interface and experience based on analysis of the current UI (`example/UI-family-tree-08-08-2025.jpg`) and existing project structure.
 
+## Status & Source of Truth (Updated 2025-08-10)
+- This plan is supplementary. The authoritative, always-up-to-date tracker is `IMPROVEMENT-TASK-TRACKING.md`.
+- For current statuses, acceptance criteria, and branches, see `IMPROVEMENT-TASK-TRACKING.md` and spec notes in `family-tree/docs/implementation-notes.md`.
+- Current sync highlights:
+  - Epic 5 (Design System Foundation, Member Cards, Toolbar, Canvas) — Completed; tokens live in `app/globals.css`.
+  - Epic 6 (Enhanced Modal System, etc.) — Completed; modal focus trap and animations in place.
+  - Epic 10 (Add/Edit Modal UI Redesign) — Active. E10-T3 Modal Shell Polish completed on branch `improvement-e10-t3-modal-shell-polish`.
+    - Spec: `family-tree/docs/implementation-notes.md` → “Modal Redesign (E10-T1)” and `family-tree/docs/assets/e10-modal/annotations.md`.
+    - Code: `app/components/Modal.tsx` updated (header accent, backdrop blur, focus styles, tokens).
+
 ## 📋 Current UI Analysis Summary
 
 ### Strengths ✅
@@ -483,3 +493,13 @@ All tasks follow established patterns:
 ---
 
 *This UI improvement plan is designed to work seamlessly with existing project structure and agent workflows. It focuses on gradual, safe improvements that enhance user experience while maintaining the solid technical foundation already established.*
+
+---
+
+## Epic 10: Add/Edit Modal UI Redesign (Summary)
+- Reference tasks and full acceptance criteria live in `IMPROVEMENT-TASK-TRACKING.md` → Epic 10.
+- Spec artifacts: `family-tree/docs/implementation-notes.md` (Modal Redesign E10-T1) and `family-tree/docs/assets/e10-modal/annotations.md`.
+- Implementation alignment:
+  - Tokenized header accent, backdrop blur/opacity, container radii/elevation.
+  - Mobile bottom-sheet behavior using `max-sm:h-[100dvh]` and `max-sm:rounded-none`.
+  - Inputs, sections, and error states will follow token notes in the spec during E10-T4–E10-T6.
