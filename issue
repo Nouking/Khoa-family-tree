@@ -1,8 +1,2 @@
-- Can't login, when enter id and password, then login, error "Login functionality will be implemented in Task 2.2" display.
-- Don't know admin password is, in family-tree\data\users.json, it's hash data.
-- Duplicate help button in top bar.
-- "Family tree view" text and search box in the same position;
-- Can't move a single member in tree, when move 1 member, whole tree move. I want drag and drop a single member.
-- Right click on the member on tree, a "Edit member and Delete member" option not display on the member info, fix it.
-- Edit and add panel is ugly, make it beatiful, current image of in is example\UI-family-tree-09-08-2025_add.jpg.
-- Current UI is example\UI-family-tree-09-08-2025.jpg, but UI I want is example\image.png. Make to current similar to the UI I want.
+- UI of Add/edit modal is ugly, the current UI is file example\UI-family-tree-09-08-2025_add_modal.jpg, use role .cursor\rules\ux-expert.mdc with support from .cursor\rules\architect.mdc and .cursor\rules\po.mdc, create epic with detail in formation to improve current UI, make it colorful, good looking UI.
+Write new epic/task in file IMPROVEMENT-TASK-TRACKING.md with really detail on each, so AI can work perfect with it. Discuss with me if needed

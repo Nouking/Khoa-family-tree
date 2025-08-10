@@ -657,3 +657,169 @@ Tasks are assigned primary agents with supporting agents based on expertise over
 ---
 
 *This task tracking document aligns with existing project workflow and is optimized for AI agent implementation following @pm, @po, @sm persona guidelines. Enhanced with modern design system patterns from Carbon Design System and Cloudscape for industry-standard UI/UX implementations.*
+
+---
+
+## Epic 10: Add/Edit Modal UI Redesign 🎨
+**Priority**: High | **Estimated Timeline**: 3–5 days
+
+**Goal**: Redesign the Add/Edit Member modals to be modern, colorful, and delightful while preserving functionality and accessibility. Align with the reference mock in `example/UI-family-tree-09-08-2025_add_modal.jpg` and the existing design tokens in `app/globals.css`.
+
+**Success Criteria**: Clear visual hierarchy, token-driven accent colors, improved section grouping, polished inputs, consistent validation/error states, accessible keyboard flow, responsive (desktop → mobile bottom-sheet pattern), and zero regressions.
+
+### Dependencies
+- [E6-T2] ✅ Enhanced Modal System (animations, focus trap)
+- [E5-T1] ✅ Design System Foundation (tokens)
+
+### E10-T1: UX Audit & Front-End Spec (P1-CRITICAL)
+- **Status**: Pending
+- **Primary Agent**: @ux-expert (Sally)
+- **Supporting Agents**: @pm (John), @po (Sarah), @architect (Winston)
+- **Description**: Perform a quick UX audit of current modals, then author a precise front-end spec mapping the reference mock to implementable components, tokens, and states.
+- **Acceptance Criteria**:
+  - GIVEN the current Add/Edit modals
+  - WHEN the audit is completed
+  - THEN a front-end spec exists with: layout structure, spacing, typography, color usage (primary/accent), section groupings, and state diagrams (idle/loading/error/success)
+  - AND annotated screenshots referencing `example/UI-family-tree-09-08-2025_add_modal.jpg`
+  - AND explicit mapping to existing tokens in `globals.css`
+  - AND all downstream tasks (E10-T3 → E10-T10) are updated with concrete implementation notes derived from the spec (classes/tokens/screenshots refs) by appending to each task's description
+- **Implementation Details**:
+  - Document in `family-tree/docs/implementation-notes.md` under a new "Modal Redesign" section
+  - Specify class utilities and token variables to be applied
+  - Note any token gaps (propose additions if truly needed)
+  - Output artifacts: Spec doc section link, annotated screenshots, token map
+  - Mandatory update cascade: After spec approval, update the descriptions of E10-T3 → E10-T10 with specific directives and references taken from the spec
+  - Tracking: Add a short "Spec Impact Summary" bullet list to each affected task
+- **Branch**: `improvement-e10-t1-modal-spec`
+
+### E10-T2: Visual Style & Token Application Plan (P1-HIGH)
+- **Status**: Pending
+- **Primary Agent**: @architect (Winston)
+- **Supporting Agents**: @ux-expert (Sally), @dev (James)
+- **Description**: Define how brand, accent, and neutral tokens will be applied to the modal shell, section headers, inputs, buttons, and focus states for consistent theming.
+- **Acceptance Criteria**:
+  - Plan lists specific token variables (e.g., `--color-primary`, `--color-accent`, `--radius-lg`, `--elevation-3`) and where they apply
+  - No hardcoded colors in components beyond tokens
+  - Accessibility contrast verified (AA minimum)
+- **Implementation Details**:
+  - Add a short "Token Application" table in the spec from E10-T1
+  - Confirm no Tailwind config changes are required (Tailwind v4 CSS-first already in use)
+  - Output artifacts: Token application table, a11y contrast notes
+  - Mandatory update cascade: Append token usage guidance to E10-T3 → E10-T9 task descriptions so implementation is aligned
+  - Tracking: Include a "Token Notes" sub-bullet in each affected task listing exact tokens per area (header, inputs, buttons)
+- **Branch**: `improvement-e10-t2-token-plan`
+
+### E10-T3: Modal Shell Polish (Header/Backdrop/Layout) (P1-HIGH)
+- **Status**: Pending
+- **Primary Agent**: @dev (James)
+- **Supporting Agents**: @ux-expert (Sally), @qa (Quinn)
+- **Description**: Update `app/components/Modal.tsx` styling to match spec: colorful but tasteful header, refined close button, backdrop blur, consistent paddings, and size variants.
+- **Acceptance Criteria**:
+  - Header uses tokenized color accents (e.g., subtle bottom border or left accent bar using `--color-primary`)
+  - Close button hover/focus styles use token colors and visible focus ring
+  - Backdrop uses blur and opacity tokens without hurting readability
+  - Spacing scales correctly at all sizes (`small|medium|large|fullscreen`)
+  - All modal a11y behaviors remain (focus trap, ESC, click-out)
+- **Implementation Details**:
+  - Keep logic intact; adjust classes only
+  - Add header accent element via tokens (no new deps)
+  - Confirm motion-reduce behavior unaffected
+- **Branch**: `improvement-e10-t3-modal-shell-polish`
+
+### E10-T4: MemberForm Layout & Sections Redesign (P1-CRITICAL)
+- **Status**: Pending
+- **Primary Agent**: @dev (James)
+- **Supporting Agents**: @ux-expert (Sally), @qa (Quinn)
+- **Description**: Redesign `app/components/shared/MemberForm.tsx` with clear sections and tasteful color usage: Basic Info, Dates, Photo, Contact, Relations, Biography, and (edit-only) Canvas Position & Size.
+- **Acceptance Criteria**:
+  - Section headers styled with neutral typography and a thin accent divider using tokens
+  - Inputs have improved focus states, subtle shadows, and rounded corners per tokens
+  - Visual hierarchy matches the mock; form remains compact and readable
+  - No functionality removed; validation preserved
+- **Implementation Details**:
+  - Group sections with `border-(--color-neutral-100)` and tokenized titles
+  - Use existing `.btn-primary` and `.btn-outline` for actions
+  - Keep DOM minimal; prefer class updates to logic
+- **Branch**: `improvement-e10-t4-memberform-redesign`
+
+### E10-T5: Photo Uploader Polish (Preview/Actions) (P2-HIGH)
+- **Status**: Pending
+- **Primary Agent**: @dev (James)
+- **Supporting Agents**: @ux-expert (Sally)
+- **Description**: Refine the photo upload area with clearer affordances and tidy preview/delete affordance aligned to tokens.
+- **Acceptance Criteria**:
+  - Choose/Change Photo button uses `.btn-outline`; hover/active match tokens
+  - Preview avatar uses rounded, consistent size; delete affordance is visible, accessible, token-colored
+  - Validation errors appear beneath with `--color-error`
+- **Implementation Details**:
+  - Maintain existing base64 approach; no new dependencies
+  - Ensure button/controls are keyboard-accessible
+- **Branch**: `improvement-e10-t5-photo-uploader-polish`
+
+### E10-T6: Validation & Error State Styling (P1-HIGH)
+- **Status**: Pending
+- **Primary Agent**: @qa (Quinn)
+- **Supporting Agents**: @dev (James), @po (Sarah)
+- **Description**: Standardize error text, borders, and helper messages across the form using semantic tokens.
+- **Acceptance Criteria**:
+  - Invalid fields: border uses `--color-error` (with subtle transparency) and message in `--color-error`
+  - Screen reader announcements for error summaries maintained
+  - No layout shift on error appearance
+- **Implementation Details**:
+  - Review `MemberFormErrors` rendering and class names
+  - Add aria-invalid and aria-describedBy where appropriate
+- **Branch**: `improvement-e10-t6-validation-states`
+
+### E10-T7: Responsive & Mobile Bottom Sheet Variant (P1-HIGH)
+- **Status**: Pending
+- **Primary Agent**: @dev (James)
+- **Supporting Agents**: @ux-expert (Sally), @qa (Quinn)
+- **Description**: Ensure modals adapt to small screens with a bottom-sheet feel (already partially supported). Polish paddings, full-height behavior, and safe-area respect.
+- **Acceptance Criteria**:
+  - On small screens, modal uses full height with proper `dvh` handling and rounded top corners disabled
+  - Paddings and tap targets meet mobile guidelines
+  - Keyboard avoidance verified (no hidden inputs under OS keyboard)
+- **Implementation Details**:
+  - Leverage existing `max-sm:w-screen max-sm:h-[100dvh] max-sm:rounded-none`
+  - Add safe-area paddings if needed
+- **Branch**: `improvement-e10-t7-mobile-bottom-sheet`
+
+### E10-T8: A11y & Keyboard Flow Validation (P1-CRITICAL)
+- **Status**: Pending
+- **Primary Agent**: @qa (Quinn)
+- **Supporting Agents**: @po (Sarah)
+- **Description**: Validate all keyboard and screen reader flows after redesign. Confirm labels, roles, and announcements are correct.
+- **Acceptance Criteria**:
+  - Tab order correct; focus trap working; ESC and click-out behave
+  - Labels and descriptions present for all inputs; error messages associated
+  - Meets WCAG AA color contrast
+- **Implementation Details**:
+  - Update or add unit/integration tests for focus and a11y where feasible
+- **Branch**: `improvement-e10-t8-a11y-validation`
+
+### E10-T9: Tests & Regression Suite Update (P2-HIGH)
+- **Status**: Pending
+- **Primary Agent**: @qa (Quinn)
+- **Supporting Agents**: @dev (James)
+- **Description**: Update component tests in `app/components/__tests__` for `AddMemberModal`, `EditMemberModal`, and `MemberForm` to reflect the new UI and preserve behavior.
+- **Acceptance Criteria**:
+  - All existing tests pass with updated snapshots/selectors
+  - New tests cover key interactions (open/close, submit, validation, photo upload)
+  - No flaky tests introduced
+- **Implementation Details**:
+  - Validate aria attributes and visible labels in tests
+- **Branch**: `improvement-e10-t9-tests-update`
+
+### E10-T10: PO Review & Acceptance (P1-HIGH)
+- **Status**: Pending
+- **Primary Agent**: @po (Sarah)
+- **Supporting Agents**: @pm (John), @ux-expert (Sally)
+- **Description**: Review the implemented modals against the spec and the reference mock; verify acceptance criteria; sign-off.
+- **Acceptance Criteria**:
+  - PO checklist satisfied; acceptance criteria met across tasks E10-T1 → E10-T9
+  - Screenshots captured for docs and added to `family-tree/docs/onboarding-help.md` or implementation notes
+- **Implementation Details**:
+  - If gaps exist, open follow-up subtask(s) before closure
+- **Branch**: `improvement-e10-t10-po-acceptance`
+
+---
