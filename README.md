@@ -138,6 +138,16 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the family tree visualization.
 
+### Default Dev Credentials
+
+Seed or update the local admin credentials (admin/admin) with:
+
+```
+node family-tree/scripts/seed-admin.mjs --password=admin
+```
+
+Pass a different value to `--password` to change it. The script is idempotent and safely updates `family-tree/data/users.json`.
+
 ## 🎨 Design Tool Features
 
 - **Canvas Operations**:

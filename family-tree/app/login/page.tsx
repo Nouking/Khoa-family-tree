@@ -2,12 +2,14 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 export default function LoginPage() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
+  const router = useRouter()
   
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -15,13 +17,32 @@ export default function LoginPage() {
     setError('')
     
     try {
-      // Login functionality will be implemented in Task 2.2
-      console.log('Login attempt:', { username, password })
-      // For now, just show a message that this will be implemented later
-      setError('Login functionality will be implemented in Task 2.2')
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      })
+
+      const data = await response.json().catch(() => ({}))
+
+      if (response.ok) {
+        // Token is set via HttpOnly cookie by the server
+        router.push('/view')
+        return
+      }
+
+      if (response.status === 400) {
+        setError(data?.message || 'Username and password are required')
+      } else if (response.status === 401) {
+        setError('Invalid credentials')
+      } else if (response.status >= 500) {
+        setError('An unexpected error occurred. Please try again.')
+      } else {
+        setError(data?.message || 'Login failed')
+      }
     } catch (err) {
-      setError('An error occurred during login')
       console.error(err)
+      setError('An unexpected network error occurred. Please try again.')
     } finally {
       setIsLoading(false)
     }

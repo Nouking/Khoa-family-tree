@@ -80,7 +80,7 @@ const DeleteMemberModal: React.FC<DeleteMemberModalProps> = ({
       const response = await fetch(`/api/members/${member.id}`, {
         method: 'DELETE',
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+          // Authorization via HttpOnly cookie; no localStorage token
         },
       });
 

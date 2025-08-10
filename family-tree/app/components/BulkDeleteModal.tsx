@@ -113,9 +113,7 @@ const BulkDeleteModal: React.FC<BulkDeleteModalProps> = ({
       const deletePromises = membersToDelete.map(member =>
         fetch(`/api/members/${member.id}`, {
           method: 'DELETE',
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
-          },
+          headers: {},
         })
       );
 

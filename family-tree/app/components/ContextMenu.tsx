@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 
 interface ContextMenuItem {
   id: string;
@@ -86,10 +87,10 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
 
   if (!isOpen) return null;
 
-  return (
+  const menu = (
     <div
       ref={menuRef}
-      className="fixed z-50 bg-white rounded-lg shadow-lg border border-gray-200 py-2 min-w-[150px] transition-[transform,opacity] duration-100 ease-out"
+      className="fixed z-[60] bg-white rounded-lg shadow-lg border border-gray-200 py-2 min-w-[150px] transition-[transform,opacity] duration-100 ease-out"
       style={{
         left: position.x,
         top: position.y,
@@ -97,7 +98,7 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
       role="menu"
       aria-orientation="vertical"
     >
-      {items.map((item, index) => (
+      {items.map((item) => (
         <button
           key={item.id}
           onClick={() => {
@@ -124,6 +125,11 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
       ))}
     </div>
   );
+
+  if (typeof document !== 'undefined') {
+    return createPortal(menu, document.body);
+  }
+  return menu;
 };
 
 export default ContextMenu;

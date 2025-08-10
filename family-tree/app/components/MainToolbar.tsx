@@ -162,7 +162,7 @@ const MainToolbar: React.FC<MainToolbarProps> = ({
           </div>
           
           <div className="toolbar-center text-center">
-            <h1 className="text-xl sm:text-2xl font-semibold text-(--color-neutral-900) truncate">{title}</h1>
+            <h1 className="text-xl sm:text-2xl font-semibold text-(--color-neutral-900) truncate" title={title}>{title}</h1>
           </div>
           
           <div className="toolbar-right hidden md:flex items-center gap-2 justify-end">
@@ -178,7 +178,7 @@ const MainToolbar: React.FC<MainToolbarProps> = ({
                   }
                 }}
                 placeholder="Search members (Ctrl+/)"
-                className="h-10 w-56 px-3 rounded-[var(--radius-md)] border border-(--color-neutral-200) focus-visible:outline-2 focus-visible:outline-(--color-primary)"
+                className="h-10 w-56 max-w-[40vw] px-3 rounded-[var(--radius-md)] border border-(--color-neutral-200) focus-visible:outline-2 focus-visible:outline-(--color-primary) md:max-w-[22rem] lg:max-w-[28rem]"
                 aria-label="Search family members"
                 list="toolbar-search-suggestions"
               />
@@ -232,17 +232,6 @@ const MainToolbar: React.FC<MainToolbarProps> = ({
                 <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
               </svg>
               <span className="hidden md:inline">Export</span>
-            </button>
-            <button
-              className="h-10 px-3 rounded-[var(--radius-md)] btn-outline hidden sm:flex items-center"
-              onClick={toggleHelp}
-              aria-label="Open Help"
-              title="Help (Shift+?)"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M18 10A8 8 0 11.001 9.999 8 8 0 0118 10zM9 15a1 1 0 100-2 1 1 0 000 2zm1-11a3 3 0 00-3 3 1 1 0 102 0 1 1 0 112 0c0 .628-.287 1.018-.879 1.516-.206.176-.43.35-.653.523C6.86 10.7 6 11.372 6 13a1 1 0 102 0c0-.628.287-1.018.879-1.516.206-.176.43-.35.653-.523C10.14 9.3 11 8.628 11 7a3 3 0 00-3-3z" clipRule="evenodd" />
-              </svg>
-              <span className="hidden md:inline">Help</span>
             </button>
             <button
               className="h-10 px-3 rounded-[var(--radius-md)] btn-outline hidden sm:flex items-center"
