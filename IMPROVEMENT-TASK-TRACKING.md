@@ -718,7 +718,7 @@ Tasks are assigned primary agents with supporting agents based on expertise over
 - **Branch**: `improvement-e10-t2-token-plan`
 
 ### E10-T3: Modal Shell Polish (Header/Backdrop/Layout) (P1-HIGH)
-- **Status**: Pending
+- **Status**: Completed - 2025-08-10
 - **Primary Agent**: @dev (James)
 - **Supporting Agents**: @ux-expert (Sally), @qa (Quinn)
 - **Description**: Update `app/components/Modal.tsx` styling to match spec: colorful but tasteful header, refined close button, backdrop blur, consistent paddings, and size variants.
@@ -729,13 +729,15 @@ Tasks are assigned primary agents with supporting agents based on expertise over
   - Spacing scales correctly at all sizes (`small|medium|large|fullscreen`)
   - All modal a11y behaviors remain (focus trap, ESC, click-out); ensure `aria-modal`, labeled title, and initial focus placement
 - **Implementation Details**:
-  - Keep logic intact; adjust classes only
-  - Add header accent element via tokens (no new deps)
-  - Confirm motion-reduce behavior unaffected
-  - Spec Impact Summary: Apply header accent `border-(--color-primary)` or `before:bg-(--color-primary)`; backdrop `supports-[backdrop-filter]:backdrop-blur bg-black/50`; container `rounded-[var(--radius-lg)] shadow-[var(--elevation-3)]`
+  - Implemented tokenized header accent via left bar: `absolute left-0 top-0 h-full w-1 bg-(--color-primary) rounded-l-[var(--radius-lg)]` (desktop-only) in `app/components/Modal.tsx`
+  - Close button focus styles include `focus-visible:outline-2 focus-visible:outline-(--color-primary) focus-visible:outline-offset-2`
+  - Backdrop uses `bg-black/50 supports-[backdrop-filter]:bg-black/25 supports-[backdrop-filter]:backdrop-blur` and transitions preserved
+  - Container retains `rounded-[var(--radius-lg)] shadow-[var(--elevation-3)]`, size classes, and mobile `max-sm:h-[100dvh]` with no top rounding
+  - Motion-reduce respected; logic untouched; all tests pass (`Modal.test.tsx` and full suite)
+  - Spec Impact Summary: Header accent via tokenized left bar; backdrop blur/opacity tokens; container radius/elevation tokens applied
 - **Token Notes**:
   - Header: `--color-primary`; Border/Divider: `--color-neutral-100`; Title: `--text-xl` + `--font-weight-semibold`
-  - Close button focus: `focus-visible:outline-(--color-primary)`; radius: `--radius-sm`
+  - Close button focus: `focus-visible:outline-(--color-primary)` with `outline-offset-2`; radius: `--radius-sm`
   - Container: `--surface-1`, `--radius-lg`, `--elevation-3`
 - **Branch**: `improvement-e10-t3-modal-shell-polish`
 
