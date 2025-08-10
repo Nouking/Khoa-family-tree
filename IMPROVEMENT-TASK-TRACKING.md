@@ -742,7 +742,7 @@ Tasks are assigned primary agents with supporting agents based on expertise over
 - **Branch**: `improvement-e10-t3-modal-shell-polish`
 
 ### E10-T4: MemberForm Layout & Sections Redesign (P1-CRITICAL)
-- **Status**: Pending
+- **Status**: In Progress
 - **Primary Agent**: @dev (James)
 - **Supporting Agents**: @ux-expert (Sally), @qa (Quinn)
 - **Description**: Redesign `app/components/shared/MemberForm.tsx` with clear sections and tasteful color usage: Basic Info, Dates, Photo, Contact, Relations, Biography, and (edit-only) Canvas Position & Size.
@@ -752,10 +752,12 @@ Tasks are assigned primary agents with supporting agents based on expertise over
   - Visual hierarchy matches the mock; form remains compact and readable
   - No functionality removed; validation preserved
 - **Implementation Details**:
-  - Group sections with `border-(--color-neutral-100)` and tokenized titles
-  - Use existing `.btn-primary` and `.btn-outline` for actions
-  - Keep DOM minimal; prefer class updates to logic
-  - Spec Impact Summary: Use section separators `border-t border-(--color-neutral-100) pt-4`; inputs `focus:ring-(--color-primary) border-(--color-neutral-200)`; errors `border-(--color-error)/40 text-(--color-error)`
+  - Group sections using semantic `<section>` with `aria-labelledby`, separators `border-t border-(--color-neutral-100) pt-4`, and tokenized titles
+  - Inputs upgraded with subtle `shadow-sm`, `focus:ring-(--color-primary)` and `focus:border-(--color-primary)`; `aria-invalid` and `aria-describedby` wired to `*-error` ids
+  - Photo area retains `.btn-outline`; preview `rounded-full`; delete badge uses `bg-(--color-error)` per spec
+  - Actions row unchanged: `.btn-primary` and `.btn-outline`
+  - Keep DOM minimal; logic untouched; validation call remains
+  - Spec Impact Summary: Section separators `border-t border-(--color-neutral-100) pt-4`; inputs `focus:ring-(--color-primary) border-(--color-neutral-200) shadow-sm`; errors `border-(--color-error)/40 text-(--color-error)`; labels use `text-sm font-medium text-(--color-neutral-700)`
 - **Token Notes**:
   - Labels: `--color-neutral-700` `--text-sm` `--font-weight-medium`
   - Inputs: default `--color-neutral-200`; focus `--color-primary`; radius `--radius-md`
