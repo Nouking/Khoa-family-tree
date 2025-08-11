@@ -150,6 +150,7 @@ const Modal: React.FC<ModalProps> = ({
       role="dialog"
       aria-modal="true"
       aria-labelledby="modal-title"
+      aria-describedby="modal-description"
     >
       <div
         ref={modalRef}
@@ -191,7 +192,7 @@ const Modal: React.FC<ModalProps> = ({
         </div>
 
         {/* Modal Content */}
-        <div className="p-6 @container" data-modal-content>
+        <div className="p-6 @container" data-modal-content id="modal-description">
           {children}
         </div>
       </div>

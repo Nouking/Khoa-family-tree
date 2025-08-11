@@ -126,7 +126,11 @@ const MemberForm: React.FC<MemberFormProps> = ({ mode, initialData, onSubmit, on
             placeholder="Enter full name"
             disabled={isSubmitting}
           />
-          {formErrors.name && (<p id={getErrorId('name')} className="mt-1 text-sm text-(--color-error)">{formErrors.name}</p>)}
+          <div className="mt-1 min-h-[20px]" aria-live="polite">
+            {formErrors.name && (
+              <p id={getErrorId('name')} role="alert" className="text-sm text-(--color-error)">{formErrors.name}</p>
+            )}
+          </div>
         </div>
         <div>
           <label htmlFor="gender" className="block text-sm font-medium text-(--color-neutral-700) mb-1">Gender</label>
@@ -142,7 +146,9 @@ const MemberForm: React.FC<MemberFormProps> = ({ mode, initialData, onSubmit, on
             <option value="">Select relationship</option>
             {relationshipOptions.map(option => (<option key={option} value={option}>{option}</option>))}
           </select>
-          {formErrors.relationship && (<p id={getErrorId('relationship')} className="mt-1 text-sm text-(--color-error)">{formErrors.relationship}</p>)}
+          <div className="mt-1 min-h-[20px]" aria-live="polite">
+            {formErrors.relationship && (<p id={getErrorId('relationship')} role="alert" className="text-sm text-(--color-error)">{formErrors.relationship}</p>)}
+          </div>
         </div>
         <div>
           <label htmlFor="title" className="block text-sm font-medium text-(--color-neutral-700) mb-1">Title/Occupation</label>
@@ -158,12 +164,16 @@ const MemberForm: React.FC<MemberFormProps> = ({ mode, initialData, onSubmit, on
         <div>
           <label htmlFor="birthDate" className="block text-sm font-medium text-(--color-neutral-700) mb-1">Birth Date</label>
             <input type="date" id="birthDate" name="birthDate" value={formData.birthDate} onChange={handleInputChange} aria-invalid={!!formErrors.birthDate} aria-describedby={formErrors.birthDate ? getErrorId('birthDate') : undefined} className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-(--color-primary) focus:border-(--color-primary) ${formErrors.birthDate ? 'border-(--color-error)/40' : 'border-(--color-neutral-200)'}`} disabled={isSubmitting} />
-            {formErrors.birthDate && (<p id={getErrorId('birthDate')} className="mt-1 text-sm text-(--color-error)">{formErrors.birthDate}</p>)}
+            <div className="mt-1 min-h-[20px]" aria-live="polite">
+              {formErrors.birthDate && (<p id={getErrorId('birthDate')} role="alert" className="text-sm text-(--color-error)">{formErrors.birthDate}</p>)}
+            </div>
         </div>
         <div>
           <label htmlFor="deathDate" className="block text-sm font-medium text-(--color-neutral-700) mb-1">Death Date</label>
             <input type="date" id="deathDate" name="deathDate" value={formData.deathDate} onChange={handleInputChange} aria-invalid={!!formErrors.deathDate} aria-describedby={formErrors.deathDate ? getErrorId('deathDate') : undefined} className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-(--color-primary) focus:border-(--color-primary) ${formErrors.deathDate ? 'border-(--color-error)/40' : 'border-(--color-neutral-200)'}`} disabled={isSubmitting} />
-            {formErrors.deathDate && (<p id={getErrorId('deathDate')} className="mt-1 text-sm text-(--color-error)">{formErrors.deathDate}</p>)}
+            <div className="mt-1 min-h-[20px]" aria-live="polite">
+              {formErrors.deathDate && (<p id={getErrorId('deathDate')} role="alert" className="text-sm text-(--color-error)">{formErrors.deathDate}</p>)}
+            </div>
         </div>
         </div>
       </section>
@@ -187,7 +197,7 @@ const MemberForm: React.FC<MemberFormProps> = ({ mode, initialData, onSubmit, on
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
-            className="px-4 py-2 btn-outline text-sm font-medium text-(--color-neutral-700) focus-visible:outline-2 focus-visible:outline-(--color-primary) focus-visible:outline-offset-2"
+            className="px-4 py-2 btn-outline text-sm font-medium text-(--color-neutral-700) focus-visible:outline-2 focus-visible:outline-(--color-primary) focus-visible:outline-offset-2 max-sm:min-h-[44px]"
             disabled={isSubmitting}
             aria-describedby={formErrors.photo ? getErrorId('photo') : undefined}
           >
@@ -209,7 +219,9 @@ const MemberForm: React.FC<MemberFormProps> = ({ mode, initialData, onSubmit, on
             </div>
           )}
         </div>
-        {formErrors.photo && (<p id={getErrorId('photo')} className="mt-1 text-sm text-(--color-error)">{formErrors.photo}</p>)}
+        <div className="mt-1 min-h-[20px]" aria-live="polite">
+          {formErrors.photo && (<p id={getErrorId('photo')} role="alert" className="text-sm text-(--color-error)">{formErrors.photo}</p>)}
+        </div>
       </section>
 
       {/* Contact */}
@@ -219,12 +231,16 @@ const MemberForm: React.FC<MemberFormProps> = ({ mode, initialData, onSubmit, on
         <div>
           <label htmlFor="email" className="block text-sm font-medium text-(--color-neutral-700) mb-1">Email</label>
             <input type="email" id="email" name="email" value={formData.email} onChange={handleInputChange} aria-invalid={!!formErrors.email} aria-describedby={formErrors.email ? getErrorId('email') : undefined} className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-(--color-primary) focus:border-(--color-primary) ${formErrors.email ? 'border-(--color-error)/40' : 'border-(--color-neutral-200)'}`} placeholder="email@example.com" disabled={isSubmitting} />
-            {formErrors.email && (<p id={getErrorId('email')} className="mt-1 text-sm text-(--color-error)">{formErrors.email}</p>)}
+            <div className="mt-1 min-h-[20px]" aria-live="polite">
+              {formErrors.email && (<p id={getErrorId('email')} role="alert" className="text-sm text-(--color-error)">{formErrors.email}</p>)}
+            </div>
         </div>
         <div>
           <label htmlFor="phone" className="block text-sm font-medium text-(--color-neutral-700) mb-1">Phone</label>
             <input type="tel" id="phone" name="phone" value={formData.phone} onChange={handleInputChange} aria-invalid={!!formErrors.phone} aria-describedby={formErrors.phone ? getErrorId('phone') : undefined} className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-(--color-primary) focus:border-(--color-primary) ${formErrors.phone ? 'border-(--color-error)/40' : 'border-(--color-neutral-200)'}`} placeholder="+1 (555) 123-4567" disabled={isSubmitting} />
-            {formErrors.phone && (<p id={getErrorId('phone')} className="mt-1 text-sm text-(--color-error)">{formErrors.phone}</p>)}
+            <div className="mt-1 min-h-[20px]" aria-live="polite">
+              {formErrors.phone && (<p id={getErrorId('phone')} role="alert" className="text-sm text-(--color-error)">{formErrors.phone}</p>)}
+            </div>
         </div>
         </div>
         <div className="mt-4">
@@ -243,14 +259,18 @@ const MemberForm: React.FC<MemberFormProps> = ({ mode, initialData, onSubmit, on
             <option value="">Select parent</option>
             {availableMembers.map((m: FamilyMember) => (<option key={m.id} value={m.id}>{m.name} ({m.relationship})</option>))}
           </select>
-          {formErrors.parentId && (<p id={getErrorId('parentId')} className="mt-1 text-sm text-(--color-error)">{formErrors.parentId}</p>)}
+          <div className="mt-1 min-h-[20px]" aria-live="polite">
+            {formErrors.parentId && (<p id={getErrorId('parentId')} role="alert" className="text-sm text-(--color-error)">{formErrors.parentId}</p>)}
+          </div>
         </div>
         <div>
           <label htmlFor="spouseIds" className="block text-sm font-medium text-(--color-neutral-700) mb-1">Spouses (Hold Ctrl/Cmd to select multiple)</label>
             <select id="spouseIds" name="spouseIds" multiple value={formData.spouseIds} onChange={handleSpouseChange} aria-invalid={!!formErrors.spouseIds} aria-describedby={formErrors.spouseIds ? getErrorId('spouseIds') : undefined} className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-(--color-primary) focus:border-(--color-primary) ${formErrors.spouseIds ? 'border-(--color-error)/40' : 'border-(--color-neutral-200)'}`} disabled={isSubmitting} size={3}>
             {availableMembers.map((m: FamilyMember) => (<option key={m.id} value={m.id}>{m.name} ({m.relationship})</option>))}
           </select>
-          {formErrors.spouseIds && (<p id={getErrorId('spouseIds')} className="mt-1 text-sm text-(--color-error)">{formErrors.spouseIds}</p>)}
+          <div className="mt-1 min-h-[20px]" aria-live="polite">
+            {formErrors.spouseIds && (<p id={getErrorId('spouseIds')} role="alert" className="text-sm text-(--color-error)">{formErrors.spouseIds}</p>)}
+          </div>
         </div>
         </div>
       </section>
@@ -260,7 +280,9 @@ const MemberForm: React.FC<MemberFormProps> = ({ mode, initialData, onSubmit, on
         <h3 id="section-biography" className="text-base font-medium text-(--color-neutral-900) mb-3">Biography</h3>
         <label htmlFor="biography" className="block text-sm font-medium text-(--color-neutral-700) mb-1">Biography <span className="text-sm text-(--color-neutral-500) ml-2">({formData.biography.length}/1000 characters)</span></label>
         <textarea id="biography" name="biography" value={formData.biography} onChange={handleInputChange} rows={3} aria-invalid={!!formErrors.biography} aria-describedby={formErrors.biography ? getErrorId('biography') : undefined} className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-(--color-primary) focus:border-(--color-primary) resize-vertical ${formErrors.biography ? 'border-(--color-error)/40' : 'border-(--color-neutral-200)'}`} placeholder="Brief biography or notes..." disabled={isSubmitting} maxLength={1000} />
-        {formErrors.biography && (<p id={getErrorId('biography')} className="mt-1 text-sm text-(--color-error)">{formErrors.biography}</p>)}
+        <div className="mt-1 min-h-[20px]" aria-live="polite">
+          {formErrors.biography && (<p id={getErrorId('biography')} role="alert" className="text-sm text-(--color-error)">{formErrors.biography}</p>)}
+        </div>
       </section>
 
       {mode === 'edit' && (
@@ -289,8 +311,8 @@ const MemberForm: React.FC<MemberFormProps> = ({ mode, initialData, onSubmit, on
 
       {/* Actions */}
       <div className="flex justify-end space-x-3 pt-6 border-t border-(--color-neutral-100)">
-        <button type="button" onClick={onCancel} className="px-4 py-2 btn-outline text-sm font-medium text-(--color-neutral-700)" disabled={isSubmitting}>Cancel</button>
-        <button type="submit" className="px-4 py-2 btn-primary disabled:opacity-50 disabled:cursor-not-allowed" disabled={isSubmitting}>
+        <button type="button" onClick={onCancel} className="px-4 py-2 btn-outline text-sm font-medium text-(--color-neutral-700) max-sm:min-h-[44px]" disabled={isSubmitting}>Cancel</button>
+        <button type="submit" className="px-4 py-2 btn-primary disabled:opacity-50 disabled:cursor-not-allowed max-sm:min-h-[44px]" disabled={isSubmitting}>
           {isSubmitting ? (mode === 'add' ? 'Adding Member...' : 'Updating…') : (mode === 'add' ? 'Add Member' : 'Update Member')}
         </button>
       </div>

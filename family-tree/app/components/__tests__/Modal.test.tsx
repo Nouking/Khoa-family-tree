@@ -171,6 +171,40 @@ describe('Modal Component', () => {
     expect(title).toHaveAttribute('id', 'modal-title');
   });
 
+  it('renders tokenized header accent and backdrop blur classes', () => {
+    const { container } = render(
+      <Modal isOpen={true} onClose={mockOnClose} title="Test Modal">
+        <div>Modal content</div>
+      </Modal>
+    );
+
+    const dialog = screen.getByRole('dialog');
+    // Backdrop has blur supporting classes
+    expect(dialog).toHaveClass('supports-[backdrop-filter]:backdrop-blur');
+    expect(dialog).toHaveClass('bg-black/50');
+
+    // Accent bar span exists in header
+    const accent = container.querySelector('span[aria-hidden="true"].absolute.left-0.top-0.h-full.w-1');
+    expect(accent).toBeTruthy();
+  });
+
+  it('includes mobile bottom-sheet classes and description association', () => {
+    const { container } = render(
+      <Modal isOpen={true} onClose={mockOnClose} title="Test Modal">
+        <div>Modal content</div>
+      </Modal>
+    );
+
+    const root = screen.getByRole('dialog').firstChild as HTMLElement;
+    expect(root).toHaveClass('max-sm:h-[100dvh]');
+    expect(root).toHaveClass('max-sm:rounded-none');
+
+    // Content container should have modal-description id
+    const description = container.querySelector('#modal-description');
+    expect(description).toBeTruthy();
+    expect(screen.getByRole('dialog')).toHaveAttribute('aria-describedby', 'modal-description');
+  });
+
   it('focuses first focusable element when opened', async () => {
     render(
       <Modal isOpen={true} onClose={mockOnClose} title="Test Modal">
