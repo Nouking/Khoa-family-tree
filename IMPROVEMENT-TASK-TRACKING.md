@@ -752,24 +752,9 @@ User preferences from `issue` (2025‑08‑11):
 - Status: Completed - 2025-08-11 | Branch: `improvement-e11-t2-modal-header-cta`
 - Summary: Header accent supports flat/gradient via tokens; primary CTA supports gradient variant with tokenized hover/active/focus, motion‑reduce respected; tests updated; no color hardcoding.
 - Details: See Completed Log → [E11‑T2](family-tree/docs/completed-tasks.md#e11-t2)
-- **Primary Agent**: @dev (James)
-- **Supporting Agents**: @ux‑expert (Sally), @qa (Quinn)
-- **Description**: Apply subtle header accent (optionally gradient) and update primary CTA style to allow gradient variant while preserving existing `.btn-primary` semantics.
-- **Acceptance Criteria**:
-  - Header: tokenized accent bar supports flat or soft gradient variant
-  - Primary CTA: optional gradient background variant with tokenized focus ring; hover/pressed states token‑driven
-  - No color hardcoding; AA contrast met; motion‑reduce respected
-- **Implementation Details**:
-  - Files: `app/components/Modal.tsx`, `app/components/AddMemberModal.tsx`, `app/components/EditMemberModal.tsx`, `app/globals.css`
-  - Update `Modal.tsx` header accent element to accept a `gradient` style via class toggle (presentational)
-  - In `AddMemberModal`/`EditMemberModal`, pass a header style prop (e.g., `headerStyle="gradient"`) to demonstrate usage; keep default as flat
-  - Add a `.btn-primary--gradient` class (CSS‑only) mapped to tokens in `globals.css`; do not change button logic
-  - Example classes (Tailwind v4): `bg-[color-mix(in_oklch,_var(--color-primary),_white_6%)] hover:bg-[color-mix(in_oklch,_var(--color-primary),_black_8%)] text-(--color-primary-contrast) focus-visible:outline-(--color-primary)`
-  - Non‑dev note: capture before/after screenshots and attach to E11‑T6
-- **Branch**: `improvement-e11-t2-modal-header-cta`
 
 ### E11‑T3: Expressive Dividers, Chips, and Section Icons (P2‑HIGH)
-- **Status**: Pending
+- **Status**: In Progress
 - **Primary Agent**: @ux‑expert (Sally)
 - **Supporting Agents**: @dev (James), @po (Sarah)
 - **Description**: Introduce colored dividers, optional small chips for section labels (e.g., “Required”), and lightweight section icons to boost scannability without clutter.

@@ -110,7 +110,27 @@ const MemberForm: React.FC<MemberFormProps> = ({ mode, initialData, onSubmit, on
     <form onSubmit={handleSubmit} noValidate className="space-y-6 text-(--color-neutral-900)">
       {/* Basic Information */}
       <section aria-labelledby="section-basic-info">
-        <h3 id="section-basic-info" className="text-base font-medium text-(--color-neutral-900) mb-3">Basic Information</h3>
+        <div className="mb-3">
+          <div className="flex items-center justify-between">
+            <h3 id="section-basic-info" className="text-base font-medium text-(--color-neutral-900) flex items-center gap-2">
+              <span aria-hidden="true" className="text-(--color-info)">
+                {/* decorative section icon */}
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4" aria-hidden="true">
+                  <path fillRule="evenodd" d="M10 2a8 8 0 100 16 8 8 0 000-16zm1 11H9v-2h2v2zm0-4H9V5h2v4z" clipRule="evenodd" />
+                </svg>
+              </span>
+              Basic Information
+            </h3>
+            <span className="inline-flex items-center gap-1 rounded-[var(--radius-sm)] px-2 py-0.5 text-(--text-xs) u-chip--accent" aria-hidden="true">
+              {/* decorative chip indicating example label */}
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-3.5 w-3.5" aria-hidden="true">
+                <path d="M10 2a8 8 0 100 16 8 8 0 000-16z" />
+              </svg>
+              Required
+            </span>
+          </div>
+          <div className="mt-3 border-t border-(--color-neutral-100)" data-accent="true"></div>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label htmlFor="name" className="block text-sm font-medium text-(--color-neutral-700) mb-1">Name *</label>
@@ -159,7 +179,19 @@ const MemberForm: React.FC<MemberFormProps> = ({ mode, initialData, onSubmit, on
 
       {/* Dates */}
       <section aria-labelledby="section-dates" className="border-t border-(--color-neutral-100) pt-4">
-        <h3 id="section-dates" className="text-base font-medium text-(--color-neutral-900) mb-3">Dates</h3>
+        <div className="mb-3">
+          <div className="flex items-center justify-between">
+            <h3 id="section-dates" className="text-base font-medium text-(--color-neutral-900) flex items-center gap-2">
+              <span aria-hidden="true" className="text-(--color-info)">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4" aria-hidden="true">
+                  <path d="M6 2a1 1 0 011 1v1h6V3a1 1 0 112 0v1h1a2 2 0 012 2v9a2 2 0 01-2 2H3a2 2 0 01-2-2V6a2 2 0 012-2h1V3a1 1 0 112 0v1zm11 7H3v6h14V9z" />
+                </svg>
+              </span>
+              Dates
+            </h3>
+          </div>
+          <div className="mt-3 border-t border-(--color-neutral-100)"></div>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label htmlFor="birthDate" className="block text-sm font-medium text-(--color-neutral-700) mb-1">Birth Date</label>
@@ -180,7 +212,19 @@ const MemberForm: React.FC<MemberFormProps> = ({ mode, initialData, onSubmit, on
 
       {/* Photo Upload */}
       <section aria-labelledby="section-photo" className="border-t border-(--color-neutral-100) pt-4">
-        <h3 id="section-photo" className="text-base font-medium text-(--color-neutral-900) mb-3">Photo</h3>
+        <div className="mb-3">
+          <div className="flex items-center justify-between">
+            <h3 id="section-photo" className="text-base font-medium text-(--color-neutral-900) flex items-center gap-2">
+              <span aria-hidden="true" className="text-(--color-info)">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4" aria-hidden="true">
+                  <path d="M4 5a2 2 0 00-2 2v7a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-2.586l-1-1H7.586l-1 1H4zm6 3a4 4 0 110 8 4 4 0 010-8z" />
+                </svg>
+              </span>
+              Photo
+            </h3>
+          </div>
+          <div className="mt-3 border-t border-(--color-neutral-100)"></div>
+        </div>
         <label htmlFor="photo" className="sr-only">Photo</label>
         <div className="flex items-center space-x-4">
           <input
@@ -226,7 +270,22 @@ const MemberForm: React.FC<MemberFormProps> = ({ mode, initialData, onSubmit, on
 
       {/* Contact */}
       <section aria-labelledby="section-contact" className="border-t border-(--color-neutral-100) pt-4">
-        <h3 id="section-contact" className="text-base font-medium text-(--color-neutral-900) mb-3">Contact</h3>
+        <div className="mb-3">
+          <div className="flex items-center justify-between">
+            <h3 id="section-contact" className="text-base font-medium text-(--color-neutral-900) flex items-center gap-2">
+              <span aria-hidden="true" className="text-(--color-info)">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4" aria-hidden="true">
+                  <path d="M2 3a1 1 0 011-1h3l2 3h6a1 1 0 011 1v2H2V3zM2 10h18v4a1 1 0 01-1 1H3a1 1 0 01-1-1v-4z" />
+                </svg>
+              </span>
+              Contact
+            </h3>
+            <span className="inline-flex items-center gap-1 rounded-[var(--radius-sm)] px-2 py-0.5 text-(--text-xs) u-chip--accent" aria-hidden="true">
+              Optional
+            </span>
+          </div>
+          <div className="mt-3 border-t border-(--color-neutral-100)"></div>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label htmlFor="email" className="block text-sm font-medium text-(--color-neutral-700) mb-1">Email</label>
@@ -251,7 +310,19 @@ const MemberForm: React.FC<MemberFormProps> = ({ mode, initialData, onSubmit, on
 
       {/* Relations */}
       <section aria-labelledby="section-relations" className="border-t border-(--color-neutral-100) pt-4">
-        <h3 id="section-relations" className="text-base font-medium text-(--color-neutral-900) mb-3">Relations</h3>
+        <div className="mb-3">
+          <div className="flex items-center justify-between">
+            <h3 id="section-relations" className="text-base font-medium text-(--color-neutral-900) flex items-center gap-2">
+              <span aria-hidden="true" className="text-(--color-info)">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4" aria-hidden="true">
+                  <path fillRule="evenodd" d="M10 2a3 3 0 100 6 3 3 0 000-6zM2 16a6 6 0 1112 0v2H2v-2z" clipRule="evenodd" />
+                </svg>
+              </span>
+              Relations
+            </h3>
+          </div>
+          <div className="mt-3 border-t border-(--color-neutral-100)" data-accent="true"></div>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label htmlFor="parentId" className="block text-sm font-medium text-(--color-neutral-700) mb-1">Parent</label>
@@ -277,7 +348,19 @@ const MemberForm: React.FC<MemberFormProps> = ({ mode, initialData, onSubmit, on
 
       {/* Biography */}
       <section aria-labelledby="section-biography" className="border-t border-(--color-neutral-100) pt-4">
-        <h3 id="section-biography" className="text-base font-medium text-(--color-neutral-900) mb-3">Biography</h3>
+        <div className="mb-3">
+          <div className="flex items-center justify-between">
+            <h3 id="section-biography" className="text-base font-medium text-(--color-neutral-900) flex items-center gap-2">
+              <span aria-hidden="true" className="text-(--color-info)">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4" aria-hidden="true">
+                  <path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h11a1 1 0 000-2H5a1 1 0 010-2h10V5a2 2 0 00-2-2H4z" />
+                </svg>
+              </span>
+              Biography
+            </h3>
+          </div>
+          <div className="mt-3 border-t border-(--color-neutral-100)"></div>
+        </div>
         <label htmlFor="biography" className="block text-sm font-medium text-(--color-neutral-700) mb-1">Biography <span className="text-sm text-(--color-neutral-500) ml-2">({formData.biography.length}/1000 characters)</span></label>
         <textarea id="biography" name="biography" value={formData.biography} onChange={handleInputChange} rows={3} aria-invalid={!!formErrors.biography} aria-describedby={formErrors.biography ? getErrorId('biography') : undefined} className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-(--color-primary) focus:border-(--color-primary) resize-vertical ${formErrors.biography ? 'border-(--color-error)/40' : 'border-(--color-neutral-200)'}`} placeholder="Brief biography or notes..." disabled={isSubmitting} maxLength={1000} />
         <div className="mt-1 min-h-[20px]" aria-live="polite">
@@ -287,7 +370,19 @@ const MemberForm: React.FC<MemberFormProps> = ({ mode, initialData, onSubmit, on
 
       {mode === 'edit' && (
         <section aria-labelledby="section-canvas" className="border-t border-(--color-neutral-100) pt-4">
-          <h3 id="section-canvas" className="text-base font-medium text-(--color-neutral-900) mb-4">Canvas Position & Size</h3>
+          <div className="mb-4">
+            <div className="flex items-center justify-between">
+              <h3 id="section-canvas" className="text-base font-medium text-(--color-neutral-900) flex items-center gap-2">
+                <span aria-hidden="true" className="text-(--color-info)">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4" aria-hidden="true">
+                    <path d="M4 4h12v12H4zM7 7h6v6H7z" />
+                  </svg>
+                </span>
+                Canvas Position & Size
+              </h3>
+            </div>
+            <div className="mt-3 border-t border-(--color-neutral-100)" data-accent="true"></div>
+          </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div>
               <label className="block text-sm font-medium text-(--color-neutral-700) mb-1">X Position</label>

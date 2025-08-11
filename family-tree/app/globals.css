@@ -141,3 +141,6 @@ html, body {
   background: color-mix(in oklch, var(--color-accent), white 85%);
   color: var(--color-neutral-800);
 }
+
+/* Data-accent helper for section dividers (E11‑T3) */
+[data-accent="true"].border-t { border-color: var(--color-accent); }
