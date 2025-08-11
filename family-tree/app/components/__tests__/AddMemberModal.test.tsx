@@ -120,8 +120,15 @@ describe('AddMemberModal Component', () => {
     fireEvent.click(submitButton);
 
     await waitFor(() => {
-      expect(screen.getByText('Name is required')).toBeInTheDocument();
-      expect(screen.getByText('Relationship is required')).toBeInTheDocument();
+      const nameError = screen.getByText('Name is required');
+      const relationshipError = screen.getByText('Relationship is required');
+      expect(nameError).toBeInTheDocument();
+      expect(relationshipError).toBeInTheDocument();
+      // Errors are associated to inputs and use error styling
+      expect(nameError).toHaveAttribute('role', 'alert');
+      expect(relationshipError).toHaveAttribute('role', 'alert');
+      expect(screen.getByLabelText('Name *')).toHaveAttribute('aria-invalid', 'true');
+      expect(screen.getByLabelText('Relationship *')).toHaveAttribute('aria-invalid', 'true');
     });
   });
 
@@ -181,7 +188,10 @@ describe('AddMemberModal Component', () => {
     fireEvent.click(submitButton);
 
     await waitFor(() => {
-      expect(screen.getByText('Please enter a valid email address')).toBeInTheDocument();
+      const emailError = screen.getByText('Please enter a valid email address');
+      expect(emailError).toBeInTheDocument();
+      expect(emailError).toHaveAttribute('role', 'alert');
+      expect(screen.getByLabelText('Email')).toHaveAttribute('aria-invalid', 'true');
     });
   });
 

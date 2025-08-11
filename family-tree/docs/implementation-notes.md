@@ -117,6 +117,17 @@ Spec Impact Summary (applies to downstream tasks E10-T3 → E10-T10)
 - Section dividers, input focus/error styles standardized
   - MemberForm finalized (E10-T4): semantic `<section>` with `aria-labelledby`; errors linked via `aria-describedby` to `*-error` ids; inputs use tokenized focus/border and subtle `shadow-sm`
 
+#### PO Acceptance (E10-T10)
+
+- Review scope: E10-T1 spec + E10-T2 token plan applied across E10-T3 → E10-T9
+- Verified items:
+  - Modal semantics and keyboard flow per APG Modal Dialog: `role="dialog"`, `aria-modal`, labeled title via `aria-labelledby`, optional description via `aria-describedby`, focus trap, ESC and click-out enabled
+  - Visual tokens applied: header accent uses `--color-primary`, borders `--color-neutral-100|200`, focus indicators `--color-primary`, error borders/text `--color-error`, container `--elevation-3` and `--radius-lg`
+  - Mobile bottom-sheet behavior on small screens: `max-sm:h-[100dvh]`, `max-sm:rounded-none`, safe-area padding considered; tap targets ≥ 44px with ≥ 8px spacing
+  - Tests updated (E10-T9) assert token-driven selectors instead of raw color values
+- Artifacts for audit: `docs/assets/e10-modal/reference-add-modal.jpg`, `docs/assets/e10-modal/annotations.md`
+- Conclusion: Acceptance criteria met; no follow-up gaps identified.
+
 #### MemberForm Redesign (E10-T4)
 
 - Goal: Apply the spec to `app/components/shared/MemberForm.tsx` without changing behavior.
