@@ -116,6 +116,16 @@ html, body {
   color: var(--color-primary-contrast);
 }
 
+/* Alias to match task wording (E11-T2 spec) */
+.btn-primary--gradient {
+  background: linear-gradient(
+    90deg,
+    color-mix(in oklch, var(--color-primary), white 6%),
+    var(--color-primary)
+  );
+  color: var(--color-primary-contrast);
+}
+
 .u-divider--accent { border-color: var(--color-accent); }
 
 .u-chip--accent {

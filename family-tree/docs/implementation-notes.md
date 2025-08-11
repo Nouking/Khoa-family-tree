@@ -161,9 +161,12 @@ Example Tailwind v4 arbitrary values (when not using the CSS helper classes):
 - CTA hover darken: `hover:bg-[color-mix(in_oklch,_var(--color-primary),_black_8%)]`
 
 Token → usage map:
-- `--color-primary` → Header accent, focus rings, primary CTA base
-- `--color-accent` → Chips/badges highlights (sparingly), optional divider accents
-- `--color-neutral-100|200` → Dividers/borders
+
+| Token | Usage Area |
+| --- | --- |
+| `--color-primary` | Header accent, focus rings, primary CTA base |
+| `--color-accent` | Chips/badges highlights (sparingly); optional divider accents |
+| `--color-neutral-100` · `--color-neutral-200` | Dividers/borders |
 
 Contrast notes:
 - Verify AA for text and WCAG 1.4.11 for non‑text UI (borders, focus indicators). Use warm blue primary on `--surface-1` with `--color-primary-contrast` for CTAs.
