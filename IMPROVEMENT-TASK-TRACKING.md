@@ -744,23 +744,9 @@ User preferences from `issue` (2025‑08‑11):
 - Before starting any E11 task, read `family-tree/docs/implementation-notes.md` → `Notion‑Inspired Color & Motion Polish (Epic 11)` and the corresponding subsection for your task to align on tokens, classes, a11y, and examples.
 
 ### E11‑T1: Gradient & Accent Token Mapping (P1‑CRITICAL) ✅
-- **Status**: Completed - 2025-08-11 | Branch: `improvement-e11-t1-gradient-accent-mapping`
-- **Summary**: Minimal token-first gradient/accent utilities defined and documented; enables E11‑T2/T3 without raw hex.
-- **Details**: See Completed Log → [E11‑T1](family-tree/docs/completed-tasks.md#e11-t1)
-- **Primary Agent**: @architect (Winston)
-- **Supporting Agents**: @ux‑expert (Sally), @dev (James)
-- **Description**: Define a tiny set of gradient utilities and accent mappings using existing tokens (no hardcoded hex). Document where/how gradients and accents can be used (headers/CTAs/dividers/chips) without hurting readability.
-- **Acceptance Criteria**:
-  - GIVEN token‑first styling
-  - WHEN adding gradients
-  - THEN gradients are expressed via CSS vars and Tailwind v4 arbitrary values; no raw hex in components
-  - AND AA contrast is verified for text and non‑text UI
-  - AND performance unaffected (no layout shift)
-- **Implementation Details**:
-  - Extended `family-tree/docs/implementation-notes.md` with “Gradients & Accents (E11‑T1)” including approved utilities and contrast notes
-  - Added minimal CSS helpers in `app/globals.css`: `.u-header-accent--gradient`, `.u-btn-primary--gradient`, `.u-divider--accent`, `.u-chip--accent`; added alias `.btn-primary--gradient` per E11‑T2 wording
-  - Research log appended with Tailwind v4 and color‑mix notes; token usage map provided
-- **Branch**: `improvement-e11-t1-gradient-accent-mapping`
+- Status: Completed - 2025-08-11 | Branch: `improvement-e11-t1-gradient-accent-mapping`
+- Summary: Minimal token‑first gradient/accent utilities defined and documented; enables E11‑T2/T3 without raw hex.
+- Details: See Completed Log → [E11‑T1](family-tree/docs/completed-tasks.md#e11-t1)
 
 ### E11‑T2: Modal Header & Primary CTA Polish (P1‑HIGH)
 - **Status**: Pending
