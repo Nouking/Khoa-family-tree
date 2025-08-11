@@ -759,7 +759,7 @@ User preferences from `issue` (2025‑08‑11):
 - Details: See Completed Log → [E11‑T3](family-tree/docs/completed-tasks.md#e11-t3)
 
 ### E11‑T4: Micro‑Interactions & Motion Polish (P2‑HIGH)
-- **Status**: Pending
+- **Status**: In Progress
 - **Primary Agent**: @dev (James)
 - **Supporting Agents**: @qa (Quinn)
 - **Description**: Add subtle elevation/scale on CTA press, refined focus rings, and section reveal transitions.
