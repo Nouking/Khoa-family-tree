@@ -1028,4 +1028,16 @@ FamilyTree (Root)
   - Focus/keyboard flows unchanged; AA contrast preserved via `--color-primary` and `--color-primary-contrast`
   - Mobile bottom‑sheet unaffected; tests (123/123) pass
 
+<a id="e11-t3"></a>
+#### E11‑T3: Expressive Dividers, Chips, and Section Icons (P2‑HIGH)
+- Status: Completed - 2025-08-11 | Branch: `improvement-e11-t3-dividers-chips-icons`
+- Summary: Introduced tokenized dividers with optional accent, subtle label chips, and decorative section icons to improve scannability in `MemberForm` without functional changes.
+- Implementation Notes:
+  - Dividers: `border-t border-(--color-neutral-100)` with accent toggle via `[data-accent="true"].border-t { border-color: var(--color-accent) }`
+  - Chips: `.u-chip--accent` → `background: color-mix(in oklch, var(--color-accent), white 85%)`, `text-(--color-neutral-800)`; used for labels like “Required”/“Optional”
+  - Icons: inline SVG at 16px next to headers, `aria-hidden="true"` when decorative
+  - Files Modified: `app/components/shared/MemberForm.tsx`, `app/globals.css`
+  - A11y: Decorative icons hidden from SR; any meaningful icons must use `role="img"` + `aria-label`
+  - Tests: Full suite remains green (123/123)
+
 *See [Task Tracking](./task-tracking.md) for current active tasks.*

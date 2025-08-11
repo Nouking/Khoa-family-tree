@@ -191,6 +191,16 @@ Research Log (E11‑T1)
 - Dividers: `border-t border-(--color-neutral-100) data-[accent=true]:border-(--color-accent)`
 - Chips (e.g., “Required”): `inline-flex items-center gap-1 rounded-[var(--radius-sm)] px-2 py-0.5 text-(--text-xs) bg-[color-mix(in_oklch,_var(--color-accent),_white_85%)] text-(--color-neutral-800)`
 - Icons: decorative → `aria-hidden="true"`; if meaningful, use `role="img"` + `aria-label`.
+
+Research Log (Notion references)
+- Subtle divider accents improve section scanning without heavy borders
+- Small rounded chips with light accent backgrounds communicate labels unobtrusively
+- Lightweight 16px decorative icons next to section titles aid recognition
+
+Spec Impact Summary (E11‑T3)
+- Files: `app/components/shared/MemberForm.tsx`, `app/globals.css`
+- Added optional decorative section icons (`aria-hidden="true"`), tokenized chips for labels, and accent-capable dividers using `data-accent="true"`
+- Globals: introduced `[data-accent="true"].border-t { border-color: var(--color-accent) }` helper
 - File: `app/components/shared/MemberForm.tsx`.
 
 #### Micro‑Interactions & Motion Polish (E11‑T4)
