@@ -79,7 +79,7 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({ isOpen, onClose, onMemb
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={handleCancel} title="Add Family Member" size="large">
+    <Modal isOpen={isOpen} onClose={handleCancel} title="Add Family Member" size="large" headerStyle="gradient">
       {state.error && (
         <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md mb-4" role="alert">
           {state.error}

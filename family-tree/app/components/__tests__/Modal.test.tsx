@@ -173,7 +173,7 @@ describe('Modal Component', () => {
 
   it('renders tokenized header accent and backdrop blur classes', () => {
     const { container } = render(
-      <Modal isOpen={true} onClose={mockOnClose} title="Test Modal">
+      <Modal isOpen={true} onClose={mockOnClose} title="Test Modal" headerStyle="gradient">
         <div>Modal content</div>
       </Modal>
     );
@@ -183,9 +183,10 @@ describe('Modal Component', () => {
     expect(dialog).toHaveClass('supports-[backdrop-filter]:backdrop-blur');
     expect(dialog).toHaveClass('bg-black/50');
 
-    // Accent bar span exists in header
+    // Accent bar span exists in header and supports gradient class
     const accent = container.querySelector('span[aria-hidden="true"].absolute.left-0.top-0.h-full.w-1');
     expect(accent).toBeTruthy();
+    expect(accent?.className).toEqual(expect.stringContaining('u-header-accent--gradient'));
   });
 
   it('includes mobile bottom-sheet classes and description association', () => {

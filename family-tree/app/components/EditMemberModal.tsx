@@ -76,7 +76,7 @@ const EditMemberModal: React.FC<EditMemberModalProps> = ({ isOpen, onClose, memb
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={handleCancel} title={`Edit ${member.name}`} size="large">
+    <Modal isOpen={isOpen} onClose={handleCancel} title={`Edit ${member.name}`} size="large" headerStyle="gradient">
       {state.error && (
         <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md mb-4" role="alert">
           {state.error}

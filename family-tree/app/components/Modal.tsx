@@ -9,6 +9,8 @@ interface ModalProps {
   children: React.ReactNode;
   size?: 'small' | 'medium' | 'large' | 'fullscreen';
   className?: string;
+  // E11-T2: Presentational style for header accent
+  headerStyle?: 'flat' | 'gradient';
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -17,7 +19,8 @@ const Modal: React.FC<ModalProps> = ({
   title,
   children,
   size = 'medium',
-  className = ''
+  className = '',
+  headerStyle = 'flat'
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const backdropRef = useRef<HTMLDivElement>(null);
@@ -163,9 +166,13 @@ const Modal: React.FC<ModalProps> = ({
         `}
       >
         {/* Modal Header */}
-        <div className="relative flex items-center justify-between p-6 border-b border-(--color-neutral-100) before:content-[''] before:absolute before:left-0 before:bottom-0 before:h-1 before:w-full before:bg-transparent before:pointer-events-none">
+        <div className={`relative flex items-center justify-between p-6 border-b border-(--color-neutral-100) before:content-[''] before:absolute before:left-0 before:bottom-0 before:h-1 before:w-full before:pointer-events-none ${
+            headerStyle === 'gradient' ? 'before:u-header-accent--gradient' : 'before:bg-(--color-primary)'
+          }`}>
           {/* Optional left accent bar for visual emphasis using tokens */}
-          <span aria-hidden="true" className="absolute left-0 top-0 h-full w-1 bg-(--color-primary) rounded-l-[var(--radius-lg)] max-sm:hidden" />
+          <span aria-hidden="true" className={`absolute left-0 top-0 h-full w-1 rounded-l-[var(--radius-lg)] max-sm:hidden ${
+              headerStyle === 'gradient' ? 'u-header-accent--gradient' : 'bg-(--color-primary)'
+            }`} />
           <h2 id="modal-title" className="text-xl font-semibold">
             {title}
           </h2>

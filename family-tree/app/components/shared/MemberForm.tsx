@@ -312,7 +312,7 @@ const MemberForm: React.FC<MemberFormProps> = ({ mode, initialData, onSubmit, on
       {/* Actions */}
       <div className="flex justify-end space-x-3 pt-6 border-t border-(--color-neutral-100)">
         <button type="button" onClick={onCancel} className="px-4 py-2 btn-outline text-sm font-medium text-(--color-neutral-700) max-sm:min-h-[44px]" disabled={isSubmitting}>Cancel</button>
-        <button type="submit" className="px-4 py-2 btn-primary disabled:opacity-50 disabled:cursor-not-allowed max-sm:min-h-[44px]" disabled={isSubmitting}>
+        <button type="submit" className="px-4 py-2 btn-primary btn-primary--gradient focus-visible:outline-2 focus-visible:outline-(--color-primary) focus-visible:outline-offset-2 disabled:opacity-50 disabled:cursor-not-allowed max-sm:min-h-[44px] motion-reduce:transition-none" disabled={isSubmitting}>
           {isSubmitting ? (mode === 'add' ? 'Adding Member...' : 'Updating…') : (mode === 'add' ? 'Add Member' : 'Update Member')}
         </button>
       </div>

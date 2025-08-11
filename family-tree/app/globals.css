@@ -126,6 +126,15 @@ html, body {
   color: var(--color-primary-contrast);
 }
 
+/* Hover/active states for the gradient variant (token-driven) */
+.btn-primary--gradient:hover {
+  background: color-mix(in oklch, var(--color-primary), black 8%);
+}
+.btn-primary--gradient:active {
+  transform: scale(.98);
+  box-shadow: var(--elevation-2);
+}
+
 .u-divider--accent { border-color: var(--color-accent); }
 
 .u-chip--accent {

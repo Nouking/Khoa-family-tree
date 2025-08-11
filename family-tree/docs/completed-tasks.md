@@ -1012,4 +1012,20 @@ FamilyTree (Root)
   - Utilities in `app/globals.css`: `.u-header-accent--gradient`, `.u-btn-primary--gradient`, `.u-divider--accent`, `.u-chip--accent`; alias `.btn-primary--gradient` for E11‑T2
   - Spec updates in `family-tree/docs/implementation-notes.md` with OKLCH color‑mix examples and token→usage table
 
+<a id="e11-t2"></a>
+#### E11‑T2: Modal Header & Primary CTA Polish (P1‑HIGH)
+- Status: Completed - 2025-08-11 | Branch: `improvement-e11-t2-modal-header-cta`
+- Summary: Added gradient variant for modal header accent and primary CTA using tokenized utilities. Preserved `.btn-primary` semantics; added `.btn-primary--gradient` with hover/active states and focus-visible outline; respected motion-reduce. Tests updated to assert gradient class.
+- Files Modified:
+  - `family-tree/app/components/Modal.tsx` (added `headerStyle` prop; gradient toggle for header bar and accent)
+  - `family-tree/app/components/AddMemberModal.tsx` (use `headerStyle="gradient"`)
+  - `family-tree/app/components/EditMemberModal.tsx` (use `headerStyle="gradient"`)
+  - `family-tree/app/components/shared/MemberForm.tsx` (apply `.btn-primary--gradient` + focus-visible + motion-reduce)
+  - `family-tree/app/globals.css` (hover/active rules for gradient CTA)
+  - `family-tree/app/components/__tests__/Modal.test.tsx` (assert gradient header class)
+- Verification Notes:
+  - No hardcoded colors introduced; all styles map to `@theme` tokens
+  - Focus/keyboard flows unchanged; AA contrast preserved via `--color-primary` and `--color-primary-contrast`
+  - Mobile bottom‑sheet unaffected; tests (123/123) pass
+
 *See [Task Tracking](./task-tracking.md) for current active tasks.*
