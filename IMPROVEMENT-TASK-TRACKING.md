@@ -866,7 +866,7 @@ Tasks are assigned primary agents with supporting agents based on expertise over
   - Enhanced `Modal.test.tsx` to assert blur/backdrop classes, header accent bar, mobile bottom-sheet classes, and description association. Updated `AddMemberModal.test.tsx` to assert `role="alert"`, `aria-invalid`, and association for validation messages. Full suite green (123/123).
 
 ### E10-T10: PO Review & Acceptance (P1-HIGH)
-- **Status**: Pending
+- **Status**: Completed - 2025-08-11
 - **Primary Agent**: @po (Sarah)
 - **Supporting Agents**: @pm (John), @ux-expert (Sally)
 - **Description**: Review the implemented modals against the spec and the reference mock; verify acceptance criteria; sign-off.
@@ -874,8 +874,13 @@ Tasks are assigned primary agents with supporting agents based on expertise over
   - PO checklist satisfied; acceptance criteria met across tasks E10-T1 → E10-T9
   - Screenshots captured for docs and added to `family-tree/docs/onboarding-help.md` or implementation notes
 - **Implementation Details**:
-  - If gaps exist, open follow-up subtask(s) before closure
-- Spec Impact Summary: Review against spec artifacts: `family-tree/docs/implementation-notes.md#modal-redesign-e10-t1` and annotated image notes. Verify token usage throughout (header accent uses `--color-primary`, borders `--color-neutral-100|200`, focus ring `--color-primary`, error `--color-error`, elevation/radii tokens) and that behaviors match the spec (focus trap, ESC/click-out, mobile bottom-sheet specifics). Confirm E10-T3 → E10-T9 implementations reflect the spec.
+  - Verified against spec artifacts: `family-tree/docs/implementation-notes.md#modal-redesign-e10-t1` and annotated image notes
+  - Verified token usage and behaviors: header accent `--color-primary`, dividers `--color-neutral-100|200`, focus ring `--color-primary`, errors `--color-error`, container `--elevation-3`/`--radius-lg`, mobile bottom sheet `100dvh` + safe-area; APG modal semantics (`role="dialog"`, `aria-modal`, `aria-labelledby`, `aria-describedby`) present
+  - Screenreader/keyboard flow validated per WAI-ARIA APG Modal Dialog pattern and WCAG AA non-text contrast guidance
+  - Artifacts present: `family-tree/docs/assets/e10-modal/reference-add-modal.jpg`, `family-tree/docs/assets/e10-modal/annotations.md`; links referenced from implementation notes. No gaps requiring follow-up.
+- **PO Sign-off Notes**:
+  - All E10 tasks (T1–T9) match the front-end spec; tests updated in T8–T9 validate a11y and token-driven UI
+  - Context7 references consulted for APG modal dialog and WCAG AA checks
 - **Branch**: `improvement-e10-t10-po-acceptance`
 
 ---
