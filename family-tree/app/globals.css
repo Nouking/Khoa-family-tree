@@ -89,6 +89,21 @@ html, body {
 .btn-outline:hover { background: color-mix(in oklch, var(--color-neutral-200), white 60%); }
 .btn-outline:active { transform: translateY(1px); }
 
+/* Reduced motion: minimize or remove transitions and transforms for buttons */
+@media (prefers-reduced-motion: reduce) {
+  .btn-primary,
+  .btn-outline,
+  .btn-primary--gradient {
+    transition: none !important;
+  }
+  .btn-primary:active,
+  .btn-outline:active,
+  .btn-primary--gradient:active {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+}
+
 /* Skeleton loading */
 @keyframes pulse-skeleton { 0%, 100% { opacity: .6 } 50% { opacity: .9 } }
 .skeleton { position: relative; overflow: hidden; background: var(--color-neutral-100); border-radius: var(--radius-sm); animation: pulse-skeleton 1.2s ease-in-out infinite; }

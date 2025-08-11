@@ -758,8 +758,8 @@ User preferences from `issue` (2025‑08‑11):
 - Summary: Added token-driven section dividers with optional accent, lightweight decorative icons, and subtle label chips in `MemberForm`; all styles map to `@theme` tokens and respect a11y.
 - Details: See Completed Log → [E11‑T3](family-tree/docs/completed-tasks.md#e11-t3)
 
-### E11‑T4: Micro‑Interactions & Motion Polish (P2‑HIGH)
-- **Status**: In Progress
+### E11‑T4: Micro‑Interactions & Motion Polish (P2‑HIGH) ✅
+- **Status**: Completed - 2025-08-11 | Branch: `improvement-e11-t4-micro-interactions`
 - **Primary Agent**: @dev (James)
 - **Supporting Agents**: @qa (Quinn)
 - **Description**: Add subtle elevation/scale on CTA press, refined focus rings, and section reveal transitions.
@@ -772,7 +772,8 @@ User preferences from `issue` (2025‑08‑11):
   - Pure CSS transitions with GPU‑friendly properties (e.g., `transition-[opacity,transform] duration-150 ease-out` and `will-change-transform`); keep JS logic unchanged
   - Pressed CTA example: `active:scale-[.98] active:shadow-[var(--elevation-2)]`
   - Motion reduce: wrap transitions in `@media (prefers-reduced-motion: no-preference)` or Tailwind motion utilities
-- **Branch**: `improvement-e11-t4-micro-interactions`
+- **Summary**: Added token-driven hover/pressed/focus behaviors, section reveal with motion-reduce support, and GPU-friendly transitions without JS changes.
+- **Details**: See Completed Log → [E11‑T4](family-tree/docs/completed-tasks.md#e11-t4)
 
 ### E11‑T5: A11y/Contrast & Test Updates (P1‑CRITICAL)
 - **Status**: Pending

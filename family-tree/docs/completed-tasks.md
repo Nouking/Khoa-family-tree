@@ -1040,4 +1040,24 @@ FamilyTree (Root)
   - A11y: Decorative icons hidden from SR; any meaningful icons must use `role="img"` + `aria-label`
   - Tests: Full suite remains green (123/123)
 
+<a id="e11-t4"></a>
+#### E11‑T4: Micro‑Interactions & Motion Polish (P2‑HIGH)
+- Status: Completed - 2025-08-11 | Branch: `improvement-e11-t4-micro-interactions`
+- Summary: Token-driven hover/press/focus behaviors, section reveal animation respecting prefers-reduced-motion; GPU-friendly transitions; no JS changes.
+
+- Implementation Notes:
+  - Buttons: `.btn-primary`, `.btn-outline`, and `.btn-primary--gradient` use tokenized transitions (transform, shadow, background-color) with subtle active feedback (scale .98, elevation-2).
+  - Reduced Motion: Added media-query guard to disable transitions/transform/shadow on the above button classes when `prefers-reduced-motion: reduce` is set; also ensured gradient variant aligns with accessibility preferences.
+  - Section Reveal: Used `@keyframes reveal-fade-up` and `.u-section-reveal` for subtle content entrance. Applied `motion-reduce:animate-none` to modal content container to fully disable the effect when preferred.
+  - Performance: Kept animations GPU‑friendly (transform/opacity only) and maintained existing `transform-gpu` usage in modal container to avoid layout thrash; JS logic unchanged.
+  - Accessibility: Focus-visible outlines remain token-driven; micro‑interactions respect user motion preferences via Tailwind `motion-reduce:*` utilities and CSS media queries.
+
+- Files Modified:
+  - `family-tree/app/globals.css`
+  - `family-tree/app/components/Modal.tsx`
+
+- Verification Notes:
+  - Full Jest suite passed (11/11, 123/123).
+  - Manual check confirms smooth hover/press on desktop; motion-reduce disables micro‑interactions appropriately; no layout shift introduced.
+
 *See [Task Tracking](./task-tracking.md) for current active tasks.*

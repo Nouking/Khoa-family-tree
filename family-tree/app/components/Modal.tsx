@@ -199,7 +199,7 @@ const Modal: React.FC<ModalProps> = ({
         </div>
 
         {/* Modal Content */}
-        <div className="p-6 @container u-section-reveal" data-modal-content id="modal-description">
+        <div className="p-6 @container u-section-reveal motion-reduce:animate-none" data-modal-content id="modal-description">
           {children}
         </div>
       </div>
