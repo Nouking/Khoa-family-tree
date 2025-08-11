@@ -753,22 +753,10 @@ User preferences from `issue` (2025‑08‑11):
 - Summary: Header accent supports flat/gradient via tokens; primary CTA supports gradient variant with tokenized hover/active/focus, motion‑reduce respected; tests updated; no color hardcoding.
 - Details: See Completed Log → [E11‑T2](family-tree/docs/completed-tasks.md#e11-t2)
 
-### E11‑T3: Expressive Dividers, Chips, and Section Icons (P2‑HIGH)
-- **Status**: In Progress
-- **Primary Agent**: @ux‑expert (Sally)
-- **Supporting Agents**: @dev (James), @po (Sarah)
-- **Description**: Introduce colored dividers, optional small chips for section labels (e.g., “Required”), and lightweight section icons to boost scannability without clutter.
-- **Acceptance Criteria**:
-  - Dividers: tokenized colored dividers for section headers (subtle, AA compliant)
-  - Chips: tokenized backgrounds/borders; keyboard and SR text preserved
-  - Section icons: decorative only, hidden from SR or labeled appropriately
-- **Implementation Details**:
-  - Files: `app/components/shared/MemberForm.tsx`, `app/globals.css`
-  - Extend `MemberForm` section header markup minimally (optional chip span/icon slot)
-  - Example classes: divider `border-t border-(--color-neutral-100) data-[accent=true]:border-(--color-accent)`, chip `inline-flex items-center gap-1 rounded-[var(--radius-sm)] px-2 py-0.5 text-(--text-xs) bg-[color-mix(in_oklch,_var(--color-accent),_white_85%)] text-(--color-neutral-800)` with `aria-hidden="true"` for purely decorative icons
-  - Document exact classes/tokens in spec; no functional changes
-  - Non‑dev note: if icons added, ensure `role="img"` with `aria-label` only when conveying meaning; otherwise `aria-hidden="true"`
-- **Branch**: `improvement-e11-t3-dividers-chips-icons`
+### E11‑T3: Expressive Dividers, Chips, and Section Icons (P2‑HIGH) ✅
+- Status: Completed - 2025-08-11 | Branch: `improvement-e11-t3-dividers-chips-icons`
+- Summary: Added token-driven section dividers with optional accent, lightweight decorative icons, and subtle label chips in `MemberForm`; all styles map to `@theme` tokens and respect a11y.
+- Details: See Completed Log → [E11‑T3](family-tree/docs/completed-tasks.md#e11-t3)
 
 ### E11‑T4: Micro‑Interactions & Motion Polish (P2‑HIGH)
 - **Status**: Pending
