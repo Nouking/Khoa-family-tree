@@ -671,216 +671,181 @@ Tasks are assigned primary agents with supporting agents based on expertise over
 - [E6-T2] ✅ Enhanced Modal System (animations, focus trap)
 - [E5-T1] ✅ Design System Foundation (tokens)
 
-### E10-T1: UX Audit & Front-End Spec (P1-CRITICAL)
-- **Status**: Completed - 2025-08-10
-- **Primary Agent**: @ux-expert (Sally)
-- **Supporting Agents**: @pm (John), @po (Sarah), @architect (Winston)
-- **Description**: Perform a quick UX audit of current modals, then author a precise front-end spec mapping the reference mock to implementable components, tokens, and states.
-- **Acceptance Criteria**:
-  - GIVEN the current Add/Edit modals
-  - WHEN the audit is completed
-  - THEN a front-end spec exists with: layout structure, spacing, typography, color usage (primary/accent), section groupings, and state diagrams (idle/loading/error/success), APG/WCAG a11y notes, and mobile bottom-sheet specifics
-  - AND annotated screenshots referencing `example/UI-family-tree-09-08-2025_add_modal.jpg`
-  - AND explicit mapping to existing tokens in `globals.css` (header accent, borders, focus rings, errors, elevation, radii)
-  - AND all downstream tasks (E10-T3 → E10-T10) are updated with concrete implementation notes derived from the spec (classes/tokens/screenshots refs) by appending to each task's description
-- **Implementation Details**:
-  - Document in `family-tree/docs/implementation-notes.md` under a new "Modal Redesign" section
-  - Specify class utilities and token variables to be applied
-  - Note any token gaps (propose additions if truly needed)
-  - Output artifacts: Spec doc section link, annotated screenshots, token map, QA acceptance checklist excerpt
-  - Mandatory update cascade: After spec approval, update the descriptions of E10-T3 → E10-T10 with specific directives and references taken from the spec
-  - Tracking: Add a short "Spec Impact Summary" bullet list to each affected task
-- **Spec Artifacts (created)**:
-  - Doc: `family-tree/docs/implementation-notes.md` → section "Modal Redesign (E10-T1)"
-  - Image: `family-tree/docs/assets/e10-modal/reference-add-modal.jpg`
-  - Annotations: `family-tree/docs/assets/e10-modal/annotations.md`
-- **Summary**: Front-end spec completed per acceptance criteria (layout, spacing, typography, color/tokens map, sections, states, APG/WCAG notes, mobile bottom sheet). Downstream tasks E10-T3 → E10-T10 updated with Spec Impact Summaries.
-- **Branch**: `improvement-e10-t1-modal-spec`
+### E10-T1: UX Audit & Front-End Spec (P1-CRITICAL) ✅
+- Status: Completed - 2025-08-10 | Branch: `improvement-e10-t1-modal-spec`
+- Summary: Front-end spec completed per acceptance criteria; downstream tasks updated with Spec Impact Summaries.
+- Details: See Completed Log → [E10-T1](family-tree/docs/completed-tasks.md#e10-t1)
 
-### E10-T2: Visual Style & Token Application Plan (P1-HIGH)
-- **Status**: Completed - 2025-08-10
+### E10-T2: Visual Style & Token Application Plan (P1-HIGH) ✅
+- Status: Completed - 2025-08-10 | Branch: `improvement-e10-t2-token-plan`
+- Summary: Token application plan documented with contrast notes; Tailwind v4 CSS-first tokens confirmed.
+- Details: See Completed Log → [E10-T2](family-tree/docs/completed-tasks.md#e10-t2)
+
+### E10-T3: Modal Shell Polish (Header/Backdrop/Layout) (P1-HIGH) ✅
+- Status: Completed - 2025-08-10 | Branch: `improvement-e10-t3-modal-shell-polish`
+- Summary: Header accent, backdrop blur, container radius/elevation tokens applied; a11y preserved; tests green.
+- Details: See Completed Log → [E10-T3](family-tree/docs/completed-tasks.md#e10-t3)
+
+### E10-T4: MemberForm Layout & Sections Redesign (P1-CRITICAL) ✅
+- Status: Completed - 2025-08-10 | Branch: `improvement-e10-t4-memberform-redesign`
+- Summary: MemberForm restructured into clear, tokenized sections; behavior preserved; a11y improved.
+- Details: See Completed Log → [E10-T4](family-tree/docs/completed-tasks.md#e10-t4)
+
+### E10-T5: Photo Uploader Polish (Preview/Actions) (P2-HIGH) ✅
+- Status: Completed - 2025-08-10 | Branch: `improvement-e10-t5-photo-uploader-polish`
+- Summary: .btn-outline trigger, tokenized focus, rounded avatar preview, accessible delete badge; no new deps.
+- Details: See Completed Log → [E10-T5](family-tree/docs/completed-tasks.md#e10-t5)
+
+### E10-T6: Validation & Error State Styling (P1-HIGH) ✅
+- Status: Completed - 2025-08-11 | Branch: `improvement-e10-t6-validation-states`
+- Summary: Standardized invalid styles and ARIA wiring; eliminated layout shift; focus rings unchanged.
+- Details: See Completed Log → [E10-T6](family-tree/docs/completed-tasks.md#e10-t6)
+
+
+### E10-T7: Responsive & Mobile Bottom Sheet Variant (P1-HIGH) ✅
+- Status: Completed - 2025-08-11 | Branch: `improvement-e10-t7-mobile-bottom-sheet`
+- Summary: Enforced dvh height, safe areas, no top rounding; tap targets sized; keyboard avoidance verified.
+- Details: See Completed Log → [E10-T7](family-tree/docs/completed-tasks.md#e10-t7)
+
+### E10-T8: A11y & Keyboard Flow Validation (P1-CRITICAL) ✅
+- Status: Completed - 2025-08-11 | Branch: `improvement-e10-t8-a11y-validation`
+- Summary: Keyboard flows, labeling, and AA contrast validated; tokenized focus indicators asserted in tests.
+- Details: See Completed Log → [E10-T8](family-tree/docs/completed-tasks.md#e10-t8)
+
+### E10-T9: Tests & Regression Suite Update (P2-HIGH) ✅
+- Status: Completed - 2025-08-11 | Branch: `improvement-e10-t9-tests-update`
+- Summary: Updated tests to assert token-driven UI and a11y flows; full suite green; stable selectors.
+- Details: See Completed Log → [E10-T9](family-tree/docs/completed-tasks.md#e10-t9)
+
+### E10-T10: PO Review & Acceptance (P1-HIGH) ✅
+- Status: Completed - 2025-08-11 | Branch: `improvement-e10-t10-po-acceptance`
+- Summary: PO sign‑off complete; visuals and behavior match spec; artifacts added to docs.
+- Details: See Completed Log → [E10-T10](family-tree/docs/completed-tasks.md#e10-t10)
+
+---
+
+## Epic 11: Notion‑Inspired Modal Color & Motion Polish ✨
+**Priority**: High | **Estimated Timeline**: 2–4 days
+
+**Goal**: Evolve the Add/Edit Member modals to feel more colorful, beautiful, and expressive while staying fully token‑driven, accessible, and performant. Design inspiration: Notion’s clean, expressive visual language (use as directional reference, not a 1:1 copy).
+
+User preferences from `issue` (2025‑08‑11):
+- Subtle accents (not overwhelming)
+- Allow soft OKLCH gradients in headers/CTAs
+- Keep primary (warm blue) as hero; allow accent pink for highlights
+- More expressive vibe (chips, gradient headers, colored dividers)
+- Add a few micro‑interactions (focus/press, subtle reveals)
+
+### Dependencies
+- [E10] ✅ Modal spec, token plan, mobile bottom‑sheet, a11y/tests complete
+- [E5‑T1] ✅ Design tokens present in `app/globals.css`
+
+### Mandatory Pre‑Work (applies to all E11 tasks)
+- Before starting any E11 task, read `family-tree/docs/implementation-notes.md` → `Notion‑Inspired Color & Motion Polish (Epic 11)` and the corresponding subsection for your task to align on tokens, classes, a11y, and examples.
+
+### E11‑T1: Gradient & Accent Token Mapping (P1‑CRITICAL)
+- **Status**: Pending
 - **Primary Agent**: @architect (Winston)
-- **Supporting Agents**: @ux-expert (Sally), @dev (James)
-- **Description**: Define how brand, accent, and neutral tokens will be applied to the modal shell, section headers, inputs, buttons, and focus states for consistent theming.
+- **Supporting Agents**: @ux‑expert (Sally), @dev (James)
+- **Description**: Define a tiny set of gradient utilities and accent mappings using existing tokens (no hardcoded hex). Document where/how gradients and accents can be used (headers/CTAs/dividers/chips) without hurting readability.
 - **Acceptance Criteria**:
-  - Plan lists specific token variables (e.g., `--color-primary`, `--color-accent`, `--radius-lg`, `--elevation-3`) and where they apply (header accent, dividers, inputs, buttons, focus ring, errors, elevation)
-  - No hardcoded colors in components beyond tokens
-  - Accessibility contrast verified (AA minimum)
+  - GIVEN token‑first styling
+  - WHEN adding gradients
+  - THEN gradients are expressed via CSS vars and Tailwind v4 arbitrary values; no raw hex in components
+  - AND AA contrast is verified for text and non‑text UI
+  - AND performance unaffected (no layout shift)
 - **Implementation Details**:
-  - Add a short "Token Application" table in the spec from E10-T1
-  - Confirm no Tailwind config changes are required (Tailwind v4 CSS-first already in use)
-  - Output artifacts: Token application table, a11y contrast notes
-  - Mandatory update cascade: Append token usage guidance and a11y notes to E10-T3 → E10-T9 task descriptions so implementation is aligned
-  - Tracking: Include a "Token Notes" sub-bullet in each affected task listing exact tokens per area (header, inputs, buttons)
-- **Artifacts**:
-  - Spec update: `family-tree/docs/implementation-notes.md` → section "Token Application (E10-T2)"
-  - Contrast and AA notes included; Tailwind v4 `@theme` tokens confirmed
-- **Branch**: `improvement-e10-t2-token-plan`
+  - Extend `family-tree/docs/implementation-notes.md` → “Modal Redesign” with a “Gradients & Accents (E11‑T1)” subsection including: sample class strings (OKLCH mix), usage dos/donts, contrast notes
+  - Keep to 1–2 gradient recipes max (header bar, primary CTA)
+  - Add a short "Research Log (E11‑T1)" sub‑section with findings and links; if a non‑dev agent executes, include screenshots from [Notion](https://www.notion.com) for reference and map to tokens
+  - Output a compact token map table: token → usage area (header/CTA/divider/chip)
+- **Branch**: `improvement-e11-t1-gradient-accent-mapping`
 
-### E10-T3: Modal Shell Polish (Header/Backdrop/Layout) (P1-HIGH)
-- **Status**: Completed - 2025-08-10
+### E11‑T2: Modal Header & Primary CTA Polish (P1‑HIGH)
+- **Status**: Pending
 - **Primary Agent**: @dev (James)
-- **Supporting Agents**: @ux-expert (Sally), @qa (Quinn)
-- **Description**: Update `app/components/Modal.tsx` styling to match spec: colorful but tasteful header, refined close button, backdrop blur, consistent paddings, and size variants.
+- **Supporting Agents**: @ux‑expert (Sally), @qa (Quinn)
+- **Description**: Apply subtle header accent (optionally gradient) and update primary CTA style to allow gradient variant while preserving existing `.btn-primary` semantics.
 - **Acceptance Criteria**:
-  - Header uses tokenized color accents (e.g., subtle bottom border or left accent bar using `--color-primary`)
-  - Close button hover/focus styles use token colors and visible focus ring
-  - Backdrop uses blur and opacity tokens without hurting readability
-  - Spacing scales correctly at all sizes (`small|medium|large|fullscreen`)
-  - All modal a11y behaviors remain (focus trap, ESC, click-out); ensure `aria-modal`, labeled title, and initial focus placement
+  - Header: tokenized accent bar supports flat or soft gradient variant
+  - Primary CTA: optional gradient background variant with tokenized focus ring; hover/pressed states token‑driven
+  - No color hardcoding; AA contrast met; motion‑reduce respected
 - **Implementation Details**:
-  - Implemented tokenized header accent via left bar: `absolute left-0 top-0 h-full w-1 bg-(--color-primary) rounded-l-[var(--radius-lg)]` (desktop-only) in `app/components/Modal.tsx`
-  - Close button focus styles include `focus-visible:outline-2 focus-visible:outline-(--color-primary) focus-visible:outline-offset-2`
-  - Backdrop uses `bg-black/50 supports-[backdrop-filter]:bg-black/25 supports-[backdrop-filter]:backdrop-blur` and transitions preserved
-  - Container retains `rounded-[var(--radius-lg)] shadow-[var(--elevation-3)]`, size classes, and mobile `max-sm:h-[100dvh]` with no top rounding
-  - Motion-reduce respected; logic untouched; all tests pass (`Modal.test.tsx` and full suite)
-  - Spec Impact Summary: Header accent via tokenized left bar; backdrop blur/opacity tokens; container radius/elevation tokens applied
-- **Token Notes**:
-  - Header: `--color-primary`; Border/Divider: `--color-neutral-100`; Title: `--text-xl` + `--font-weight-semibold`
-  - Close button focus: `focus-visible:outline-(--color-primary)` with `outline-offset-2`; radius: `--radius-sm`
-  - Container: `--surface-1`, `--radius-lg`, `--elevation-3`
-- **Branch**: `improvement-e10-t3-modal-shell-polish`
+  - Files: `app/components/Modal.tsx`, `app/components/AddMemberModal.tsx`, `app/components/EditMemberModal.tsx`, `app/globals.css`
+  - Update `Modal.tsx` header accent element to accept a `gradient` style via class toggle (presentational)
+  - In `AddMemberModal`/`EditMemberModal`, pass a header style prop (e.g., `headerStyle="gradient"`) to demonstrate usage; keep default as flat
+  - Add a `.btn-primary--gradient` class (CSS‑only) mapped to tokens in `globals.css`; do not change button logic
+  - Example classes (Tailwind v4): `bg-[color-mix(in_oklch,_var(--color-primary),_white_6%)] hover:bg-[color-mix(in_oklch,_var(--color-primary),_black_8%)] text-(--color-primary-contrast) focus-visible:outline-(--color-primary)`
+  - Non‑dev note: capture before/after screenshots and attach to E11‑T6
+- **Branch**: `improvement-e11-t2-modal-header-cta`
 
-### E10-T4: MemberForm Layout & Sections Redesign (P1-CRITICAL)
-- **Status**: Completed - 2025-08-10
+### E11‑T3: Expressive Dividers, Chips, and Section Icons (P2‑HIGH)
+- **Status**: Pending
+- **Primary Agent**: @ux‑expert (Sally)
+- **Supporting Agents**: @dev (James), @po (Sarah)
+- **Description**: Introduce colored dividers, optional small chips for section labels (e.g., “Required”), and lightweight section icons to boost scannability without clutter.
+- **Acceptance Criteria**:
+  - Dividers: tokenized colored dividers for section headers (subtle, AA compliant)
+  - Chips: tokenized backgrounds/borders; keyboard and SR text preserved
+  - Section icons: decorative only, hidden from SR or labeled appropriately
+- **Implementation Details**:
+  - Files: `app/components/shared/MemberForm.tsx`, `app/globals.css`
+  - Extend `MemberForm` section header markup minimally (optional chip span/icon slot)
+  - Example classes: divider `border-t border-(--color-neutral-100) data-[accent=true]:border-(--color-accent)`, chip `inline-flex items-center gap-1 rounded-[var(--radius-sm)] px-2 py-0.5 text-(--text-xs) bg-[color-mix(in_oklch,_var(--color-accent),_white_85%)] text-(--color-neutral-800)` with `aria-hidden="true"` for purely decorative icons
+  - Document exact classes/tokens in spec; no functional changes
+  - Non‑dev note: if icons added, ensure `role="img"` with `aria-label` only when conveying meaning; otherwise `aria-hidden="true"`
+- **Branch**: `improvement-e11-t3-dividers-chips-icons`
+
+### E11‑T4: Micro‑Interactions & Motion Polish (P2‑HIGH)
+- **Status**: Pending
 - **Primary Agent**: @dev (James)
-- **Supporting Agents**: @ux-expert (Sally), @qa (Quinn)
-- **Description**: Redesign `app/components/shared/MemberForm.tsx` with clear sections and tasteful color usage: Basic Info, Dates, Photo, Contact, Relations, Biography, and (edit-only) Canvas Position & Size.
+- **Supporting Agents**: @qa (Quinn)
+- **Description**: Add subtle elevation/scale on CTA press, refined focus rings, and section reveal transitions.
 - **Acceptance Criteria**:
-  - Section headers styled with neutral typography and a thin accent divider using tokens
-  - Inputs have improved focus states, subtle shadows, and rounded corners per tokens; maintain `aria-invalid` and helper associations
-  - Visual hierarchy matches the mock; form remains compact and readable
-  - No functionality removed; validation preserved
+  - Hover/pressed/focus rings reflect tokens consistently across buttons/inputs
+  - Section reveal uses subtle transition; respects `prefers-reduced-motion`
+  - No jank; 60fps target on desktop, no layout shift
 - **Implementation Details**:
-  - Group sections using semantic `<section>` with `aria-labelledby`, separators `border-t border-(--color-neutral-100) pt-4`, and tokenized titles
-  - Inputs upgraded with subtle `shadow-sm`, `focus:ring-(--color-primary)` and `focus:border-(--color-primary)`; `aria-invalid` and `aria-describedby` wired to `*-error` ids
-  - Photo area retains `.btn-outline`; preview `rounded-full`; delete badge uses `bg-(--color-error)` per spec
-  - Actions row unchanged: `.btn-primary` and `.btn-outline`
-  - Keep DOM minimal; logic untouched; validation call remains
-  - Spec Impact Summary: Section separators `border-t border-(--color-neutral-100) pt-4`; inputs `focus:ring-(--color-primary) border-(--color-neutral-200) shadow-sm`; errors `border-(--color-error)/40 text-(--color-error)`; labels use `text-sm font-medium text-(--color-neutral-700)`
-  - Tests: Full suite green (11/11); no linter errors introduced
-  - Files: `app/components/shared/MemberForm.tsx`
-- **Token Notes**:
-  - Labels: `--color-neutral-700` `--text-sm` `--font-weight-medium`
-  - Inputs: default `--color-neutral-200`; focus `--color-primary`; radius `--radius-md`
-  - Errors: `--color-error` (border/text)
-- **Branch**: `improvement-e10-t4-memberform-redesign`
-- **Summary**: MemberForm restructured into clear, tokenized sections with ARIA wiring; visual hierarchy improved; behavior preserved.
+  - Files: `app/components/shared/MemberForm.tsx`, `app/components/Modal.tsx`, `app/globals.css`
+  - Pure CSS transitions with GPU‑friendly properties (e.g., `transition-[opacity,transform] duration-150 ease-out` and `will-change-transform`); keep JS logic unchanged
+  - Pressed CTA example: `active:scale-[.98] active:shadow-[var(--elevation-2)]`
+  - Motion reduce: wrap transitions in `@media (prefers-reduced-motion: no-preference)` or Tailwind motion utilities
+- **Branch**: `improvement-e11-t4-micro-interactions`
 
-### E10-T5: Photo Uploader Polish (Preview/Actions) (P2-HIGH)
-- **Status**: Completed - 2025-08-10
-- **Primary Agent**: @dev (James)
-- **Supporting Agents**: @ux-expert (Sally)
-- **Description**: Refine the photo upload area with clearer affordances and tidy preview/delete affordance aligned to tokens.
-- **Acceptance Criteria**:
-  - Choose/Change Photo button uses `.btn-outline`; hover/active match tokens
-  - Preview avatar uses rounded, consistent size; delete affordance is visible, accessible, token-colored
-  - Validation errors appear beneath with `--color-error` and are announced to screen readers when applicable
-- **Implementation Details**:
-  - Maintain existing base64 approach; no new dependencies
-  - Ensure button/controls are keyboard-accessible
-  - Spec Impact Summary: Use `.btn-outline` for choose/change, preview `rounded-full` sizing, delete badge uses `bg-(--color-error)`; errors `text-(--color-error)`
-- **Token Notes**:
-  - Buttons: `.btn-outline`
-  - Delete badge: `--color-error`
-  - Preview radius: `--radius-full` via `rounded-full`
-- **Branch**: `improvement-e10-t5-photo-uploader-polish`
-- **Summary**: Polished photo uploader per spec: `.btn-outline` trigger with tokenized focus ring, ref-based file input, rounded avatar preview, accessible delete badge using `bg-(--color-error)`, and proper ARIA labeling/associations. Base64 flow preserved; keyboard access verified. No new dependencies.
-
-### E10-T6: Validation & Error State Styling (P1-HIGH)
-- **Status**: Completed - 2025-08-11 | Branch: `improvement-e10-t6-validation-states`
+### E11‑T5: A11y/Contrast & Test Updates (P1‑CRITICAL)
+- **Status**: Pending
 - **Primary Agent**: @qa (Quinn)
 - **Supporting Agents**: @dev (James), @po (Sarah)
-- **Description**: Standardize error text, borders, and helper messages across the form using semantic tokens.
+- **Description**: Extend tests to assert presence of gradient/accent classes, contrast compliance cues, motion‑reduce behavior, and no layout shift on error/interactive states.
 - **Acceptance Criteria**:
-  - Invalid fields: border uses `--color-error` (with subtle transparency) and message in `--color-error`
-  - Screen reader announcements for error summaries maintained; ensure error regions are programmatically associated
-  - No layout shift on error appearance
+  - Tests assert token/gradient class presence (no hex matching)
+  - Keyboard/focus flows unchanged and validated
+  - Mobile bottom‑sheet behavior unaffected
 - **Implementation Details**:
-  - Review `MemberFormErrors` rendering and class names
-  - Add aria-invalid and aria-describedBy where appropriate
-  - Spec Impact Summary: Standardize invalid borders `border-(--color-error)/40`, helper `text-(--color-error)`, preserve screen reader announcements, no layout shift
-- **Token Notes**:
-  - Error border/text: `--color-error`
-  - Help text: `--color-error`; focus ring remains `--color-primary`
-- **Branch**: `improvement-e10-t6-validation-states`
-- **Implementation Notes**:
-  - Updated `app/components/shared/MemberForm.tsx` to wrap each error in a stable container (`min-h-[20px]`) to prevent layout shifts and added `role="alert"` with `aria-live=polite` for announcements. Inputs now consistently toggle `aria-invalid` and link to errors via `aria-describedby`.
+  - Update `app/components/__tests__/Modal.test.tsx`, `app/components/__tests__/AddMemberModal.test.tsx`, `app/components/__tests__/EditMemberModal.test.tsx`, `app/components/__tests__/MemberForm.test.tsx`
+  - Add assertions for: gradient header class toggle, `.btn-primary--gradient`, colored dividers/chips presence, micro‑interaction classes, `prefers-reduced-motion` behavior, AA contrast helper utilities where detectable
+  - Use token/utility presence as selectors; avoid raw hex expectations
+- **Branch**: `improvement-e11-t5-a11y-tests`
 
-
-### E10-T7: Responsive & Mobile Bottom Sheet Variant (P1-HIGH)
-- **Status**: Completed - 2025-08-11 | Branch: `improvement-e10-t7-mobile-bottom-sheet`
-- **Primary Agent**: @dev (James)
-- **Supporting Agents**: @ux-expert (Sally), @qa (Quinn)
-- **Description**: Ensure modals adapt to small screens with a bottom-sheet feel (already partially supported). Polish paddings, full-height behavior, and safe-area respect.
-- **Acceptance Criteria**:
-  - On small screens, modal uses full height with proper `dvh` handling and rounded top corners disabled
-  - Paddings and tap targets meet mobile guidelines (≥ 44px targets; ≥ 8px spacing)
-  - Keyboard avoidance verified (no hidden inputs under OS keyboard)
-- **Implementation Details**:
-  - Leverage existing `max-sm:w-screen max-sm:h-[100dvh] max-sm:rounded-none`
-  - Add safe-area paddings if needed
-  - Spec Impact Summary: Ensure tap target sizing, dvh height, safe-area padding, container query-based internal layout using `@container`, and keyboard avoidance
-- **Token Notes**:
-  - Small screens remove top radius (`rounded-none`); maintain focus ring `--color-primary`
-  - Surfaces remain `--surface-1`; borders `--color-neutral-100`
-- **Branch**: `improvement-e10-t7-mobile-bottom-sheet`
-- **Implementation Notes**:
-  - Confirmed and enforced mobile classes in `app/components/Modal.tsx`: `max-sm:h-[100dvh]` and `max-sm:rounded-none`. Added `aria-describedby` pointing to content container (`#modal-description`) for APG alignment.
-
-### E10-T8: A11y & Keyboard Flow Validation (P1-CRITICAL)
-- **Status**: Completed - 2025-08-11 | Branch: `improvement-e10-t8-a11y-validation`
-- **Primary Agent**: @qa (Quinn)
-- **Supporting Agents**: @po (Sarah)
-- **Description**: Validate all keyboard and screen reader flows after redesign. Confirm labels, roles, and announcements are correct.
-- **Acceptance Criteria**:
-  - Tab order correct; focus trap working; ESC and click-out behave
-  - Labels and descriptions present for all inputs; error messages associated
-  - Meets WCAG AA color contrast (text and non-text UI); APG modal behavior verified
-- **Implementation Details**:
-  - Update or add unit/integration tests for focus and a11y where feasible
-- Spec Impact Summary: Use spec "Accessibility (APG/WCAG)" for verification: ensure `role="dialog"`, `aria-modal`, labeled title (`aria-labelledby`), proper `aria-describedby` where used; verify visible focus rings using `--color-primary`; confirm AA contrast for text and non-text UI; validate error association patterns from spec (invalid borders `border-(--color-error)/40`, helper `text-(--color-error)`); include mobile bottom-sheet checks (full-height `100dvh`, safe-area padding, tap target sizes ≥ 44px).
-- **Token Notes**:
-  - Focus indicators: `--color-primary`
-  - Non-text UI contrast: borders `--color-neutral-200`, errors `--color-error`
-- **Branch**: `improvement-e10-t8-a11y-validation`
-- **Implementation Notes**:
-  - Added `aria-describedby` and `id="modal-description"` in `Modal.tsx`. Tests expanded to assert accent bar, blur backdrop, mobile bottom-sheet classes, and `aria-describedby` association. Keyboard trap and ESC behaviors remain validated by existing tests.
-
-### E10-T9: Tests & Regression Suite Update (P2-HIGH)
-- **Status**: Completed - 2025-08-11 | Branch: `improvement-e10-t9-tests-update`
-- **Primary Agent**: @qa (Quinn)
-- **Supporting Agents**: @dev (James)
-- **Description**: Update component tests in `app/components/__tests__` for `AddMemberModal`, `EditMemberModal`, and `MemberForm` to reflect the new UI and preserve behavior.
-- **Acceptance Criteria**:
-  - All existing tests pass with updated snapshots/selectors
-  - New tests cover key interactions (open/close, submit, validation, photo upload)
-  - No flaky tests introduced
-- **Implementation Details**:
-  - Validate aria attributes and visible labels in tests
-- Spec Impact Summary: Update tests to assert tokenized UI per spec: header accent element present (either `before:bg-(--color-primary)` bar or `border-l-4 border-(--color-primary)`), backdrop blur classes `supports-[backdrop-filter]:backdrop-blur bg-black/50`, container radius/elevation `rounded-[var(--radius-lg)] shadow-[var(--elevation-3)]`, inputs `focus:ring-(--color-primary) border-(--color-neutral-200)`, error states `border-(--color-error)/40 text-(--color-error)`, and mobile bottom-sheet behavior (`max-sm:h-[100dvh]`, no top rounding). Prefer stable, token-based selectors over hardcoded colors.
-- **Token Notes**:
-  - Test selectors should target presence of token-driven classes rather than raw hex values.
-- **Branch**: `improvement-e10-t9-tests-update`
-- **Implementation Notes**:
-  - Enhanced `Modal.test.tsx` to assert blur/backdrop classes, header accent bar, mobile bottom-sheet classes, and description association. Updated `AddMemberModal.test.tsx` to assert `role="alert"`, `aria-invalid`, and association for validation messages. Full suite green (123/123).
-
-### E10-T10: PO Review & Acceptance (P1-HIGH)
-- **Status**: Completed - 2025-08-11
+### E11‑T6: PO/UX Acceptance & Docs (P1‑HIGH)
+- **Status**: Pending
 - **Primary Agent**: @po (Sarah)
-- **Supporting Agents**: @pm (John), @ux-expert (Sally)
-- **Description**: Review the implemented modals against the spec and the reference mock; verify acceptance criteria; sign-off.
+- **Supporting Agents**: @ux‑expert (Sally), @pm (John)
+- **Description**: Validate final visuals vs. preferences and spec; capture screenshots for onboarding/help docs.
 - **Acceptance Criteria**:
-  - PO checklist satisfied; acceptance criteria met across tasks E10-T1 → E10-T9
-  - Screenshots captured for docs and added to `family-tree/docs/onboarding-help.md` or implementation notes
+  - Subtle accents, optional soft gradients in headers/CTAs applied
+  - Primary remains warm blue; accent pink used for highlights only
+  - More expressive dividers/chips/icons present but not overwhelming
+  - Micro‑interactions added; motion‑reduce respected; AA contrast met
 - **Implementation Details**:
-  - Verified against spec artifacts: `family-tree/docs/implementation-notes.md#modal-redesign-e10-t1` and annotated image notes
-  - Verified token usage and behaviors: header accent `--color-primary`, dividers `--color-neutral-100|200`, focus ring `--color-primary`, errors `--color-error`, container `--elevation-3`/`--radius-lg`, mobile bottom sheet `100dvh` + safe-area; APG modal semantics (`role="dialog"`, `aria-modal`, `aria-labelledby`, `aria-describedby`) present
-  - Screenreader/keyboard flow validated per WAI-ARIA APG Modal Dialog pattern and WCAG AA non-text contrast guidance
-  - Artifacts present: `family-tree/docs/assets/e10-modal/reference-add-modal.jpg`, `family-tree/docs/assets/e10-modal/annotations.md`; links referenced from implementation notes. No gaps requiring follow-up.
-- **PO Sign-off Notes**:
-  - All E10 tasks (T1–T9) match the front-end spec; tests updated in T8–T9 validate a11y and token-driven UI
-  - Context7 references consulted for APG modal dialog and WCAG AA checks
-- **Branch**: `improvement-e10-t10-po-acceptance`
+  - Add before/after screenshots to `family-tree/docs/implementation-notes.md` and/or `family-tree/docs/onboarding-help.md`
+  - Include a short checklist copied into the doc confirming: accents applied, gradients subtle, pink accent used sparingly, chips/icons present and accessible, micro‑interactions added, AA contrast, motion‑reduce respected
+- **Branch**: `improvement-e11-t6-po-ux-acceptance`
+
+### Non‑Dev Research Protocol (Applies to E11‑T1, T2, T3)
+- If a non‑dev agent executes, first collect 3–5 reference screenshots from [Notion](https://www.notion.com) illustrating: subtle gradients, expressive dividers/chips, clean CTA styles.
+- Add a "Research Log" sub‑section under the relevant spec area in `family-tree/docs/implementation-notes.md` with bullet summaries and how each reference maps to our tokens/utilities.
+- After research, append a "Spec Impact Summary" bullet list to the corresponding E11 task describing which tokens/classes will be used and which files will be edited.
+
 
 ---

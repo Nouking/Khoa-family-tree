@@ -1,2 +1,8 @@
-- UI of Add/edit modal is ugly, the current UI is file example\UI-family-tree-09-08-2025_add_modal.jpg, use role .cursor\rules\ux-expert.mdc with support from .cursor\rules\architect.mdc and .cursor\rules\po.mdc, create epic with detail in formation to improve current UI, make it colorful, good looking UI.
-Write new epic/task in file IMPROVEMENT-TASK-TRACKING.md with really detail on each, so AI can work perfect with it. Discuss with me if needed
+- UI of Add/edit modal is ugly, I need UI more colorful, beauty, can refer to this web https://www.notion.com/?ref=godly, use role .cursor\rules\ux-expert.mdc with support from .cursor\rules\architect.mdc and .cursor\rules\po.mdc, create epic with detail in formation to improve current UI, make it colorful, good looking UI.
+Write new epic/task in file IMPROVEMENT-TASK-TRACKING.md with really detail on each, so AI can work perfect with it. Discuss with me if needed.
+
+Clarify before I write/update tasks: subtle accents.
+Gradients: allow soft OKLCH gradients in headers/CTAs: yes.
+Accent color family: keep current primary (warm blue) as hero, and allow accent pink for highlights:yes.
+ Notion vs. godly vibe: minimalist with selective color, or more expressive (chips, gradient headers, colored dividers): more expressive.
+ Motion: subtle transitions only, or add a few micro‑interactions (focus/press states, section reveal): add a few micro‑interactions.

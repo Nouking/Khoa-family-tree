@@ -10,7 +10,8 @@ This document provides a comprehensive plan to enhance the Family Tree applicati
 - Current sync highlights:
   - Epic 5 (Design System Foundation, Member Cards, Toolbar, Canvas) — Completed; tokens live in `app/globals.css`.
   - Epic 6 (Enhanced Modal System, etc.) — Completed; modal focus trap and animations in place.
-  - Epic 10 (Add/Edit Modal UI Redesign) — Active. E10-T3 Modal Shell Polish completed; E10-T4 MemberForm redesign completed on branch `improvement-e10-t4-memberform-redesign`.
+  - Epic 10 (Add/Edit Modal UI Redesign) — Completed (E10‑T1–T10). Modal shell polish, MemberForm sections, photo uploader polish, validation states, mobile bottom‑sheet, a11y validation, and tests are done; PO sign‑off recorded.
+  - Epic 11 (Notion‑Inspired Modal Color & Motion Polish) — Pending. Adds subtle OKLCH gradients, expressive dividers/chips/icons, micro‑interactions. See spec updates in `family-tree/docs/implementation-notes.md`.
     - Spec: `family-tree/docs/implementation-notes.md` → “Modal Redesign (E10-T1)” and `family-tree/docs/assets/e10-modal/annotations.md`.
     - Code: `app/components/Modal.tsx` updated (header accent, backdrop blur, focus styles, tokens); `app/components/shared/MemberForm.tsx` sectioned and tokenized per spec.
 
@@ -502,4 +503,10 @@ All tasks follow established patterns:
 - Implementation alignment:
   - Tokenized header accent, backdrop blur/opacity, container radii/elevation.
   - Mobile bottom-sheet behavior using `max-sm:h-[100dvh]` and `max-sm:rounded-none`.
-  - Inputs, sections, and error states now applied to `MemberForm` (E10-T4); remaining tasks E10-T5–E10-T6 will extend photo and error styling polish.
+  - Inputs, sections, and error states applied to `MemberForm` (E10‑T4). Validation (E10‑T6), mobile bottom‑sheet (E10‑T7), a11y validation (E10‑T8), tests (E10‑T9), and PO sign‑off (E10‑T10) are complete.
+
+## Epic 11: Notion‑Inspired Modal Color & Motion Polish (Summary)
+- Goal: More colorful, beautiful, expressive UI for Add/Edit modals using tokens; Notion‑inspired, not copied.
+- Tasks: E11‑T1 (gradient/accent mapping), E11‑T2 (header/CTA polish), E11‑T3 (dividers/chips/icons), E11‑T4 (micro‑interactions), E11‑T5 (a11y/tests), E11‑T6 (PO/UX acceptance).
+- Files: `app/components/Modal.tsx`, `AddMemberModal.tsx`, `EditMemberModal.tsx`, `shared/MemberForm.tsx`, `app/globals.css`.
+- Research protocol: add screenshots + token mapping into `family-tree/docs/implementation-notes.md` under Epic 11 subsections.

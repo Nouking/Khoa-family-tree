@@ -64,12 +64,37 @@ For any given task ID (e.g., "Task 3.1", "E2-T3"), you MUST:
 - [ ] **Step 1 - Complete Code Implementation**: Finish writing all code changes for the task.
 - [ ] **Step 2 - Update Documentation (MANDATORY BEFORE GIT)**: After code is complete but BEFORE any git operations, you MUST update the following:
   - [ ] Update the task's status in `family-tree/docs/task-tracking.md`
-  - [ ] Move the completed task details to `family-tree/docs/completed-tasks.md`, including any implementation notes
+  - [ ] Update Improvement Plan entries in `IMPROVEMENT-TASK-TRACKING.md` for any E?-T? task you completed using the standardized completed-task format (see template below)
+  - [ ] Move or summarize the completed task in `family-tree/docs/completed-tasks.md` with an anchor and concise notes; if the tracker has full details, keep the archive succinct
   - [ ] Document any issues encountered or deviations from the original plan
   - [ ] Update documentation with your latest achievements
 - [ ] **Step 3 - Perform Git Operations**: ONLY after ALL documentation is updated, proceed with git commits and pushes.
 
 **WARNING**: Skipping Step 2 documentation updates is a critical workflow violation. Always verify documentation is updated before any git commit.
+
+#### Standard Format for Improvement Tasks (Completed)
+When an Improvement task (E?-T?) is marked Completed, enforce this structure in `IMPROVEMENT-TASK-TRACKING.md` and mirror a concise entry in `family-tree/docs/completed-tasks.md`:
+
+```
+### E{epic}-T{task}: {Title} (P{priority}-{level}) ✅
+- Status: Completed - {YYYY-MM-DD} | Branch: `{branch-name}`
+- Summary: {One–two lines; what changed and impact}
+- Details: See Completed Log → [E{epic}-T{task}](family-tree/docs/completed-tasks.md#e{epic}-t{task})
+```
+
+In `completed-tasks.md`, ensure an anchor exists:
+
+```
+<a id="e{epic}-t{task}"></a>
+#### E{epic}-T{task}: {Title} (P{priority}-{level})
+- Status: Completed - {YYYY-MM-DD} | Branch: `{branch-name}`
+- Summary: {Concise result}
+- {Optional sections}: Implementation Notes | Verification Notes | PO Sign-off Notes
+```
+
+Notes:
+- Prefer concise summaries in the archive when `IMPROVEMENT-TASK-TRACKING.md` already contains full details.
+- The `IMPROVEMENT-TASK-TRACKING.md` format should match the style used by entries like `E9-T8` (Title + Priority + ✅, followed by Status | Branch, Summary, and Details link).
 
 ## Working Directory
 

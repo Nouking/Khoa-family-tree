@@ -143,6 +143,55 @@ Spec Impact Summary (applies to downstream tasks E10-T3 → E10-T10)
 - Mobile bottom-sheet behaviors and safe-area notes included
 
 
+### Notion‑Inspired Color & Motion Polish (Epic 11)
+
+Reference inspiration: Notion’s clean, expressive style (directional only, not 1:1). See [Notion](https://www.notion.com).
+
+#### Gradients & Accents (E11‑T1)
+- Tokens only; no hardcoded hex.
+- OKLCH color‑mix examples (Tailwind v4 arbitrary values):
+  - Header bar (subtle): `bg-[color-mix(in_oklch,_var(--color-primary),_white_6%)]`
+  - CTA hover (subtle darken): `hover:bg-[color-mix(in_oklch,_var(--color-primary),_black_8%)]`
+- Token map:
+  - `--color-primary` → Header accent, focus rings, primary CTA base
+  - `--color-accent` → Chips/badges highlights (sparingly)
+  - `--color-neutral-100|200` → Dividers/borders
+- Contrast: Verify AA for text and 1.4.11 for non‑text UI (borders, focus indicators).
+
+Research Log (E11‑T1)
+- Collected 3–5 screenshots illustrating subtle gradients and expressive dividers/chips from Notion.
+- Mapped visuals to our tokens/utilities; kept gradients ≤ 8% mix for subtlety.
+
+#### Modal Header & Primary CTA Polish (E11‑T2)
+- Header accent supports flat or gradient variant via a presentational prop/class.
+- Button gradient variant:
+  - `.btn-primary--gradient`: `bg-[color-mix(in_oklch,_var(--color-primary),_white_6%)] text-(--color-primary-contrast) focus-visible:outline-(--color-primary)`
+  - States: `hover:bg-[color-mix(in_oklch,_var(--color-primary),_black_8%)] active:scale-[.98]`
+- Files: `app/components/Modal.tsx`, `app/components/AddMemberModal.tsx`, `app/components/EditMemberModal.tsx`, `app/globals.css`.
+
+#### Expressive Dividers, Chips, Section Icons (E11‑T3)
+- Dividers: `border-t border-(--color-neutral-100) data-[accent=true]:border-(--color-accent)`
+- Chips (e.g., “Required”): `inline-flex items-center gap-1 rounded-[var(--radius-sm)] px-2 py-0.5 text-(--text-xs) bg-[color-mix(in_oklch,_var(--color-accent),_white_85%)] text-(--color-neutral-800)`
+- Icons: decorative → `aria-hidden="true"`; if meaningful, use `role="img"` + `aria-label`.
+- File: `app/components/shared/MemberForm.tsx`.
+
+#### Micro‑Interactions & Motion Polish (E11‑T4)
+- Transitions: `transition-[opacity,transform] duration-150 ease-out will-change-transform`.
+- CTA pressed: `active:scale-[.98] active:shadow-[var(--elevation-2)]`.
+- Respect motion preferences:
+  - Use Tailwind utilities or wrap in `@media (prefers-reduced-motion: no-preference)`.
+- Files: `Modal.tsx`, `MemberForm.tsx`, `globals.css`.
+
+#### A11y/Contrast & Tests (E11‑T5)
+- Tests assert presence of token/gradient classes, not raw hex.
+- Validate focus/keyboard flows unchanged; mobile bottom‑sheet unaffected.
+- Files: `app/components/__tests__/Modal.test.tsx`, `app/components/__tests__/AddMemberModal.test.tsx`, `app/components/__tests__/EditMemberModal.test.tsx`, `app/components/__tests__/MemberForm.test.tsx`.
+
+#### PO/UX Acceptance & Docs (E11‑T6)
+- Confirm: subtle accents; gradient header/CTA allowed; warm blue primary with pink accent highlights; expressive dividers/chips/icons; micro‑interactions added; AA contrast; motion‑reduce respected.
+- Add before/after screenshots to this doc and/or `family-tree/docs/onboarding-help.md`.
+
+
 ### Canvas-Based Layout System
 
 ```typescript

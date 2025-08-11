@@ -1,6 +1,7 @@
 # Completed Tasks
 
 > **Task Archive** - Completed development tasks with implementation notes
+> Note (@qa, @sm): Each completed task anchor (e.g., `<a id="e10-t6"></a>`) maps to full details in `IMPROVEMENT-TASK-TRACKING.md`. If the corresponding ID there already contains sufficient information, this archive may summarize or omit duplicate details.
 
 ## 📊 Task Completion Log
 
@@ -171,6 +172,21 @@ FamilyTree (Root)
 
 ### Epic 10: Add/Edit Modal UI Redesign
 
+<a id="e10-t1"></a>
+#### E10-T1: UX Audit & Front-End Spec (P1-CRITICAL)
+- Status: Completed - 2025-08-10 | Branch: `improvement-e10-t1-modal-spec`
+- Summary: Spec completed per acceptance criteria (layout, spacing, typography, tokens map, sections, states, APG/WCAG, mobile bottom sheet). Downstream tasks updated with Spec Impact Summaries.
+
+<a id="e10-t2"></a>
+#### E10-T2: Visual Style & Token Application Plan (P1-HIGH)
+- Status: Completed - 2025-08-10 | Branch: `improvement-e10-t2-token-plan`
+- Summary: Token application plan documented with contrast notes; Tailwind v4 CSS-first tokens confirmed; no Tailwind config changes required.
+
+<a id="e10-t3"></a>
+#### E10-T3: Modal Shell Polish (Header/Backdrop/Layout) (P1-HIGH)
+- Status: Completed - 2025-08-10 | Branch: `improvement-e10-t3-modal-shell-polish`
+- Summary: Header accent, backdrop blur, and container radius/elevation tokens applied; a11y preserved; tests green.
+
 <a id="e10-t4"></a>
 #### E10-T4: MemberForm Layout & Sections Redesign (P1-CRITICAL)
 - Status: Completed - 2025-08-10 | Branch: `improvement-e10-t4-memberform-redesign`
@@ -184,6 +200,52 @@ FamilyTree (Root)
   - Photo area retains `.btn-outline`; preview `rounded-full`; delete badge `bg-(--color-error)`
   - Actions row kept as `.btn-outline` and `.btn-primary` within `border-t border-(--color-neutral-100)` container
 - Testing: Full suite passed (11/11); no linter errors introduced
+
+<a id="e10-t5"></a>
+#### E10-T5: Photo Uploader Polish (Preview/Actions) (P2-HIGH)
+- Status: Completed - 2025-08-10 | Branch: `improvement-e10-t5-photo-uploader-polish`
+- Summary: `.btn-outline` trigger with tokenized focus ring, rounded avatar preview, accessible delete badge using `bg-(--color-error)`, ARIA labeling preserved; no new dependencies.
+
+<a id="e10-t6"></a>
+#### E10-T6: Validation & Error State Styling (P1-HIGH)
+- Status: Completed - 2025-08-11 | Branch: `improvement-e10-t6-validation-states`
+- Summary: Standardized invalid styles and ARIA wiring; eliminated layout shift; focus rings unchanged.
+- Implementation Notes:
+  - Wrapped each error message in a stable container `min-h-[20px]` to prevent layout shifts and added `role="alert"` with `aria-live="polite"` for announcements
+  - Inputs consistently toggle `aria-invalid` and link errors via `aria-describedby` to `*-error` ids
+  - Standardized invalid styles: `border-(--color-error)/40` and helper text `text-(--color-error)`; focus ring remains `--color-primary`
+
+<a id="e10-t7"></a>
+#### E10-T7: Responsive & Mobile Bottom Sheet Variant (P1-HIGH)
+- Status: Completed - 2025-08-11 | Branch: `improvement-e10-t7-mobile-bottom-sheet`
+- Summary: Enforced dvh height and safe areas; disabled top rounding on small screens; tap targets sized; keyboard avoidance verified.
+- Implementation Notes:
+  - Enforced mobile classes in `Modal.tsx`: `max-sm:h:[100dvh]` and `max-sm:rounded-none`; ensured safe-area padding as needed
+  - Added `aria-describedby` pointing to `#modal-description` for APG alignment; verified ≥44px tap targets and keyboard avoidance
+
+<a id="e10-t8"></a>
+#### E10-T8: A11y & Keyboard Flow Validation (P1-CRITICAL)
+- Status: Completed - 2025-08-11 | Branch: `improvement-e10-t8-a11y-validation`
+- Summary: Keyboard focus trap, labeling, and contrast validated; tokenized focus indicators asserted in tests.
+- Verification Notes:
+  - Confirmed `role="dialog"`, `aria-modal`, labeled title via `aria-labelledby`, and appropriate `aria-describedby` where used
+  - Verified visible focus rings using `--color-primary` and WCAG AA non-text contrast on borders/errors; added/updated tests where feasible
+
+<a id="e10-t9"></a>
+#### E10-T9: Tests & Regression Suite Update (P2-HIGH)
+- Status: Completed - 2025-08-11 | Branch: `improvement-e10-t9-tests-update`
+- Summary: Tests updated to assert token-driven UI and a11y flows; full suite green; stable selectors.
+- Implementation Notes:
+  - Updated `Modal.test.tsx` to assert blur/backdrop classes, header accent element, mobile bottom-sheet classes, and description association
+  - Updated `AddMemberModal.test.tsx` to assert `role="alert"`, `aria-invalid`, and error association; full suite green (123/123)
+
+<a id="e10-t10"></a>
+#### E10-T10: PO Review & Acceptance (P1-HIGH)
+- Status: Completed - 2025-08-11 | Branch: `improvement-e10-t10-po-acceptance`
+- Summary: PO sign‑off complete; visuals and behavior match spec; artifacts added to docs.
+- PO Sign-off Notes:
+  - Verified spec artifacts and token usage: header `--color-primary`, dividers `--color-neutral-100|200`, focus ring `--color-primary`, errors `--color-error`, container `--elevation-3`/`--radius-lg`, mobile bottom-sheet `100dvh`
+  - APG modal semantics present (`role="dialog"`, `aria-modal`, `aria-labelledby`, `aria-describedby`); screenshots and annotations stored in docs
 
 ### Epic 6: User Experience & Interaction Enhancement
 
@@ -210,7 +272,8 @@ FamilyTree (Root)
 ### Epic 5: Visual Design System Enhancement
 
 <a id="e5-t2"></a>
-**E5-T2 (P1-CRITICAL): Enhanced Member Card Design**
+<a id="e5-t2"></a>
+#### E5-T2: Enhanced Member Card Design (P1-CRITICAL)
 - Status: Completed - 2025-08-08
 - Summary: Applied token-based visual design to `MemberBanner` with improved hierarchy and interaction states.
 - Implementation Details:
@@ -226,7 +289,8 @@ FamilyTree (Root)
   - Adjusted styles without breaking existing tests; `MemberBanner` test suite passes
 
 <a id="e5-t3"></a>
-**E5-T3 (P1-CRITICAL): Navigation & Toolbar Enhancement**
+<a id="e5-t3"></a>
+#### E5-T3: Navigation & Toolbar Enhancement (P1-CRITICAL)
 - Status: Completed - 2025-08-08
 - Summary: Applied E5-T1 tokens to `MainToolbar` and delivered a mobile-first navigation experience with a hamburger menu, responsive hierarchy, and accessible focus states.
 - Implementation Details:
