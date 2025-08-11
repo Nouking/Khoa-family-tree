@@ -1002,4 +1002,14 @@ FamilyTree (Root)
 - **Issues/Blockers**: None - all acceptance criteria exceeded with significant performance gains
 - **Notes**: This task completed the performance optimization foundation for the family tree application. The implementation provides enterprise-level performance capabilities, supporting large family trees while maintaining smooth user interactions. The performance monitoring system enables continuous optimization and helps identify bottlenecks during development.
 
+### Epic 11: Notion‑Inspired Modal Color & Motion Polish
+
+<a id="e11-t1"></a>
+#### E11‑T1: Gradient & Accent Token Mapping (P1‑CRITICAL)
+- Status: Completed - 2025-08-11 | Branch: `improvement-e11-t1-gradient-accent-mapping`
+- Summary: Defined minimal, token‑first gradient/accent utilities and documented usage; no raw hex.
+- Implementation Notes:
+  - Utilities in `app/globals.css`: `.u-header-accent--gradient`, `.u-btn-primary--gradient`, `.u-divider--accent`, `.u-chip--accent`; alias `.btn-primary--gradient` for E11‑T2
+  - Spec updates in `family-tree/docs/implementation-notes.md` with OKLCH color‑mix examples and token→usage table
+
 *See [Task Tracking](./task-tracking.md) for current active tasks.*

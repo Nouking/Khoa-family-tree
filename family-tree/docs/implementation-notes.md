@@ -148,15 +148,33 @@ Spec Impact Summary (applies to downstream tasks E10-T3 → E10-T10)
 Reference inspiration: Notion’s clean, expressive style (directional only, not 1:1). See [Notion](https://www.notion.com).
 
 #### Gradients & Accents (E11‑T1)
-- Tokens only; no hardcoded hex.
-- OKLCH color‑mix examples (Tailwind v4 arbitrary values):
-  - Header bar (subtle): `bg-[color-mix(in_oklch,_var(--color-primary),_white_6%)]`
-  - CTA hover (subtle darken): `hover:bg-[color-mix(in_oklch,_var(--color-primary),_black_8%)]`
-- Token map:
-  - `--color-primary` → Header accent, focus rings, primary CTA base
-  - `--color-accent` → Chips/badges highlights (sparingly)
-  - `--color-neutral-100|200` → Dividers/borders
-- Contrast: Verify AA for text and 1.4.11 for non‑text UI (borders, focus indicators).
+Tokens only; no hardcoded hex.
+
+Approved minimal recipes (CSS utilities defined in `app/globals.css`):
+- Header gradient: `.u-header-accent--gradient` → `linear-gradient(90deg, color-mix(in oklch, var(--color-primary), white 6%), var(--color-primary))`
+- Primary CTA gradient: `.u-btn-primary--gradient` with same recipe, `text-(--color-primary-contrast)`
+- Accent divider: `.u-divider--accent` → `border-(--color-accent)`
+- Accent chip: `.u-chip--accent` → `bg-[color-mix(in_oklch,_var(--color-accent),_white_85%)] text-(--color-neutral-800)`
+
+Example Tailwind v4 arbitrary values (when not using the CSS helper classes):
+- Header bar (subtle gradient): `bg-[linear-gradient(90deg,_color-mix(in_oklch,_var(--color-primary),_white_6%),_var(--color-primary))]`
+- CTA hover darken: `hover:bg-[color-mix(in_oklch,_var(--color-primary),_black_8%)]`
+
+Token → usage map:
+
+| Token | Usage Area |
+| --- | --- |
+| `--color-primary` | Header accent, focus rings, primary CTA base |
+| `--color-accent` | Chips/badges highlights (sparingly); optional divider accents |
+| `--color-neutral-100` · `--color-neutral-200` | Dividers/borders |
+
+Contrast notes:
+- Verify AA for text and WCAG 1.4.11 for non‑text UI (borders, focus indicators). Use warm blue primary on `--surface-1` with `--color-primary-contrast` for CTAs.
+
+Research Log (E11‑T1)
+- Tailwind v4 `@theme` tokens are addressable as native CSS variables; arbitrary value syntax supports `color-mix()` and `oklch()`.
+- Subtle gradients (≤ 6–8% white mix) preserve readability and avoid banding.
+- Accent chips use high-lightness mix (≈ 85% white) to ensure text contrast on light surfaces.
 
 Research Log (E11‑T1)
 - Collected 3–5 screenshots illustrating subtle gradients and expressive dividers/chips from Notion.

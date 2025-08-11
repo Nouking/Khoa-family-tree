@@ -743,23 +743,10 @@ User preferences from `issue` (2025‑08‑11):
 ### Mandatory Pre‑Work (applies to all E11 tasks)
 - Before starting any E11 task, read `family-tree/docs/implementation-notes.md` → `Notion‑Inspired Color & Motion Polish (Epic 11)` and the corresponding subsection for your task to align on tokens, classes, a11y, and examples.
 
-### E11‑T1: Gradient & Accent Token Mapping (P1‑CRITICAL)
-- **Status**: Pending
-- **Primary Agent**: @architect (Winston)
-- **Supporting Agents**: @ux‑expert (Sally), @dev (James)
-- **Description**: Define a tiny set of gradient utilities and accent mappings using existing tokens (no hardcoded hex). Document where/how gradients and accents can be used (headers/CTAs/dividers/chips) without hurting readability.
-- **Acceptance Criteria**:
-  - GIVEN token‑first styling
-  - WHEN adding gradients
-  - THEN gradients are expressed via CSS vars and Tailwind v4 arbitrary values; no raw hex in components
-  - AND AA contrast is verified for text and non‑text UI
-  - AND performance unaffected (no layout shift)
-- **Implementation Details**:
-  - Extend `family-tree/docs/implementation-notes.md` → “Modal Redesign” with a “Gradients & Accents (E11‑T1)” subsection including: sample class strings (OKLCH mix), usage dos/donts, contrast notes
-  - Keep to 1–2 gradient recipes max (header bar, primary CTA)
-  - Add a short "Research Log (E11‑T1)" sub‑section with findings and links; if a non‑dev agent executes, include screenshots from [Notion](https://www.notion.com) for reference and map to tokens
-  - Output a compact token map table: token → usage area (header/CTA/divider/chip)
-- **Branch**: `improvement-e11-t1-gradient-accent-mapping`
+### E11‑T1: Gradient & Accent Token Mapping (P1‑CRITICAL) ✅
+- Status: Completed - 2025-08-11 | Branch: `improvement-e11-t1-gradient-accent-mapping`
+- Summary: Minimal token‑first gradient/accent utilities defined and documented; enables E11‑T2/T3 without raw hex.
+- Details: See Completed Log → [E11‑T1](family-tree/docs/completed-tasks.md#e11-t1)
 
 ### E11‑T2: Modal Header & Primary CTA Polish (P1‑HIGH)
 - **Status**: Pending

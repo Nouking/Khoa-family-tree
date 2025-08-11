@@ -96,3 +96,39 @@ html, body {
 
 /* Onboarding spotlight fallback (no clip-path support): simple dim overlay */
 .no-clip-path .onboarding-dim { background: rgba(0,0,0,0.5); }
+
+/* Gradients & Accents (E11-T1) */
+/* Keep recipes minimal and token-driven; no raw hex values */
+.u-header-accent--gradient {
+  background: linear-gradient(
+    90deg,
+    color-mix(in oklch, var(--color-primary), white 6%),
+    var(--color-primary)
+  );
+}
+
+.u-btn-primary--gradient {
+  background: linear-gradient(
+    90deg,
+    color-mix(in oklch, var(--color-primary), white 6%),
+    var(--color-primary)
+  );
+  color: var(--color-primary-contrast);
+}
+
+/* Alias to match task wording (E11-T2 spec) */
+.btn-primary--gradient {
+  background: linear-gradient(
+    90deg,
+    color-mix(in oklch, var(--color-primary), white 6%),
+    var(--color-primary)
+  );
+  color: var(--color-primary-contrast);
+}
+
+.u-divider--accent { border-color: var(--color-accent); }
+
+.u-chip--accent {
+  background: color-mix(in oklch, var(--color-accent), white 85%);
+  color: var(--color-neutral-800);
+}
