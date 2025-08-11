@@ -178,7 +178,7 @@ const MemberForm: React.FC<MemberFormProps> = ({ mode, initialData, onSubmit, on
       </section>
 
       {/* Dates */}
-      <section aria-labelledby="section-dates" className="border-t border-(--color-neutral-100) pt-4">
+      <section aria-labelledby="section-dates" className="border-t border-(--color-neutral-100) pt-4 u-section-reveal">
         <div className="mb-3">
           <div className="flex items-center justify-between">
             <h3 id="section-dates" className="text-base font-medium text-(--color-neutral-900) flex items-center gap-2">
@@ -211,7 +211,7 @@ const MemberForm: React.FC<MemberFormProps> = ({ mode, initialData, onSubmit, on
       </section>
 
       {/* Photo Upload */}
-      <section aria-labelledby="section-photo" className="border-t border-(--color-neutral-100) pt-4">
+      <section aria-labelledby="section-photo" className="border-t border-(--color-neutral-100) pt-4 u-section-reveal">
         <div className="mb-3">
           <div className="flex items-center justify-between">
             <h3 id="section-photo" className="text-base font-medium text-(--color-neutral-900) flex items-center gap-2">
@@ -269,7 +269,7 @@ const MemberForm: React.FC<MemberFormProps> = ({ mode, initialData, onSubmit, on
       </section>
 
       {/* Contact */}
-      <section aria-labelledby="section-contact" className="border-t border-(--color-neutral-100) pt-4">
+      <section aria-labelledby="section-contact" className="border-t border-(--color-neutral-100) pt-4 u-section-reveal">
         <div className="mb-3">
           <div className="flex items-center justify-between">
             <h3 id="section-contact" className="text-base font-medium text-(--color-neutral-900) flex items-center gap-2">
@@ -309,7 +309,7 @@ const MemberForm: React.FC<MemberFormProps> = ({ mode, initialData, onSubmit, on
       </section>
 
       {/* Relations */}
-      <section aria-labelledby="section-relations" className="border-t border-(--color-neutral-100) pt-4">
+      <section aria-labelledby="section-relations" className="border-t border-(--color-neutral-100) pt-4 u-section-reveal">
         <div className="mb-3">
           <div className="flex items-center justify-between">
             <h3 id="section-relations" className="text-base font-medium text-(--color-neutral-900) flex items-center gap-2">
@@ -347,7 +347,7 @@ const MemberForm: React.FC<MemberFormProps> = ({ mode, initialData, onSubmit, on
       </section>
 
       {/* Biography */}
-      <section aria-labelledby="section-biography" className="border-t border-(--color-neutral-100) pt-4">
+      <section aria-labelledby="section-biography" className="border-t border-(--color-neutral-100) pt-4 u-section-reveal">
         <div className="mb-3">
           <div className="flex items-center justify-between">
             <h3 id="section-biography" className="text-base font-medium text-(--color-neutral-900) flex items-center gap-2">
@@ -369,7 +369,7 @@ const MemberForm: React.FC<MemberFormProps> = ({ mode, initialData, onSubmit, on
       </section>
 
       {mode === 'edit' && (
-        <section aria-labelledby="section-canvas" className="border-t border-(--color-neutral-100) pt-4">
+        <section aria-labelledby="section-canvas" className="border-t border-(--color-neutral-100) pt-4 u-section-reveal">
           <div className="mb-4">
             <div className="flex items-center justify-between">
               <h3 id="section-canvas" className="text-base font-medium text-(--color-neutral-900) flex items-center gap-2">
