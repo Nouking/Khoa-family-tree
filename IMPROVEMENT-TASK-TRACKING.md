@@ -748,8 +748,10 @@ User preferences from `issue` (2025‑08‑11):
 - Summary: Minimal token‑first gradient/accent utilities defined and documented; enables E11‑T2/T3 without raw hex.
 - Details: See Completed Log → [E11‑T1](family-tree/docs/completed-tasks.md#e11-t1)
 
-### E11‑T2: Modal Header & Primary CTA Polish (P1‑HIGH)
-- **Status**: Pending
+### E11‑T2: Modal Header & Primary CTA Polish (P1‑HIGH) ✅
+- Status: Completed - 2025-08-11 | Branch: `improvement-e11-t2-modal-header-cta`
+- Summary: Header accent supports flat/gradient via tokens; primary CTA supports gradient variant with tokenized hover/active/focus, motion‑reduce respected; tests updated; no color hardcoding.
+- Details: See Completed Log → [E11‑T2](family-tree/docs/completed-tasks.md#e11-t2)
 - **Primary Agent**: @dev (James)
 - **Supporting Agents**: @ux‑expert (Sally), @qa (Quinn)
 - **Description**: Apply subtle header accent (optionally gradient) and update primary CTA style to allow gradient variant while preserving existing `.btn-primary` semantics.
