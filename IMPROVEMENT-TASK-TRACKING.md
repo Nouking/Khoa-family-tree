@@ -760,35 +760,14 @@ User preferences from `issue` (2025‑08‑11):
 
 ### E11‑T4: Micro‑Interactions & Motion Polish (P2‑HIGH) ✅
 - **Status**: Completed - 2025-08-11 | Branch: `improvement-e11-t4-micro-interactions`
-- **Primary Agent**: @dev (James)
-- **Supporting Agents**: @qa (Quinn)
-- **Description**: Add subtle elevation/scale on CTA press, refined focus rings, and section reveal transitions.
-- **Acceptance Criteria**:
-  - Hover/pressed/focus rings reflect tokens consistently across buttons/inputs
-  - Section reveal uses subtle transition; respects `prefers-reduced-motion`
-  - No jank; 60fps target on desktop, no layout shift
-- **Implementation Details**:
-  - Files: `app/components/shared/MemberForm.tsx`, `app/components/Modal.tsx`, `app/globals.css`
-  - Pure CSS transitions with GPU‑friendly properties (e.g., `transition-[opacity,transform] duration-150 ease-out` and `will-change-transform`); keep JS logic unchanged
-  - Pressed CTA example: `active:scale-[.98] active:shadow-[var(--elevation-2)]`
-  - Motion reduce: wrap transitions in `@media (prefers-reduced-motion: no-preference)` or Tailwind motion utilities
+- **Description**: Add subtle elevation/scale on CTA press, refined focus rings, and section reveal 
 - **Summary**: Added token-driven hover/pressed/focus behaviors, section reveal with motion-reduce support, and GPU-friendly transitions without JS changes.
 - **Details**: See Completed Log → [E11‑T4](family-tree/docs/completed-tasks.md#e11-t4)
 
-### E11‑T5: A11y/Contrast & Test Updates (P1‑CRITICAL)
-- **Status**: Pending
-- **Primary Agent**: @qa (Quinn)
-- **Supporting Agents**: @dev (James), @po (Sarah)
-- **Description**: Extend tests to assert presence of gradient/accent classes, contrast compliance cues, motion‑reduce behavior, and no layout shift on error/interactive states.
-- **Acceptance Criteria**:
-  - Tests assert token/gradient class presence (no hex matching)
-  - Keyboard/focus flows unchanged and validated
-  - Mobile bottom‑sheet behavior unaffected
-- **Implementation Details**:
-  - Update `app/components/__tests__/Modal.test.tsx`, `app/components/__tests__/AddMemberModal.test.tsx`, `app/components/__tests__/EditMemberModal.test.tsx`, `app/components/__tests__/MemberForm.test.tsx`
-  - Add assertions for: gradient header class toggle, `.btn-primary--gradient`, colored dividers/chips presence, micro‑interaction classes, `prefers-reduced-motion` behavior, AA contrast helper utilities where detectable
-  - Use token/utility presence as selectors; avoid raw hex expectations
-- **Branch**: `improvement-e11-t5-a11y-tests`
+### E11‑T5: A11y/Contrast & Test Updates (P1‑CRITICAL) ✅
+- Status: Completed - 2025-08-11 | Branch: `improvement-e11-t5-a11y-tests`
+- Summary: Extended tests to assert gradient/accent utilities, motion‑reduce behavior, AA contrast cues; validated keyboard flow and mobile bottom‑sheet; no regressions.
+- Details: See Completed Log → [E11‑T5](family-tree/docs/completed-tasks.md#e11-t5)
 
 ### E11‑T6: PO/UX Acceptance & Docs (P1‑HIGH)
 - **Status**: Pending

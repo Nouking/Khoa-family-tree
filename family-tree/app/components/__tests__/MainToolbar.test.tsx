@@ -39,6 +39,23 @@ describe('MainToolbar', () => {
     expect(screen.getByText('Custom Title')).toBeInTheDocument();
   });
 
+  it('AddMember modal uses gradient header and primary gradient CTA when opened', () => {
+    renderWithProvider(<MainToolbar />);
+
+    const addButton = screen.getByRole('button', { name: /Add Member/i });
+    fireEvent.click(addButton);
+
+    const dialogEl = screen.getByRole('dialog');
+    const accentBar = (dialogEl as HTMLElement).querySelector('span[aria-hidden="true"].absolute.left-0.top-0.h-full.w-1');
+    expect(accentBar).toBeTruthy();
+    expect(accentBar?.className).toEqual(expect.stringContaining('u-header-accent--gradient'));
+
+    // There are two "Add Member" buttons (toolbar trigger and form submit). Select the submit inside dialog.
+    const submitCandidates = screen.getAllByRole('button', { name: /Add Member/i });
+    const submit = submitCandidates.find(btn => dialogEl.contains(btn as HTMLElement)) as HTMLElement;
+    expect(submit.className).toEqual(expect.stringContaining('btn-primary--gradient'));
+  });
+
   it('has a Home link', () => {
     renderWithProvider(<MainToolbar />);
     const homeLink = screen.getByRole('link', { name: /Home/i });

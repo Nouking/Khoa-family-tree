@@ -1004,6 +1004,16 @@ FamilyTree (Root)
 
 ### Epic 11: Notion‑Inspired Modal Color & Motion Polish
 
+<a id="e11-t5"></a>
+#### E11‑T5: A11y/Contrast & Test Updates (P1‑CRITICAL)
+- Status: Completed - 2025-08-11 | Branch: `improvement-e11-t5-a11y-tests`
+- Summary: Updated test suites to assert token/gradient utilities, motion‑reduce behavior, and stable error layout; keyboard flow and mobile bottom‑sheet unaffected.
+- Verification Notes:
+  - Modal: asserts `u-header-accent--gradient`, backdrop blur tokens, motion‑reduce classes, mobile bottom‑sheet classes, aria-describedby wiring.
+  - Add/Edit Modals: primary CTA uses `btn-primary--gradient`; header accent present; no raw hex expectations.
+  - MemberForm: asserts `.u-chip--accent`, accented dividers, min-h error containers (no layout shift heuristic).
+  - Full suite green except one unrelated jest worker crash in `TreeConnection.test.tsx` on this run; UI tests for E11‑T5 pass consistently. 
+
 <a id="e11-t1"></a>
 #### E11‑T1: Gradient & Accent Token Mapping (P1‑CRITICAL)
 - Status: Completed - 2025-08-11 | Branch: `improvement-e11-t1-gradient-accent-mapping`

@@ -80,6 +80,44 @@ describe('AddMemberModal Component', () => {
     mockLocalStorage.getItem.mockReturnValue('mock-token');
   });
 
+  it('applies gradient header on Modal and gradient button utility on primary CTA', () => {
+    renderWithProvider(
+      <AddMemberModal
+        isOpen={true}
+        onClose={mockOnClose}
+        onMemberAdded={mockOnMemberAdded}
+      />
+    );
+
+    // Modal header gradient bar should exist via u-header-accent--gradient through headerStyle="gradient"
+    const modal = screen.getByRole('dialog');
+    const accentBar = (modal as HTMLElement).querySelector('span[aria-hidden="true"].absolute.left-0.top-0.h-full.w-1');
+    expect(accentBar).toBeTruthy();
+    expect(accentBar?.className).toEqual(expect.stringContaining('u-header-accent--gradient'));
+
+    // Primary submit button in MemberForm should have gradient utility class
+    const submit = screen.getByRole('button', { name: /Add Member/i });
+    expect(submit.className).toEqual(expect.stringContaining('btn-primary--gradient'));
+  });
+
+  it('uses token/utility classes for dividers and chips (no raw hex expectations)', () => {
+    renderWithProvider(
+      <AddMemberModal
+        isOpen={true}
+        onClose={mockOnClose}
+        onMemberAdded={mockOnMemberAdded}
+      />
+    );
+
+    // Section divider with data-accent attribute should map to accent token via CSS
+    const dividers = document.querySelectorAll('[data-accent="true"].border-t');
+    expect(dividers.length).toBeGreaterThan(0);
+
+    // Token-driven chip utility
+    const chip = document.querySelector('.u-chip--accent');
+    expect(chip).toBeTruthy();
+  });
+
   it('renders modal when isOpen is true', () => {
     renderWithProvider(
       <AddMemberModal

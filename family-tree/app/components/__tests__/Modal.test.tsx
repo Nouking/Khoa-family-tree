@@ -189,6 +189,40 @@ describe('Modal Component', () => {
     expect(accent?.className).toEqual(expect.stringContaining('u-header-accent--gradient'));
   });
 
+  it('renders flat header style without gradient classes', () => {
+    const { container } = render(
+      <Modal isOpen={true} onClose={mockOnClose} title="Flat Header" headerStyle="flat">
+        <div>Modal content</div>
+      </Modal>
+    );
+
+    // Header container uses before:bg token when flat
+    const header = container.querySelector('div.relative.flex.items-center.justify-between.p-6');
+    expect(header).toBeTruthy();
+    expect(header?.className).toEqual(expect.stringContaining('before:bg-(--color-primary)'));
+
+    // Left accent bar should not have gradient utility
+    const accent = container.querySelector('span[aria-hidden="true"].absolute.left-0.top-0.h-full.w-1');
+    expect(accent).toBeTruthy();
+    expect(accent?.className).not.toContain('u-header-accent--gradient');
+  });
+
+  it('includes motion-reduce classes to respect prefers-reduced-motion', () => {
+    render(
+      <Modal isOpen={true} onClose={mockOnClose} title="Motion Reduce Test">
+        <button>Focusable</button>
+      </Modal>
+    );
+
+    const dialog = screen.getByRole('dialog');
+    // Backdrop container has motion-reduce transition none
+    expect(dialog.className).toEqual(expect.stringContaining('motion-reduce:transition-none'));
+
+    // Inner modal container also includes motion-reduce transition none
+    const inner = dialog.firstChild as HTMLElement;
+    expect(inner.className).toEqual(expect.stringContaining('motion-reduce:transition-none'));
+  });
+
   it('includes mobile bottom-sheet classes and description association', () => {
     const { container } = render(
       <Modal isOpen={true} onClose={mockOnClose} title="Test Modal">
