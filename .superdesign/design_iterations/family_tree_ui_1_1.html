@@ -33,11 +33,11 @@
   <!-- Main layout: left rail + content -->
   <div class="max-w-7xl mx-auto w-full px-2 sm:px-3 flex-1 grid grid-cols-12 gap-3 py-3">
     <!-- Left icon rail -->
-    <aside class="panel col-span-2 lg:col-span-1 p-2 h-fit lg:sticky lg:top-3">
+    <aside class="toolbar-rail col-span-2 lg:col-span-1 h-fit lg:sticky lg:top-3">
       <nav class="flex flex-col gap-2 text-xs">
-        <button class="btn btn-outline btn-sm w-full">Add</button>
-        <button class="btn btn-outline btn-sm w-full">Export</button>
-        <button class="btn btn-outline btn-sm w-full">Help</button>
+        <button data-active="true" class="w-full"><span class="i" data-lucide="plus" aria-hidden="true"></span> Add</button>
+        <button class="w-full"><span class="i" data-lucide="share" aria-hidden="true"></span> Export</button>
+        <button class="w-full"><span class="i" data-lucide="help-circle" aria-hidden="true"></span> Help</button>
       </nav>
     </aside>
 
@@ -63,6 +63,7 @@
       <!-- Canvas -->
       <section class="panel p-2 sm:p-3 canvas-wrap">
         <div class="canvas-grid rounded-[16px] h-full p-3 sm:p-5 relative overflow-hidden">
+          <h2 class="canvas-title">Family Tree</h2>
           <!-- Relationship legend overlay -->
           <div class="panel connection-legend p-2" data-expanded="false">
             <button class="legend-toggle" title="Toggle size" aria-label="Toggle legend">↔</button>
@@ -206,7 +207,7 @@
     </main>
 
   </div>
-
+  
   
 
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>

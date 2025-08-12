@@ -1,0 +1,38 @@
+/* Member Detail minimal overrides – sync with family_tree_theme_1_1.css */
+
+:root {
+  --detail-gap: 14px;
+}
+
+.profile-card { display: flex; align-items: center; gap: 16px; }
+.profile-meta { display: flex; flex-direction: column; gap: 6px; }
+.profile-actions { display: flex; gap: 8px; }
+
+.info-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--detail-gap); }
+.info-item { background: var(--surface-2, #f6f7fb); border: 1px solid var(--border); border-radius: 12px; padding: 10px 12px; }
+.info-item h4 { font-size: 11px; margin: 0 0 4px 0; font-weight: 700; letter-spacing: .02em; text-transform: uppercase; color: color-mix(in oklch, var(--ink), white 40%); }
+.info-item p { margin: 0; font-size: 14px; }
+
+.section-title { display: flex; align-items: center; gap: 8px; font-weight: 600; }
+.section-title .dot { width: 8px; height: 8px; border-radius: 999px; background: color-mix(in oklch, var(--peach, #f7b289), white 8%); box-shadow: 0 0 0 2px color-mix(in oklch, var(--peach, #f7b289), white 85%); }
+
+.relation-list { display: flex; flex-wrap: wrap; gap: 8px; }
+.relation-chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface-2, #fff); font-size: 12px; box-shadow: var(--shadow-1); }
+.relation-chip .avatar { width: 22px; height: 22px; border-radius: 999px; object-fit: cover; border: 2px solid #fff; }
+
+.u-keyline { height: 1px; background: var(--border); opacity: .9; }
+
+/* Label vs Value differentiation */
+.label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .02em; color: color-mix(in oklch, var(--ink), white 60%); }
+.value { font-size: 13px; font-weight: 600; color: var(--ink); }
+.value-muted { font-size: 13px; font-weight: 500; color: color-mix(in oklch, var(--ink), white 15%); }
+
+/* Compact pill for labels next to inline values */
+.label-chip { display:inline-flex; align-items:center; gap:6px; padding:2px 8px; border-radius:999px; border:1px solid var(--border); background: var(--surface-2, #fff); color: color-mix(in oklch, var(--ink), white 45%); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .02em; }
+
+@media (max-width: 768px) {
+  .profile-card { flex-direction: column; align-items: flex-start; }
+  .info-grid { grid-template-columns: 1fr; }
+}
+
+

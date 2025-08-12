@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Member Detail – Pastel UI Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Sync with existing pastel theme -->
+  <link rel="stylesheet" href="family_tree_theme_1_1.css">
+  <!-- Page-specific light overrides -->
+  <link rel="stylesheet" href="member_detail_1.css">
+  <script>
+    tailwind.config = { theme: { extend: { fontFamily: { sans: ['Poppins','Inter','ui-sans-serif','system-ui'] } } } }
+  </script>
+</head>
+<body class="min-h-dvh flex flex-col">
+  <!-- Header -->
+  <header class="u-header-accent--gradient text-white">
+    <div class="max-w-5xl mx-auto px-3 sm:px-4 py-2.5 flex items-center gap-2">
+      <div class="flex items-center gap-2">
+        <a href="./family_tree_ui_1_1.html" class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-white/20" title="Back" aria-label="Back">←</a>
+        <h1 class="text-base sm:text-lg font-semibold leading-tight">Member Detail</h1>
+      </div>
+      <div class="ms-auto hidden sm:flex items-center gap-2">
+        <input placeholder="Search member" class="input hidden md:block ms-1 w-52" />
+        <button class="ms-1 shrink-0 h-8 w-8 rounded-full bg-white/90 text-[var(--ink)] text-xs font-semibold">KY</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1">
+    <div class="max-w-5xl mx-auto w-full px-2 sm:px-3 py-3 space-y-3">
+      <!-- Breadcrumb / Context -->
+      <div class="panel px-3 py-2 flex items-center gap-2 text-xs sm:text-sm">
+        <span class="badge">Home</span>
+        <span>›</span>
+        <span class="badge">Khoa Family</span>
+        <span>›</span>
+        <span id="crumb-name" class="badge">Member</span>
+        <div class="ms-auto profile-actions">
+          <button class="btn btn-outline btn-sm btn-press" type="button">Edit</button>
+          <button class="btn btn-outline btn-sm btn-press" type="button">Delete</button>
+        </div>
+      </div>
+
+      <!-- Profile summary -->
+      <section class="panel p-3">
+        <div class="profile-card">
+          <img id="avatar" class="node-photo" src="https://placehold.co/160x160?text=Member" alt="Member photo" />
+          <div class="profile-meta">
+            <div class="flex items-center gap-2 flex-wrap">
+              <div id="ribbon-name" class="ribbon ribbon-peach">Member Name</div>
+              <span id="relationship-badge" class="badge">Relationship</span>
+            </div>
+            <p id="title" class="value-muted"></p>
+            <div class="text-[12px] flex items-center gap-4 flex-wrap">
+              <span class="inline-flex items-center gap-2">
+                <span class="label-chip inline-flex items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4"><path fill-rule="evenodd" d="M10 2a4 4 0 100 8 4 4 0 000-8zM2 16a6 6 0 1112 0v2H2v-2z" clip-rule="evenodd"/></svg>
+                  Gender
+                </span>
+                <span id="gender" class="value">—</span>
+              </span>
+              <span class="inline-flex items-center gap-2">
+                <span class="label-chip inline-flex items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4"><path d="M6 2a1 1 0 011 1v1h6V3a1 1 0 112 0v1h1a2 2 0 012 2v9a2 2 0 01-2 2H3a2 2 0 01-2-2V6a2 2 0 012-2h1V3a1 1 0 112 0v1zm11 7H3v6h14V9z"/></svg>
+                  Dates
+                </span>
+                <span id="dates" class="value">—</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- About -->
+      <section class="panel p-3">
+        <div class="section-title"><span class="dot" aria-hidden="true"></span><h2 class="text-sm">About</h2></div>
+        <div class="mt-2 u-keyline"></div>
+        <div class="mt-3 info-grid">
+          <div class="info-item"><h4>Gender</h4><p id="about-gender" class="value">—</p></div>
+          <div class="info-item"><h4>Title</h4><p id="about-title" class="value">—</p></div>
+          <div class="info-item"><h4>Birth Date</h4><p id="about-birth" class="value">—</p></div>
+          <div class="info-item"><h4>Death Date</h4><p id="about-death" class="value">—</p></div>
+        </div>
+        <div class="mt-3">
+          <h3 class="text-sm mb-1">Biography</h3>
+          <p id="biography" class="value text-[14px] leading-6">—</p>
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <section class="panel p-3">
+        <div class="section-title"><span class="dot" aria-hidden="true"></span><h2 class="text-sm">Contact</h2></div>
+        <div class="mt-2 u-keyline"></div>
+        <div class="mt-3 info-grid">
+          <div class="info-item"><h4>Email</h4><p id="contact-email" class="value">—</p></div>
+          <div class="info-item"><h4>Phone</h4><p id="contact-phone" class="value">—</p></div>
+          <div class="info-item" style="grid-column: 1 / -1;"><h4>Address</h4><p id="contact-address" class="value">—</p></div>
+        </div>
+      </section>
+
+      <!-- Relations -->
+      <section class="panel p-3">
+        <div class="section-title"><span class="dot" aria-hidden="true"></span><h2 class="text-sm">Relations</h2></div>
+        <div class="mt-2 u-keyline"></div>
+        <div class="mt-3 space-y-3">
+          <div>
+            <h3 class="text-sm mb-2 opacity-80">Parent</h3>
+            <div id="rel-parent" class="relation-list"></div>
+          </div>
+          <div>
+            <h3 class="text-sm mb-2 opacity-80">Spouses</h3>
+            <div id="rel-spouses" class="relation-list"></div>
+          </div>
+          <div>
+            <h3 class="text-sm mb-2 opacity-80">Children</h3>
+            <div id="rel-children" class="relation-list"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flowbite@2.0.0/dist/flowbite.min.js"></script>
+  <script>
+    // Inline dataset shaped like family-tree/data/family-tree-v2.json
+    const DATA = {
+      id: "family-tree-1",
+      name: "Lê Family Tree",
+      members: [
+        { id: "member-1", name: "Lê Thành Công", gender: "male", birthDate: "1950-01-01", deathDate: null, photo: "", title: "Patriarch", email: "example@email.com", phone: "+1234567890", address: "Hanoi, Vietnam", biography: "Founder of the family...", parentId: null, spouseIds: ["member-2"], childrenIds: ["member-3","member-4"], order: 1, position: {x:0,y:100}, size:{width:200,height:120}, relationship: "Patriarch" },
+        { id: "member-2", name: "Nguyễn Thị Hương", gender: "female", birthDate: "1955-05-15", deathDate: null, photo: "", title: "Matriarch", email: "huong@email.com", phone: "+1234567891", address: "Hanoi, Vietnam", biography: "Wife of the family patriarch...", parentId: null, spouseIds: ["member-1"], childrenIds: ["member-3","member-4"], order: 2, position: {x:250,y:100}, size:{width:200,height:120}, relationship: "Matriarch" },
+        { id: "member-3", name: "Lê Minh Tuấn", gender: "male", birthDate: "1980-03-20", deathDate: null, photo: "", title: "Eldest Son", email: "tuan@email.com", phone: "+1234567892", address: "Ho Chi Minh City, Vietnam", biography: "Eldest son of the family...", parentId: "member-1", spouseIds: ["member-5"], childrenIds: ["member-6","member-7"], order: 1, position: {x:500,y:100}, size:{width:200,height:120}, relationship: "Eldest Son" },
+        { id: "member-4", name: "Lê Thị Mai", gender: "female", birthDate: "1982-07-10", deathDate: null, photo: "", title: "Daughter", email: "mai@email.com", phone: "+1234567893", address: "Hanoi, Vietnam", biography: "Daughter of the family...", parentId: "member-1", spouseIds: [], childrenIds: [], order: 2, position: {x:750,y:100}, size:{width:200,height:120}, relationship: "Daughter" },
+        { id: "member-5", name: "Trần Thị Hoa", gender: "female", birthDate: "1982-11-05", deathDate: null, photo: "", title: "Daughter-in-law", email: "hoa@email.com", phone: "+1234567894", address: "Ho Chi Minh City, Vietnam", biography: "Wife of the eldest son...", parentId: null, spouseIds: ["member-3"], childrenIds: ["member-6","member-7"], order: 1, position: {x:1000,y:100}, size:{width:200,height:120}, relationship: "Daughter-in-law" },
+        { id: "member-6", name: "Lê Minh Quân", gender: "male", birthDate: "2010-02-15", deathDate: null, photo: "", title: "Grandson", email: "", phone: "", address: "Ho Chi Minh City, Vietnam", biography: "Son of Lê Minh Tuấn...", parentId: "member-3", spouseIds: [], childrenIds: [], order: 1, position: {x:1250,y:100}, size:{width:200,height:120}, relationship: "Grandson" },
+        { id: "member-7", name: "Lê Thị Linh", gender: "female", birthDate: "2012-09-20", deathDate: null, photo: "", title: "Granddaughter", email: "", phone: "", address: "Ho Chi Minh City, Vietnam", biography: "Daughter of Lê Minh Tuấn...", parentId: "member-3", spouseIds: [], childrenIds: [], order: 2, position: {x:1500,y:100}, size:{width:200,height:120}, relationship: "Granddaughter" }
+      ]
+    };
+
+    const byId = (id) => DATA.members.find(m => m.id === id) || null;
+    const param = new URLSearchParams(location.search);
+    const memberId = param.get('id') || 'member-3';
+    const member = byId(memberId) || DATA.members[0];
+
+    function text(el, value, fallback = '—') { if (!el) return; el.textContent = value && String(value).trim() ? value : fallback; }
+    function setAvatar(img, name, src){
+      if (!img) return;
+      if (src) { img.src = src; img.alt = name; return; }
+      img.src = `https://placehold.co/160x160?text=${encodeURIComponent(name.split(' ').map(w=>w[0]).join('').slice(0,2))}`;
+      img.alt = name;
+    }
+    function chip(name){
+      const span = document.createElement('span');
+      span.className = 'relation-chip';
+      const avatar = document.createElement('img');
+      avatar.className = 'avatar';
+      avatar.src = `https://placehold.co/64x64?text=${encodeURIComponent(name[0])}`;
+      avatar.alt = '';
+      const label = document.createElement('span');
+      label.textContent = name;
+      span.appendChild(avatar); span.appendChild(label);
+      return span;
+    }
+
+    function render(){
+      // Header crumbs
+      text(document.getElementById('crumb-name'), member.name);
+
+      // Summary
+      setAvatar(document.getElementById('avatar'), member.name, member.photo);
+      const ribbon = document.getElementById('ribbon-name');
+      if (ribbon) ribbon.textContent = member.name;
+      text(document.getElementById('relationship-badge'), member.relationship || 'Member');
+      text(document.getElementById('title'), member.title || '—');
+      text(document.getElementById('gender').querySelector('span'), member.gender);
+      const d = [];
+      if (member.birthDate) d.push(`Born ${member.birthDate}`);
+      if (member.deathDate) d.push(`Died ${member.deathDate}`);
+      text(document.getElementById('dates').querySelector('span'), d.join(' • '));
+
+      // About
+      text(document.getElementById('about-gender'), member.gender);
+      text(document.getElementById('about-title'), member.title);
+      text(document.getElementById('about-birth'), member.birthDate);
+      text(document.getElementById('about-death'), member.deathDate);
+      text(document.getElementById('biography'), member.biography);
+
+      // Contact
+      text(document.getElementById('contact-email'), member.email);
+      text(document.getElementById('contact-phone'), member.phone);
+      text(document.getElementById('contact-address'), member.address);
+
+      // Relations
+      const parentWrap = document.getElementById('rel-parent');
+      const spousesWrap = document.getElementById('rel-spouses');
+      const childrenWrap = document.getElementById('rel-children');
+      [parentWrap, spousesWrap, childrenWrap].forEach(w => { if (w) w.innerHTML = ''; });
+
+      if (member.parentId) {
+        const p = byId(member.parentId); if (p && parentWrap) parentWrap.appendChild(chip(p.name));
+      } else {
+        if (parentWrap) parentWrap.textContent = '—';
+      }
+      if (Array.isArray(member.spouseIds) && member.spouseIds.length) {
+        member.spouseIds.forEach(id => { const s = byId(id); if (s && spousesWrap) spousesWrap.appendChild(chip(s.name)); });
+      } else { if (spousesWrap) spousesWrap.textContent = '—'; }
+      if (Array.isArray(member.childrenIds) && member.childrenIds.length) {
+        member.childrenIds.forEach(id => { const c = byId(id); if (c && childrenWrap) childrenWrap.appendChild(chip(c.name)); });
+      } else { if (childrenWrap) childrenWrap.textContent = '—'; }
+    }
+
+    render();
+    if (window.lucide) { window.lucide.createIcons(); }
+  </script>
+</body>
+</html>
+
+

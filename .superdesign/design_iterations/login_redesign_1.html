@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Family Tree – Sign in</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CDN (as required) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: { extend: { fontFamily: { sans: ['Poppins','Inter','ui-sans-serif','system-ui'] } } }
+      }
+    </script>
+
+    <!-- Theme CSS aligned with family_tree_ui_1_1.html -->
+    <link rel="stylesheet" href="family_tree_theme_1_1.css">
+    <link rel="stylesheet" href="login_button_overrides.css">
+
+    <!-- Flowbite + Icons (optional helpers) -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.0.0/dist/flowbite.min.js"></script>
+  </head>
+  <body class="min-h-dvh flex flex-col">
+    <!-- Small accent header for brand consistency -->
+    <header class="u-header-accent--gradient text-white">
+      <div class="max-w-7xl mx-auto px-3 sm:px-4 py-2.5 flex items-center gap-2">
+        <div class="flex items-center gap-2">
+          <span class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-white/20">👪</span>
+          <h1 class="text-base sm:text-lg font-semibold leading-tight">Khoa Family Tree</h1>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main content -->
+    <main class="flex-1 flex items-center justify-center px-3 sm:px-6 py-8">
+      <div class="w-full max-w-md panel p-6 sm:p-8">
+        <div class="mb-5 sm:mb-6 text-center">
+          <h2 class="text-2xl sm:text-3xl font-semibold">Sign in</h2>
+          <p class="mt-1 text-sm opacity-70">Access editing features for your family tree</p>
+        </div>
+
+        <!-- Error banner (hidden by default) -->
+        <div id="errorBanner" class="hidden mb-4 panel border-rose-200 bg-rose-50 text-rose-700 text-sm" role="alert">
+          Invalid credentials. Please try again.
+        </div>
+
+        <form class="space-y-4" onsubmit="handleLogin(event)">
+          <div>
+            <label for="username" class="text-sm font-medium">Username</label>
+            <input id="username" name="username" type="text" required class="input mt-1 w-full" placeholder="e.g. admin" />
+          </div>
+
+          <div>
+            <label for="password" class="text-sm font-medium">Password</label>
+            <input id="password" name="password" type="password" required class="input mt-1 w-full" placeholder="••••••••" />
+          </div>
+
+          <div class="flex items-center justify-between">
+            <label class="inline-flex items-center gap-2 text-sm opacity-80">
+              <input id="remember" type="checkbox" class="rounded" />
+              Remember me
+            </label>
+          </div>
+
+          <div class="flex justify-center">
+            <button id="submitBtn" type="submit" class="btn btn-press btn-primary block w-1/2 mx-auto text-center">Sign in</button>
+          </div>
+
+          <div class="text-center pt-2 text-sm">
+            <a href="/" class="underline decoration-dotted">Return to home</a>
+            <span class="mx-2 opacity-60">•</span>
+            <a href="/view" class="underline decoration-dotted">Continue as viewer</a>
+          </div>
+        </form>
+      </div>
+    </main>
+
+    <script>
+      function handleLogin(e) {
+        e.preventDefault();
+        const btn = document.getElementById('submitBtn');
+        const banner = document.getElementById('errorBanner');
+        btn.setAttribute('disabled', 'true');
+        btn.textContent = 'Signing in…';
+        // Demo-only: show an error banner after a delay to visualize state
+        setTimeout(() => {
+          banner.classList.remove('hidden');
+          btn.removeAttribute('disabled');
+          btn.textContent = 'Sign in';
+        }, 900);
+      }
+      window.lucide && window.lucide.createIcons && window.lucide.createIcons();
+    </script>
+  </body>
+  </html>
+
+

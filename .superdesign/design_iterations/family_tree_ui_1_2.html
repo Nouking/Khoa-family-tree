@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Family Tree – Pastel Whiteboard v1.2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="family_tree_theme_1_2.css">
+  <script>tailwind.config = { theme: { extend: { fontFamily: { sans: ['Poppins','Inter','ui-sans-serif','system-ui'] } } } }</script>
+</head>
+<body class="min-h-dvh flex flex-col">
+  <!-- Header -->
+  <header class="u-header-accent--gradient text-white">
+    <div class="max-w-7xl mx-auto px-3 sm:px-4 py-2.5 flex items-center gap-2">
+      <div class="flex items-center gap-2">
+        <span class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-white/20">👪</span>
+        <h1 class="text-base sm:text-lg font-semibold leading-tight">Khoa Family Tree</h1>
+      </div>
+      <div class="ms-auto hidden sm:flex items-center gap-2">
+        <button class="btn btn-outline btn-sm btn-press">Undo</button>
+        <button class="btn btn-outline btn-sm btn-press">Redo</button>
+        <input placeholder="Search" class="input hidden md:block ms-1 w-52" />
+      </div>
+    </div>
+  </header>
+
+  <div class="max-w-7xl mx-auto w-full px-2 sm:px-3 flex-1 grid grid-cols-12 gap-3 py-3">
+    <!-- Left toolbar -->
+    <aside class="toolbar-rail col-span-2 lg:col-span-1 h-fit lg:sticky lg:top-3">
+      <nav class="flex flex-col gap-2 text-xs">
+        <button data-active="true" class="w-full"><span class="i" data-lucide="plus" aria-hidden="true"></span> Add</button>
+        <button class="w-full"><span class="i" data-lucide="share" aria-hidden="true"></span> Export</button>
+        <button class="w-full"><span class="i" data-lucide="help-circle" aria-hidden="true"></span> Help</button>
+      </nav>
+    </aside>
+
+    <!-- Main content -->
+    <main class="col-span-10 lg:col-span-11 flex flex-col gap-3">
+      <!-- Context bar -->
+      <div class="panel px-3 py-2 flex items-center gap-2 text-xs sm:text-sm">
+        <span class="badge">Home</span>
+        <span>›</span>
+        <span class="badge">Khoa Family</span>
+        <div class="ms-auto flex items-center gap-2">
+          <span class="hidden sm:inline">Filters</span>
+          <select class="input py-1">
+            <option>All</option>
+            <option>Parents</option>
+            <option>Children</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Canvas -->
+      <section class="panel p-2 sm:p-3 canvas-wrap">
+        <div class="canvas-grid rounded-[16px] h-full p-3 sm:p-6 relative overflow-hidden">
+          <h2 class="canvas-title">Our Family Tree</h2>
+
+          <!-- Decorative flowers -->
+          <div class="flower flower--shape flower--mint" style="left:14%; top:38%"></div>
+          <div class="flower flower--shape flower--rose" style="left:35%; top:70%"></div>
+          <div class="flower flower--shape flower--sun" style="right:18%; top:58%"></div>
+          <div class="flower flower--shape flower--violet" style="right:6%; top:24%"></div>
+
+          <!-- Legend -->
+          <div class="panel connection-legend p-2" data-expanded="true">
+            <button class="legend-toggle" title="Toggle size" aria-label="Toggle legend">↔</button>
+            <h4>Relationship key</h4>
+            <div class="legend-row">
+              <svg width="40" height="10" viewBox="0 0 40 10"><path class="connector connector--parent" d="M2 5 H38" fill="none"/></svg>
+              <span>Parent → Child</span>
+            </div>
+            <div class="legend-row">
+              <svg width="40" height="10" viewBox="0 0 40 10"><path class="connector connector--spouse" d="M2 5 H38" fill="none"/></svg>
+              <span>Spouse ↔ Spouse</span>
+            </div>
+          </div>
+
+          <!-- Connections layer -->
+          <svg id="connections" class="absolute inset-0 pointer-events-none" width="100%" height="100%" preserveAspectRatio="none"></svg>
+
+          <!-- ROW 1: Parents -->
+          <div class="auto-grid">
+            <div class="node" data-node="daniel">
+              <img class="avatar" src="https://placehold.co/160x160?text=Daniel" alt="Daniel" />
+              <div class="card">
+                <div class="name name--lime">Daniel</div>
+                <div class="meta">Father</div>
+              </div>
+            </div>
+            <div class="node" data-node="lorna">
+              <img class="avatar" src="https://placehold.co/160x160?text=Lorna" alt="Lorna" />
+              <div class="card">
+                <div class="name name--mint">Lorna</div>
+                <div class="meta">Mother</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ROW 2: Siblings -->
+          <div class="mt-8 auto-grid">
+            <div class="node" data-node="sebastian">
+              <img class="avatar" src="https://placehold.co/160x160?text=Sebastian" alt="Sebastian" />
+              <div class="card">
+                <div class="name name--peach">Sebastian</div>
+                <div class="meta">Brother</div>
+              </div>
+            </div>
+            <div class="node" data-node="helene">
+              <img class="avatar" src="https://placehold.co/160x160?text=Helene" alt="Helene" />
+              <div class="card">
+                <div class="name name--lilac">Helene</div>
+                <div class="meta">Sister in law</div>
+              </div>
+            </div>
+            <div class="node" data-node="rufus">
+              <img class="avatar" src="https://placehold.co/160x160?text=Rufus" alt="Rufus" />
+              <div class="card">
+                <div class="name name--sun">Rufus</div>
+                <div class="meta">Brother in law</div>
+              </div>
+            </div>
+            <div class="node" data-node="korina">
+              <img class="avatar" src="https://placehold.co/160x160?text=Korina" alt="Korina" />
+              <div class="card">
+                <div class="name name--mint">Korina</div>
+                <div class="meta">Me</div>
+              </div>
+            </div>
+            <div class="node" data-node="shawn">
+              <img class="avatar" src="https://placehold.co/160x160?text=Shawn" alt="Shawn" />
+              <div class="card">
+                <div class="name name--rose">Shawn</div>
+                <div class="meta">Brother</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ROW 3: Children (with Ava spouses) -->
+          <div class="mt-8 auto-grid">
+            <div class="node" data-node="harper">
+              <img class="avatar" src="https://placehold.co/160x160?text=Harper" alt="Harper" />
+              <div class="card">
+                <div class="name name--peach">Harper</div>
+                <div class="meta">Niece</div>
+              </div>
+            </div>
+            <div class="node" data-node="alfredo">
+              <img class="avatar" src="https://placehold.co/160x160?text=Alfredo" alt="Alfredo" />
+              <div class="card">
+                <div class="name name--lilac">Alfredo</div>
+                <div class="meta">Nephew</div>
+              </div>
+            </div>
+
+            <!-- Ava spouses left and right of Ava -->
+            <div class="node" data-node="noah">
+              <img class="avatar" src="https://placehold.co/160x160?text=Noah" alt="Noah" />
+              <div class="card">
+                <div class="name name--sage">Noah</div>
+                <div class="meta">Ava's spouse</div>
+              </div>
+            </div>
+            <div class="node" data-node="ava">
+              <img class="avatar" src="https://placehold.co/160x160?text=Ava" alt="Ava" />
+              <div class="card">
+                <div class="name name--sun">Ava</div>
+                <div class="meta">Niece</div>
+              </div>
+            </div>
+            <div class="node" data-node="liam">
+              <img class="avatar" src="https://placehold.co/160x160?text=Liam" alt="Liam" />
+              <div class="card">
+                <div class="name name--rose">Liam</div>
+                <div class="meta">Ava's spouse</div>
+              </div>
+            </div>
+
+            <div class="node" data-node="ethan">
+              <img class="avatar" src="https://placehold.co/160x160?text=Ethan" alt="Ethan" />
+              <div class="card">
+                <div class="name name--sage">Ethan</div>
+                <div class="meta">Nephew</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ROW 4: Grandchild (Ava + Noah) -->
+          <div class="mt-8 auto-grid">
+            <div class="node" data-node="maya">
+              <img class="avatar" src="https://placehold.co/160x160?text=Maya" alt="Maya" />
+              <div class="card">
+                <div class="name name--peach">Maya</div>
+                <div class="meta">Ava's child</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flowbite@2.0.0/dist/flowbite.min.js"></script>
+  <script>
+    if (window.lucide) { window.lucide.createIcons(); }
+    // Legend toggle
+    (function(){
+      var legend = document.querySelector('.connection-legend');
+      var btn = legend && legend.querySelector('.legend-toggle');
+      if (legend && btn) btn.addEventListener('click', function(){
+        var expanded = legend.getAttribute('data-expanded') === 'true';
+        legend.setAttribute('data-expanded', expanded ? 'false' : 'true');
+      });
+    })();
+
+    // Connection drawing adapted to new node shape
+    (function(){
+      var svg = document.getElementById('connections');
+      var canvas = document.querySelector('.canvas-grid');
+      if (!svg || !canvas) return;
+
+      function clearConnections(){ while (svg.firstChild) svg.removeChild(svg.firstChild); }
+      function setSvgSize(){
+        var rect = canvas.getBoundingClientRect();
+        svg.setAttribute('width', rect.width);
+        svg.setAttribute('height', rect.height);
+        svg.setAttribute('viewBox', '0 0 ' + rect.width + ' ' + rect.height);
+      }
+      function getRect(node){ var r = node.getBoundingClientRect(); var c = canvas.getBoundingClientRect(); return { x: r.left - c.left, y: r.top - c.top, width: r.width, height: r.height }; }
+      function anchor(rect, side){
+        switch(side){
+          case 'top': return { x: rect.x + rect.width/2, y: rect.y };
+          case 'bottom': return { x: rect.x + rect.width/2, y: rect.y + rect.height };
+          case 'left': return { x: rect.x, y: rect.y + rect.height/2 };
+          case 'right': return { x: rect.x + rect.width, y: rect.y + rect.height/2 };
+          default: return { x: rect.x + rect.width/2, y: rect.y + rect.height/2 };
+        }
+      }
+      function pathEl(className, d){ var p = document.createElementNS('http://www.w3.org/2000/svg', 'path'); p.setAttribute('class', className); p.setAttribute('fill', 'none'); p.setAttribute('d', d); svg.appendChild(p); }
+      function cubic(p1, p2, orientation){
+        if (orientation === 'horizontal'){
+          var dx = Math.abs(p2.x - p1.x); var cx = Math.max(26, dx * 0.35);
+          return `M ${p1.x} ${p1.y} C ${p1.x + cx} ${p1.y}, ${p2.x - cx} ${p2.y}, ${p2.x} ${p2.y}`;
+        } else {
+          var dy = Math.abs(p2.y - p1.y); var cy = Math.max(26, dy * 0.35);
+          return `M ${p1.x} ${p1.y} C ${p1.x} ${p1.y + cy}, ${p2.x} ${p2.y - cy}, ${p2.x} ${p2.y}`;
+        }
+      }
+      function draw(){
+        setSvgSize();
+        clearConnections();
+        var byId = function(id){ return document.querySelector(`[data-node="${id}"]`); };
+        var daniel = byId('daniel'); var lorna = byId('lorna'); var korina = byId('korina');
+        var ava = byId('ava'); var ethan = byId('ethan'); var noah = byId('noah'); var liam = byId('liam'); var maya = byId('maya');
+
+        if (daniel && lorna){ var r1 = getRect(daniel), r2 = getRect(lorna); pathEl('connector connector--spouse', cubic(anchor(r1,'right'), anchor(r2,'left'), 'horizontal')); }
+        if (daniel && korina){ var rp = getRect(daniel), rc = getRect(korina); pathEl('connector connector--parent', cubic(anchor(rp,'bottom'), anchor(rc,'top'), 'vertical')); }
+        if (lorna && korina){ var rp2 = getRect(lorna), rc2 = getRect(korina); pathEl('connector connector--parent', cubic(anchor(rp2,'bottom'), anchor(rc2,'top'), 'vertical')); }
+        if (korina && ava){ var rk = getRect(korina), ra = getRect(ava); pathEl('connector connector--parent', cubic(anchor(rk,'bottom'), anchor(ra,'top'), 'vertical')); }
+        if (korina && ethan){ var rk2 = getRect(korina), re = getRect(ethan); pathEl('connector connector--parent', cubic(anchor(rk2,'bottom'), anchor(re,'top'), 'vertical')); }
+        if (ava && noah){ var ra1 = getRect(ava), rn1 = getRect(noah); pathEl('connector connector--spouse', cubic(anchor(ra1,'left'), anchor(rn1,'right'), 'horizontal')); }
+        if (ava && liam){ var ra2 = getRect(ava), rl2 = getRect(liam); pathEl('connector connector--spouse', cubic(anchor(ra2,'right'), anchor(rl2,'left'), 'horizontal')); }
+        if (ava && maya){ var rA = getRect(ava), rC = getRect(maya); pathEl('connector connector--parent', cubic(anchor(rA,'bottom'), anchor(rC,'top'), 'vertical')); }
+        if (noah && maya){ var rN = getRect(noah), rC2 = getRect(maya); pathEl('connector connector--parent', cubic(anchor(rN,'bottom'), anchor(rC2,'top'), 'vertical')); }
+      }
+      var resizeObserver = new ResizeObserver(draw); resizeObserver.observe(canvas);
+      window.addEventListener('resize', draw); window.addEventListener('load', draw);
+      document.querySelectorAll('.avatar').forEach(function(img){ if (img.complete) return; img.addEventListener('load', draw); });
+      draw();
+    })();
+  </script>
+</body>
+</html>
