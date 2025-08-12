@@ -656,6 +656,47 @@ Tasks are assigned primary agents with supporting agents based on expertise over
 
 ---
 
+### E9-T9: Superdesign Prototype Sidebar Simplification (P2-MEDIUM) ✅
+- Status: Completed - 2025-08-12 | Branch: n/a (design prototype only)
+- Summary: Updated `.superdesign` prototype per request: left sidebar limited to Add, Export, Help; removed bottom “+ Add Member” button; removed Inspector panel; widened main content accordingly.
+- Files: `.superdesign/design_iterations/family_tree_ui_1_1.html`
+- Acceptance Confirmation: Visual matches requested layout; no functional code impacted.
+ - Details: See Completed Log → [E9-T9](family-tree/docs/completed-tasks.md#e9-t9)
+
+---
+
+### E9-T10: Remove Mobile Floating “+” FAB (P3-LOW) ✅
+- Status: Completed - 2025-08-12 | Branch: n/a (design prototype only)
+- Summary: Removed the orange “+” floating action button from bottom-left on mobile in the `.superdesign` prototype.
+- Files: `.superdesign/design_iterations/family_tree_ui_1_1.html`
+- Acceptance Confirmation: No FAB present at small breakpoints; desktop unaffected.
+ - Details: See Completed Log → [E9-T10](family-tree/docs/completed-tasks.md#e9-t10)
+
+---
+
+### E9-T12: Superdesign – Responsive Fixes for Overlap (P1-HIGH) ✅
+- Status: Completed - 2025-08-12 | Branch: n/a (design prototype only)
+- Summary: Implemented mobile-first responsive rules to prevent visual overlap on small screens in the `.superdesign` prototype. Ensured connectors are layered beneath nodes, stacked node layout on narrow widths, compacted legend, and hid static connectors on extra-small screens to avoid clutter.
+- Files: `.superdesign/design_iterations/family_tree_theme_1_1.css`
+- Implementation Notes:
+  - Added stacking context rules so `.canvas-grid > svg` sits below node cards
+  - Enabled `flex-wrap` and column layout for `.node-card` at small breakpoints; constrained ribbon widths
+  - Introduced auto-fit `minmax(220px, 1fr)` grids for row sections inside `.canvas-grid` on very small screens
+  - Hid SVG connectors under 480px; reduced legend size and spacing; tightened photo sizes
+- Acceptance Confirmation: No element overlap at 360–480px; readable labels; legend accessible; desktop unchanged.
+ - Details: See Completed Log → [E9-T12](family-tree/docs/completed-tasks.md#e9-t12)
+
+---
+
+### E9-T11: Add Member Search Textbox (P2-MEDIUM) ✅
+- Status: Completed - 2025-08-12 | Branch: n/a (design prototype only)
+- Summary: Added a search textbox and positioned it next to the filter dropdown in the context bar (moved from sidebar) for member name search.
+- Files: `.superdesign/design_iterations/family_tree_ui_1_1.html`
+- Acceptance Confirmation: Search field visible beside Filters; responsive width (`w-40` → `sm:w-56`); accessible label via `aria-label`/`sr-only`.
+ - Details: See Completed Log → [E9-T11](family-tree/docs/completed-tasks.md#e9-t11)
+
+---
+
 *This task tracking document aligns with existing project workflow and is optimized for AI agent implementation following @pm, @po, @sm persona guidelines. Enhanced with modern design system patterns from Carbon Design System and Cloudscape for industry-standard UI/UX implementations.*
 
 ---
@@ -769,20 +810,10 @@ User preferences from `issue` (2025‑08‑11):
 - Summary: Extended tests to assert gradient/accent utilities, motion‑reduce behavior, AA contrast cues; validated keyboard flow and mobile bottom‑sheet; no regressions.
 - Details: See Completed Log → [E11‑T5](family-tree/docs/completed-tasks.md#e11-t5)
 
-### E11‑T6: PO/UX Acceptance & Docs (P1‑HIGH)
-- **Status**: Pending
-- **Primary Agent**: @po (Sarah)
-- **Supporting Agents**: @ux‑expert (Sally), @pm (John)
-- **Description**: Validate final visuals vs. preferences and spec; capture screenshots for onboarding/help docs.
-- **Acceptance Criteria**:
-  - Subtle accents, optional soft gradients in headers/CTAs applied
-  - Primary remains warm blue; accent pink used for highlights only
-  - More expressive dividers/chips/icons present but not overwhelming
-  - Micro‑interactions added; motion‑reduce respected; AA contrast met
-- **Implementation Details**:
-  - Add before/after screenshots to `family-tree/docs/implementation-notes.md` and/or `family-tree/docs/onboarding-help.md`
-  - Include a short checklist copied into the doc confirming: accents applied, gradients subtle, pink accent used sparingly, chips/icons present and accessible, micro‑interactions added, AA contrast, motion‑reduce respected
-- **Branch**: `improvement-e11-t6-po-ux-acceptance`
+### E11‑T6: PO/UX Acceptance & Docs (P1‑HIGH) ✅
+- Status: Completed - 2025-08-11 | Branch: `improvement-e11-t6-po-ux-acceptance`
+- Summary: PO/UX sign‑off complete. Acceptance checklist added; before/after screenshots linked; onboarding help updated. All visuals token‑driven; AA contrast and APG semantics preserved; motion‑reduce honored.
+- Details: See Completed Log → [E11‑T6](family-tree/docs/completed-tasks.md#e11-t6)
 
 ### Non‑Dev Research Protocol (Applies to E11‑T1, T2, T3)
 - If a non‑dev agent executes, first collect 3–5 reference screenshots from [Notion](https://www.notion.com) illustrating: subtle gradients, expressive dividers/chips, clean CTA styles.

@@ -219,6 +219,27 @@ Spec Impact Summary (E11‑T3)
 - Confirm: subtle accents; gradient header/CTA allowed; warm blue primary with pink accent highlights; expressive dividers/chips/icons; micro‑interactions added; AA contrast; motion‑reduce respected.
 - Add before/after screenshots to this doc and/or `family-tree/docs/onboarding-help.md`.
 
+Acceptance Checklist (E11‑T6)
+
+- [x] Subtle accents applied; gradient header/CTA optional via tokens
+- [x] Primary remains warm blue; accent pink used sparingly for highlights
+- [x] Expressive dividers, chips, and decorative section icons present and accessible
+- [x] Micro‑interactions added; respects `prefers-reduced-motion`
+- [x] AA contrast met for text and non‑text UI (borders/focus)
+
+Screenshots (Before / After)
+
+- Before (baseline):
+  - `../../example/UI-family-tree-08-08-2025.jpg`
+  - `../../example/UI-family-tree-08-08-2025_1.jpg`
+- After (E10/E11 polished):
+  - `../../example/UI-family-tree-09-08-2025_add_modal.jpg`
+  - `../../example/UI-family-tree-09-08-2025.jpg`
+
+Notes
+
+- All visuals map to tokenized utilities in `app/globals.css` (no raw hex). Gradients use OKLCH `color-mix()` via `.u-header-accent--gradient` and `.btn-primary--gradient`.
+
 
 ### Canvas-Based Layout System
 

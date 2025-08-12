@@ -170,6 +170,26 @@ FamilyTree (Root)
 - Status: Completed - 2025-08-10 | Branch: `improvement-e9-t8-ui-alignment`
 - Summary: Tokenized styling to match mock; no perf/accessibility regressions
 
+<a id="e9-t9"></a>
+#### E9-T9: Superdesign Prototype Sidebar Simplification (P2-MEDIUM)
+- Status: Completed - 2025-08-12 | Branch: n/a (design prototype only)
+- Summary: Simplified left sidebar to Add, Export, Help; removed bottom “+ Add Member”; removed Inspector; widened main content in `.superdesign` prototype.
+
+<a id="e9-t10"></a>
+#### E9-T10: Remove Mobile Floating “+” FAB (P3-LOW)
+- Status: Completed - 2025-08-12 | Branch: n/a (design prototype only)
+- Summary: Removed orange floating “+” FAB on mobile in `.superdesign` prototype; desktop unaffected.
+
+<a id="e9-t11"></a>
+#### E9-T11: Add Member Search Textbox (P2-MEDIUM)
+- Status: Completed - 2025-08-12 | Branch: n/a (design prototype only)
+- Summary: Added member name search textbox next to Filters in context bar; responsive width; accessible label applied.
+
+<a id="e9-t12"></a>
+#### E9-T12: Superdesign – Responsive Fixes for Overlap (P1-HIGH)
+- Status: Completed - 2025-08-12 | Branch: n/a (design prototype only)
+- Summary: Mobile-first fixes in `.superdesign` to prevent overlap on small screens; connectors beneath nodes; stacked node layout on narrow widths; compacted legend; hid connectors under 480px. Desktop unchanged.
+
 ### Epic 10: Add/Edit Modal UI Redesign
 
 <a id="e10-t1"></a>
@@ -1069,5 +1089,14 @@ FamilyTree (Root)
 - Verification Notes:
   - Full Jest suite passed (11/11, 123/123).
   - Manual check confirms smooth hover/press on desktop; motion-reduce disables micro‑interactions appropriately; no layout shift introduced.
+
+<a id="e11-t6"></a>
+#### E11‑T6: PO/UX Acceptance & Docs (P1‑HIGH)
+- Status: Completed - 2025-08-11 | Branch: `improvement-e11-t6-po-ux-acceptance`
+- Summary: Final PO/UX sign‑off. Acceptance checklist added; before/after screenshots referenced; onboarding help updated with E11 highlights. All visuals token‑driven; gradients optional; AA contrast and APG modal semantics verified; motion‑reduce respected.
+- Artifacts:
+  - Implementation Notes → E11‑T6 acceptance checklist and screenshot links
+  - Onboarding & Help → Visual Polish Highlights (E11)
+  - Screenshots: `example/UI-family-tree-09-08-2025_add_modal.jpg`, `example/UI-family-tree-09-08-2025.jpg` (plus baseline from `example/`)
 
 *See [Task Tracking](./task-tracking.md) for current active tasks.*

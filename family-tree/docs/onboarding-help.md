@@ -35,3 +35,18 @@
 ## Related Tasks
 - IMPROVEMENT-TASK-TRACKING: E6-T4 — Onboarding & Help System (In Progress)
 
+## Visual Polish Highlights (E11)
+
+As part of Epic 11 polish, modals now support:
+
+- Subtle header accents with optional gradient variant (token-driven)
+- Primary CTA gradient variant using tokens (no raw hex)
+- Expressive but subtle section dividers and small label chips
+- Micro‑interactions for hover/press/focus, respecting reduced motion
+- Verified AA contrast and keyboard flows per APG Modal Dialog
+
+Reference screenshots (after):
+
+- `../example/UI-family-tree-09-08-2025_add_modal.jpg`
+- `../example/UI-family-tree-09-08-2025.jpg`
+

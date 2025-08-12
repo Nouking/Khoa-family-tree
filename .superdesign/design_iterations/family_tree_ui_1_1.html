@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Family Tree – Pastel Prototype v1.1</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="family_tree_theme_1_1.css">
+  <script>
+    tailwind.config = { theme: { extend: { fontFamily: { sans: ['Poppins','Inter','ui-sans-serif','system-ui'] } } } }
+  </script>
+</head>
+<body class="min-h-dvh flex flex-col">
+  <!-- Header (smaller, tighter) -->
+  <header class="u-header-accent--gradient text-white">
+    <div class="max-w-7xl mx-auto px-3 sm:px-4 py-2.5 flex items-center gap-2">
+      <div class="flex items-center gap-2">
+        <span class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-white/20">👪</span>
+        <h1 class="text-base sm:text-lg font-semibold leading-tight">Khoa Family Tree</h1>
+      </div>
+      <div class="ms-auto hidden sm:flex items-center gap-2">
+        <button class="btn btn-outline btn-sm btn-press">Undo</button>
+        <button class="btn btn-outline btn-sm btn-press">Redo</button>
+        <input placeholder="Search" class="input hidden md:block ms-1 w-52" />
+        <button class="ms-1 shrink-0 h-8 w-8 rounded-full bg-white/90 text-[var(--ink)] text-xs font-semibold">KY</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main layout: left rail + content -->
+  <div class="max-w-7xl mx-auto w-full px-2 sm:px-3 flex-1 grid grid-cols-12 gap-3 py-3">
+    <!-- Left icon rail -->
+    <aside class="panel col-span-2 lg:col-span-1 p-2 h-fit lg:sticky lg:top-3">
+      <nav class="flex flex-col gap-2 text-xs">
+        <button class="btn btn-outline btn-sm w-full">Add</button>
+        <button class="btn btn-outline btn-sm w-full">Export</button>
+        <button class="btn btn-outline btn-sm w-full">Help</button>
+      </nav>
+    </aside>
+
+    <!-- Center content -->
+    <main class="col-span-10 lg:col-span-11 flex flex-col gap-3">
+      <!-- Context bar -->
+      <div class="panel px-3 py-2 flex items-center gap-2 text-xs sm:text-sm">
+        <span class="badge">Home</span>
+        <span>›</span>
+        <span class="badge">Khoa Family</span>
+        <div class="ms-auto flex items-center gap-2">
+          <span class="hidden sm:inline">Filters</span>
+          <select class="input py-1">
+            <option>All</option>
+            <option>Parents</option>
+            <option>Children</option>
+          </select>
+          <label for="member-search" class="sr-only">Search member name</label>
+          <input id="member-search" type="text" class="input py-1 w-40 sm:w-56" placeholder="Search member…" aria-label="Search member name" />
+        </div>
+      </div>
+
+      <!-- Canvas -->
+      <section class="panel p-2 sm:p-3 canvas-wrap">
+        <div class="canvas-grid rounded-[16px] h-full p-3 sm:p-5 relative overflow-hidden">
+          <!-- Relationship legend overlay -->
+          <div class="panel connection-legend p-2" data-expanded="false">
+            <button class="legend-toggle" title="Toggle size" aria-label="Toggle legend">↔</button>
+            <h4>Relationship key</h4>
+            <div class="legend-row">
+              <svg width="40" height="10" viewBox="0 0 40 10"><path class="connector connector--parent" d="M2 5 H38" fill="none"/></svg>
+              <span>Parent → Child</span>
+            </div>
+            <div class="legend-row">
+              <svg width="40" height="10" viewBox="0 0 40 10"><path class="connector connector--spouse" d="M2 5 H38" fill="none"/></svg>
+              <span>Spouse ↔ Spouse</span>
+            </div>
+          </div>
+
+          <!-- Dynamic connectors will be drawn here -->
+          <svg id="connections" class="absolute inset-0 pointer-events-none" width="100%" height="100%" preserveAspectRatio="none"></svg>
+
+          <!-- Row 1: Parents -->
+            <div class="grid grid-cols-2 gap-6 sm:gap-10 place-items-center">
+            <div class="node-card float-in px-3 py-3 flex items-center gap-3" data-node="daniel">
+              <img class="node-photo" src="https://placehold.co/160x160?text=Daniel" alt="Daniel" />
+              <div>
+                <div class="ribbon ribbon-mint">Daniel</div>
+                <div class="text-[12px] opacity-70 mt-1">Father</div>
+              </div>
+            </div>
+            <div class="node-card float-in px-3 py-3 flex items-center gap-3" data-node="lorna">
+              <img class="node-photo" src="https://placehold.co/160x160?text=Lorna" alt="Lorna" />
+              <div>
+                <div class="ribbon ribbon-sage">Lorna</div>
+                <div class="text-[12px] opacity-70 mt-1">Mother</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 2: Siblings -->
+            <div class="mt-6 sm:mt-8 grid grid-cols-1 sm:grid-cols-5 gap-3 sm:gap-5 place-items-center">
+            <div class="node-card px-3 py-3 flex items-center gap-3" data-node="sebastian">
+              <img class="node-photo" src="https://placehold.co/160x160?text=Sebastian" alt="Sebastian" />
+              <div>
+                <div class="ribbon ribbon-peach">Sebastian</div>
+                <div class="text-[12px] opacity-70 mt-1">Brother</div>
+              </div>
+            </div>
+            <div class="node-card px-3 py-3 flex items-center gap-3" data-node="helene">
+              <img class="node-photo" src="https://placehold.co/160x160?text=Helene" alt="Helene" />
+              <div>
+                <div class="ribbon ribbon-lilac">Helene</div>
+                <div class="text-[12px] opacity-70 mt-1">Sister in law</div>
+              </div>
+            </div>
+            <div class="node-card px-3 py-3 flex items-center gap-3" data-node="rufus">
+              <img class="node-photo" src="https://placehold.co/160x160?text=Rufus" alt="Rufus" />
+              <div>
+                <div class="ribbon ribbon-sun">Rufus</div>
+                <div class="text-[12px] opacity-70 mt-1">Brother in law</div>
+              </div>
+            </div>
+            <div class="node-card px-3 py-3 flex items-center gap-3" data-node="korina">
+              <img class="node-photo" src="https://placehold.co/160x160?text=Korina" alt="Korina" />
+              <div>
+                <div class="ribbon ribbon-mint">Korina</div>
+                <div class="text-[12px] opacity-70 mt-1">Me</div>
+              </div>
+            </div>
+            <div class="node-card px-3 py-3 flex items-center gap-3" data-node="shawn">
+              <img class="node-photo" src="https://placehold.co/160x160?text=Shawn" alt="Shawn" />
+              <div>
+                <div class="ribbon ribbon-rose">Shawn</div>
+                <div class="text-[12px] opacity-70 mt-1">Brother</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 3: Children (expanded to show Ava's spouses) -->
+            <div class="mt-6 sm:mt-8 grid grid-cols-2 sm:grid-cols-6 gap-3 sm:gap-5 place-items-center">
+            <div class="node-card px-3 py-3 flex items-center gap-3" data-node="harper">
+              <img class="node-photo" src="https://placehold.co/160x160?text=Harper" alt="Harper" />
+              <div>
+                <div class="ribbon ribbon-peach">Harper</div>
+                <div class="text-[12px] opacity-70 mt-1">Niece</div>
+              </div>
+            </div>
+            <div class="node-card px-3 py-3 flex items-center gap-3" data-node="alfredo">
+              <img class="node-photo" src="https://placehold.co/160x160?text=Alfredo" alt="Alfredo" />
+              <div>
+                <div class="ribbon ribbon-lilac">Alfredo</div>
+                <div class="text-[12px] opacity-70 mt-1">Nephew</div>
+              </div>
+            </div>
+              <!-- Ava's spouses shown beside Ava -->
+              <div class="node-card px-3 py-3 flex items-center gap-3" data-node="noah">
+                <img class="node-photo" src="https://placehold.co/160x160?text=Noah" alt="Noah" />
+                <div>
+                  <div class="ribbon ribbon-sage">Noah</div>
+                  <div class="text-[12px] opacity-70 mt-1">Ava's spouse</div>
+                </div>
+              </div>
+            <div class="node-card px-3 py-3 flex items-center gap-3" data-node="ava">
+              <img class="node-photo" src="https://placehold.co/160x160?text=Ava" alt="Ava" />
+              <div>
+                <div class="ribbon ribbon-sun">Ava</div>
+                <div class="text-[12px] opacity-70 mt-1">Niece</div>
+              </div>
+            </div>
+              <div class="node-card px-3 py-3 flex items-center gap-3" data-node="liam">
+                <img class="node-photo" src="https://placehold.co/160x160?text=Liam" alt="Liam" />
+                <div>
+                  <div class="ribbon ribbon-rose">Liam</div>
+                  <div class="text-[12px] opacity-70 mt-1">Ava's spouse</div>
+                </div>
+              </div>
+            <div class="node-card px-3 py-3 flex items-center gap-3" data-node="ethan">
+              <img class="node-photo" src="https://placehold.co/160x160?text=Ethan" alt="Ethan" />
+              <div>
+                <div class="ribbon ribbon-sage">Ethan</div>
+                <div class="text-[12px] opacity-70 mt-1">Nephew</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 4: Grandchildren (Ava + Noah's child) -->
+            <div class="mt-6 sm:mt-8 grid grid-cols-1 sm:grid-cols-6 gap-3 sm:gap-5 place-items-center">
+              <div class="hidden sm:block"></div>
+              <div class="hidden sm:block"></div>
+              <div class="node-card px-3 py-3 flex items-center gap-3" data-node="maya">
+                <img class="node-photo" src="https://placehold.co/160x160?text=Maya" alt="Maya" />
+                <div>
+                  <div class="ribbon ribbon-peach">Maya</div>
+                  <div class="text-[12px] opacity-70 mt-1">Ava's child</div>
+                </div>
+              </div>
+              <div class="hidden sm:block"></div>
+              <div class="hidden sm:block"></div>
+              <div class="hidden sm:block"></div>
+            </div>
+        </div>
+      </section>
+
+      <!-- Footer strip removed per design update -->
+    </main>
+
+  </div>
+
+  
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flowbite@2.0.0/dist/flowbite.min.js"></script>
+  <script>
+    if (window.lucide) { window.lucide.createIcons(); }
+    // Legend toggle behavior
+    (function(){
+      var legend = document.querySelector('.connection-legend');
+      var btn = legend && legend.querySelector('.legend-toggle');
+      if (legend && btn) {
+        btn.addEventListener('click', function(){
+          var expanded = legend.getAttribute('data-expanded') === 'true';
+          legend.setAttribute('data-expanded', expanded ? 'false' : 'true');
+        });
+      }
+    })();
+
+    // Dynamic connectors anchored to node borders (center points)
+    (function(){
+      var svg = document.getElementById('connections');
+      var canvas = document.querySelector('.canvas-grid');
+      if (!svg || !canvas) return;
+
+      function clearConnections(){
+        while (svg.firstChild) svg.removeChild(svg.firstChild);
+      }
+
+      function setSvgSize(){
+        var rect = canvas.getBoundingClientRect();
+        svg.setAttribute('width', rect.width);
+        svg.setAttribute('height', rect.height);
+        svg.setAttribute('viewBox', '0 0 ' + rect.width + ' ' + rect.height);
+      }
+
+      function getRect(node){
+        var r = node.getBoundingClientRect();
+        var c = canvas.getBoundingClientRect();
+        return { x: r.left - c.left, y: r.top - c.top, width: r.width, height: r.height };
+      }
+
+      function anchorCenter(rect, side){
+        switch(side){
+          case 'top': return { x: rect.x + rect.width/2, y: rect.y };
+          case 'bottom': return { x: rect.x + rect.width/2, y: rect.y + rect.height };
+          case 'left': return { x: rect.x, y: rect.y + rect.height/2 };
+          case 'right': return { x: rect.x + rect.width, y: rect.y + rect.height/2 };
+          default: return { x: rect.x + rect.width/2, y: rect.y + rect.height/2 };
+        }
+      }
+
+      function pathEl(className, d){
+        var p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        p.setAttribute('class', className);
+        p.setAttribute('fill', 'none');
+        p.setAttribute('d', d);
+        svg.appendChild(p);
+      }
+
+      function cubicCurve(p1, p2, orientation){
+        // orientation: 'horizontal' (spouse) or 'vertical' (parent-child)
+        if (orientation === 'horizontal'){
+          var dx = Math.abs(p2.x - p1.x);
+          var cx = Math.max(24, dx * 0.35);
+          return `M ${p1.x} ${p1.y} C ${p1.x + cx} ${p1.y}, ${p2.x - cx} ${p2.y}, ${p2.x} ${p2.y}`;
+        } else {
+          var dy = Math.abs(p2.y - p1.y);
+          var cy = Math.max(24, dy * 0.35);
+          return `M ${p1.x} ${p1.y} C ${p1.x} ${p1.y + cy}, ${p2.x} ${p2.y - cy}, ${p2.x} ${p2.y}`;
+        }
+      }
+
+      function draw(){
+        setSvgSize();
+        clearConnections();
+
+        var byId = function(id){ return document.querySelector(`[data-node="${id}"]`); };
+        var daniel = byId('daniel');
+        var lorna = byId('lorna');
+        var korina = byId('korina');
+        var ava = byId('ava');
+        var ethan = byId('ethan');
+        var noah = byId('noah');
+        var liam = byId('liam');
+        var maya = byId('maya');
+
+        if (daniel && lorna){
+          var r1 = getRect(daniel); var r2 = getRect(lorna);
+          var a = anchorCenter(r1, 'right');
+          var b = anchorCenter(r2, 'left');
+          var d = cubicCurve(a, b, 'horizontal');
+          pathEl('connector connector--spouse', d);
+        }
+
+        if (daniel && korina){
+          var rp = getRect(daniel); var rc = getRect(korina);
+          var a1 = anchorCenter(rp, 'bottom');
+          var b1 = anchorCenter(rc, 'top');
+          pathEl('connector connector--parent', cubicCurve(a1, b1, 'vertical'));
+        }
+        if (lorna && korina){
+          var rp2 = getRect(lorna); var rc2 = getRect(korina);
+          var a2 = anchorCenter(rp2, 'bottom');
+          var b2 = anchorCenter(rc2, 'top');
+          pathEl('connector connector--parent', cubicCurve(a2, b2, 'vertical'));
+        }
+
+        if (korina && ava){
+          var rk = getRect(korina); var ra = getRect(ava);
+          var ak = anchorCenter(rk, 'bottom');
+          var aa = anchorCenter(ra, 'top');
+          pathEl('connector connector--parent', cubicCurve(ak, aa, 'vertical'));
+        }
+        if (korina && ethan){
+          var rk2 = getRect(korina); var re = getRect(ethan);
+          var ak2 = anchorCenter(rk2, 'bottom');
+          var ae2 = anchorCenter(re, 'top');
+          pathEl('connector connector--parent', cubicCurve(ak2, ae2, 'vertical'));
+        }
+
+        // Ava's spouses
+        if (ava && noah){
+          var ra1 = getRect(ava); var rn1 = getRect(noah);
+          var sa1 = anchorCenter(ra1, 'left');
+          var sn1 = anchorCenter(rn1, 'right');
+          pathEl('connector connector--spouse', cubicCurve(sa1, sn1, 'horizontal'));
+        }
+        if (ava && liam){
+          var ra2 = getRect(ava); var rl2 = getRect(liam);
+          var sa2 = anchorCenter(ra2, 'right');
+          var sl2 = anchorCenter(rl2, 'left');
+          pathEl('connector connector--spouse', cubicCurve(sa2, sl2, 'horizontal'));
+        }
+
+        // Ava + Noah child
+        if (ava && maya){
+          var rA = getRect(ava); var rC = getRect(maya);
+          var aA = anchorCenter(rA, 'bottom');
+          var aC = anchorCenter(rC, 'top');
+          pathEl('connector connector--parent', cubicCurve(aA, aC, 'vertical'));
+        }
+        if (noah && maya){
+          var rN = getRect(noah); var rC2 = getRect(maya);
+          var aN = anchorCenter(rN, 'bottom');
+          var aC2 = anchorCenter(rC2, 'top');
+          pathEl('connector connector--parent', cubicCurve(aN, aC2, 'vertical'));
+        }
+      }
+
+      // Redraw on resize and on font/image load settles
+      var resizeObserver = new ResizeObserver(draw);
+      resizeObserver.observe(canvas);
+      window.addEventListener('resize', draw);
+      window.addEventListener('load', draw);
+
+      // Also redraw after images load (node sizes change)
+      document.querySelectorAll('.node-photo').forEach(function(img){
+        if (img.complete) return; img.addEventListener('load', draw);
+      });
+
+      // Initial draw (in case load already fired)
+      draw();
+    })();
+  </script>
+</body>
+</html>

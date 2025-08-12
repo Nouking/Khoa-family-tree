@@ -1,0 +1,64 @@
+:root {
+  /* Warm, colorful pastel palette (no indigo/blue focus) */
+  --surface: oklch(0.985 0.02 95);        /* soft off‑white */
+  --surface-2: oklch(0.97 0.03 95);
+  --ink: oklch(0.22 0.03 60);             /* warm charcoal */
+
+  /* Ribbons & accents (pastel) */
+  --mint:   oklch(0.92 0.09 170); /* mint */
+  --peach:  oklch(0.91 0.12 55);  /* peach */
+  --apricot:oklch(0.92 0.10 65);
+  --lilac:  oklch(0.92 0.09 300);
+  --sage:   oklch(0.92 0.07 150);
+  --sun:    oklch(0.93 0.12 85);  /* warm yellow */
+  --rose:   oklch(0.92 0.11 20);
+
+  --card: #ffffff;
+  --border: color-mix(in oklch, var(--ink), white 85%);
+  --shadow-1: 0 2px 6px hsl(0 0% 0% / 0.06), 0 1px 2px hsl(0 0% 0% / 0.05);
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --radius-sm: 10px;
+
+  --font-sans: 'Poppins', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+
+/* Base resets with strong priority to avoid framework overrides */
+html, body { background: var(--surface) !important; color: var(--ink) !important; font-family: var(--font-sans) !important; }
+h1, h2, h3, h4, h5, h6 { color: var(--ink) !important; font-weight: 700 !important; }
+
+/* Dotted canvas background */
+.canvas-grid {
+  background-image: radial-gradient(color-mix(in oklch, var(--ink), white 88%) 1px, transparent 1px) !important;
+  background-size: 24px 24px !important;
+}
+
+/* Node card with photo and ribbon label */
+.node-card { background: var(--card) !important; border: 1px solid var(--border) !important; border-radius: var(--radius-lg) !important; box-shadow: var(--shadow-1) !important; }
+.node-photo { width: 88px !important; height: 88px !important; border-radius: 9999px !important; object-fit: cover !important; border: 3px solid #fff !important; box-shadow: 0 1px 0 hsl(0 0% 100% / .6) inset; }
+
+/* Ribbon label */
+.ribbon { position: relative !important; display: inline-block !important; color: oklch(0.22 0.03 60) !important; font-weight: 600 !important; border-radius: 10px !important; padding: 6px 12px !important; box-shadow: var(--shadow-1) !important; }
+.ribbon::after { content: ""; position: absolute; right: -14px; top: 50%; transform: translateY(-50%); border-width: 10px 0 10px 14px; border-style: solid; border-color: transparent transparent transparent currentColor; opacity: .5; }
+
+.ribbon-mint  { background: color-mix(in oklch, var(--mint),  white 20%) !important; color: oklch(0.28 0.03 160) !important; }
+.ribbon-peach { background: color-mix(in oklch, var(--peach), white 18%) !important; color: oklch(0.30 0.04 55)  !important; }
+.ribbon-lilac { background: color-mix(in oklch, var(--lilac), white 18%) !important; color: oklch(0.30 0.02 300) !important; }
+.ribbon-sage  { background: color-mix(in oklch, var(--sage),  white 20%) !important; color: oklch(0.30 0.03 150) !important; }
+.ribbon-sun   { background: color-mix(in oklch, var(--sun),   white 15%) !important; color: oklch(0.32 0.05 85)  !important; }
+.ribbon-rose  { background: color-mix(in oklch, var(--rose),  white 18%) !important; color: oklch(0.32 0.06 20)  !important; }
+
+/* Connector line styling (static demo) */
+.connector { stroke: color-mix(in oklch, var(--ink), white 60%) !important; stroke-width: 2 !important; }
+
+/* Panels */
+.panel { background: var(--card) !important; border: 1px solid var(--border) !important; border-radius: var(--radius-md) !important; box-shadow: var(--shadow-1) !important; }
+
+/* Micro animations */
+@keyframes float-in { from { opacity: 0; transform: translateY(8px) scale(.98) } to { opacity: 1; transform: translateY(0) scale(1) } }
+.float-in { animation: float-in 200ms ease-out both; }
+.btn-press { transition: transform 120ms ease, filter 120ms ease !important; }
+.btn-press:active { transform: translateY(1px) scale(.98) !important; filter: brightness(.98) !important; }
+
+/* Utility helpers for demo */
+.badge { font-size: 12px !important; padding: 2px 8px !important; border-radius: 999px !important; border: 1px solid var(--border) !important; background: var(--surface-2) !important; }
