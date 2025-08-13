@@ -830,53 +830,10 @@ User preferences from `issue` (2025‑08‑11):
 
 **Success Criteria**: All acceptance criteria in `ui-improvement-plan.md` are satisfied; AA contrast; APG semantics and keyboard flow preserved; no mobile overlaps (360–480px); SVG connectors layer beneath nodes; bundle/perf budgets respected; zero regressions in tests.
 
-### E12-T0: UI Backup & Rollback Plan (P1-CRITICAL)
-- **Status**: Completed - 2025-08-13 | Branch: `improvement-e12-t0-ui-backup`
-- **Primary Agent**: @dev (James - Backup & scripting)
-- **Supporting Agents**: @sm (Bob - Process/readiness), @qa (Quinn - Validation)
-- **Description**: Create a comprehensive, versioned backup of the current UI and a documented rollback procedure to restore the exact pre‑Epic‑12 state if needed.
-- **Dependencies**: None
-- **Acceptance Criteria**:
-  - GIVEN the repo is at the pre‑Epic‑12 state on `main`
-  - WHEN the backup procedure is executed
-  - THEN an annotated Git tag `ui-pre-e12-backup` is created at the current commit
-  - AND a branch `improvement-e12-t0-ui-backup` exists for committing backup docs/artifacts
-  - AND a zipped archive is created at `family-tree/docs/archive/ui-backups/ui-pre-e12-<YYYYMMDD-HHMM>.zip` containing:
-    - `family-tree/app/components/`, `family-tree/app/contexts/`, `family-tree/app/hooks/`, `family-tree/app/view/`, `family-tree/app/layout.tsx`, `family-tree/app/globals.css`, `family-tree/app/components/shared/`, `family-tree/app/components/*Modal*.tsx`, `family-tree/app/components/MainToolbar.tsx`, `family-tree/app/components/FamilyTree*.tsx`, `family-tree/app/components/TreeConnection.tsx`, `family-tree/app/Providers.tsx`
-  - AND baseline screenshots of key screens are saved under `family-tree/docs/assets/ui-baselines/pre-e12/` for:
-    - Tree View Home (desktop, 1024px; mobile, 375px)
-    - Add Member Modal (desktop + mobile bottom‑sheet)
-    - Edit Member Modal
-    - Login
-    - Member Detail
-    - Help Panel
-  - AND a rollback guide exists at `family-tree/docs/upgrade-plan.md` (or `family-tree/docs/archive/ui-rollback-guide.md`) with exact commands and steps:
-    - Checkout tag to restore
-    - Revert strategy using `git revert` or `git reset` with safety notes
-    - How to re‑apply selected commits if partial rollback is needed
-  - AND CI or a local script validates the tag exists and the archive paths are present
-- **Implementation Details**:
-  - Git:
-    - Create annotated tag: `git tag -a ui-pre-e12-backup -m "Backup before Epic 12 UI implementation"`
-    - Push tag: `git push origin ui-pre-e12-backup`
-    - Create work branch: `git checkout -b improvement-e12-t0-ui-backup`
-  - Archive:
-    - Use `zip` or `tar` to archive directories/files listed above into `family-tree/docs/archive/ui-backups/`
-  - Baseline screenshots:
-    - Prefer Playwright (if available) to script captures; otherwise capture manually and place in the target folder with descriptive names
-  - Documentation:
-    - Add a "Rollback plan for Epic 12" section with exact step‑by‑step commands and safety notes
-  - Context7:
-    ```text
-    use context7 "/testing-library/react-testing-library" topic="snapshot/baseline testing considerations"
-    use context7 "/vercel/next.js" topic="Change management in App Router projects"
-    ```
-- **Verification**:
-  - Tag present: `git tag -l ui-pre-e12-backup`
-  - Validation script: `cd family-tree && npm run validate:backup` returns "All validations passed."
-  - Baseline screenshots stored under `family-tree/docs/assets/ui-baselines/pre-e12/`
-
-- **Branch**: `improvement-e12-t0-ui-backup`
+### E12-T0: UI Backup & Rollback Plan (P1-CRITICAL) ✅
+- Status: Completed - 2025-08-13 | Branch: `improvement-e12-t0-ui-backup`
+- Summary: Versioned UI backup created (annotated tag, archive, baseline screenshots) with rollback guide and validation script.
+- Details: See Completed Log → [E12-T0](family-tree/docs/completed-tasks.md#e12-t0)
 
 ### E12-T1: Tree View Home – Layout, Sidebar, Toolbar, Canvas (P1-CRITICAL)
 - **Status**: Pending
