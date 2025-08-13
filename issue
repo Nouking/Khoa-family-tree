@@ -1,8 +1,10 @@
-- UI of Add/edit modal is ugly, I need UI more colorful, beauty, can refer to this web https://www.notion.com/?ref=godly, use role .cursor\rules\ux-expert.mdc with support from .cursor\rules\architect.mdc and .cursor\rules\po.mdc, create epic with detail in formation to improve current UI, make it colorful, good looking UI.
-Write new epic/task in file IMPROVEMENT-TASK-TRACKING.md with really detail on each, so AI can work perfect with it. Discuss with me if needed.
-
-Clarify before I write/update tasks: subtle accents.
-Gradients: allow soft OKLCH gradients in headers/CTAs: yes.
-Accent color family: keep current primary (warm blue) as hero, and allow accent pink for highlights:yes.
- Notion vs. godly vibe: minimalist with selective color, or more expressive (chips, gradient headers, colored dividers): more expressive.
- Motion: subtle transitions only, or add a few micro‑interactions (focus/press states, section reveal): add a few micro‑interactions.
+- I created new UI design on .superdesign/design_iterations
+.superdesign/design_iterations/family_tree_ui_1_1.html and css is for tree view home page.
+.superdesign/design_iterations/add_family_member_1_0_1.html and css is for add modal;
+.superdesign/design_iterations/edit_family_member_1_0_1.html and css is for edit modal;
+.superdesign/design_iterations/login_redesign_1.html and css is for login screen;
+.superdesign/design_iterations/member_detail_1_0_0.html and css is for member detal scren;
+.superdesign/design_iterations/help_panel_1_0_1.html and css is for help panel when clicked button help.
+- Discuss with me if needed for plan improve current UI to new design which memtioned above. @QA @PM @PO @UX-expert and @architect @SM discuss with each other and me.
+Plan detail first then create a Improve UI MD file. Can move UI-IMPROVEMENT-PLAN.md and IMPROVEMENT-PLAN.md to a archived folder in docs folder. Then create a new UI improve plan md file. Plan epic and story can create later.
+Do not create new epic and story, create a good UI improve plan 1st.

@@ -762,3 +762,77 @@ const loadTreeData = (): FamilyTreeData | null => {
 ---
 
 *This upgrade plan transforms the current basic family tree viewer into a professional design tool with essential CRUD operations, sharing, and export functionality while maintaining the frontend-only architecture with JSON storage. The implementation approach focuses on preserving existing functionality while incrementally adding new canvas-based features through a phased development process.* 
+
+---
+
+## Rollback plan for Epic 12
+
+This guide documents the exact steps to restore the repository to the pre‑Epic‑12 UI state using the backup tag and archive.
+
+### Preconditions
+- Confirm the backup tag and archive exist:
+  - Git tag: `ui-pre-e12-backup`
+  - Archive: files present under `family-tree/docs/archive/ui-backups/`
+
+### Option A: Checkout the backup tag in a detached state (safe, read‑only)
+
+```bash
+git fetch --tags
+git checkout ui-pre-e12-backup
+# Inspect files, run the app, or create a new branch from this state if desired
+# To create a branch from the tag:
+git switch -c rollback-from-ui-pre-e12
+```
+
+### Option B: Recreate main at the backup (team‑wide rollback)
+
+```bash
+# Ensure you have pushed/merged any in‑flight work or created safety branches
+git fetch --all --tags
+git checkout main
+git reset --hard ui-pre-e12-backup
+git push --force-with-lease origin main
+```
+
+Safety notes:
+- Prefer a PR that merges the rollback commit(s) rather than forcing history, if time allows.
+- Coordinate with collaborators to avoid losing unmerged work.
+
+### Option C: Revert only Epic 12 commits (partial rollback)
+
+If Epic 12 changes are grouped (e.g., in feature branches or identifiable commits), revert them without rewriting history:
+
+```bash
+# Identify range (example):
+# git log --oneline --decorate --graph
+
+# Revert a single commit (creates a new reverting commit):
+git revert <commit-sha>
+
+# Revert a range (oldest..newest, exclusive of oldest):
+git revert <oldest-sha>^..<newest-sha>
+
+# Resolve conflicts, then commit the revert; push via PR
+```
+
+Tips:
+- Use `git revert` over `git reset` for shared branches to preserve history.
+- Test locally and in CI before merging the revert PR.
+
+### Restoring specific files from the archive (surgical)
+
+If only certain UI files need restoration, extract from the timestamped zip under `family-tree/docs/archive/ui-backups/`:
+
+```bash
+unzip family-tree/docs/archive/ui-backups/ui-pre-e12-<YYYYMMDD-HHMM>.zip "family-tree/app/**" -d /tmp/ui-restore
+# Copy selectively back into the repo, review with git diff, then commit
+```
+
+### Verification checklist
+- App builds and runs locally: `cd family-tree && npm install && npm run build && npm start`
+- Unit tests pass: `npm test`
+- Baseline screenshots (pre‑E12) still representative: see `family-tree/docs/assets/ui-baselines/pre-e12/`
+
+### Notes
+- The backup tag is annotated and pushed to remote; it is immutable by convention.
+- Keep the archive zip(s) under version control to aid future audits.

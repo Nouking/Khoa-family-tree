@@ -494,19 +494,3 @@ All tasks follow established patterns:
 ---
 
 *This UI improvement plan is designed to work seamlessly with existing project structure and agent workflows. It focuses on gradual, safe improvements that enhance user experience while maintaining the solid technical foundation already established.*
-
----
-
-## Epic 10: Add/Edit Modal UI Redesign (Summary)
-- Reference tasks and full acceptance criteria live in `IMPROVEMENT-TASK-TRACKING.md` → Epic 10.
-- Spec artifacts: `family-tree/docs/implementation-notes.md` (Modal Redesign E10-T1) and `family-tree/docs/assets/e10-modal/annotations.md`.
-- Implementation alignment:
-  - Tokenized header accent, backdrop blur/opacity, container radii/elevation.
-  - Mobile bottom-sheet behavior using `max-sm:h-[100dvh]` and `max-sm:rounded-none`.
-  - Inputs, sections, and error states applied to `MemberForm` (E10‑T4). Validation (E10‑T6), mobile bottom‑sheet (E10‑T7), a11y validation (E10‑T8), tests (E10‑T9), and PO sign‑off (E10‑T10) are complete.
-
-## Epic 11: Notion‑Inspired Modal Color & Motion Polish (Summary)
-- Goal: More colorful, beautiful, expressive UI for Add/Edit modals using tokens; Notion‑inspired, not copied.
-- Tasks: E11‑T1 (gradient/accent mapping), E11‑T2 (header/CTA polish), E11‑T3 (dividers/chips/icons), E11‑T4 (micro‑interactions), E11‑T5 (a11y/tests), E11‑T6 (PO/UX acceptance).
-- Files: `app/components/Modal.tsx`, `AddMemberModal.tsx`, `EditMemberModal.tsx`, `shared/MemberForm.tsx`, `app/globals.css`.
-- Research protocol: add screenshots + token mapping into `family-tree/docs/implementation-notes.md` under Epic 11 subsections.

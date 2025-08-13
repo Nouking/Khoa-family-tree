@@ -4,6 +4,22 @@
 > Note (@qa, @sm): Each completed task anchor (e.g., `<a id="e10-t6"></a>`) maps to full details in `IMPROVEMENT-TASK-TRACKING.md`. If the corresponding ID there already contains sufficient information, this archive may summarize or omit duplicate details.
 
 ## 📊 Task Completion Log
+<a id="e12-t0"></a>
+#### E12-T0: UI Backup & Rollback Plan (P1-CRITICAL)
+- Status: Completed - 2025-08-13 | Branch: `improvement-e12-t0-ui-backup`
+- Summary: Created annotated tag `ui-pre-e12-backup`, archived UI sources to timestamped zip, captured baseline screenshots (Home, Tree, Login on desktop/mobile), documented rollback guide, and added validation script.
+- Implementation Notes:
+  - Git:
+    - Tag: `git tag -a ui-pre-e12-backup -m "Backup before Epic 12 UI implementation"` and pushed to origin
+    - Branch: `improvement-e12-t0-ui-backup` for backup artifacts and docs
+  - Archive:
+    - Zip written to `family-tree/docs/archive/ui-backups/ui-pre-e12-<YYYYMMDD-HHMM>.zip` including key UI files and directories
+  - Baselines:
+    - Saved under `family-tree/docs/assets/ui-baselines/pre-e12/`: `home-desktop.png`, `home-mobile.png`, `tree-desktop.png`, `tree-mobile.png`, `login-desktop.png`, `login-mobile.png`
+  - Rollback Guide:
+    - Added section “Rollback plan for Epic 12” in `family-tree/docs/upgrade-plan.md` with Option A/B/C commands and surgical restore steps
+  - Validation:
+    - Script `family-tree/scripts/validate-ui-backup.cjs`; run via `cd family-tree && npm run validate:backup` → All validations passed
 
 ### Epic 1: Technical Debt Resolution
 

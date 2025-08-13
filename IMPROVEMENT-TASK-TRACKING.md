@@ -822,3 +822,143 @@ User preferences from `issue` (2025‑08‑11):
 
 
 ---
+
+## Epic 12: UI Improvement Plan Implementation 🧭
+**Priority**: High | **Estimated Timeline**: 1–2 weeks
+
+**Goal**: Implement the approved UI direction from `family-tree/docs/ui-improvement-plan.md` across key screens (Tree View Home, Add/Edit Modal alignment, Login, Member Detail, Help Panel) while preserving performance, accessibility, and token-first styling.
+
+**Success Criteria**: All acceptance criteria in `ui-improvement-plan.md` are satisfied; AA contrast; APG semantics and keyboard flow preserved; no mobile overlaps (360–480px); SVG connectors layer beneath nodes; bundle/perf budgets respected; zero regressions in tests.
+
+### E12-T0: UI Backup & Rollback Plan (P1-CRITICAL) ✅
+- Status: Completed - 2025-08-13 | Branch: `improvement-e12-t0-ui-backup`
+- Summary: Versioned UI backup created (annotated tag, archive, baseline screenshots) with rollback guide and validation script.
+- Details: See Completed Log → [E12-T0](family-tree/docs/completed-tasks.md#e12-t0)
+
+### E12-T1: Tree View Home – Layout, Sidebar, Toolbar, Canvas (P1-CRITICAL)
+- **Status**: Pending
+- **Primary Agent**: @dev (James - Implementation)
+- **Supporting Agents**: @ux-expert (Sally - Visual/UX), @qa (Quinn - A11y/Responsive)
+- **Description**: Align the Tree View Home with canonical layout and acceptance criteria.
+- **Dependencies**: [E5-T3] ✅, [E5-T4] ✅, [E9-T3] ✅, [E9-T4] ✅
+- **Acceptance Criteria**:
+  - GIVEN the home view loads
+  - WHEN rendering sidebar and toolbar
+  - THEN the sidebar contains only Add, Export, Help
+  - AND toolbar shows Title, Search, Filters grouped, keyboard-accessible with tokenized focus rings
+  - AND connectors layer beneath member nodes
+  - AND no element overlaps at 360–480px; no mobile FAB
+- **Implementation Details**:
+  - Use `.superdesign/design_iterations/family_tree_ui_1_1.html` as canonical reference
+  - Update `app/components/MainToolbar.tsx` to ensure title truncation, search width constraints, and focus tokens
+  - Ensure only Add, Export, Help entry points are exposed (remove duplicates) in `app/components/MainToolbar.tsx` and any sidebar logic in `app/components/FamilyTree.tsx`
+  - Enforce connectors-under-nodes layering in `app/components/FamilyTreeCanvas.tsx` and `app/components/TreeConnection.tsx` via DOM order/z-index
+  - Apply responsive rules in `app/globals.css` using tokens; verify virtualization unaffected
+  - Tests: Update `app/components/__tests__/FamilyTreeCanvas.test.tsx`, `MainToolbar.test.tsx`, `TreeConnection.test.tsx`
+  - Context7 (research before implementation):
+    ```text
+    use context7 "/vercel/next.js" topic="App Router patterns for layout composition"
+    use context7 "/tailwindlabs/tailwindcss" topic="Token-first responsive layout, focus rings"
+    ```
+- **Branch**: `improvement-e12-t1-tree-view-home`
+
+### E12-T2: Add/Edit Member Modal – Final Alignment with Plan (P1-HIGH)
+- **Status**: Pending
+- **Primary Agent**: @dev (James - Implementation)
+- **Supporting Agents**: @ux-expert (Sally - Tokens/Visual), @qa (Quinn - Modal a11y tests)
+- **Description**: Ensure Add/Edit modals match the plan’s grouping, accents, and mobile bottom-sheet variant while preserving E10/E11 behavior.
+- **Dependencies**: [E10] ✅ (T3–T10), [E11] ✅
+- **Acceptance Criteria**:
+  - MemberForm sections clearly grouped; validation/error states consistent; no layout shift
+  - Header/CTA support subtle gradient accents via tokens; motion-reduce honored
+  - Mobile bottom-sheet variant respects dvh/safe areas; focus trap maintained
+- **Implementation Details**:
+  - Verify `app/components/shared/MemberForm.tsx`, `AddMemberModal.tsx`, `EditMemberModal.tsx` section structure and token usage
+  - Map any accents/gradients to tokens in `app/globals.css` (no raw hex)
+  - Ensure aria attributes, focus loop, and escape/backdrop close per APG maintained
+  - Tests: Update `app/components/__tests__/AddMemberModal.test.tsx`, `EditMemberModal.test.tsx`, `MemberForm.test.tsx`, `Modal.test.tsx`
+  - Context7:
+    ```text
+    use context7 "/testing-library/react-testing-library" topic="modal a11y tests (focus trap, aria)"
+    use context7 "/tailwindlabs/tailwindcss" topic="token-first gradients, motion-reduce"
+    ```
+- **Branch**: `improvement-e12-t2-modal-alignment`
+
+### E12-T3: Login – Modern Warm Theme & A11y (P1-HIGH)
+- **Status**: Pending
+- **Primary Agent**: @ux-expert (Sally - Visual design)
+- **Supporting Agents**: @dev (James - Implementation), @qa (Quinn - Form a11y)
+- **Description**: Apply modern warm theme to login with clear hierarchy and inline errors, aligning with `ui-improvement-plan.md`.
+- **Dependencies**: [E5-T1] ✅
+- **Acceptance Criteria**:
+  - Accessible labels, correct focus order, tokenized focus rings
+  - Inline errors announced to screen readers; visual style matches direction
+- **Implementation Details**:
+  - Update `app/login/page.tsx` and `app/lib/auth.ts` form states and tokens
+  - Ensure `aria-invalid`, `aria-describedby` for errors; live region for error announcement
+  - Tests: Add/Update login tests (create new if missing)
+  - Context7:
+    ```text
+    use context7 "/vercel/next.js" topic="App Router forms and accessibility"
+    use context7 "/tailwindlabs/tailwindcss" topic="focus styles and AA contrast tokens"
+    ```
+- **Branch**: `improvement-e12-t3-login-redesign`
+
+### E12-T4: Member Detail – Information Hierarchy & Tokens (P2-HIGH)
+- **Status**: Pending
+- **Primary Agent**: @ux-expert (Sally - UX)
+- **Supporting Agents**: @dev (James - Implementation), @qa (Quinn - A11y)
+- **Description**: Improve hierarchy (photo, name, relationships, life dates) with consistent chips/dividers/icons using token rules.
+- **Dependencies**: [E5-T2] ✅
+- **Acceptance Criteria**:
+  - Readable at mobile sizes; keyboard-accessible actions; tokens-only styling
+- **Implementation Details**:
+  - Update `app/components/MemberBanner.tsx` and related detail UI in `app/view/ViewPageClient.tsx`
+  - Add token-driven chips/dividers/icons per E11 patterns; avoid SVG filter perf costs
+  - Tests: Update `app/components/__tests__/MemberBanner.test.tsx`
+  - Context7:
+    ```text
+    use context7 "/tailwindlabs/tailwindcss" topic="semantic tokens for chips/dividers"
+    ```
+- **Branch**: `improvement-e12-t4-member-detail`
+
+### E12-T5: Help Panel – Accessibility & Responsiveness (P2-MEDIUM)
+- **Status**: Pending
+- **Primary Agent**: @ux-expert (Sally - Interaction design)
+- **Supporting Agents**: @dev (James - Implementation), @qa (Quinn - A11y)
+- **Description**: Ensure Help Panel provides contextual help/shortcuts with accessible headings/landmarks and responsive layout.
+- **Dependencies**: None
+- **Acceptance Criteria**:
+  - Opens from Help; proper headings and landmarks; responsive behavior validated
+- **Implementation Details**:
+  - Update `app/components/HelpPanel.tsx` structure, ARIA roles, and responsive layout using tokens
+  - Verify entry points from toolbar Help
+  - Tests: Update `app/components/__tests__/HelpPanel.test.tsx`
+  - Context7:
+    ```text
+    use context7 "/vercel/next.js" topic="Accessible landmark patterns in app layouts"
+    use context7 "/testing-library/react-testing-library" topic="a11y assertions for landmarks/headings"
+    ```
+- **Branch**: `improvement-e12-t5-help-panel`
+
+### E12-T6: QA Validation – Accessibility, Responsive, Performance (P1-CRITICAL)
+- **Status**: Pending
+- **Primary Agent**: @qa (Quinn - Validation)
+- **Supporting Agents**: @dev (James), @ux-expert (Sally)
+- **Description**: Validate across the plan’s Validation Plan (a11y, responsive, perf, regression) and update docs.
+- **Dependencies**: [E12-T1] ✅, [E12-T2] ✅, [E12-T3] ✅, [E12-T4] ✅, [E12-T5] ✅
+- **Acceptance Criteria**:
+  - Modal APG checks pass; focus management correct; labels and reduced-motion compliance
+  - Responsive checks pass at 360, 480, 768, 1024, 1440; no overlap; connectors under nodes
+  - Interaction smoothness ∼60fps target; no excessive layout thrash
+  - Regression tests green for Add/Edit flows, search/filter, export entry points
+- **Implementation Details**:
+  - Expand/adjust tests under `app/components/__tests__/` and `app/contexts/__tests__/`
+  - Update `family-tree/docs/completed-tasks.md` and reference outcomes from `family-tree/docs/ui-improvement-plan.md`
+  - Context7:
+    ```text
+    use context7 "/testing-library/react-testing-library" topic="a11y & responsive testing patterns"
+    use context7 "/vercel/next.js" topic="Performance recommendations for App Router"
+    ```
+- **Branch**: `improvement-e12-t6-qa-validation`
+
