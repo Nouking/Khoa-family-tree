@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Family Tree – Sign in</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CDN (as required) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: { extend: { fontFamily: { sans: ['Poppins','Inter','ui-sans-serif','system-ui'] } } }
+      }
+    </script>
+
+    <!-- Theme CSS aligned with family_tree_ui_1_1.html -->
+    <style>
+:root {
+  --surface: oklch(0.985 0.02 95);
+  --surface-2: oklch(0.97 0.03 95);
+  --ink: oklch(0.22 0.03 60);
+  --mint:   oklch(0.92 0.09 170);
+  --peach:  oklch(0.91 0.12 55);
+  --apricot:oklch(0.92 0.10 65);
+  --lilac:  oklch(0.92 0.09 300);
+  --sage:   oklch(0.92 0.07 150);
+  --sun:    oklch(0.93 0.12 85);
+  --rose:   oklch(0.92 0.11 20);
+  --card: #ffffff;
+  --border: color-mix(in oklch, var(--ink), white 85%);
+  --shadow-1: 0 2px 6px hsl(0 0% 0% / 0.06), 0 1px 2px hsl(0 0% 0% / 0.05);
+  --radius-xl: 16px; --radius-lg: 12px; --radius-md: 10px;
+  --font-sans: 'Poppins', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  /* Header gradient stops (avoid indigo/blue; lean purple/violet) */
+  --header-start: oklch(0.63 0.22 300); /* vibrant violet */
+  --header-end:   oklch(0.61 0.21 330); /* magenta */
+}
+
+*, *::before, *::after { box-sizing: border-box !important; }
+html, body { background: var(--surface) !important; color: var(--ink) !important; font-family: var(--font-sans) !important; }
+h1, h2, h3, h4, h5, h6 { color: var(--ink) !important; font-weight: 700 !important; }
+
+/* Polished gradient header similar to reference */
+.u-header-accent--gradient { 
+  background: linear-gradient(90deg, var(--header-start), var(--header-end)) !important; 
+  box-shadow: 0 1px 0 hsl(0 0% 100% / 0.15) inset, 0 2px 10px hsl(270 30% 20% / 0.18) !important;
+}
+.u-header-accent--gradient .btn-outline { border-color: hsl(0 0% 100% / 0.35) !important; color: white !important; background: hsl(0 0% 100% / 0.12) !important; }
+.u-header-accent--gradient .input { background: hsl(0 0% 100% / 0.92) !important; }
+
+/* Buttons – consistent sizing to prevent text overflow */
+.btn { display:inline-flex !important; align-items:center !important; gap:.5rem !important; font-weight:600 !important; font-size: clamp(12px, 1.6vw, 14px) !important; line-height:1.2 !important; padding:.5rem .75rem !important; min-height:36px !important; border-radius: 10px !important; white-space: nowrap !important; overflow: hidden !important; text-overflow: ellipsis !important; }
+.btn-sm { padding:.375rem .625rem !important; min-height:32px !important; }
+.btn-press { transition: transform 120ms ease, filter 120ms ease !important; }
+.btn-press:active { transform: translateY(1px) scale(.98) !important; filter: brightness(.98) !important; }
+.btn-outline { border:1px solid var(--border) !important; background: #ffffff40 !important; color: var(--ink) !important; }
+.btn-primary { background: color-mix(in oklch, var(--peach), white 10%) !important; color: var(--ink) !important; }
+.btn-primary--gradient { background: linear-gradient(90deg, color-mix(in oklch, var(--peach), white 6%), var(--peach)) !important; color: var(--ink) !important; }
+
+/* Inputs */
+.input { font-size: clamp(12px, 1.6vw, 14px) !important; line-height: 1.3 !important; padding:.5rem .625rem !important; border:1px solid var(--border) !important; border-radius: 10px !important; background: #fff !important; color: var(--ink) !important; }
+.textarea { border:1px solid var(--border) !important; border-radius: 10px !important; }
+
+/* Dotted canvas background */
+.canvas-grid { background-image: radial-gradient(color-mix(in oklch, var(--ink), white 88%) 1px, transparent 1px) !important; background-size: 24px 24px !important; }
+
+/* Cards */
+.panel { background: var(--card) !important; border: 1px solid var(--border) !important; border-radius: var(--radius-lg) !important; box-shadow: var(--shadow-1) !important; }
+.node-card { background: var(--card) !important; border: 1px solid var(--border) !important; border-radius: var(--radius-xl) !important; box-shadow: var(--shadow-1) !important; }
+.node-photo { width: 88px !important; height: 88px !important; border-radius: 9999px !important; object-fit: cover !important; border: 3px solid #fff !important; box-shadow: 0 1px 0 hsl(0 0% 100% / .6) inset; }
+
+/* Ribbon */
+.ribbon { position: relative !important; display: inline-block !important; color: oklch(0.22 0.03 60) !important; font-weight: 600 !important; border-radius: 10px !important; padding: 6px 14px !important; box-shadow: var(--shadow-1) !important; font-size: clamp(12px, 2vw, 14px) !important; line-height:1.2 !important; max-width: 180px !important; white-space: nowrap !important; overflow: hidden !important; text-overflow: ellipsis !important; }
+.ribbon::after { content: ""; position: absolute; right: -14px; top: 50%; transform: translateY(-50%); border-width: 10px 0 10px 14px; border-style: solid; border-color: transparent transparent transparent currentColor; opacity: .45; }
+.ribbon::before { content: ""; position: absolute; left: 0; bottom: -8px; width: 16px; height: 8px; background: color-mix(in oklch, black 6%, transparent); clip-path: polygon(0 0, 100% 100%, 0 100%); filter: blur(.5px); opacity: .25; }
+.ribbon-mint  { background: color-mix(in oklch, var(--mint),  white 22%) !important; color: oklch(0.30 0.03 160) !important; }
+.ribbon-peach { background: color-mix(in oklch, var(--peach), white 20%) !important; color: oklch(0.32 0.04 55)  !important; }
+.ribbon-lilac { background: color-mix(in oklch, var(--lilac), white 20%) !important; color: oklch(0.30 0.02 300) !important; }
+.ribbon-sage  { background: color-mix(in oklch, var(--sage),  white 22%) !important; color: oklch(0.30 0.03 150) !important; }
+.ribbon-sun   { background: color-mix(in oklch, var(--sun),   white 18%) !important; color: oklch(0.34 0.05 85)  !important; }
+.ribbon-rose  { background: color-mix(in oklch, var(--rose),  white 20%) !important; color: oklch(0.34 0.06 20)  !important; }
+
+/* Connectors */
+.connector { stroke: color-mix(in oklch, var(--ink), white 60%) !important; stroke-width: 2 !important; stroke-linecap: round !important; }
+/* Softer connection colors closer to reference */
+.connector--parent { stroke: color-mix(in oklch, var(--ink), white 20%) !important; stroke-width: 3 !important; }
+.connector--spouse { stroke: color-mix(in oklch, var(--ink), white 35%) !important; stroke-width: 3 !important; stroke-dasharray: 6 6 !important; }
+
+/* Animations */
+@keyframes float-in { from { opacity: 0; transform: translateY(8px) scale(.98) } to { opacity: 1; transform: translateY(0) scale(1) } }
+.float-in { animation: float-in 200ms ease-out both; }
+
+/* Responsive tweaks */
+.canvas-wrap { min-height: 64vh; }
+/* Ensure connections render below nodes to avoid overlap issues */
+.canvas-grid { position: relative !important; }
+.canvas-grid > svg { z-index: 0 !important; }
+.canvas-grid > *:not(svg) { position: relative !important; z-index: 1 !important; }
+
+/* Prevent node content from overflowing on narrow screens */
+.node-card { max-width: 100% !important; flex-wrap: wrap !important; }
+.node-card .ribbon { max-width: 100% !important; }
+
+@media (max-width: 640px) {
+  .node-photo { width: 70px !important; height: 70px !important; }
+  .ribbon { max-width: 140px !important; }
+}
+@media (min-width: 1024px) { .canvas-wrap { min-height: 72vh; } }
+
+/* Badges */
+.badge { font-size: 12px !important; padding: 2px 8px !important; border-radius: 999px !important; border: 1px solid var(--border) !important; background: var(--surface-2) !important; }
+
+/* Legend (relationship key) */
+.connection-legend { position: absolute !important; bottom: 12px !important; right: 12px !important; z-index: 10 !important; font-size: 12px !important; width: 200px !important; transition: width 160ms ease, transform 160ms ease !important; }
+.connection-legend h4 { margin: 0 0 6px 0 !important; font-size: 12px !important; font-weight: 600 !important; opacity: .9 !important; padding-right: 28px !important; }
+.connection-legend .legend-row { display: flex !important; align-items: center !important; gap: 8px !important; }
+.connection-legend .legend-row + .legend-row { margin-top: 6px !important; }
+.connection-legend .legend-toggle { position: absolute !important; top: 6px !important; right: 6px !important; height: 20px !important; width: 20px !important; border-radius: 6px !important; border: 1px solid var(--border) !important; background: var(--surface-2) !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; font-size: 12px !important; line-height: 1 !important; opacity: .9 !important; }
+.connection-legend[data-expanded='true'] { width: 320px !important; transform: translateZ(0) !important; }
+
+/* Extra responsive behaviors to eliminate overlaps on very small screens */
+@media (max-width: 480px) {
+  /* Hide static connectors on very small screens to avoid visual overlap with stacked nodes */
+  .canvas-grid > svg { display: none !important; }
+
+  /* Compact legend and move slightly inward */
+  .connection-legend { width: 160px !important; bottom: 8px !important; right: 8px !important; }
+  .connection-legend .legend-row svg { width: 32px !important; height: 8px !important; }
+
+  /* Stack node content vertically for tighter width */
+  .node-card { flex-direction: column !important; align-items: center !important; text-align: center !important; gap: .5rem !important; }
+  .node-photo { width: 64px !important; height: 64px !important; }
+  .ribbon { max-width: 140px !important; }
+
+  /* Make all immediate grid sections in canvas auto-fit cards without overlap */
+  .canvas-grid > .grid { display: grid !important; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important; gap: 10px !important; place-items: stretch !important; }
+}
+
+/* Ultra-small screens: force single column to prevent any overlap */
+@media (max-width: 360px) {
+  .canvas-grid > .grid { grid-template-columns: 1fr !important; }
+}
+
+/* Left vertical toolbar styling */
+.toolbar-rail { background: var(--card) !important; border: 1px solid var(--border) !important; border-radius: 12px !important; padding: 8px !important; box-shadow: var(--shadow-1) !important; }
+.toolbar-rail button { height: 38px !important; width: 100% !important; border-radius: 10px !important; border: 1px solid var(--border) !important; background: var(--surface-2) !important; color: var(--ink) !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; gap: 8px !important; font-weight: 600 !important; }
+.toolbar-rail button[data-active="true"] { background: color-mix(in oklch, var(--mint), white 75%) !important; border-color: color-mix(in oklch, var(--mint), white 55%) !important; }
+
+/* Canvas title */
+.canvas-title { font-weight: 700 !important; letter-spacing: -0.01em !important; color: color-mix(in oklch, var(--ink), white 5%) !important; text-align: center !important; margin: 6px 0 16px 0 !important; font-size: clamp(18px, 3.2vw, 34px) !important; }
+
+</style>
+    <style>
+/* Button overrides scoped to login page. Keeps the pastel vibe and avoids blue tones. */
+
+.btn-primary {
+  background-image: linear-gradient(135deg, #A7F3D0 0%, #FDE68A 50%, #E9D5FF 100%) !important; /* mint → sun → lilac */
+  color: #0f172a !important; /* slate-900 for contrast */
+  border: 1px solid rgba(15, 23, 42, 0.08) !important;
+  border-radius: 12px !important;
+  padding: 0.45rem 0.5rem !important; /* reduced by ~1/2 */
+  font-weight: 700 !important;
+  /* Ensure perfect centering */
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1 !important;
+  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.25), 0 2px 6px rgba(0,0,0,0.05) !important; /* emerald glow */
+  transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease !important;
+}
+
+.btn-primary:hover {
+  filter: brightness(0.98) saturate(1.05) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 12px 28px rgba(16, 185, 129, 0.30), 0 4px 10px rgba(0,0,0,0.06) !important;
+}
+
+.btn-primary:active {
+  transform: translateY(0) scale(0.99) !important;
+}
+
+.btn-primary:focus-visible {
+  outline: none !important;
+  box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.25), 0 8px 24px rgba(16, 185, 129, 0.25) !important;
+}
+
+.btn-primary[disabled] {
+  opacity: 0.65 !important;
+  cursor: not-allowed !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05) !important;
+}
+
+
+
+</style>
+
+    <!-- Flowbite + Icons (optional helpers) -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.0.0/dist/flowbite.min.js"></script>
+  </head>
+  <body class="min-h-dvh flex flex-col">
+    <!-- Small accent header for brand consistency -->
+    <header class="u-header-accent--gradient text-white">
+      <div class="max-w-7xl mx-auto px-3 sm:px-4 py-2.5 flex items-center gap-2">
+        <div class="flex items-center gap-2">
+          <span class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-white/20">👪</span>
+          <h1 class="text-base sm:text-lg font-semibold leading-tight">Khoa Family Tree</h1>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main content -->
+    <main class="flex-1 flex items-center justify-center px-3 sm:px-6 py-8">
+      <div class="w-full max-w-md panel p-6 sm:p-8">
+        <div class="mb-5 sm:mb-6 text-center">
+          <h2 class="text-2xl sm:text-3xl font-semibold">Sign in</h2>
+          <p class="mt-1 text-sm opacity-70">Access editing features for your family tree</p>
+        </div>
+
+        <!-- Error banner (hidden by default) -->
+        <div id="errorBanner" class="hidden mb-4 panel border-rose-200 bg-rose-50 text-rose-700 text-sm" role="alert">
+          Invalid credentials. Please try again.
+        </div>
+
+        <form class="space-y-4" onsubmit="handleLogin(event)">
+          <div>
+            <label for="username" class="text-sm font-medium">Username</label>
+            <input id="username" name="username" type="text" required class="input mt-1 w-full" placeholder="e.g. admin" />
+          </div>
+
+          <div>
+            <label for="password" class="text-sm font-medium">Password</label>
+            <input id="password" name="password" type="password" required class="input mt-1 w-full" placeholder="••••••••" />
+          </div>
+
+          <div class="flex items-center justify-between">
+            <label class="inline-flex items-center gap-2 text-sm opacity-80">
+              <input id="remember" type="checkbox" class="rounded" />
+              Remember me
+            </label>
+          </div>
+
+          <div class="flex justify-center">
+            <button id="submitBtn" type="submit" class="btn btn-press btn-primary block w-1/2 mx-auto text-center">Sign in</button>
+          </div>
+
+          <div class="text-center pt-2 text-sm">
+            <a href="/" class="underline decoration-dotted">Return to home</a>
+            <span class="mx-2 opacity-60">•</span>
+            <a href="/view" class="underline decoration-dotted">Continue as viewer</a>
+          </div>
+        </form>
+      </div>
+    </main>
+
+    <script>
+      function handleLogin(e) {
+        e.preventDefault();
+        const btn = document.getElementById('submitBtn');
+        const banner = document.getElementById('errorBanner');
+        btn.setAttribute('disabled', 'true');
+        btn.textContent = 'Signing in…';
+        // Demo-only: show an error banner after a delay to visualize state
+        setTimeout(() => {
+          banner.classList.remove('hidden');
+          btn.removeAttribute('disabled');
+          btn.textContent = 'Sign in';
+        }, 900);
+      }
+      window.lucide && window.lucide.createIcons && window.lucide.createIcons();
+    </script>
+  </body>
+  </html>
+
+
+
+
+Above is the design implementation, please use that as a reference to build a similar UI component. Make sure to follow modern React and TypeScript best practices.

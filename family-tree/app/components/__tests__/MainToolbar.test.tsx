@@ -64,13 +64,10 @@ describe('MainToolbar', () => {
   });
 
   it('calls onShare when Share button is clicked', () => {
-    const mockShare = jest.fn();
-    renderWithProvider(<MainToolbar onShare={mockShare} />);
-    
-    // The Share button might only be visible on sm breakpoint and above
-    const shareButton = screen.getByRole('button', { name: /Share/i });
-    fireEvent.click(shareButton);
-    expect(mockShare).toHaveBeenCalledTimes(1);
+    // Share entry point removed in E12-T1; ensure no Share button present
+    renderWithProvider(<MainToolbar />);
+    const shareButtons = screen.queryAllByRole('button', { name: /Share/i });
+    expect(shareButtons.length).toBe(0);
   });
 
   it('calls onExport when Export button is clicked', () => {

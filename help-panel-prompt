@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Help & Shortcuts – Pastel UI Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+:root {
+  --surface: oklch(0.985 0.02 95);
+  --surface-2: oklch(0.97 0.03 95);
+  --ink: oklch(0.22 0.03 60);
+  --mint:   oklch(0.92 0.09 170);
+  --peach:  oklch(0.91 0.12 55);
+  --apricot:oklch(0.92 0.10 65);
+  --lilac:  oklch(0.92 0.09 300);
+  --sage:   oklch(0.92 0.07 150);
+  --sun:    oklch(0.93 0.12 85);
+  --rose:   oklch(0.92 0.11 20);
+  --card: #ffffff;
+  --border: color-mix(in oklch, var(--ink), white 85%);
+  --shadow-1: 0 2px 6px hsl(0 0% 0% / 0.06), 0 1px 2px hsl(0 0% 0% / 0.05);
+  --radius-xl: 16px; --radius-lg: 12px; --radius-md: 10px;
+  --font-sans: 'Poppins', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  /* Header gradient stops (avoid indigo/blue; lean purple/violet) */
+  --header-start: oklch(0.63 0.22 300); /* vibrant violet */
+  --header-end:   oklch(0.61 0.21 330); /* magenta */
+}
+
+*, *::before, *::after { box-sizing: border-box !important; }
+html, body { background: var(--surface) !important; color: var(--ink) !important; font-family: var(--font-sans) !important; }
+h1, h2, h3, h4, h5, h6 { color: var(--ink) !important; font-weight: 700 !important; }
+
+/* Polished gradient header similar to reference */
+.u-header-accent--gradient { 
+  background: linear-gradient(90deg, var(--header-start), var(--header-end)) !important; 
+  box-shadow: 0 1px 0 hsl(0 0% 100% / 0.15) inset, 0 2px 10px hsl(270 30% 20% / 0.18) !important;
+}
+.u-header-accent--gradient .btn-outline { border-color: hsl(0 0% 100% / 0.35) !important; color: white !important; background: hsl(0 0% 100% / 0.12) !important; }
+.u-header-accent--gradient .input { background: hsl(0 0% 100% / 0.92) !important; }
+
+/* Buttons – consistent sizing to prevent text overflow */
+.btn { display:inline-flex !important; align-items:center !important; gap:.5rem !important; font-weight:600 !important; font-size: clamp(12px, 1.6vw, 14px) !important; line-height:1.2 !important; padding:.5rem .75rem !important; min-height:36px !important; border-radius: 10px !important; white-space: nowrap !important; overflow: hidden !important; text-overflow: ellipsis !important; }
+.btn-sm { padding:.375rem .625rem !important; min-height:32px !important; }
+.btn-press { transition: transform 120ms ease, filter 120ms ease !important; }
+.btn-press:active { transform: translateY(1px) scale(.98) !important; filter: brightness(.98) !important; }
+.btn-outline { border:1px solid var(--border) !important; background: #ffffff40 !important; color: var(--ink) !important; }
+.btn-primary { background: color-mix(in oklch, var(--peach), white 10%) !important; color: var(--ink) !important; }
+.btn-primary--gradient { background: linear-gradient(90deg, color-mix(in oklch, var(--peach), white 6%), var(--peach)) !important; color: var(--ink) !important; }
+
+/* Inputs */
+.input { font-size: clamp(12px, 1.6vw, 14px) !important; line-height: 1.3 !important; padding:.5rem .625rem !important; border:1px solid var(--border) !important; border-radius: 10px !important; background: #fff !important; color: var(--ink) !important; }
+.textarea { border:1px solid var(--border) !important; border-radius: 10px !important; }
+
+/* Dotted canvas background */
+.canvas-grid { background-image: radial-gradient(color-mix(in oklch, var(--ink), white 88%) 1px, transparent 1px) !important; background-size: 24px 24px !important; }
+
+/* Cards */
+.panel { background: var(--card) !important; border: 1px solid var(--border) !important; border-radius: var(--radius-lg) !important; box-shadow: var(--shadow-1) !important; }
+.node-card { background: var(--card) !important; border: 1px solid var(--border) !important; border-radius: var(--radius-xl) !important; box-shadow: var(--shadow-1) !important; }
+.node-photo { width: 88px !important; height: 88px !important; border-radius: 9999px !important; object-fit: cover !important; border: 3px solid #fff !important; box-shadow: 0 1px 0 hsl(0 0% 100% / .6) inset; }
+
+/* Ribbon */
+.ribbon { position: relative !important; display: inline-block !important; color: oklch(0.22 0.03 60) !important; font-weight: 600 !important; border-radius: 10px !important; padding: 6px 14px !important; box-shadow: var(--shadow-1) !important; font-size: clamp(12px, 2vw, 14px) !important; line-height:1.2 !important; max-width: 180px !important; white-space: nowrap !important; overflow: hidden !important; text-overflow: ellipsis !important; }
+.ribbon::after { content: ""; position: absolute; right: -14px; top: 50%; transform: translateY(-50%); border-width: 10px 0 10px 14px; border-style: solid; border-color: transparent transparent transparent currentColor; opacity: .45; }
+.ribbon::before { content: ""; position: absolute; left: 0; bottom: -8px; width: 16px; height: 8px; background: color-mix(in oklch, black 6%, transparent); clip-path: polygon(0 0, 100% 100%, 0 100%); filter: blur(.5px); opacity: .25; }
+.ribbon-mint  { background: color-mix(in oklch, var(--mint),  white 22%) !important; color: oklch(0.30 0.03 160) !important; }
+.ribbon-peach { background: color-mix(in oklch, var(--peach), white 20%) !important; color: oklch(0.32 0.04 55)  !important; }
+.ribbon-lilac { background: color-mix(in oklch, var(--lilac), white 20%) !important; color: oklch(0.30 0.02 300) !important; }
+.ribbon-sage  { background: color-mix(in oklch, var(--sage),  white 22%) !important; color: oklch(0.30 0.03 150) !important; }
+.ribbon-sun   { background: color-mix(in oklch, var(--sun),   white 18%) !important; color: oklch(0.34 0.05 85)  !important; }
+.ribbon-rose  { background: color-mix(in oklch, var(--rose),  white 20%) !important; color: oklch(0.34 0.06 20)  !important; }
+
+/* Connectors */
+.connector { stroke: color-mix(in oklch, var(--ink), white 60%) !important; stroke-width: 2 !important; stroke-linecap: round !important; }
+/* Softer connection colors closer to reference */
+.connector--parent { stroke: color-mix(in oklch, var(--ink), white 20%) !important; stroke-width: 3 !important; }
+.connector--spouse { stroke: color-mix(in oklch, var(--ink), white 35%) !important; stroke-width: 3 !important; stroke-dasharray: 6 6 !important; }
+
+/* Animations */
+@keyframes float-in { from { opacity: 0; transform: translateY(8px) scale(.98) } to { opacity: 1; transform: translateY(0) scale(1) } }
+.float-in { animation: float-in 200ms ease-out both; }
+
+/* Responsive tweaks */
+.canvas-wrap { min-height: 64vh; }
+/* Ensure connections render below nodes to avoid overlap issues */
+.canvas-grid { position: relative !important; }
+.canvas-grid > svg { z-index: 0 !important; }
+.canvas-grid > *:not(svg) { position: relative !important; z-index: 1 !important; }
+
+/* Prevent node content from overflowing on narrow screens */
+.node-card { max-width: 100% !important; flex-wrap: wrap !important; }
+.node-card .ribbon { max-width: 100% !important; }
+
+@media (max-width: 640px) {
+  .node-photo { width: 70px !important; height: 70px !important; }
+  .ribbon { max-width: 140px !important; }
+}
+@media (min-width: 1024px) { .canvas-wrap { min-height: 72vh; } }
+
+/* Badges */
+.badge { font-size: 12px !important; padding: 2px 8px !important; border-radius: 999px !important; border: 1px solid var(--border) !important; background: var(--surface-2) !important; }
+
+/* Legend (relationship key) */
+.connection-legend { position: absolute !important; bottom: 12px !important; right: 12px !important; z-index: 10 !important; font-size: 12px !important; width: 200px !important; transition: width 160ms ease, transform 160ms ease !important; }
+.connection-legend h4 { margin: 0 0 6px 0 !important; font-size: 12px !important; font-weight: 600 !important; opacity: .9 !important; padding-right: 28px !important; }
+.connection-legend .legend-row { display: flex !important; align-items: center !important; gap: 8px !important; }
+.connection-legend .legend-row + .legend-row { margin-top: 6px !important; }
+.connection-legend .legend-toggle { position: absolute !important; top: 6px !important; right: 6px !important; height: 20px !important; width: 20px !important; border-radius: 6px !important; border: 1px solid var(--border) !important; background: var(--surface-2) !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; font-size: 12px !important; line-height: 1 !important; opacity: .9 !important; }
+.connection-legend[data-expanded='true'] { width: 320px !important; transform: translateZ(0) !important; }
+
+/* Extra responsive behaviors to eliminate overlaps on very small screens */
+@media (max-width: 480px) {
+  /* Hide static connectors on very small screens to avoid visual overlap with stacked nodes */
+  .canvas-grid > svg { display: none !important; }
+
+  /* Compact legend and move slightly inward */
+  .connection-legend { width: 160px !important; bottom: 8px !important; right: 8px !important; }
+  .connection-legend .legend-row svg { width: 32px !important; height: 8px !important; }
+
+  /* Stack node content vertically for tighter width */
+  .node-card { flex-direction: column !important; align-items: center !important; text-align: center !important; gap: .5rem !important; }
+  .node-photo { width: 64px !important; height: 64px !important; }
+  .ribbon { max-width: 140px !important; }
+
+  /* Make all immediate grid sections in canvas auto-fit cards without overlap */
+  .canvas-grid > .grid { display: grid !important; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important; gap: 10px !important; place-items: stretch !important; }
+}
+
+/* Ultra-small screens: force single column to prevent any overlap */
+@media (max-width: 360px) {
+  .canvas-grid > .grid { grid-template-columns: 1fr !important; }
+}
+
+/* Left vertical toolbar styling */
+.toolbar-rail { background: var(--card) !important; border: 1px solid var(--border) !important; border-radius: 12px !important; padding: 8px !important; box-shadow: var(--shadow-1) !important; }
+.toolbar-rail button { height: 38px !important; width: 100% !important; border-radius: 10px !important; border: 1px solid var(--border) !important; background: var(--surface-2) !important; color: var(--ink) !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; gap: 8px !important; font-weight: 600 !important; }
+.toolbar-rail button[data-active="true"] { background: color-mix(in oklch, var(--mint), white 75%) !important; border-color: color-mix(in oklch, var(--mint), white 55%) !important; }
+
+/* Canvas title */
+.canvas-title { font-weight: 700 !important; letter-spacing: -0.01em !important; color: color-mix(in oklch, var(--ink), white 5%) !important; text-align: center !important; margin: 6px 0 16px 0 !important; font-size: clamp(18px, 3.2vw, 34px) !important; }
+
+</style>
+  <script>
+    tailwind.config = { theme: { extend: { fontFamily: { sans: ['Poppins','Inter','ui-sans-serif','system-ui'] } } } }
+  </script>
+  <style>
+    .panel{ background:var(--card,white); border:1px solid var(--border,#e5e7eb); border-radius:16px; box-shadow:var(--shadow-1,0 1px 2px rgb(0 0 0 / 0.06)); }
+    .icon-btn{ padding:.375rem; border-radius:8px; color:rgba(0,0,0,.6); }
+    .icon-btn:focus-visible{ outline:2px solid var(--primary,#0F62FE); outline-offset:2px; }
+    .u-section-reveal{ opacity:0; transform:translateY(8px); transition:opacity .28s ease, transform .28s ease; }
+    .u-section-reveal.is-visible{ opacity:1; transform:none; }
+  </style>
+</head>
+<body class="min-h-dvh bg-[color-mix(in_oklch,_#f8fafc,_#fff_40%)] text-[var(--ink,oklch(20%_0_0))]">
+
+  <!-- Backdrop (standalone preview) -->
+  <div class="fixed inset-0 bg-black/10 supports-[backdrop-filter]:bg-black/10 supports-[backdrop-filter]:backdrop-blur-sm z-0" aria-hidden="true"></div>
+
+  <!-- Help Dialog -->
+  <section id="helpPanel" class="relative z-10" role="dialog" aria-modal="true" aria-labelledby="dialog-title" aria-describedby="dialog-desc">
+    <div class="flex items-center justify-center min-h-dvh p-2 sm:p-4">
+      <div class="panel relative w-full max-w-[720px] max-sm:h-[100dvh] max-sm:rounded-none overflow-hidden">
+        <!-- Header with subtle accent bar -->
+        <header class="relative px-4 sm:px-6 py-4 border-b border-[color:var(--neutral-100,#e5e7eb)]">
+          <span aria-hidden="true" class="absolute left-0 top-0 h-full w-1 u-header-accent--gradient"></span>
+          <div class="flex items-start sm:items-center gap-3">
+            <div class="flex-1">
+              <h2 id="dialog-title" class="text-lg sm:text-xl font-semibold">Help & Shortcuts</h2>
+              <p id="dialog-desc" class="text-[12px] opacity-70 mt-1">Quick tips for the toolbar, canvas, search, and filters.</p>
+            </div>
+            <button class="icon-btn" aria-label="Close">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </button>
+          </div>
+        </header>
+
+        <!-- Content -->
+        <div class="px-4 sm:px-6 py-4 max-h-[calc(100dvh-8rem)] overflow-y-auto">
+          <div class="space-y-8 text-[color:var(--ink,oklch(20%_0_0))]">
+            <!-- Getting Started -->
+            <section aria-labelledby="help-getting-started" class="pt-1 u-section-reveal">
+              <div class="mb-3">
+                <div class="flex items-center justify-between">
+                  <h3 id="help-getting-started" class="text-base font-medium flex items-center gap-2">
+                    <span aria-hidden="true" class="text-[color:var(--info,#0F62FE)]">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4"><path fill-rule="evenodd" d="M10 2a8 8 0 100 16 8 8 0 000-16zm1 11H9v-2h2v2zm0-4H9V5h2v4z" clip-rule="evenodd"/></svg>
+                    </span>
+                    Getting Started
+                  </h3>
+                  <span class="inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[12px] u-chip--accent" aria-hidden="true">Quick tips</span>
+                </div>
+                <div class="mt-3 border-t" data-accent="true"></div>
+              </div>
+              <ul class="list-disc ml-5 mt-2 space-y-1 text-[14px]">
+                <li>Use the toolbar to Add, Share, Export, and open Filters.</li>
+                <li>Drag the canvas to pan; use the +/− buttons on the top-right to zoom.</li>
+                <li>Click a member to select; Ctrl/Cmd-click to multi-select.</li>
+              </ul>
+            </section>
+
+            <!-- Keyboard Shortcuts -->
+            <section aria-labelledby="help-shortcuts" class="border-t pt-4 u-section-reveal">
+              <div class="mb-3">
+                <h3 id="help-shortcuts" class="text-base font-medium flex items-center gap-2">
+                  <span aria-hidden="true" class="text-[color:var(--info,#0F62FE)]">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4"><path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v10a2 2 0 01-2 2H5a2 2 0 01-2-2V4zM5 6h10v8H5V6z"/></svg>
+                  </span>
+                  Keyboard Shortcuts
+                </h3>
+              </div>
+              <ul class="list-disc ml-5 mt-2 space-y-1 text-[14px]">
+                <li><strong>Ctrl+/</strong>: Focus search</li>
+                <li><strong>Ctrl+Z / Ctrl+Shift+Z</strong>: Undo / Redo</li>
+                <li><strong>Shift+?</strong>: Open Help</li>
+              </ul>
+            </section>
+
+            <!-- Tips & Tour -->
+            <section aria-labelledby="help-tour" class="border-t pt-4 u-section-reveal">
+              <div class="mb-3">
+                <h3 id="help-tour" class="text-base font-medium flex items-center gap-2">
+                  <span aria-hidden="true" class="text-[color:var(--info,#0F62FE)]">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4"><path d="M10 3a7 7 0 100 14 7 7 0 000-14zM9 8h2v5H9V8zm0-3h2v2H9V5z"/></svg>
+                  </span>
+                  Tips & Tour
+                </h3>
+              </div>
+              <p class="text-[14px] mt-2 mb-3">Take the guided tour to learn the basics and see contextual tips in the UI.</p>
+              <div class="flex flex-wrap gap-2">
+                <button type="button" class="btn btn-primary btn-primary--gradient btn-press" aria-label="Start guided tour">Start Tour</button>
+                <button type="button" class="btn btn-outline btn-press" aria-label="Show contextual tips">Show Tips</button>
+              </div>
+            </section>
+
+            <!-- More Help -->
+            <section aria-labelledby="help-more" class="border-t pt-4 u-section-reveal">
+              <div class="mb-3">
+                <h3 id="help-more" class="text-base font-medium flex items-center gap-2">
+                  <span aria-hidden="true" class="text-[color:var(--info,#0F62FE)]">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4"><path d="M4 3a2 2 0 00-2 2v9a2 2 0 002 2h12a2 2 0 002-2V8.414a2 2 0 00-.586-1.414l-3.414-3.414A2 2 0 0012.586 3H4zM4 6h8V5.414L13.586 6H16v8H4V6z"/></svg>
+                  </span>
+                  More Help
+                </h3>
+              </div>
+              <ul class="list-disc ml-5 mt-2 space-y-1 text-[14px]">
+                <li>Press <strong>Esc</strong> to close dialogs.</li>
+                <li>Filters can highlight matches to narrow results.</li>
+                <li>Spotlight overlay will highlight key areas during the tour.</li>
+              </ul>
+            </section>
+
+            <!-- Actions -->
+            <div class="flex justify-end gap-2 sm:gap-3 pt-4 border-t">
+              <button type="button" class="btn btn-outline btn-press">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    (function(){
+      // Section reveal on scroll for nicer demo
+      var revealObserver = new IntersectionObserver((entries) => {
+        for (const entry of entries){
+          if (entry.isIntersecting){ entry.target.classList.add('is-visible'); revealObserver.unobserve(entry.target); }
+        }
+      }, { threshold: 0.06 });
+      document.querySelectorAll('.u-section-reveal').forEach(el => revealObserver.observe(el));
+    })();
+  </script>
+</body>
+</html>
+
+
+Above is the design implementation, please use that as a reference to build a similar UI component. Make sure to follow modern React and TypeScript best practices.

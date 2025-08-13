@@ -1,0 +1,506 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Add Family Member – Pastel UI Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Match the theme used by family_tree_ui_1_1.html -->
+  <style>
+:root {
+  --surface: oklch(0.985 0.02 95);
+  --surface-2: oklch(0.97 0.03 95);
+  --ink: oklch(0.22 0.03 60);
+  --mint:   oklch(0.92 0.09 170);
+  --peach:  oklch(0.91 0.12 55);
+  --apricot:oklch(0.92 0.10 65);
+  --lilac:  oklch(0.92 0.09 300);
+  --sage:   oklch(0.92 0.07 150);
+  --sun:    oklch(0.93 0.12 85);
+  --rose:   oklch(0.92 0.11 20);
+  --card: #ffffff;
+  --border: color-mix(in oklch, var(--ink), white 85%);
+  --shadow-1: 0 2px 6px hsl(0 0% 0% / 0.06), 0 1px 2px hsl(0 0% 0% / 0.05);
+  --radius-xl: 16px; --radius-lg: 12px; --radius-md: 10px;
+  --font-sans: 'Poppins', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  /* Header gradient stops (avoid indigo/blue; lean purple/violet) */
+  --header-start: oklch(0.63 0.22 300); /* vibrant violet */
+  --header-end:   oklch(0.61 0.21 330); /* magenta */
+}
+
+*, *::before, *::after { box-sizing: border-box !important; }
+html, body { background: var(--surface) !important; color: var(--ink) !important; font-family: var(--font-sans) !important; }
+h1, h2, h3, h4, h5, h6 { color: var(--ink) !important; font-weight: 700 !important; }
+
+/* Polished gradient header similar to reference */
+.u-header-accent--gradient { 
+  background: linear-gradient(90deg, var(--header-start), var(--header-end)) !important; 
+  box-shadow: 0 1px 0 hsl(0 0% 100% / 0.15) inset, 0 2px 10px hsl(270 30% 20% / 0.18) !important;
+}
+.u-header-accent--gradient .btn-outline { border-color: hsl(0 0% 100% / 0.35) !important; color: white !important; background: hsl(0 0% 100% / 0.12) !important; }
+.u-header-accent--gradient .input { background: hsl(0 0% 100% / 0.92) !important; }
+
+/* Buttons – consistent sizing to prevent text overflow */
+.btn { display:inline-flex !important; align-items:center !important; gap:.5rem !important; font-weight:600 !important; font-size: clamp(12px, 1.6vw, 14px) !important; line-height:1.2 !important; padding:.5rem .75rem !important; min-height:36px !important; border-radius: 10px !important; white-space: nowrap !important; overflow: hidden !important; text-overflow: ellipsis !important; }
+.btn-sm { padding:.375rem .625rem !important; min-height:32px !important; }
+.btn-press { transition: transform 120ms ease, filter 120ms ease !important; }
+.btn-press:active { transform: translateY(1px) scale(.98) !important; filter: brightness(.98) !important; }
+.btn-outline { border:1px solid var(--border) !important; background: #ffffff40 !important; color: var(--ink) !important; }
+.btn-primary { background: color-mix(in oklch, var(--peach), white 10%) !important; color: var(--ink) !important; }
+.btn-primary--gradient { background: linear-gradient(90deg, color-mix(in oklch, var(--peach), white 6%), var(--peach)) !important; color: var(--ink) !important; }
+
+/* Inputs */
+.input { font-size: clamp(12px, 1.6vw, 14px) !important; line-height: 1.3 !important; padding:.5rem .625rem !important; border:1px solid var(--border) !important; border-radius: 10px !important; background: #fff !important; color: var(--ink) !important; }
+.textarea { border:1px solid var(--border) !important; border-radius: 10px !important; }
+
+/* Dotted canvas background */
+.canvas-grid { background-image: radial-gradient(color-mix(in oklch, var(--ink), white 88%) 1px, transparent 1px) !important; background-size: 24px 24px !important; }
+
+/* Cards */
+.panel { background: var(--card) !important; border: 1px solid var(--border) !important; border-radius: var(--radius-lg) !important; box-shadow: var(--shadow-1) !important; }
+.node-card { background: var(--card) !important; border: 1px solid var(--border) !important; border-radius: var(--radius-xl) !important; box-shadow: var(--shadow-1) !important; }
+.node-photo { width: 88px !important; height: 88px !important; border-radius: 9999px !important; object-fit: cover !important; border: 3px solid #fff !important; box-shadow: 0 1px 0 hsl(0 0% 100% / .6) inset; }
+
+/* Ribbon */
+.ribbon { position: relative !important; display: inline-block !important; color: oklch(0.22 0.03 60) !important; font-weight: 600 !important; border-radius: 10px !important; padding: 6px 14px !important; box-shadow: var(--shadow-1) !important; font-size: clamp(12px, 2vw, 14px) !important; line-height:1.2 !important; max-width: 180px !important; white-space: nowrap !important; overflow: hidden !important; text-overflow: ellipsis !important; }
+.ribbon::after { content: ""; position: absolute; right: -14px; top: 50%; transform: translateY(-50%); border-width: 10px 0 10px 14px; border-style: solid; border-color: transparent transparent transparent currentColor; opacity: .45; }
+.ribbon::before { content: ""; position: absolute; left: 0; bottom: -8px; width: 16px; height: 8px; background: color-mix(in oklch, black 6%, transparent); clip-path: polygon(0 0, 100% 100%, 0 100%); filter: blur(.5px); opacity: .25; }
+.ribbon-mint  { background: color-mix(in oklch, var(--mint),  white 22%) !important; color: oklch(0.30 0.03 160) !important; }
+.ribbon-peach { background: color-mix(in oklch, var(--peach), white 20%) !important; color: oklch(0.32 0.04 55)  !important; }
+.ribbon-lilac { background: color-mix(in oklch, var(--lilac), white 20%) !important; color: oklch(0.30 0.02 300) !important; }
+.ribbon-sage  { background: color-mix(in oklch, var(--sage),  white 22%) !important; color: oklch(0.30 0.03 150) !important; }
+.ribbon-sun   { background: color-mix(in oklch, var(--sun),   white 18%) !important; color: oklch(0.34 0.05 85)  !important; }
+.ribbon-rose  { background: color-mix(in oklch, var(--rose),  white 20%) !important; color: oklch(0.34 0.06 20)  !important; }
+
+/* Connectors */
+.connector { stroke: color-mix(in oklch, var(--ink), white 60%) !important; stroke-width: 2 !important; stroke-linecap: round !important; }
+/* Softer connection colors closer to reference */
+.connector--parent { stroke: color-mix(in oklch, var(--ink), white 20%) !important; stroke-width: 3 !important; }
+.connector--spouse { stroke: color-mix(in oklch, var(--ink), white 35%) !important; stroke-width: 3 !important; stroke-dasharray: 6 6 !important; }
+
+/* Animations */
+@keyframes float-in { from { opacity: 0; transform: translateY(8px) scale(.98) } to { opacity: 1; transform: translateY(0) scale(1) } }
+.float-in { animation: float-in 200ms ease-out both; }
+
+/* Responsive tweaks */
+.canvas-wrap { min-height: 64vh; }
+/* Ensure connections render below nodes to avoid overlap issues */
+.canvas-grid { position: relative !important; }
+.canvas-grid > svg { z-index: 0 !important; }
+.canvas-grid > *:not(svg) { position: relative !important; z-index: 1 !important; }
+
+/* Prevent node content from overflowing on narrow screens */
+.node-card { max-width: 100% !important; flex-wrap: wrap !important; }
+.node-card .ribbon { max-width: 100% !important; }
+
+@media (max-width: 640px) {
+  .node-photo { width: 70px !important; height: 70px !important; }
+  .ribbon { max-width: 140px !important; }
+}
+@media (min-width: 1024px) { .canvas-wrap { min-height: 72vh; } }
+
+/* Badges */
+.badge { font-size: 12px !important; padding: 2px 8px !important; border-radius: 999px !important; border: 1px solid var(--border) !important; background: var(--surface-2) !important; }
+
+/* Legend (relationship key) */
+.connection-legend { position: absolute !important; bottom: 12px !important; right: 12px !important; z-index: 10 !important; font-size: 12px !important; width: 200px !important; transition: width 160ms ease, transform 160ms ease !important; }
+.connection-legend h4 { margin: 0 0 6px 0 !important; font-size: 12px !important; font-weight: 600 !important; opacity: .9 !important; padding-right: 28px !important; }
+.connection-legend .legend-row { display: flex !important; align-items: center !important; gap: 8px !important; }
+.connection-legend .legend-row + .legend-row { margin-top: 6px !important; }
+.connection-legend .legend-toggle { position: absolute !important; top: 6px !important; right: 6px !important; height: 20px !important; width: 20px !important; border-radius: 6px !important; border: 1px solid var(--border) !important; background: var(--surface-2) !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; font-size: 12px !important; line-height: 1 !important; opacity: .9 !important; }
+.connection-legend[data-expanded='true'] { width: 320px !important; transform: translateZ(0) !important; }
+
+/* Extra responsive behaviors to eliminate overlaps on very small screens */
+@media (max-width: 480px) {
+  /* Hide static connectors on very small screens to avoid visual overlap with stacked nodes */
+  .canvas-grid > svg { display: none !important; }
+
+  /* Compact legend and move slightly inward */
+  .connection-legend { width: 160px !important; bottom: 8px !important; right: 8px !important; }
+  .connection-legend .legend-row svg { width: 32px !important; height: 8px !important; }
+
+  /* Stack node content vertically for tighter width */
+  .node-card { flex-direction: column !important; align-items: center !important; text-align: center !important; gap: .5rem !important; }
+  .node-photo { width: 64px !important; height: 64px !important; }
+  .ribbon { max-width: 140px !important; }
+
+  /* Make all immediate grid sections in canvas auto-fit cards without overlap */
+  .canvas-grid > .grid { display: grid !important; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important; gap: 10px !important; place-items: stretch !important; }
+}
+
+/* Ultra-small screens: force single column to prevent any overlap */
+@media (max-width: 360px) {
+  .canvas-grid > .grid { grid-template-columns: 1fr !important; }
+}
+
+/* Left vertical toolbar styling */
+.toolbar-rail { background: var(--card) !important; border: 1px solid var(--border) !important; border-radius: 12px !important; padding: 8px !important; box-shadow: var(--shadow-1) !important; }
+.toolbar-rail button { height: 38px !important; width: 100% !important; border-radius: 10px !important; border: 1px solid var(--border) !important; background: var(--surface-2) !important; color: var(--ink) !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; gap: 8px !important; font-weight: 600 !important; }
+.toolbar-rail button[data-active="true"] { background: color-mix(in oklch, var(--mint), white 75%) !important; border-color: color-mix(in oklch, var(--mint), white 55%) !important; }
+
+/* Canvas title */
+.canvas-title { font-weight: 700 !important; letter-spacing: -0.01em !important; color: color-mix(in oklch, var(--ink), white 5%) !important; text-align: center !important; margin: 6px 0 16px 0 !important; font-size: clamp(18px, 3.2vw, 34px) !important; }
+
+</style>
+  <script>
+    tailwind.config = { theme: { extend: { fontFamily: { sans: ['Poppins','Inter','ui-sans-serif','system-ui'] } } } }
+  </script>
+  <style>
+    /* Utilities aligned with family_tree_ui_1_1 theme */
+    .panel{ background:var(--panel-bg,white); border:1px solid var(--panel-border,#e5e7eb); border-radius:16px; box-shadow:var(--panel-shadow,0 1px 2px rgb(0 0 0 / 0.06)); }
+    .label{ display:block; margin-bottom:6px; font-size:14px; color:var(--neutral-700,#374151); font-weight:500; }
+    .input{ width:100%; border:1px solid var(--neutral-200,#e5e7eb); border-radius:8px; padding:.5rem .75rem; outline:2px solid transparent; outline-offset:2px; background:var(--panel-bg,white); }
+    .input:focus{ border-color:var(--primary,#0F62FE); box-shadow:0 0 0 2px color-mix(in oklch, var(--primary,#0F62FE), white 70%); }
+    .btn{ height:40px; padding:0 .75rem; border-radius:8px; font-weight:600; display:inline-flex; align-items:center; justify-content:center; }
+    .btn-sm{ height:32px; padding:0 .5rem; border-radius:8px; font-weight:600; display:inline-flex; align-items:center; justify-content:center; }
+    .btn-press{ transition:transform .12s ease; }
+    .btn-press:active{ transform:scale(.98); }
+    .btn-outline{ background:white; border:1px solid var(--neutral-200,#e5e7eb); color:var(--neutral-800,#1f2937); }
+    .btn-primary{ background:var(--primary,#0F62FE); color:var(--on-primary,white); }
+    .btn-primary--gradient{ background:linear-gradient(90deg, color-mix(in oklch, var(--primary,#0F62FE), white 6%), var(--primary,#0F62FE)); color:white; }
+    .badge{ display:inline-flex; align-items:center; gap:.375rem; background:color-mix(in oklch, var(--accent,#FF7EB6), white 85%); color:#1f2937; padding:.125rem .5rem; border-radius:6px; font-size:12px; }
+    .u-chip--accent{ background:color-mix(in oklch, var(--accent,#FF7EB6), white 85%); color:#1f2937; }
+    [data-accent="true"].border-t{ border-top-color:var(--accent,#FF7EB6) !important; }
+    .icon-btn{ padding:.375rem; border-radius:8px; color:rgba(0,0,0,.6); }
+    .icon-btn:focus-visible{ outline:2px solid var(--primary,#0F62FE); outline-offset:2px; }
+    .field-error{ color:#b91c1c; font-size:13px; }
+    .helper{ font-size:12px; color:var(--neutral-500,#6b7280); }
+    /* Section reveal micro-animation */
+    .u-section-reveal{ opacity:0; transform:translateY(8px); transition:opacity .28s ease, transform .28s ease; }
+    .u-section-reveal.is-visible{ opacity:1; transform:none; }
+    /* Sticky action bar inside scroll area */
+    .u-actions-sticky{ position:sticky; bottom:0; background:color-mix(in oklch, var(--panel-bg,white), white 6%); backdrop-filter:blur(6px); border-top:1px solid var(--neutral-100,#e5e7eb); }
+  </style>
+</head>
+<body class="min-h-dvh bg-[color-mix(in_oklch,_#f8fafc,_#fff_40%)] text-[var(--ink,oklch(20%_0_0))]">
+  
+
+  <!-- Backdrop (always visible in this standalone UI) -->
+  <div id="backdrop" class="fixed inset-0 bg-black/10 supports-[backdrop-filter]:bg-black/10 supports-[backdrop-filter]:backdrop-blur-sm z-0" aria-hidden="true"></div>
+
+  <!-- Modal Dialog -->
+  <section id="addMemberModal" class="relative z-10" role="dialog" aria-modal="true" aria-labelledby="dialog-title" aria-describedby="dialog-desc">
+    <div class="flex items-center justify-center min-h-dvh p-2 sm:p-4">
+      <!-- Sheet behavior on mobile -->
+      <div class="panel relative w-full max-w-[896px] max-sm:h-[100dvh] max-sm:rounded-none overflow-hidden">
+        <!-- Header with subtle accent bar -->
+        <header class="relative px-4 sm:px-6 py-4 border-b border-[color:var(--neutral-100,#e5e7eb)]">
+          <span aria-hidden="true" class="absolute left-0 top-0 h-full w-1 u-header-accent--gradient"></span>
+          <div class="flex items-start sm:items-center gap-3">
+            <div class="flex-1">
+              <h2 id="dialog-title" class="text-lg sm:text-xl font-semibold">Add Family Member</h2>
+              <p id="dialog-desc" class="text-[12px] opacity-70 mt-1">Complete the form to add a new member. Fields match the in-app experience.</p>
+            </div>
+            <button id="closeModal" class="icon-btn" aria-label="Close">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </button>
+          </div>
+        </header>
+
+        <!-- Content -->
+        <div class="px-4 sm:px-6 py-4 max-h-[calc(100dvh-8rem)] overflow-y-auto">
+          <form id="memberForm" class="space-y-8 text-[color:var(--neutral-900,#111827)]" novalidate>
+            <!-- Global error (server) -->
+            <div id="globalError" class="hidden bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md" role="alert"></div>
+
+            <!-- Basic Information -->
+            <section aria-labelledby="section-basic" class="pt-1 u-section-reveal">
+              <div class="mb-3">
+                <div class="flex items-center justify-between">
+                  <h3 id="section-basic" class="text-base font-medium flex items-center gap-2">
+                    <span aria-hidden="true" class="text-[color:var(--info,#0F62FE)]">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4"><path fill-rule="evenodd" d="M10 2a8 8 0 100 16 8 8 0 000-16zm1 11H9v-2h2v2zm0-4H9V5h2v4z" clip-rule="evenodd"/></svg>
+                    </span>
+                    Basic Information
+                  </h3>
+                  <span class="inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[12px] u-chip--accent" aria-hidden="true">Required</span>
+                </div>
+                <div class="mt-3 border-t" data-accent="true"></div>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label for="name" class="label">Name *</label>
+                  <input id="name" name="name" type="text" class="input" placeholder="Enter full name" aria-invalid="false" aria-describedby="name-error">
+                  <p id="name-error" class="field-error hidden" role="alert"></p>
+                </div>
+                <div>
+                  <label for="gender" class="label">Gender</label>
+                  <select id="gender" name="gender" class="input">
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="relationship" class="label">Relationship *</label>
+                  <select id="relationship" name="relationship" class="input" aria-invalid="false" aria-describedby="relationship-error">
+                    <option value="">Select relationship</option>
+                    <option>Father</option>
+                    <option>Mother</option>
+                    <option>Son</option>
+                    <option>Daughter</option>
+                    <option>Brother</option>
+                    <option>Sister</option>
+                    <option>Grandfather</option>
+                    <option>Grandmother</option>
+                    <option>Grandson</option>
+                    <option>Granddaughter</option>
+                    <option>Uncle</option>
+                    <option>Aunt</option>
+                    <option>Nephew</option>
+                    <option>Niece</option>
+                    <option>Cousin</option>
+                    <option>Spouse</option>
+                    <option>Other</option>
+                  </select>
+                  <p id="relationship-error" class="field-error hidden" role="alert"></p>
+                </div>
+                <div>
+                  <label for="title" class="label">Title/Occupation</label>
+                  <input id="title" name="title" type="text" class="input" placeholder="e.g., Engineer, Teacher" />
+                </div>
+              </div>
+            </section>
+
+            <!-- Dates -->
+            <section aria-labelledby="section-dates" class="border-t pt-4 u-section-reveal">
+              <div class="mb-3">
+                <h3 id="section-dates" class="text-base font-medium flex items-center gap-2">
+                  <span aria-hidden="true" class="text-[color:var(--info,#0F62FE)]">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4"><path d="M6 2a1 1 0 011 1v1h6V3a1 1 0 112 0v1h1a2 2 0 012 2v9a2 2 0 01-2 2H3a2 2 0 01-2-2V6a2 2 0 012-2h1V3a1 1 0 112 0v1zm11 7H3v6h14V9z"/></svg>
+                  </span>
+                  Dates
+                </h3>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label for="birthDate" class="label">Birth Date</label>
+                  <input id="birthDate" name="birthDate" type="date" class="input" aria-invalid="false" aria-describedby="birthDate-error">
+                  <p id="birthDate-error" class="field-error hidden" role="alert"></p>
+                </div>
+                <div>
+                  <label for="deathDate" class="label">Death Date</label>
+                  <input id="deathDate" name="deathDate" type="date" class="input" aria-invalid="false" aria-describedby="deathDate-error">
+                  <p id="deathDate-error" class="field-error hidden" role="alert"></p>
+                </div>
+              </div>
+            </section>
+
+            <!-- Photo -->
+            <section aria-labelledby="section-photo" class="border-t pt-4 u-section-reveal">
+              <div class="mb-3">
+                <h3 id="section-photo" class="text-base font-medium flex items-center gap-2">
+                  <span aria-hidden="true" class="text-[color:var(--info,#0F62FE)]">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4"><path d="M4 5a2 2 0 00-2 2v7a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-2.586l-1-1H7.586l-1 1H4zm6 3a4 4 0 110 8 4 4 0 010-8z"/></svg>
+                  </span>
+                  Photo
+                </h3>
+              </div>
+              <label for="photo" class="sr-only">Photo</label>
+              <div class="flex items-center gap-4">
+                <input id="photo" type="file" accept="image/*" class="hidden" />
+                <button type="button" id="photoButton" class="btn btn-outline btn-press">Choose Photo</button>
+                <div id="photoPreviewWrap" class="relative hidden">
+                  <img id="photoPreview" alt="Preview" class="w-16 h-16 rounded-full object-cover" />
+                  <button type="button" id="removePhoto" class="absolute -top-2 -right-2 rounded-full w-6 h-6 flex items-center justify-center text-white text-xs bg-red-500" aria-label="Remove photo">×</button>
+                </div>
+              </div>
+              <p id="photo-error" class="field-error hidden mt-1" role="alert"></p>
+            </section>
+
+            <!-- Contact -->
+            <section aria-labelledby="section-contact" class="border-t pt-4 u-section-reveal">
+              <div class="mb-3 flex items-center justify-between">
+                <h3 id="section-contact" class="text-base font-medium flex items-center gap-2">
+                  <span aria-hidden="true" class="text-[color:var(--info,#0F62FE)]">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4"><path d="M2 3a1 1 0 011-1h3l2 3h6a1 1 0 011 1v2H2V3zM2 10h18v4a1 1 0 01-1 1H3a1 1 0 01-1-1v-4z"/></svg>
+                  </span>
+                  Contact
+                </h3>
+                <span class="badge">Optional</span>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label for="email" class="label">Email</label>
+                  <input id="email" name="email" type="email" class="input" placeholder="email@example.com" aria-invalid="false" aria-describedby="email-error">
+                  <p id="email-error" class="field-error hidden" role="alert"></p>
+                </div>
+                <div>
+                  <label for="phone" class="label">Phone</label>
+                  <input id="phone" name="phone" type="tel" class="input" placeholder="+1 (555) 123-4567" aria-invalid="false" aria-describedby="phone-error">
+                  <p id="phone-error" class="field-error hidden" role="alert"></p>
+                </div>
+              </div>
+              <div class="mt-4">
+                <label for="address" class="label">Address</label>
+                <input id="address" name="address" type="text" class="input" placeholder="Full address">
+              </div>
+            </section>
+
+            <!-- Relations -->
+            <section aria-labelledby="section-relations" class="border-t pt-4 u-section-reveal">
+              <div class="mb-3">
+                <h3 id="section-relations" class="text-base font-medium flex items-center gap-2">
+                  <span aria-hidden="true" class="text-[color:var(--info,#0F62FE)]">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4"><path fill-rule="evenodd" d="M10 2a3 3 0 100 6 3 3 0 000-6zM2 16a6 6 0 1112 0v2H2v-2z" clip-rule="evenodd"/></svg>
+                  </span>
+                  Relations
+                </h3>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label for="parentId" class="label">Parent</label>
+                  <select id="parentId" name="parentId" class="input" aria-invalid="false" aria-describedby="parentId-error">
+                    <option value="">Select parent</option>
+                  </select>
+                  <p id="parentId-error" class="field-error hidden" role="alert"></p>
+                </div>
+                <div>
+                  <label for="spouseIds" class="label">Spouses <span class="helper">(Hold Ctrl/Cmd to select multiple)</span></label>
+                  <select id="spouseIds" name="spouseIds" multiple size="3" class="input" aria-invalid="false" aria-describedby="spouseIds-error">
+                  </select>
+                  <p id="spouseIds-error" class="field-error hidden" role="alert"></p>
+                </div>
+              </div>
+            </section>
+
+            <!-- Biography -->
+            <section aria-labelledby="section-bio" class="border-t pt-4 u-section-reveal">
+              <div class="mb-3">
+                <h3 id="section-bio" class="text-base font-medium flex items-center gap-2">
+                  <span aria-hidden="true" class="text-[color:var(--info,#0F62FE)]">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4"><path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h11a1 1 0 000-2H5a1 1 0 010-2h10V5a2 2 0 00-2-2H4z"/></svg>
+                  </span>
+                  Biography
+                </h3>
+              </div>
+              <label for="biography" class="label">Biography <span class="ms-2 text-[12px] opacity-60">(<span id="bioCount">0</span>/1000 characters)</span></label>
+              <textarea id="biography" name="biography" rows="3" maxlength="1000" class="input resize-y" placeholder="Brief biography or notes…"></textarea>
+              <p id="biography-error" class="field-error hidden" role="alert"></p>
+            </section>
+
+            <!-- Actions (sticky inside scroll area) -->
+            <div class="u-actions-sticky flex justify-end gap-2 sm:gap-3 pt-4 pb-3 mt-6">
+              <button type="button" id="cancelBtn" class="btn btn-outline btn-press">Cancel</button>
+              <button type="submit" id="submitBtn" class="btn btn-primary btn-primary--gradient btn-press">Add Member</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scripts: icons + components -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flowbite@2.0.0/dist/flowbite.min.js"></script>
+
+  <script>
+    (function(){
+      const modal = document.getElementById('addMemberModal');
+      const backdrop = document.getElementById('backdrop');
+      const closer = document.getElementById('closeModal');
+      const cancelBtn = document.getElementById('cancelBtn');
+      const form = document.getElementById('memberForm');
+      const submitBtn = document.getElementById('submitBtn');
+
+      function close(){ /* no-op for standalone preview */ }
+      closer && closer.addEventListener('click', close);
+      cancelBtn && cancelBtn.addEventListener('click', close);
+
+      // Photo controls
+      const photoInput = document.getElementById('photo');
+      const photoButton = document.getElementById('photoButton');
+      const photoPreviewWrap = document.getElementById('photoPreviewWrap');
+      const photoPreview = document.getElementById('photoPreview');
+      const removePhoto = document.getElementById('removePhoto');
+      const photoError = document.getElementById('photo-error');
+
+      photoButton.addEventListener('click', () => photoInput.click());
+      photoInput.addEventListener('change', () => {
+        const file = photoInput.files && photoInput.files[0];
+        photoError.classList.add('hidden'); photoError.textContent='';
+        if (!file) return;
+        if (!file.type.startsWith('image/')) { photoError.textContent='Please select a valid image file'; photoError.classList.remove('hidden'); return; }
+        if (file.size > 5 * 1024 * 1024) { photoError.textContent='File size must be less than 5MB'; photoError.classList.remove('hidden'); return; }
+        const reader = new FileReader();
+        reader.onload = (e) => { photoPreview.src = e.target.result; photoPreviewWrap.classList.remove('hidden'); };
+        reader.readAsDataURL(file);
+      });
+      removePhoto.addEventListener('click', () => { photoInput.value = ''; photoPreview.src=''; photoPreviewWrap.classList.add('hidden'); });
+
+      // Section reveal on scroll
+      const revealObserver = new IntersectionObserver((entries) => {
+        for (const entry of entries){
+          if (entry.isIntersecting){ entry.target.classList.add('is-visible'); revealObserver.unobserve(entry.target); }
+        }
+      }, { threshold: 0.06 });
+      document.querySelectorAll('.u-section-reveal').forEach(el => revealObserver.observe(el));
+
+      // Biography char count
+      const bio = document.getElementById('biography');
+      const bioCount = document.getElementById('bioCount');
+      bio.addEventListener('input', () => { bioCount.textContent = String(bio.value.length); });
+
+      // Minimal client-side validation mirroring app rules
+      function setFieldError(id, message){
+        const input = document.getElementById(id);
+        const err = document.getElementById(id+'-error');
+        if (!err || !input) return;
+        if (message){
+          input.setAttribute('aria-invalid','true');
+          err.textContent = message;
+          err.classList.remove('hidden');
+        } else {
+          input.setAttribute('aria-invalid','false');
+          err.textContent = '';
+          err.classList.add('hidden');
+        }
+      }
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        submitBtn.disabled = true; submitBtn.textContent = 'Adding Member…';
+        let hasError = false;
+
+        const name = document.getElementById('name').value.trim();
+        if (!name) { setFieldError('name','Name is required'); hasError = true; } else if (name.length < 2) { setFieldError('name','Name must be at least 2 characters long'); hasError = true; } else if (name.length > 100) { setFieldError('name','Name must be less than 100 characters'); hasError = true; } else { setFieldError('name',''); }
+
+        const relationship = document.getElementById('relationship').value.trim();
+        if (!relationship) { setFieldError('relationship','Relationship is required'); hasError = true; } else { setFieldError('relationship',''); }
+
+        const email = document.getElementById('email').value.trim();
+        if (email && !/^([^\s@]+)@([^\s@]+)\.[^\s@]+$/.test(email)) { setFieldError('email','Please enter a valid email address'); hasError = true; } else { setFieldError('email',''); }
+
+        const phone = document.getElementById('phone').value.trim();
+        if (phone){
+          const phoneOk = /^[\d\s+()-]+$/.test(phone) && phone.replace(/[\s+()-]/g,'').length >= 7;
+          if (!phoneOk) { setFieldError('phone','Please enter a valid phone number (digits, spaces, +, -, () only)'); hasError = true; } else { setFieldError('phone',''); }
+        } else { setFieldError('phone',''); }
+
+        const birth = document.getElementById('birthDate').value;
+        const death = document.getElementById('deathDate').value;
+        if (birth && death){
+          const b = new Date(birth); const d = new Date(death);
+          if (d <= b) { setFieldError('deathDate','Death date must be after birth date'); hasError = true; } else { setFieldError('deathDate',''); }
+        } else { setFieldError('deathDate',''); }
+        if (birth){
+          const b = new Date(birth); const today = new Date(); if (b > today) { setFieldError('birthDate','Birth date cannot be in the future'); hasError = true; } else { setFieldError('birthDate',''); }
+        } else { setFieldError('birthDate',''); }
+
+        if (hasError){ submitBtn.disabled = false; submitBtn.textContent = 'Add Member'; return; }
+
+        // Demo: Close on success
+        setTimeout(() => { submitBtn.disabled = false; submitBtn.textContent = 'Add Member'; close(); }, 600);
+      });
+    })();
+  </script>
+</body>
+</html>
+
+
+Above is the design implementation, please use that as a reference to build a similar UI component. Make sure to follow modern React and TypeScript best practices.

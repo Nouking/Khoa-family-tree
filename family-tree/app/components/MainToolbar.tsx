@@ -115,7 +115,7 @@ const MainToolbar: React.FC<MainToolbarProps> = ({
 
   return (
     <>
-      <header className="toolbar bg-(--surface-1) shadow-[var(--elevation-1)] border-b border-(--color-neutral-100) sticky top-0 z-10">
+      <header className="toolbar u-header-accent--gradient text-white shadow-[var(--elevation-1)] sticky top-0 z-10">
         <div className="container mx-auto px-2 sm:px-4 py-2 sm:py-3 grid grid-cols-3 items-center gap-2">
           <div className="toolbar-left flex items-center gap-2">
             <button
@@ -215,15 +215,7 @@ const MainToolbar: React.FC<MainToolbarProps> = ({
               </button>
             )}
             
-            <button 
-              className="btn-share h-10 px-3 rounded-[var(--radius-md)] bg-[color-mix(in_oklch,_var(--color-primary),_white_88%)] text-(--color-primary) hover:bg-[color-mix(in_oklch,_var(--color-primary),_white_80%)] hidden sm:flex items-center focus-visible:outline-2 focus-visible:outline-(--color-primary)"
-              onClick={onShare}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
-              </svg>
-              <span className="hidden md:inline">Share</span>
-            </button>
+            {/* Share entry point removed per E12-T1 to expose only Add, Export, Help */}
             <button 
               className="btn-export h-10 px-3 rounded-[var(--radius-md)] bg-[color-mix(in_oklch,_var(--color-primary),_white_88%)] text-(--color-primary) hover:bg-[color-mix(in_oklch,_var(--color-primary),_white_80%)] hidden sm:flex items-center focus-visible:outline-2 focus-visible:outline-(--color-primary)"
               onClick={onExport}
@@ -267,25 +259,19 @@ const MainToolbar: React.FC<MainToolbarProps> = ({
         {isMobileMenuOpen && (
           <div className="md:hidden border-t border-(--color-neutral-100) bg-(--surface-1) shadow-[var(--elevation-1)]">
             <div className="container mx-auto px-2 py-2 grid grid-cols-2 gap-2">
-              {selectedMemberIds.length > 1 && (
-                <button
-                  className="h-10 px-3 rounded-[var(--radius-md)] bg-(--color-error) text-white hover:bg-[color-mix(in_oklch,_var(--color-error),_black_10%)] flex items-center justify-center"
-                  onClick={() => { handleBulkDelete(); closeMobileMenu(); }}
-                >
-                  Delete {selectedMemberIds.length}
-                </button>
-              )}
-              <button
-                className="h-10 px-3 rounded-[var(--radius-md)] bg-[color-mix(in_oklch,_var(--color-primary),_white_88%)] text-(--color-primary) hover:bg-[color-mix(in_oklch,_var(--color-primary),_white_80%)]"
-                onClick={() => { onShare(); closeMobileMenu(); }}
-              >
-                Share
-              </button>
+              {/* Sidebar on mobile exposes only Export, Help, Add per E12-T1 */}
               <button
                 className="h-10 px-3 rounded-[var(--radius-md)] bg-[color-mix(in_oklch,_var(--color-primary),_white_88%)] text-(--color-primary) hover:bg-[color-mix(in_oklch,_var(--color-primary),_white_80%)]"
                 onClick={() => { onExport(); closeMobileMenu(); }}
               >
                 Export
+              </button>
+              <button
+                className="h-10 px-3 rounded-[var(--radius-md)] btn-outline"
+                onClick={() => { toggleHelp(); closeMobileMenu(); }}
+                aria-label="Open Help"
+              >
+                Help
               </button>
               <button
                 className="col-span-2 h-10 px-3 rounded-[var(--radius-md)] bg-(--color-primary) text-(--color-primary-contrast) hover:bg-[color-mix(in_oklch,_var(--color-primary),_black_10%)]"

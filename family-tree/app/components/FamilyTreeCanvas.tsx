@@ -354,8 +354,8 @@ const FamilyTreeCanvas = memo(React.forwardRef<FamilyTreeCanvasHandle, FamilyTre
           transition: isPanning ? 'none' : 'transform 0.15s ease-out'
         }}
       >
-        {/* Connections Layer - Virtualized for performance */}
-        <svg className="absolute inset-0 w-full h-full" style={{ overflow: 'visible' }}>
+        {/* Connections Layer - must be under nodes per E12-T1 */}
+        <svg className="connections-layer absolute inset-0 w-full h-full -z-10" style={{ overflow: 'visible' }}>
           <defs>
             {/* Tokenized stroke styles for connections */}
             <style>{`
@@ -369,7 +369,8 @@ const FamilyTreeCanvas = memo(React.forwardRef<FamilyTreeCanvasHandle, FamilyTre
           <VirtualizedConnections connections={connections} viewport={viewport} />
         </svg>
 
-        {/* Members Layer - Virtualized for performance */}
+        {/* Members Layer - Virtualized for performance */
+        }
         {visibleMembers.map((member) => (
           <MemberBanner 
             key={member.id} 

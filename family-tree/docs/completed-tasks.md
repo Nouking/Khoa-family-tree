@@ -4,6 +4,11 @@
 > Note (@qa, @sm): Each completed task anchor (e.g., `<a id="e10-t6"></a>`) maps to full details in `IMPROVEMENT-TASK-TRACKING.md`. If the corresponding ID there already contains sufficient information, this archive may summarize or omit duplicate details.
 
 ## 📊 Task Completion Log
+<a id="e12-t1"></a>
+#### E12-T1: Tree View Home – Layout, Sidebar, Toolbar, Canvas (P1-CRITICAL)
+- Status: Completed - 2025-08-13 | Branch: `improvement-e12-t1-tree-view-home`
+- Summary: Toolbar/menu exposes only Add, Export, Help; Share entry removed. Connectors explicitly layered beneath nodes. Responsive/title truncation/search constraints preserved; focus rings tokenized. Tests updated and passing.
+
 <a id="e12-t0"></a>
 #### E12-T0: UI Backup & Rollback Plan (P1-CRITICAL)
 - Status: Completed - 2025-08-13 | Branch: `improvement-e12-t0-ui-backup`
