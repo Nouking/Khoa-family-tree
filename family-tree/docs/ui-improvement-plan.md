@@ -1,6 +1,6 @@
-# UI Improvement Plan
+# UI v2 Plan
 
-This plan codifies the approved UI direction and will guide future stories/epics (to be created later). It references current prototypes and defines acceptance criteria, constraints, and validation.
+This document defines the UI v2 direction and implementation approach. We will build a fresh UI in parallel under a v2 namespace, reusing existing data logic and hooks, and mapping visuals to the provided prompt screens. Tasks and execution are tracked in `IMPROVEMENT-TASK-TRACKING.md` (Epic 12 – UI v2).
 
 ## Status & Source of Truth (Updated 2025-08-13)
 - This plan defines UI direction. The authoritative tracker for tasks/epics is `IMPROVEMENT-TASK-TRACKING.md` at repo root.
@@ -8,27 +8,34 @@ This plan codifies the approved UI direction and will guide future stories/epics
 - Archived prior plans: [UI-IMPROVEMENT-PLAN.md](mdc:family-tree/docs/archive/UI-IMPROVEMENT-PLAN.md), [IMPROVEMENT-PLAN.md](mdc:family-tree/docs/archive/IMPROVEMENT-PLAN.md)
 
 ## Decisions (Approved)
-- Canonical home layout: `.superdesign/design_iterations/family_tree_ui_1_1.html`
-- Sidebar: Keep only Add, Export, Help (no other items)
-- Color direction: Follow new design direction noted in `issue` (modern warm, subtle gradients, token-driven)
+- Build v2 UI in parallel; keep v1 intact until parity
+- Sidebar: Add, Export, Help only; no mobile FAB
+- Color direction: modern warm, subtle gradients, token-driven
 
 ## References
-- Home layout prototype: [family_tree_ui_1_1.html](mdc:.superdesign/design_iterations/family_tree_ui_1_1.html)
-- Alternate home variant (reference only): [family_tree_ui_1_2.html](mdc:.superdesign/design_iterations/family_tree_ui_1_2.html)
-- Add modal prototype: [add_family_member_1_0_1.html](mdc:.superdesign/design_iterations/add_family_member_1_0_1.html)
-- Edit modal prototype: [edit_family_member_1_0_1.html](mdc:.superdesign/design_iterations/edit_family_member_1_0_1.html)
-- Login prototype: [login_redesign_1.html](mdc:.superdesign/design_iterations/login_redesign_1.html)
-- Member detail prototype: [member_detail_1_0_0.html](mdc:.superdesign/design_iterations/member_detail_1_0_0.html)
-- Help panel prototype: [help_panel_1_0_1.html](mdc:.superdesign/design_iterations/help_panel_1_0_1.html)
-- Theme/CSS assets: [family_tree_theme_1.css](mdc:.superdesign/design_iterations/family_tree_theme_1.css), [family_tree_theme_1_1.css](mdc:.superdesign/design_iterations/family_tree_theme_1_1.css), [family_tree_theme_1_2.css](mdc:.superdesign/design_iterations/family_tree_theme_1_2.css), [default_ui_darkmode.css](mdc:.superdesign/design_iterations/default_ui_darkmode.css)
-- Modal redesign spec refs: [implementation-notes.md](mdc:family-tree/docs/implementation-notes.md), [annotations.md](mdc:family-tree/docs/assets/e10-modal/annotations.md)
+- Home: `home-screen-prompt`
+- Add: `add-screen-prompt`
+- Edit: `edit-screen-prompt`
+- Login: `login-screen-prompt`
+- Member detail: `member-detail-prompt`
+- Help panel: `help-panel-prompt`
 
 ## Global Design Principles
-- Token-first styling (colors/spacing/typography via `app/globals.css` tokens)
-- Subtle OKLCH gradients and accents (Epic 11 patterns), AA contrast, motion-reduce compliance
-- Mobile-first responsiveness, touch targets ≥ 44px, safe-area respect on mobile
-- Performance budgets maintained (canvas, connectors, interactions)
-- Accessibility: ARIA semantics, focus order, keyboard loops, screen reader labels
+- Token-first styling via `app/globals.css` (OKLCH colors, radii, elevation, focus)
+- Subtle gradients and accents; AA contrast; motion-reduce compliance
+- Mobile-first; touch targets ≥ 44px; safe-area respect
+- Maintain performance budgets (canvas, connectors, interactions)
+- Accessibility: ARIA semantics, focus order, keyboard loops, SR labels
+
+## v2 Structure (App Router)
+- Routes
+  - `app/(v2)/view/page.tsx` – Tree View Home (v2) — scaffolded in E12-T0
+  - `app/(v2)/login/page.tsx` – Login (v2)
+  - `app/(v2)/members/[id]/page.tsx` – Member Detail (v2)
+- Components
+  - `app/components-v2/` and `app/components-v2/shared/MemberForm.tsx`
+- Styling
+  - Extend tokens/utilities to map prompt classes: `.panel`, `.u-header-accent--gradient`, `.input`, `.btn*`, `.canvas-grid`, `.connector*`, `.ribbon*`, `.badge`, `.toolbar-rail`
 
 ## Agent Workflow Hooks (PO · SM · Architect)
 - PO: Validate acceptance criteria per screen below; ensure tokens-only styling and AA contrast; no raw hex. Reference `family-tree/docs/success-criteria.md`.
@@ -37,12 +44,11 @@ This plan codifies the approved UI direction and will guide future stories/epics
 
 ## Screen Plans and Acceptance Criteria
 
-### 1) Tree View Home
-- Layout: Use `family_tree_ui_1_1.html` as the canonical structure
-- Sidebar: Only Add, Export, Help; no bottom floating "+" FAB
-- Toolbar: Title, Search, Filters; no duplication; truncation and focus states tokenized
-- Canvas: Connections layered beneath cards; avoid overlaps at narrow widths
-- Responsive: Mobile-first, stacked/auto-fit grids for narrow screens
+### 1) Tree View Home (v2)
+- Match `home-screen-prompt` layout/visuals
+- Sidebar: Add, Export, Help only; no mobile FAB
+- Toolbar: Title, Search, Filters; tokenized focus + truncation
+- Canvas: connectors behind cards; hide static connectors < 480px; no overlaps at 360–480px
 
 Acceptance:
 - Toolbar buttons group logically and are keyboard-accessible
@@ -50,63 +56,62 @@ Acceptance:
 - No element overlap at 360–480px, connectors behind nodes
 - No FAB on mobile; desktop unaffected
 
-### 2) Add/Edit Member Modal
-- Follow modal and form prototypes; preserve current functionality
-- MemberForm sections clearly grouped; validation and error states consistent
-- Header/CTA allow subtle gradient accents via tokens (Epic 11 direction)
-- Mobile bottom-sheet variant with dvh/safe areas; focus trap maintained
+### 2) Add Member (v2)
+- Follow `add-screen-prompt`; section grouping, validation, photo, relations
+- APG modal dialog pattern; bottom-sheet variant on mobile
+
+### 3) Edit Member (v2)
+- Follow `edit-screen-prompt`; include canvas position/size fields
+- Same a11y/validation as Add
 
 Acceptance:
 - Keyboard flow matches APG modal dialog; escape/backdrop close works
 - Validation states are consistent and cause no layout shift
 - Gradient/accent utilities map to tokens (no raw hex)
 
-### 3) Login
-- Apply modern warm theme; clear hierarchy; inline errors
-- Accessible labels, correct focus order, and tokenized focus rings
+### 4) Login (v2)
+- Follow `login-screen-prompt`; warm theme; inline errors; proper aria
 
 Acceptance:
 - Form labeled; errors announced; tab sequence correct
 - Visual matches prototype style direction without regressions
 
-### 4) Member Detail
-- Improve information hierarchy (photo, name, relationships, life dates)
-- Consistent chips/dividers/icons per token rules
+### 5) Member Detail (v2)
+- Follow `member-detail-prompt` (or interim spec); hierarchy (photo, name, relationships, life dates); token chips/dividers/icons
 
 Acceptance:
 - Readable at mobile sizes; keyboard-accessible actions; tokens only
 
-### 5) Help Panel
-- Contextual help and shortcuts; responsive layout
+### 6) Help Panel (v2)
+- Follow `help-panel-prompt`; accessible headings/landmarks; responsive
 
 Acceptance:
 - Opens from Help; accessible headings/landmarks; responsive
 
 ## Technical Constraints (Architect)
-- Keep SVG connectors performant; avoid heavy shadow filters; prefer CSS for effects
-- Maintain virtualization; throttle drag/zoom; use rAF; ensure mobile GPU-friendly transforms
-- Bundle hygiene: no new heavy deps for visuals; reuse tokens/utilities
+- No heavy new deps; prefer CSS gradients; maintain virtualization; throttle drag/zoom; rAF; GPU-friendly transforms
 
 ## Validation Plan (QA)
-- Accessibility: Modal APG checks, focus management, labels, reduced motion
-- Responsive: 360px, 480px, 768px, 1024px, 1440px visual checks; no overlap
-- Performance: Interaction smoothness (target 60fps), no excessive layout thrash
+- Accessibility: Modal APG, focus loops, labels, reduced motion
+- Responsive: 360, 480, 768, 1024, 1440; no overlap; connectors behind nodes
+- Performance: ~60fps interactions; no layout thrash
 - Regression: Add/Edit flows, search/filter, export entry points
 
 ## Rollout Sequence
-1. Tree view home
-2. Add/Edit Member modal
-3. Login
-4. Member detail
-5. Help panel
+1. Scaffold v2 foundation (routes, tokens, utilities)
+2. Home
+3. Add/Edit
+4. Login
+5. Member Detail
+6. Help Panel
 
 ## Risks & Mitigations
 - Visual polish increasing CSS size → Audit utilities; remove dead styles
 - Gradient/perf risk → Prefer lightweight CSS gradients; avoid expensive SVG filters
 - A11y regressions → Automated + manual checks per QA plan
 
-## Context7 Integration Protocol (MCP)
-- Always research using Context7 before implementation to stay current. Use these library IDs:
+## MCP Context7
+- Use these library IDs:
 
 | Technology | Context7 ID | Primary Use Case |
 | --- | --- | --- |
@@ -118,11 +123,9 @@ Acceptance:
 | html2canvas | /niklasvh/html2canvas | PNG export of canvas view |
 | jsonwebtoken | /auth0/node-jsonwebtoken | Auth token handling, security notes |
 
-Example MCP invocations during implementation:
-
+Example:
 ```text
-use context7 "/vercel/next.js" topic="App Router patterns for modals and layout"
-use context7 "/tailwindlabs/tailwindcss" topic="token-first gradients, motion-reduce, responsive"
+use context7 "/vercel/next.js" topic="App Router parallel v2 routes and modal patterns"
+use context7 "/tailwindlabs/tailwindcss" topic="token-first OKLCH utilities, responsive, focus rings"
 use context7 "/testing-library/react-testing-library" topic="modal a11y tests (focus trap, aria)"
-use context7 "/niklasvh/html2canvas" topic="performance and quality settings for PNG export"
 ```

@@ -823,142 +823,216 @@ User preferences from `issue` (2025‑08‑11):
 
 ---
 
-## Epic 12: UI Improvement Plan Implementation 🧭
+## Epic 12: UI v2 – Parallel Rebuild 🧭
 **Priority**: High | **Estimated Timeline**: 1–2 weeks
 
-**Goal**: Implement the approved UI direction from `family-tree/docs/ui-improvement-plan.md` across key screens (Tree View Home, Add/Edit Modal alignment, Login, Member Detail, Help Panel) while preserving performance, accessibility, and token-first styling.
+**Goal**: Build a fresh UI v2 in parallel, based on the prompt screens, while keeping v1 logic intact. Deliver new routes and components under a v2 namespace with tokens-first styling and zero functional regressions.
 
-**Success Criteria**: All acceptance criteria in `ui-improvement-plan.md` are satisfied; AA contrast; APG semantics and keyboard flow preserved; no mobile overlaps (360–480px); SVG connectors layer beneath nodes; bundle/perf budgets respected; zero regressions in tests.
+**Source of Truth**: Detailed screen criteria in `family-tree/docs/ui-improvement-plan.md` (UI v2 Plan). Use it alongside the task details below.
 
-### E12-T0: UI Backup & Rollback Plan (P1-CRITICAL) ✅
-- Status: Completed - 2025-08-13 | Branch: `improvement-e12-t0-ui-backup`
-- Summary: Versioned UI backup created (annotated tag, archive, baseline screenshots) with rollback guide and validation script.
-- Details: See Completed Log → [E12-T0](family-tree/docs/completed-tasks.md#e12-t0)
+**Success Criteria**: UI v2 routes exist and match prompts visually across desktop/mobile; AA contrast; APG semantics and keyboard flow preserved; no mobile overlaps (360–480px); SVG connectors under nodes; v1 routes remain functional until parity, then switch default.
 
-### E12-T1: Tree View Home – Layout, Sidebar, Toolbar, Canvas (P1-CRITICAL)
-- **Status**: Pending
-- **Primary Agent**: @dev (James - Implementation)
-- **Supporting Agents**: @ux-expert (Sally - Visual/UX), @qa (Quinn - A11y/Responsive)
-- **Description**: Align the Tree View Home with canonical layout and acceptance criteria.
-- **Dependencies**: [E5-T3] ✅, [E5-T4] ✅, [E9-T3] ✅, [E9-T4] ✅
-- **Acceptance Criteria**:
-  - GIVEN the home view loads
-  - WHEN rendering sidebar and toolbar
-  - THEN the sidebar contains only Add, Export, Help
-  - AND toolbar shows Title, Search, Filters grouped, keyboard-accessible with tokenized focus rings
-  - AND connectors layer beneath member nodes
-  - AND no element overlaps at 360–480px; no mobile FAB
-- **Implementation Details**:
-  - Use `.superdesign/design_iterations/family_tree_ui_1_1.html` as canonical reference
-  - Update `app/components/MainToolbar.tsx` to ensure title truncation, search width constraints, and focus tokens
-  - Ensure only Add, Export, Help entry points are exposed (remove duplicates) in `app/components/MainToolbar.tsx` and any sidebar logic in `app/components/FamilyTree.tsx`
-  - Enforce connectors-under-nodes layering in `app/components/FamilyTreeCanvas.tsx` and `app/components/TreeConnection.tsx` via DOM order/z-index
-  - Apply responsive rules in `app/globals.css` using tokens; verify virtualization unaffected
-  - Tests: Update `app/components/__tests__/FamilyTreeCanvas.test.tsx`, `MainToolbar.test.tsx`, `TreeConnection.test.tsx`
-  - Context7 (research before implementation):
-    ```text
-    use context7 "/vercel/next.js" topic="App Router patterns for layout composition"
-    use context7 "/tailwindlabs/tailwindcss" topic="Token-first responsive layout, focus rings"
-    ```
-- **Branch**: `improvement-e12-t1-tree-view-home`
+### Global Dependencies
+- [E5-T1] ✅ Design tokens in `app/globals.css`
+- [E6-T2] ✅ Enhanced modal system (APG/dialog behavior)
 
-### E12-T2: Add/Edit Member Modal – Final Alignment with Plan (P1-HIGH)
-- **Status**: Pending
-- **Primary Agent**: @dev (James - Implementation)
-- **Supporting Agents**: @ux-expert (Sally - Tokens/Visual), @qa (Quinn - Modal a11y tests)
-- **Description**: Ensure Add/Edit modals match the plan’s grouping, accents, and mobile bottom-sheet variant while preserving E10/E11 behavior.
-- **Dependencies**: [E10] ✅ (T3–T10), [E11] ✅
-- **Acceptance Criteria**:
-  - MemberForm sections clearly grouped; validation/error states consistent; no layout shift
-  - Header/CTA support subtle gradient accents via tokens; motion-reduce honored
-  - Mobile bottom-sheet variant respects dvh/safe areas; focus trap maintained
-- **Implementation Details**:
-  - Verify `app/components/shared/MemberForm.tsx`, `AddMemberModal.tsx`, `EditMemberModal.tsx` section structure and token usage
-  - Map any accents/gradients to tokens in `app/globals.css` (no raw hex)
-  - Ensure aria attributes, focus loop, and escape/backdrop close per APG maintained
-  - Tests: Update `app/components/__tests__/AddMemberModal.test.tsx`, `EditMemberModal.test.tsx`, `MemberForm.test.tsx`, `Modal.test.tsx`
-  - Context7:
-    ```text
-    use context7 "/testing-library/react-testing-library" topic="modal a11y tests (focus trap, aria)"
-    use context7 "/tailwindlabs/tailwindcss" topic="token-first gradients, motion-reduce"
-    ```
-- **Branch**: `improvement-e12-t2-modal-alignment`
+### Git & Process
+- Create feature branches per task (see each task’s `Branch`).
+- Maintain v1 routes intact; add v2 under `app/(v2)` and `app/components-v2`.
+- Tests must stay green after each task; update/add tests where specified.
 
-### E12-T3: Login – Modern Warm Theme & A11y (P1-HIGH)
-- **Status**: Pending
-- **Primary Agent**: @ux-expert (Sally - Visual design)
-- **Supporting Agents**: @dev (James - Implementation), @qa (Quinn - Form a11y)
-- **Description**: Apply modern warm theme to login with clear hierarchy and inline errors, aligning with `ui-improvement-plan.md`.
-- **Dependencies**: [E5-T1] ✅
-- **Acceptance Criteria**:
-  - Accessible labels, correct focus order, tokenized focus rings
-  - Inline errors announced to screen readers; visual style matches direction
-- **Implementation Details**:
-  - Update `app/login/page.tsx` and `app/lib/auth.ts` form states and tokens
-  - Ensure `aria-invalid`, `aria-describedby` for errors; live region for error announcement
-  - Tests: Add/Update login tests (create new if missing)
-  - Context7:
-    ```text
-    use context7 "/vercel/next.js" topic="App Router forms and accessibility"
-    use context7 "/tailwindlabs/tailwindcss" topic="focus styles and AA contrast tokens"
-    ```
-- **Branch**: `improvement-e12-t3-login-redesign`
+---
 
-### E12-T4: Member Detail – Information Hierarchy & Tokens (P2-HIGH)
-- **Status**: Pending
-- **Primary Agent**: @ux-expert (Sally - UX)
-- **Supporting Agents**: @dev (James - Implementation), @qa (Quinn - A11y)
-- **Description**: Improve hierarchy (photo, name, relationships, life dates) with consistent chips/dividers/icons using token rules.
-- **Dependencies**: [E5-T2] ✅
-- **Acceptance Criteria**:
-  - Readable at mobile sizes; keyboard-accessible actions; tokens-only styling
-- **Implementation Details**:
-  - Update `app/components/MemberBanner.tsx` and related detail UI in `app/view/ViewPageClient.tsx`
-  - Add token-driven chips/dividers/icons per E11 patterns; avoid SVG filter perf costs
-  - Tests: Update `app/components/__tests__/MemberBanner.test.tsx`
-  - Context7:
-    ```text
-    use context7 "/tailwindlabs/tailwindcss" topic="semantic tokens for chips/dividers"
-    ```
-- **Branch**: `improvement-e12-t4-member-detail`
+### E12-T0: v2 Scaffolding & Tokens (P1-CRITICAL) ✅
+- Status: Completed - 2025-08-13 | Branch: `improvement-e12-t0-v2-scaffold`
+- Primary Agent: @architect (Winston) | Supporting: @dev (James), @sm (Bob), @po (Sarah)
+- Description: Prepare v2 folder structure and extend tokens/utilities to support prompt-class mappings.
+- Deliverables:
+  - Folders: `family-tree/app/(v2)/`, `family-tree/app/components-v2/`, `family-tree/app/components-v2/shared/`
+  - Route: `family-tree/app/(v2)/view/page.tsx` renders a minimal shell
+  - Tokens/utilities added to `family-tree/app/globals.css`:
+    - `.panel`, `.toolbar-rail`, `.u-header-accent--gradient`, `.input`, `.btn`, `.btn-primary`, `.btn-outline`, `.badge`, `.canvas-grid`, `.connections-layer`, `.connector`, `.ribbon`
+  - Token docs section appended in `family-tree/docs/ui-improvement-plan.md` if new utilities are introduced
+- Acceptance Criteria:
+  - `/v2/view` boots with v2 header/shell and compiles
+  - All mapped utility classes are available (no raw hex), AA contrast preserved
+  - No changes to v1 routes/components
+- Subtasks:
+  - E12-T0.1 Create `app/(v2)` and `components-v2` directories
+  - E12-T0.2 Add initial `/v2/view` route shell
+  - E12-T0.3 Extend `globals.css` with prompt-class mappings
+  - E12-T0.4 Update docs: list of utilities + usage examples
+- Test Strategy:
+  - Smoke test rendering of `/v2/view` (new test file)
+  - Lint CSS for unknown classes; ensure no regressions in existing tests
+  - Agent Prompt: "As @architect, @dev, @sm, @po: read CLAUDE.md 5–136 (AI Task Workflow) and 138–155 (UI v2 Workflow), and IMPROVEMENT-TASK-TRACKING.md 846–874 only; follow the AI Task Workflow; do E12-T0; confirm acceptance criteria, plan, implement, test, and update docs (incl. ui-improvement-plan.md when applicable); keep reasoning ≤400 tokens; v2-only; ensure /v2/view shell compiles, required token utilities exist in globals.css, and no v1 changes; use MCP Context7 only if external docs are needed."
 
-### E12-T5: Help Panel – Accessibility & Responsiveness (P2-MEDIUM)
-- **Status**: Pending
-- **Primary Agent**: @ux-expert (Sally - Interaction design)
-- **Supporting Agents**: @dev (James - Implementation), @qa (Quinn - A11y)
-- **Description**: Ensure Help Panel provides contextual help/shortcuts with accessible headings/landmarks and responsive layout.
-- **Dependencies**: None
-- **Acceptance Criteria**:
-  - Opens from Help; proper headings and landmarks; responsive behavior validated
-- **Implementation Details**:
-  - Update `app/components/HelpPanel.tsx` structure, ARIA roles, and responsive layout using tokens
-  - Verify entry points from toolbar Help
-  - Tests: Update `app/components/__tests__/HelpPanel.test.tsx`
-  - Context7:
-    ```text
-    use context7 "/vercel/next.js" topic="Accessible landmark patterns in app layouts"
-    use context7 "/testing-library/react-testing-library" topic="a11y assertions for landmarks/headings"
-    ```
-- **Branch**: `improvement-e12-t5-help-panel`
+Implementation Notes:
+- Created `family-tree/app/(v2)/view/page.tsx` minimal shell using `u-header-accent--gradient` and `panel` utilities; verifies token mapping without raw hex.
+- Verified required utilities exist in `family-tree/app/globals.css` (`.panel`, `.toolbar-rail`, `.u-header-accent--gradient`, `.input`, `.btn`, `.btn-primary`, `.btn-outline`, `.badge`, `.canvas-grid`, `.connections-layer`, `.connector`, `.ribbon`).
+- Updated `family-tree/docs/ui-improvement-plan.md` to mark the route as scaffolded in E12-T0.
+- Added smoke test `family-tree/app/components/__tests__/ViewPageV2.test.tsx` asserting v2 header and shell text.
 
-### E12-T6: QA Validation – Accessibility, Responsive, Performance (P1-CRITICAL)
-- **Status**: Pending
-- **Primary Agent**: @qa (Quinn - Validation)
-- **Supporting Agents**: @dev (James), @ux-expert (Sally)
-- **Description**: Validate across the plan’s Validation Plan (a11y, responsive, perf, regression) and update docs.
-- **Dependencies**: [E12-T1] ✅, [E12-T2] ✅, [E12-T3] ✅, [E12-T4] ✅, [E12-T5] ✅
-- **Acceptance Criteria**:
+---
+
+### E12-T1: Tree View Home (v2) – Layout, Sidebar, Toolbar, Canvas (P1-CRITICAL)
+- Status: Pending | Branch: `improvement-e12-t1-v2-home`
+- Primary Agent: @dev (James) | Supporting: @ux-expert (Sally), @qa (Quinn), @po (Sarah), @sm (Bob)
+- References: `home-screen-prompt`, UI v2 Plan (“Tree View Home”) and prior E12‑T1 (Archived) implementation notes
+- Description: Implement v2 Home screen using v2 shell, token utilities, and responsive rules. Sidebar exposes Add, Export, Help only. Toolbar groups Title, Search, Filters with tokenized focus and truncation. Canvas ensures connections are layered under member nodes and responsive behavior prevents overlaps at small sizes.
+- Files to Add/Change:
+  - `family-tree/app/(v2)/view/page.tsx` (page composition)
+  - `family-tree/app/(v2)/view/ViewPageV2Client.tsx` (client wrapper, if needed)
+  - `family-tree/app/components-v2/MainToolbarV2.tsx`
+  - `family-tree/app/components-v2/SidebarV2.tsx`
+  - `family-tree/app/components-v2/FamilyTreeCanvasV2.tsx`
+  - `family-tree/app/globals.css` (ensure `.toolbar-rail`, `.panel`, `.canvas-grid`, `.connections-layer`, `.badge`, `.connector` mappings exist)
+- Implementation Details:
+  - Sidebar: Only Add, Export, Help. Keyboard-accessible, tokenized focus rings
+  - Toolbar: Title truncation; Search width constraints; Filters grouped; focus styles via tokens
+  - Canvas: Render nodes above connectors; mark connectors SVG as `.connections-layer` and apply `-z-10`; hide static connectors under 480px; ensure no element overlaps at 360–480px
+  - Performance: Maintain virtualization and throttling policies from v1 where applicable
+  - Accessibility: Landmarks and headings correct; keyboard navigation preserved
+- Acceptance Criteria:
+  - Visual parity with `home-screen-prompt` on desktop and mobile
+  - Connectors render under nodes; no overlap at 360–480px; connectors hidden < 480px per rules
+  - Toolbar/Sidebar behaviors align with tokens; AA contrast; APG semantics
+  - v1 unaffected; tests green
+- Subtasks:
+  - E12-T1.1 Implement `SidebarV2` with Add/Export/Help
+  - E12-T1.2 Implement `MainToolbarV2` with grouped Title/Search/Filters
+  - E12-T1.3 Implement `FamilyTreeCanvasV2` with connectors-under-nodes layering and responsive hide < 480px
+  - E12-T1.4 Wire page composition and state plumbing (reuse v1 hooks/data)
+  - E12-T1.5 Add tests for toolbar content, layering, and responsive rules
+- Test Strategy:
+  - Update/add tests: toolbar items present (no Share), connectors under nodes, responsive checks (360/480)
+  - Agent Prompt: "As @dev, @ux-expert, @qa, @po, @sm: read CLAUDE.md 5–136 (AI Task Workflow) and 138–155 (UI v2 Workflow), and IMPROVEMENT-TASK-TRACKING.md 878–911 only; follow the AI Task Workflow; do E12-T1; confirm acceptance criteria, plan, implement, test, and update docs (incl. ui-improvement-plan.md when applicable); keep reasoning ≤400 tokens; v2-only; Sidebar=Add/Export/Help, Toolbar groups Title/Search/Filters with tokenized focus/truncation; connectors under nodes, hide <480px, no overlap at 360–480; reuse v1 hooks/data; use MCP Context7 only if external docs are needed."
+  - Use existing patterns from `app/components/__tests__/MainToolbar.test.tsx` and canvas tests
+
+---
+
+### E12-T2: Add Member Modal (v2) (P1-HIGH)
+- Status: Pending | Branch: `improvement-e12-t2-v2-add`
+- Primary Agent: @dev (James) | Supporting: @ux-expert (Sally), @qa (Quinn), @po (Sarah)
+- References: `add-screen-prompt`, UI v2 Plan (“Add Member (v2)”), E10/E11 specs
+- Description: Build v2 Add modal using `components-v2/shared/MemberForm` with E10/E11 token and a11y patterns; bottom sheet on mobile.
+- Files to Add/Change:
+  - `family-tree/app/components-v2/shared/MemberForm.tsx` (copy or extract from v1 then adjust styles only)
+  - `family-tree/app/components-v2/AddMemberModalV2.tsx`
+  - `family-tree/app/globals.css` (ensure modal tokens/gradients are mapped; no raw hex)
+- Acceptance Criteria:
+  - APG modal dialog semantics; focus trap; escape/backdrop close
+  - Section grouping, photo uploader, relations present; mobile bottom-sheet variant
+  - Validation behavior matches v1 without layout shift; AA contrast; reduced motion honored
+- Subtasks:
+  - E12-T2.1 Create `MemberForm` v2 with token-only styles
+  - E12-T2.2 Implement `AddMemberModalV2` shell and keyboard flow
+  - E12-T2.3 Wire validation using existing utilities; keep TS types
+  - E12-T2.4 Tests for a11y, validation, and mobile bottom-sheet
+- Test Strategy:
+  - Update/add tests similar to `AddMemberModal.test.tsx`, `MemberForm.test.tsx`, `Modal.test.tsx`
+  - Agent Prompt: "As @dev, @ux-expert, @qa, @po: read CLAUDE.md 5–136 (AI Task Workflow) and 138–155 (UI v2 Workflow), and IMPROVEMENT-TASK-TRACKING.md 914–933 only; follow the AI Task Workflow; do E12-T2; confirm acceptance criteria, plan, implement, test, and update docs (incl. ui-improvement-plan.md when applicable); keep reasoning ≤400 tokens; v2-only; APG modal semantics with focus trap/backdrop/ESC, bottom-sheet on mobile, token-only styles, validation matches v1, AA contrast and reduced-motion respected; use MCP Context7 only if external docs are needed."
+
+---
+
+### E12-T3: Edit Member Modal (v2) (P1-HIGH)
+- Status: Pending | Branch: `improvement-e12-t3-v2-edit`
+- Primary Agent: @dev (James) | Supporting: @ux-expert (Sally), @qa (Quinn)
+- References: `edit-screen-prompt`, UI v2 Plan (“Edit Member (v2)”), E10/E11 patterns
+- Description: Build v2 Edit modal with additional canvas position/size fields; same validation/a11y as Add.
+- Files to Add/Change:
+  - `family-tree/app/components-v2/EditMemberModalV2.tsx`
+  - `family-tree/app/components-v2/shared/MemberForm.tsx` (extend for edit fields)
+- Acceptance Criteria:
+  - All Add modal criteria apply; additional fields validated; no layout shift
+- Subtasks:
+  - E12-T3.1 Extend MemberForm for edit-only fields
+  - E12-T3.2 Build `EditMemberModalV2` and keyboard flow
+  - E12-T3.3 Tests for edit fields and validation
+- Test Strategy:
+  - Add/update tests mirroring `EditMemberModal.test.tsx`
+  - Agent Prompt: "As @dev, @ux-expert, @qa: read CLAUDE.md 5–136 (AI Task Workflow) and 138–155 (UI v2 Workflow), and IMPROVEMENT-TASK-TRACKING.md 938–953 only; follow the AI Task Workflow; do E12-T3; confirm acceptance criteria, plan, implement, test, and update docs (incl. ui-improvement-plan.md when applicable); keep reasoning ≤400 tokens; v2-only; extend MemberForm for edit-only fields; same a11y/validation as Add; no layout shift; use MCP Context7 only if external docs are needed."
+
+---
+
+### E12-T4: Login (v2) (P2-HIGH)
+- Status: Pending | Branch: `improvement-e12-t4-v2-login`
+- Primary Agent: @ux-expert (Sally) | Supporting: @dev (James), @qa (Quinn)
+- References: `login-screen-prompt`, UI v2 Plan (“Login (v2)”), E9-T1 behavioral notes
+- Description: Implement login with warm theme and inline errors; maintain proper ARIA and keyboard flow.
+- Files to Add/Change:
+  - `family-tree/app/(v2)/login/page.tsx`
+  - `family-tree/app/globals.css` (ensure focus rings, error tokens)
+- Acceptance Criteria:
+  - Labeled fields; inline errors announced via `aria-live`; correct tab order
+  - Visual alignment to prompt style direction; no regressions to auth flow
+- Subtasks:
+  - E12-T4.1 Implement page layout and form
+  - E12-T4.2 Error handling visuals + SR announcements
+  - E12-T4.3 Tests for form labeling, focus order, and error announcements
+- Test Strategy:
+  - Add tests similar to `login` flow assertions; verify aria wiring
+  - Agent Prompt: "As @ux-expert, @dev, @qa: read CLAUDE.md 5–136 (AI Task Workflow) and 138–155 (UI v2 Workflow), and IMPROVEMENT-TASK-TRACKING.md 958–974 only; follow the AI Task Workflow; do E12-T4; confirm acceptance criteria, plan, implement, test, and update docs (incl. ui-improvement-plan.md when applicable); keep reasoning ≤400 tokens; v2-only; login with warm theme, labeled fields, aria-live inline errors, correct tab order; no auth regressions; use MCP Context7 only if external docs are needed."
+
+---
+
+### E12-T5: Member Detail (v2) (P2-HIGH)
+- Status: Pending | Branch: `improvement-e12-t5-v2-member-detail`
+- Primary Agent: @ux-expert (Sally) | Supporting: @dev (James), @qa (Quinn)
+- References: `member-detail-prompt`, UI v2 Plan (“Member Detail (v2)”), E11 chip/divider/icon patterns
+- Description: Implement detail page with clear hierarchy, chips/dividers/icons mapped to tokens; keyboard-accessible actions.
+- Files to Add/Change:
+  - `family-tree/app/(v2)/members/[id]/page.tsx`
+  - `family-tree/app/components-v2/MemberBannerV2.tsx`
+- Acceptance Criteria:
+  - Readable at mobile sizes; keyboard-accessible actions; token-only styling
+- Subtasks:
+  - E12-T5.1 Layout structure and hierarchy
+  - E12-T5.2 Chips/dividers/icons per tokens
+  - E12-T5.3 Tests for hierarchy/accessibility
+- Test Strategy:
+  - Update/add tests similar to `MemberBanner.test.tsx`
+  - Agent Prompt: "As @ux-expert, @dev, @qa: read CLAUDE.md 5–136 (AI Task Workflow) and 138–155 (UI v2 Workflow), and IMPROVEMENT-TASK-TRACKING.md 979–994 only; follow the AI Task Workflow; do E12-T5; confirm acceptance criteria, plan, implement, test, and update docs (incl. ui-improvement-plan.md when applicable); keep reasoning ≤400 tokens; v2-only; member detail page with clear hierarchy, chips/dividers/icons mapped to tokens, keyboard-accessible actions, readable on mobile; use MCP Context7 only if external docs are needed."
+
+---
+
+### E12-T6: Help Panel (v2) (P2-MEDIUM)
+- Status: Pending | Branch: `improvement-e12-t6-v2-help`
+- Primary Agent: @ux-expert (Sally) | Supporting: @dev (James), @qa (Quinn)
+- References: `help-panel-prompt`, UI v2 Plan (“Help Panel (v2)”), E6 patterns
+- Description: Implement Help Panel with proper headings/landmarks; responsive layout and tokens.
+- Files to Add/Change:
+  - `family-tree/app/components-v2/HelpPanelV2.tsx`
+- Acceptance Criteria:
+  - Opens from Help; has correct landmarks/headings; responsive behavior validated
+- Subtasks:
+  - E12-T6.1 Structure and ARIA landmarks
+  - E12-T6.2 Responsive layout per tokens
+  - E12-T6.3 Tests for landmarks/headings
+- Test Strategy:
+  - Add tests similar to `HelpPanel.test.tsx` with a11y assertions
+  - Agent Prompt: "As @ux-expert, @dev, @qa: read CLAUDE.md 5–136 (AI Task Workflow) and 138–155 (UI v2 Workflow), and IMPROVEMENT-TASK-TRACKING.md 999–1013 only; follow the AI Task Workflow; do E12-T6; confirm acceptance criteria, plan, implement, test, and update docs (incl. ui-improvement-plan.md when applicable); keep reasoning ≤400 tokens; v2-only; Help Panel opens from Help, correct headings/landmarks, responsive tokenized layout; use MCP Context7 only if external docs are needed."
+
+---
+
+### E12-T7: QA Validation – Accessibility, Responsive, Performance (P1-CRITICAL)
+- Status: Pending | Branch: `improvement-e12-t7-v2-qa`
+- Primary Agent: @qa (Quinn) | Supporting: @dev (James), @ux-expert (Sally)
+- References: UI v2 Plan “Validation Plan (QA)”
+- Description: Validate a11y, responsive, performance across v2 screens; keep regression suite green; ensure v1 unaffected.
+- Acceptance Criteria:
   - Modal APG checks pass; focus management correct; labels and reduced-motion compliance
   - Responsive checks pass at 360, 480, 768, 1024, 1440; no overlap; connectors under nodes
-  - Interaction smoothness ∼60fps target; no excessive layout thrash
+  - Interaction smoothness ∼60fps target; no layout thrash
   - Regression tests green for Add/Edit flows, search/filter, export entry points
-- **Implementation Details**:
-  - Expand/adjust tests under `app/components/__tests__/` and `app/contexts/__tests__/`
-  - Update `family-tree/docs/completed-tasks.md` and reference outcomes from `family-tree/docs/ui-improvement-plan.md`
-  - Context7:
-    ```text
-    use context7 "/testing-library/react-testing-library" topic="a11y & responsive testing patterns"
-    use context7 "/vercel/next.js" topic="Performance recommendations for App Router"
-    ```
-- **Branch**: `improvement-e12-t6-qa-validation`
+- Subtasks:
+  - E12-T7.1 A11y sweep (modal semantics, keyboard, SR labels, reduced motion)
+  - E12-T7.2 Responsive sweep (breakpoints, connector layering)
+  - E12-T7.3 Performance checks (FPS, bundle split sanity, virtualization intact)
+  - E12-T7.4 Update docs in `family-tree/docs/completed-tasks.md` with outcomes
+- Test Strategy:
+  - Expand/adjust tests under `app/components/__tests__/` and `app/contexts/__tests__/`; ensure new v2 tests are added alongside v1 without breaking existing ones
+  - Agent Prompt: "As @qa, @dev, @ux-expert: read CLAUDE.md 5–136 (AI Task Workflow) and 138–155 (UI v2 Workflow), and IMPROVEMENT-TASK-TRACKING.md 1018–1034 only; follow the AI Task Workflow; do E12-T7; confirm acceptance criteria, plan, implement, test, and update docs (incl. ui-improvement-plan.md when applicable); keep reasoning ≤400 tokens; v2-only; validate APG modal checks, labels, reduced-motion; responsive at 360/480/768/1024/1440 with connectors under nodes and no overlap; interaction smoothness ~60fps; regression suite green; use MCP Context7 only if external docs are needed."
+
+
 

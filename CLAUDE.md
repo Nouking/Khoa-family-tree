@@ -9,12 +9,13 @@ Before starting any task, you MUST read and understand the following documents t
 
 **📋 Master Documents (Start Here)**:
 - **Project Overview**: PROJECT-OVERVIEW.md (consolidated project vision, architecture, and status)
-- **Task Management**: UNIFIED-TASK-TRACKING.md (integrated task tracking for all development phases)
+- **Task Management**: IMPROVEMENT-TASK-TRACKING.md (integrated task tracking for all development phases)
 - **Documentation Hub**: family-tree/docs/index.md (AI-optimized navigation and quick start)
 
 **🔧 Supporting References**:
 - **Success Criteria**: family-tree/docs/success-criteria.md (quality standards and acceptance criteria)
 - **Implementation Archive**: family-tree/docs/completed-tasks.md (historical patterns and examples)
+- **UI v2 Plan**: family-tree/docs/ui-improvement-plan.md (Epic 12 source of truth for v2 UI work)
 
 ### 2. Task-Specific Instructions (Enhanced for Multi-Phase Development)
 For any given task ID (e.g., "Task 3.1", "E2-T3"), you MUST:
@@ -25,7 +26,7 @@ For any given task ID (e.g., "Task 3.1", "E2-T3"), you MUST:
 3. Review family-tree/docs/completed-tasks.md for related implementation patterns
 
 **For Improvement Plan Tasks (EX-TY format)**:
-1. Read UNIFIED-TASK-TRACKING.md section "Improvement Plan Epics"  
+1. Read IMPROVEMENT-TASK-TRACKING.md section "Improvement Plan Epics"  
 2. Check the specific epic (E1-E4) for task details and agent assignments
 3. Review IMPROVEMENT-TASK-TRACKING.md for detailed acceptance criteria
 
@@ -56,6 +57,7 @@ For any given task ID (e.g., "Task 3.1", "E2-T3"), you MUST:
 - Task 3.1 details → family-tree/docs/task-tracking.md (lines 249-260)
 - E1-T5 details → IMPROVEMENT-TASK-TRACKING.md (lines 307-326)
 - E3-T1 details → IMPROVEMENT-TASK-TRACKING.md (lines 467-485)
+- Epic 12 (UI v2) tasks → family-tree/docs/ui-improvement-plan.md
 
 ### 3. Task Status Updates (MANDATORY - DO NOT SKIP)
 **CRITICAL**: You MUST complete ALL steps below in EXACT ORDER. Do NOT proceed to git operations without completing documentation updates first.
@@ -63,9 +65,21 @@ For any given task ID (e.g., "Task 3.1", "E2-T3"), you MUST:
 **Required Steps (Must Complete in Order):**
 - [ ] **Step 1 - Complete Code Implementation**: Finish writing all code changes for the task.
 - [ ] **Step 2 - Update Documentation (MANDATORY BEFORE GIT)**: After code is complete but BEFORE any git operations, you MUST update the following:
-  - [ ] Update the task's status in `family-tree/docs/task-tracking.md`
+  - [ ] Update the task's status in `IMPROVEMENT-TASK-TRACKING.md`
   - [ ] Update Improvement Plan entries in `IMPROVEMENT-TASK-TRACKING.md` for any E?-T? task you completed using the standardized completed-task format (see template below)
-  - [ ] Move or summarize the completed task in `family-tree/docs/completed-tasks.md` with an anchor and concise notes; if the tracker has full details, keep the archive succinct
+  - [ ] Add or update the completed task in `family-tree/docs/completed-tasks.md` with an anchor and a FULL summary of work done (key changes, files edited/added, tests updated/added, acceptance verification). You may reference other completed tasks in this file with links when related.
+  - [ ] If UI v2 work affected screen plans or utilities, update `family-tree/docs/ui-improvement-plan.md` status notes and examples accordingly
+  - [ ] Use the exact Completed entry structure for Improvement tasks, mirroring the E11‑T6 style:
+    - In `IMPROVEMENT-TASK-TRACKING.md` under the task:
+      - `### E{epic}-T{task}: {Title} (P{priority}-{level}) ✅`
+      - `- Status: Completed - {YYYY-MM-DD} | Branch: `{branch-name}``
+      - `- Summary: {One–two lines; what changed and impact}`
+      - `- Details: See Completed Log → [E{epic}-T{task}](family-tree/docs/completed-tasks.md#e{epic}-t{task})`
+    - In `family-tree/docs/completed-tasks.md` add/update the matching anchor and header:
+      - `<a id="e{epic}-t{task}"></a>` then
+      - `#### E{epic}-T{task}: {Title} (P{priority}-{level})`
+      - `- Status: Completed - {YYYY-MM-DD} | Branch: `{branch-name}``
+      - `- Summary: {Full detail of work done: key edits, files changed/added, tests, verification against acceptance criteria; include links to related completed tasks when useful}`
   - [ ] Document any issues encountered or deviations from the original plan
   - [ ] Update documentation with your latest achievements
 - [ ] **Step 3 - Perform Git Operations**: ONLY after ALL documentation is updated, proceed with git commits and pushes.
@@ -98,14 +112,16 @@ Notes:
 
 ## Working Directory
 
-The main application code is located in the `family-tree/` subdirectory. Always work from `/Users/nouking/Workspace/family-tree/Khoa-family-tree/family-tree` when running commands or editing application files.
+The main application code is located in the `family-tree/` subdirectory. Always run commands from `family-tree/` (project-root/family-tree) when working with the app and use repository-relative paths in docs and scripts.
 
 ## Development Workflow
 
 ### Git Workflow (Mandatory)
 1. **Create a Branch**: Before writing any code, create a feature branch.
-   - **Format**: `task{ID}-{kebab-case-description}`
-   - **Example**: `task1-1-setup-nextjs-project`
+   - **For Improvement Plan tasks**: `improvement-e{epic}-t{task}-{kebab-case-description}`
+     - Example: `improvement-e12-t1-v2-home`
+   - **For original Task X.Y items**: `task{ID}-{kebab-case-description}`
+     - Example: `task1-1-setup-nextjs-project`
 2. **Commit Changes**: Write clear and concise commit messages.
    - **Format**: `type(scope): description`
    - **Example**: `feat(auth): implement jwt token generation`
@@ -118,6 +134,24 @@ For development commands, tech stack details, and architecture overview, refer t
 - **Development Commands**: See `family-tree/README.md` - Getting Started section
 - **Architecture Overview**: See `family-tree/docs/project-overview.md` - comprehensive tech stack and structure
 - **Project Goals**: See `project-goal.md` - detailed technical architecture and data models
+
+## UI v2 Workflow (Epic 12)
+
+When working on Epic 12 (UI v2), follow this streamlined flow:
+
+- Read: `IMPROVEMENT-TASK-TRACKING.md` → Epic 12 section, and `family-tree/docs/ui-improvement-plan.md`
+- Branch: `improvement-e12-<task-id>-<kebab-summary>` (e.g., `improvement-e12-t1-v2-home`)
+- Implement: v2-only in `family-tree/app/(v2)/` and `family-tree/app/components-v2/`; extend tokens in `family-tree/app/globals.css` as needed; do not modify v1 routes/components unless explicitly required
+- Tests: add/update v2 tests alongside existing suites (keep v1 green)
+- Documentation updates (mandatory after implementation, before git):
+  - Update status in `IMPROVEMENT-TASK-TRACKING.md` (Epic 12 task)
+  - Append a concise summary with anchor in `family-tree/docs/completed-tasks.md`
+  - If applicable, update `family-tree/docs/ui-improvement-plan.md` status notes/examples
+
+Acceptance checkpoints for v2 work:
+- Visual parity to prompt direction; AA contrast; APG semantics; reduced-motion respected
+- No overlap at mobile sizes; connectors layer beneath nodes (where relevant)
+- v1 remains fully functional until parity; no regressions in existing tests
 
 ## Task Status Values
 - `Pending`: Not yet started
