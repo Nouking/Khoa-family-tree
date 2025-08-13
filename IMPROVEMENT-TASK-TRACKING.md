@@ -831,7 +831,7 @@ User preferences from `issue` (2025‑08‑11):
 **Success Criteria**: All acceptance criteria in `ui-improvement-plan.md` are satisfied; AA contrast; APG semantics and keyboard flow preserved; no mobile overlaps (360–480px); SVG connectors layer beneath nodes; bundle/perf budgets respected; zero regressions in tests.
 
 ### E12-T0: UI Backup & Rollback Plan (P1-CRITICAL)
-- **Status**: Pending
+- **Status**: Completed - 2025-08-13 | Branch: `improvement-e12-t0-ui-backup`
 - **Primary Agent**: @dev (James - Backup & scripting)
 - **Supporting Agents**: @sm (Bob - Process/readiness), @qa (Quinn - Validation)
 - **Description**: Create a comprehensive, versioned backup of the current UI and a documented rollback procedure to restore the exact pre‑Epic‑12 state if needed.
@@ -871,6 +871,11 @@ User preferences from `issue` (2025‑08‑11):
     use context7 "/testing-library/react-testing-library" topic="snapshot/baseline testing considerations"
     use context7 "/vercel/next.js" topic="Change management in App Router projects"
     ```
+- **Verification**:
+  - Tag present: `git tag -l ui-pre-e12-backup`
+  - Validation script: `cd family-tree && npm run validate:backup` returns "All validations passed."
+  - Baseline screenshots stored under `family-tree/docs/assets/ui-baselines/pre-e12/`
+
 - **Branch**: `improvement-e12-t0-ui-backup`
 
 ### E12-T1: Tree View Home – Layout, Sidebar, Toolbar, Canvas (P1-CRITICAL)
