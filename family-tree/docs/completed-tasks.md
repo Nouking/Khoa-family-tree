@@ -5,9 +5,29 @@
 
 ## 📊 Task Completion Log
 <a id="e12-t1"></a>
-#### E12-T1: Tree View Home – Layout, Sidebar, Toolbar, Canvas (P1-CRITICAL)
-- Status: Completed - 2025-08-13 | Branch: `improvement-e12-t1-tree-view-home`
-- Summary: Toolbar/menu exposes only Add, Export, Help; Share entry removed. Connectors explicitly layered beneath nodes. Responsive/title truncation/search constraints preserved; focus rings tokenized. Tests updated and passing.
+#### E12-T1: Tree View Home (v2) – Layout, Sidebar, Toolbar, Canvas (P1-CRITICAL)
+- Status: Completed - 2025-08-14 | Branch: `improvement-e12-t1-v2-home`
+- Summary: Complete v2 Home layout implemented with sidebar (Add/Export/Help), toolbar (Title/Search/Filters), and canvas with connectors under nodes. Responsive behavior and token-only styling. All tests passing.
+- Implementation Details:
+  - **Route**: `/v2/view` fully functional with complete layout using App Router
+  - **Components Created**:
+    - `SidebarV2.tsx`: Add/Export/Help only, responsive width (16px → 192px), tokenized focus rings
+    - `MainToolbarV2.tsx`: Title truncation, search width constraints (w-32 → w-56), grouped filters
+    - `FamilyTreeCanvasV2.tsx`: Connections layer with `-z-10`, hidden < 480px, zoom controls, virtualization
+    - `ViewPageV2Client.tsx`: Client wrapper integrating all components with v1 state management
+  - **Key Features**:
+    - Connectors layered beneath nodes using CSS z-index and stacking context
+    - Responsive behavior prevents overlaps at 360-480px breakpoint
+    - Token-only styling (no raw hex) using `globals.css` utilities
+    - Search functionality with suggestions and focus management
+    - Placeholder modals for Add/Filters (implemented in subsequent tasks)
+  - **Tests Added**:
+    - `SidebarV2.test.tsx`: Button presence, tokenized styling, responsive text
+    - `MainToolbarV2.test.tsx`: Search constraints, filter grouping, accessibility
+    - `FamilyTreeCanvasV2.test.tsx`: Z-index layering, responsive connector hiding, zoom controls
+    - `ViewPageV2Integration.test.tsx`: Full integration testing across breakpoints
+  - **State Management**: Reuses v1 hooks (FamilyTreeContext, useFamilyTreeOperations, useOnboarding)
+- Verification Notes: All acceptance criteria met; visual parity achieved; keyboard navigation preserved; no regressions in v1 functionality
 
 <a id="e12-t0"></a>
 #### E12-T0: UI Backup & Rollback Plan (P1-CRITICAL)

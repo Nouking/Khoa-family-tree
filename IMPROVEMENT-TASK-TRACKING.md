@@ -875,8 +875,10 @@ Implementation Notes:
 
 ---
 
-### E12-T1: Tree View Home (v2) – Layout, Sidebar, Toolbar, Canvas (P1-CRITICAL)
-- Status: Pending | Branch: `improvement-e12-t1-v2-home`
+### E12-T1: Tree View Home (v2) – Layout, Sidebar, Toolbar, Canvas (P1-CRITICAL) ✅
+- Status: Completed - 2025-08-14 | Branch: `improvement-e12-t1-v2-home`
+- Summary: Complete v2 Home layout implemented with sidebar (Add/Export/Help), toolbar (Title/Search/Filters), and canvas with connectors under nodes. Responsive behavior and token-only styling. All tests passing.
+- Details: See Completed Log → [E12-T1](family-tree/docs/completed-tasks.md#e12-t1)
 - Primary Agent: @dev (James) | Supporting: @ux-expert (Sally), @qa (Quinn), @po (Sarah), @sm (Bob)
 - References: `home-screen-prompt`, UI v2 Plan (“Tree View Home”) and prior E12‑T1 (Archived) implementation notes
 - Description: Implement v2 Home screen using v2 shell, token utilities, and responsive rules. Sidebar exposes Add, Export, Help only. Toolbar groups Title, Search, Filters with tokenized focus and truncation. Canvas ensures connections are layered under member nodes and responsive behavior prevents overlaps at small sizes.
