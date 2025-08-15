@@ -86,12 +86,23 @@ export function validateMemberForm(
 
   // Edit-mode specific validations
   if (options.mode === 'edit') {
-    if (formData.position.x < 0 || formData.position.y < 0) {
-      errors.position = 'Position coordinates must be positive numbers';
+    // Position validation (0-3000 range per spec)
+    if (isNaN(formData.position.x) || formData.position.x < 0 || formData.position.x > 3000) {
+      errors.positionX = 'X position must be between 0 and 3000';
     }
-    if (formData.size.width < 50 || formData.size.height < 30) {
-      errors.size = 'Size must be at least 50x30 pixels';
+    if (isNaN(formData.position.y) || formData.position.y < 0 || formData.position.y > 3000) {
+      errors.positionY = 'Y position must be between 0 and 3000';
     }
+    
+    // Size validation (minimum 100px per spec)
+    if (isNaN(formData.size.width) || formData.size.width < 100) {
+      errors.sizeWidth = 'Width must be at least 100 pixels';
+    }
+    if (isNaN(formData.size.height) || formData.size.height < 100) {
+      errors.sizeHeight = 'Height must be at least 100 pixels';
+    }
+    
+    // Relationship validation for edit mode
     if (options.currentMemberId) {
       if (formData.parentId === options.currentMemberId) {
         errors.parentId = 'A member cannot be their own parent';

@@ -920,8 +920,10 @@ Implementation Notes:
 
 ---
 
-### E12-T3: Edit Member Modal (v2) (P1-HIGH)
-- Status: Pending | Branch: `improvement-e12-t3-v2-edit`
+### E12-T3: Edit Member Modal (v2) (P1-HIGH) ✅
+- Status: Completed - 2025-08-15 | Branch: `improvement-e12-t3-v2-edit`
+- Summary: EditMemberModalV2 implemented with canvas position/size fields, token-driven styling, APG semantics, mobile bottom-sheet support
+- Details: See Completed Log → [E12-T3](family-tree/docs/completed-tasks.md#e12-t3)
 - Primary Agent: @dev (James) | Supporting: @ux-expert (Sally), @qa (Quinn)
 - References: `edit-screen-prompt`, UI v2 Plan ("Edit Member (v2)"), E10/E11 patterns
 
@@ -1016,12 +1018,17 @@ Implementation Notes:
 - Validate all form fields work with proper validation
 - Ensure visual consistency with design reference
 
+As @dev, @ux-expert, @qa: read CLAUDE.md 1–136 (AI Task Workflow), 138–155 (UI v2 Workflow), and 274–331 (Task Status Updates); read IMPROVEMENT-TASK-TRACKING.md 923–1018 (E12-T3 complete specification); follow AI Task Workflow exactly; do E12-T3 Edit Member Modal 
+  (v2); MANDATORY pre-implementation: complete Pre-Implementation Analysis checklists (928–941) documenting edit-screen-prompt requirements, AddMemberModalV2 patterns, and Canvas Position/Size field additions; extend MemberForm conditionally for edit-only fields (X/Y
+  coordinates, Width/Height dimensions); implement validation (coordinates within 0-3000 bounds, dimensions minimum 100px); match AddMemberModalV2 styling with token-driven design; ensure mobile bottom-sheet behavior, APG modal semantics, AA contrast; comprehensive  
+  tests for position/size validation and responsive breakpoints; update docs per workflow steps 1–3 in exact order (code → docs → git); keep reasoning ≤600 tokens; use MCP Context7 only if external docs needed.
+
 ---
 
-### E12-T4: Login (v2) (P2-HIGH)
-- Status: Pending | Branch: `improvement-e12-t4-v2-login`
-- Primary Agent: @ux-expert (Sally) | Supporting: @dev (James), @qa (Quinn)
-- References: `login-screen-prompt`, UI v2 Plan ("Login (v2)"), E9-T1 behavioral notes
+### E12-T4: Login (v2) (P2-HIGH) ✅
+- Status: Completed - 2025-08-15 | Branch: `improvement-e12-t4-v2-login`
+- Summary: Implemented v2 login with warm theme tokens, E9-T1 auth integration, comprehensive accessibility
+- Details: See Completed Log → [E12-T4](family-tree/docs/completed-tasks.md#e12-t4)
 
 ### **🎯 Pre-Implementation Analysis (MANDATORY - Complete Before Coding):**
 1. **Reference Design Analysis:**
@@ -1117,46 +1124,240 @@ Implementation Notes:
 - Test all error scenarios with proper user feedback
 - Verify accessibility compliance and keyboard navigation
 - Validate responsive behavior at all breakpoints
-
+ As @ux-expert, @dev, @qa: read CLAUDE.md 1–136 (AI Task Workflow), 138–155 (UI v2 Workflow), and 274–331 (Task Status Updates); read IMPROVEMENT-TASK-TRACKING.md 1028–1128 (E12-T4 complete specification); follow AI Task Workflow exactly; do E12-T4 Login (v2);
+  MANDATORY pre-implementation: complete Pre-Implementation Analysis checklists (1026–1039) documenting login-screen-prompt visual requirements, E9-T1 auth behavior, warm theme token mappings; create family-tree/app/(v2)/login/page.tsx with token-driven styling (warm      
+  colors, not harsh blues); integrate existing /api/auth/login endpoint from E9-T1, redirect to /v2/view on success; implement comprehensive error handling (network, validation, server); ensure form accessibility (proper labels, ARIA announcements, logical tab order);     
+   mobile-responsive with 44px touch targets; comprehensive tests for auth flow, error scenarios, accessibility, responsive behavior; update docs per workflow steps 1–3 in exact order (code → docs → git); keep reasoning ≤500 tokens; use MCP Context7 only if external       
+  docs needed.
 ---
 
 ### E12-T5: Member Detail (v2) (P2-HIGH)
 - Status: Pending | Branch: `improvement-e12-t5-v2-member-detail`
 - Primary Agent: @ux-expert (Sally) | Supporting: @dev (James), @qa (Quinn)
-- References: `member-detail-prompt`, UI v2 Plan (“Member Detail (v2)”), E11 chip/divider/icon patterns
-- Description: Implement detail page with clear hierarchy, chips/dividers/icons mapped to tokens; keyboard-accessible actions.
-- Files to Add/Change:
-  - `family-tree/app/(v2)/members/[id]/page.tsx`
-  - `family-tree/app/components-v2/MemberBannerV2.tsx`
-- Acceptance Criteria:
-  - Readable at mobile sizes; keyboard-accessible actions; token-only styling
-- Subtasks:
-  - E12-T5.1 Layout structure and hierarchy
-  - E12-T5.2 Chips/dividers/icons per tokens
-  - E12-T5.3 Tests for hierarchy/accessibility
-- Test Strategy:
-  - Update/add tests similar to `MemberBanner.test.tsx`
-  - Agent Prompt: "As @ux-expert, @dev, @qa: read CLAUDE.md 5–136 (AI Task Workflow) and 138–155 (UI v2 Workflow), and IMPROVEMENT-TASK-TRACKING.md 979–994 only; follow the AI Task Workflow; do E12-T5; confirm acceptance criteria, plan, implement, test, and update docs (incl. ui-improvement-plan.md when applicable); keep reasoning ≤400 tokens; v2-only; member detail page with clear hierarchy, chips/dividers/icons mapped to tokens, keyboard-accessible actions, readable on mobile; use MCP Context7 only if external docs are needed."
+- References: `member-detail-prompt`, UI v2 Plan ("Member Detail (v2)"), E11 chip/divider/icon patterns
 
+### **🎯 Pre-Implementation Analysis (MANDATORY - Complete Before Coding):**
+1. **Reference Design Analysis:**
+   - [ ] Read `member-detail-prompt` file thoroughly and document all visual elements
+   - [ ] Analyze profile card layout: photo, ribbon, badges, inline label-chips
+   - [ ] Document section structure: About, Contact, Relations with dot indicators and keylines
+   - [ ] Identify info-grid pattern for structured data display
+   - [ ] List all styling classes: `.profile-card`, `.info-grid`, `.section-title`, `.relation-chip`, `.label-chip`, `.u-keyline`
+2. **Component Architecture Analysis:**
+   - [ ] Compare with existing v1 member detail/banner components
+   - [ ] Identify reusable patterns from E11 chip/divider/icon implementations
+   - [ ] Plan component breakdown: page vs banner vs info sections
+3. **Data Integration Analysis:**
+   - [ ] Review member data model for required fields (name, photo, bio, contact, relationships)
+   - [ ] Plan relationship rendering logic (parent, spouses, children)
+   - [ ] Identify navigation requirements (back button, breadcrumbs, edit actions)
+
+### **📋 Detailed Acceptance Criteria:**
+**Visual Requirements:**
+- [ ] Header matches prompt: gradient background, back button, search input, user avatar
+- [ ] Breadcrumb navigation with badge styling and action buttons (Edit/Delete)
+- [ ] Profile summary section: circular photo, ribbon name, relationship badge, label-chips for gender/dates
+- [ ] About section: dot indicator, keyline divider, 2-column info-grid, biography text
+- [ ] Contact section: dot indicator, keyline divider, email/phone/address in info-grid
+- [ ] Relations section: dot indicator, keyline divider, relation-chips with avatars for parent/spouses/children
+- [ ] All styling uses token-driven classes from `globals.css`
+- [ ] Color scheme matches pastel theme with consistent spacing
+
+**Functional Requirements:**
+- [ ] Dynamic member ID routing via `/v2/members/[id]` pattern
+- [ ] Real member data integration from family tree context
+- [ ] Relationship navigation (clicking relation chips navigates to that member)
+- [ ] Edit/Delete action buttons functional (modal triggers or navigation)
+- [ ] Back button returns to tree view or previous page
+- [ ] Search functionality in header
+- [ ] Proper error handling for missing member data
+
+**Accessibility Requirements:**
+- [ ] Page has proper heading hierarchy (h1 for page title, h2 for sections, h3 for subsections)
+- [ ] All sections have proper ARIA landmarks (`<section>`, `<main>`, `<header>`)
+- [ ] Images have descriptive alt text (member photos, avatars)
+- [ ] Interactive elements keyboard-accessible with proper focus indicators
+- [ ] Relationship chips announce destination when focused
+- [ ] Form buttons properly labeled with `aria-label` attributes
+- [ ] Content readable with screen readers (logical tab order)
+
+**Responsive Requirements:**
+- [ ] Desktop: Two-column info grids, horizontal profile layout
+- [ ] Tablet (768px): Adjusted spacing, maintained readability
+- [ ] Mobile (<640px): Single-column info grids, stacked profile layout
+- [ ] Ultra-mobile (360-480px): Compact spacing, readable text size
+- [ ] Touch targets minimum 44px for buttons and chips
+- [ ] No horizontal scrolling at any breakpoint
+
+### **🔧 Implementation Details:**
+- **Files to Create/Modify:**
+  - `family-tree/app/v2/members/[id]/page.tsx` (main member detail page)
+  - `family-tree/app/components-v2/MemberBannerV2.tsx` (reusable profile summary component)
+  - `family-tree/app/components-v2/MemberInfoGrid.tsx` (info grid component for About/Contact)
+  - `family-tree/app/components-v2/RelationChips.tsx` (relationship display component)
+- **Required Data Fields:**
+  - Basic: name, photo, gender, title, relationship, birthDate, deathDate, biography
+  - Contact: email, phone, address
+  - Relations: parentId, spouseIds[], childrenIds[] with lookup logic
+- **Token Classes to Use:**
+  - Layout: `.panel`, `.u-header-accent--gradient`, `.badge`
+  - Profile: `.profile-card`, `.node-photo`, `.ribbon`, `.ribbon-peach`
+  - Structure: `.section-title`, `.u-keyline`, `.info-grid`, `.info-item`
+  - Relations: `.relation-list`, `.relation-chip`, `.avatar`
+  - Labels: `.label-chip`, `.value`, `.value-muted`
+
+### **🧪 Test Strategy:**
+- **Test Files to Create:**
+  - `family-tree/app/v2/members/[id]/__tests__/page.test.tsx`
+  - `family-tree/app/components-v2/__tests__/MemberBannerV2.test.tsx`
+  - `family-tree/app/components-v2/__tests__/MemberInfoGrid.test.tsx`
+- **Test Cases:**
+  - Page renders with valid member ID parameter
+  - Profile section displays all member information correctly
+  - About/Contact sections show proper info-grid layout
+  - Relations display correctly with clickable chips
+  - Responsive behavior at key breakpoints (360px, 768px, 1024px)
+  - Accessibility: heading structure, ARIA landmarks, keyboard navigation
+  - Error handling: invalid member ID, missing data fields
+  - Navigation: back button, edit actions, relation chip clicks
+
+### **🤖 Agent Execution Instructions:**
+**Step 1: Design Analysis & Planning**
+- Analyze `member-detail-prompt` HTML structure and styling patterns
+- Map design elements to required React components and token classes
+- Plan data flow from family tree context to component props
+- Document component hierarchy and reusability strategy
+
+**Step 2: Implementation Phase**
+- Create dynamic route page with member ID parameter handling
+- Build MemberBannerV2 component with profile card layout
+- Implement MemberInfoGrid for structured data display
+- Build RelationChips component with navigation functionality
+- Apply token-driven styling consistently throughout
+
+**Step 3: Integration & Testing**
+- Wire up family tree data context and member lookup logic
+- Implement navigation between member detail pages
+- Add comprehensive test coverage for all components
+- Verify responsive behavior and accessibility compliance
+- Test error scenarios and edge cases
+
+As @ux-expert, @dev, @qa: read CLAUDE.md 1–136 (AI Task Workflow), 138–155 (UI v2 Workflow), and 274–331 (Task Status Updates); read IMPROVEMENT-TASK-TRACKING.md 1132–1240 (E12-T5 complete specification); follow AI Task Workflow exactly; do E12-T5 Member Detail (v2); MANDATORY pre-implementation: complete Pre-Implementation Analysis checklists (1138–1151) documenting member-detail-prompt visual elements, component architecture, and data integration; create family-tree/app/(v2)/members/[id]/page.tsx with dynamic routing and family-tree/app/components-v2/MemberBannerV2.tsx with profile layout; implement E11 chip/divider/icon patterns using token-driven styling (.profile-card, .info-grid, .section-title, .relation-chip, .label-chip); ensure proper ARIA landmarks, heading hierarchy, and keyboard navigation; mobile-responsive with single-column layout <640px and 44px touch targets; comprehensive tests for hierarchy, accessibility, responsive behavior, and navigation; update docs per workflow steps 1–3 in exact order (code → docs → git); keep reasoning ≤600 tokens; use MCP Context7 only if external docs needed.
 ---
 
 ### E12-T6: Help Panel (v2) (P2-MEDIUM)
 - Status: Pending | Branch: `improvement-e12-t6-v2-help`
 - Primary Agent: @ux-expert (Sally) | Supporting: @dev (James), @qa (Quinn)
-- References: `help-panel-prompt`, UI v2 Plan (“Help Panel (v2)”), E6 patterns
-- Description: Implement Help Panel with proper headings/landmarks; responsive layout and tokens.
-- Files to Add/Change:
-  - `family-tree/app/components-v2/HelpPanelV2.tsx`
-- Acceptance Criteria:
-  - Opens from Help; has correct landmarks/headings; responsive behavior validated
-- Subtasks:
-  - E12-T6.1 Structure and ARIA landmarks
-  - E12-T6.2 Responsive layout per tokens
-  - E12-T6.3 Tests for landmarks/headings
-- Test Strategy:
-  - Add tests similar to `HelpPanel.test.tsx` with a11y assertions
-  - Agent Prompt: "As @ux-expert, @dev, @qa: read CLAUDE.md 5–136 (AI Task Workflow) and 138–155 (UI v2 Workflow), and IMPROVEMENT-TASK-TRACKING.md 999–1013 only; follow the AI Task Workflow; do E12-T6; confirm acceptance criteria, plan, implement, test, and update docs (incl. ui-improvement-plan.md when applicable); keep reasoning ≤400 tokens; v2-only; Help Panel opens from Help, correct headings/landmarks, responsive tokenized layout; use MCP Context7 only if external docs are needed."
+- References: `help-panel-prompt`, UI v2 Plan ("Help Panel (v2)"), E6 patterns
 
+### **🎯 Pre-Implementation Analysis (MANDATORY - Complete Before Coding):**
+1. **Reference Design Analysis:**
+   - [ ] Read `help-panel-prompt` file thoroughly and document all visual elements
+   - [ ] Analyze modal structure: backdrop, dialog card, header with accent bar, content sections
+   - [ ] Document section organization: Getting Started, Keyboard Shortcuts, Tips & Tour, More Help
+   - [ ] Identify interactive elements: close button, action buttons (Start Tour, Show Tips)
+   - [ ] List all styling classes: `.panel`, `.u-header-accent--gradient`, `.btn`, `.icon-btn`, `.u-section-reveal`
+2. **Component Integration Analysis:**
+   - [ ] Compare with existing v1 HelpPanel component patterns
+   - [ ] Review E6 modal patterns for dialog behavior and focus management
+   - [ ] Plan integration with sidebar Help button trigger
+3. **Accessibility Pattern Analysis:**
+   - [ ] Document required ARIA attributes: `role="dialog"`, `aria-modal="true"`, `aria-labelledby`, `aria-describedby`
+   - [ ] Plan focus management: initial focus, focus trap, escape handling, return focus
+   - [ ] Review heading hierarchy and landmark structure requirements
+
+### **📋 Detailed Acceptance Criteria:**
+**Visual Requirements:**
+- [ ] Modal backdrop with blur effect covering full viewport
+- [ ] Help dialog card centered with proper max-width and responsive constraints
+- [ ] Header with subtle accent gradient bar on left edge
+- [ ] Header content: icon, title "Help & Shortcuts", description, close button
+- [ ] Content sections with proper spacing and visual hierarchy
+- [ ] Section reveal animation with smooth entrance effects
+- [ ] Action buttons with proper styling: "Start Tour" (primary gradient), "Show Tips" (outline)
+- [ ] Mobile adaptation: full-height on small screens, rounded corners removed
+- [ ] All styling uses token-driven classes from `globals.css`
+
+**Functional Requirements:**
+- [ ] Opens when Help button clicked in sidebar
+- [ ] Modal closes on backdrop click, close button click, or Escape key
+- [ ] Action buttons functional: "Start Tour" and "Show Tips" trigger appropriate handlers
+- [ ] Smooth open/close animations using CSS transitions
+- [ ] Focus returns to Help button when modal closes
+- [ ] Content scrollable if it exceeds modal height
+- [ ] Modal state properly managed in component hierarchy
+
+**Accessibility Requirements:**
+- [ ] Modal has `role="dialog"` and `aria-modal="true"`
+- [ ] Header properly labeled with `aria-labelledby` pointing to title
+- [ ] Description linked with `aria-describedby`
+- [ ] Focus trap active: Tab/Shift+Tab contained within modal
+- [ ] Initial focus on close button or first interactive element
+- [ ] Escape key closes modal and returns focus to trigger
+- [ ] Background content marked `aria-hidden="true"` when modal open
+- [ ] All sections have proper heading hierarchy (h2 → h3)
+- [ ] Interactive elements have proper labels and keyboard accessibility
+
+**Responsive Requirements:**
+- [ ] Desktop: Centered modal with max-width constraints and margin padding
+- [ ] Tablet (768px): Adjusted modal size with appropriate spacing
+- [ ] Mobile (<640px): Full-height modal, no border radius, full-width
+- [ ] Content scrolling when exceeding available height
+- [ ] Touch targets minimum 44px for all buttons
+- [ ] No horizontal scrolling within modal content
+
+### **🔧 Implementation Details:**
+- **Files to Create/Modify:**
+  - `family-tree/app/components-v2/HelpPanelV2.tsx` (main modal component)
+  - `family-tree/app/components-v2/shared/Modal.tsx` (if not existing, base modal wrapper)
+- **Required Features:**
+  - Modal backdrop and dialog card structure
+  - Help content sections: Getting Started, Shortcuts, Tips, More Help
+  - Action buttons: Start Tour, Show Tips with proper handlers
+  - Section reveal animation with intersection observer
+  - Focus management and keyboard navigation
+- **Token Classes to Use:**
+  - Modal: `.panel`, backdrop blur utilities
+  - Header: `.u-header-accent--gradient`, `.icon-btn`
+  - Buttons: `.btn`, `.btn-primary`, `.btn-primary--gradient`, `.btn-outline`, `.btn-press`
+  - Sections: `.u-section-reveal`, proper heading styles
+  - Responsive: mobile-first breakpoint utilities
+
+### **🧪 Test Strategy:**
+- **Test Files to Create:**
+  - `family-tree/app/components-v2/__tests__/HelpPanelV2.test.tsx`
+- **Test Cases:**
+  - Modal renders with correct structure and content sections
+  - Open/close functionality works via button, backdrop, and Escape key
+  - Focus management: initial focus, focus trap, return focus
+  - Action buttons trigger appropriate handlers
+  - Responsive behavior at key breakpoints (360px, 768px, 1024px)
+  - Accessibility: ARIA attributes, heading structure, keyboard navigation
+  - Section reveal animation triggers correctly
+  - Modal state integration with parent components
+
+### **🤖 Agent Execution Instructions:**
+**Step 1: Design Analysis & Component Planning**
+- Analyze `help-panel-prompt` HTML structure, particularly modal dialog pattern
+- Map design elements to React components and token classes
+- Plan modal state management and integration with sidebar Help button
+- Document accessibility requirements and focus management strategy
+
+**Step 2: Implementation Phase**
+- Create HelpPanelV2 component with proper modal dialog structure
+- Implement section content matching the prompt design exactly
+- Add focus management and keyboard navigation
+- Apply token-driven styling consistently with responsive behavior
+- Implement section reveal animation with intersection observer
+
+**Step 3: Integration & Testing**
+- Wire up modal trigger from sidebar Help button
+- Test modal behavior across all viewport sizes
+- Verify accessibility compliance with screen readers
+- Add comprehensive test coverage for modal functionality
+- Test keyboard navigation and focus management
+
+As @ux-expert, @dev, @qa: read CLAUDE.md 1–136 (AI Task Workflow), 138–155 (UI v2 Workflow), and 274–331 (Task Status Updates); read IMPROVEMENT-TASK-TRACKING.md 1246–1350 (E12-T6 complete specification); follow AI Task Workflow exactly; do E12-T6 Help Panel (v2); MANDATORY pre-implementation: complete Pre-Implementation Analysis checklists (1252–1265) documenting help-panel-prompt modal structure, E6 patterns, and accessibility requirements; create family-tree/app/components-v2/HelpPanelV2.tsx with proper modal dialog pattern (backdrop, focus trap, ARIA attributes); implement content sections (Getting Started, Shortcuts, Tips, More Help) with token-driven styling (.panel, .u-header-accent--gradient, .btn variants, .u-section-reveal); ensure APG modal semantics, keyboard navigation, and responsive behavior (full-height mobile, centered desktop); integrate with sidebar Help button trigger; comprehensive tests for modal functionality, accessibility, and responsive behavior similar to HelpPanel.test.tsx patterns; update docs per workflow steps 1–3 in exact order (code → docs → git); keep reasoning ≤500 tokens; use MCP Context7 only if external docs needed.
 ---
 
 ### E12-T7: QA Validation – Accessibility, Responsive, Performance (P1-CRITICAL)
@@ -1292,5 +1493,9 @@ Implementation Notes:
 - Compile comprehensive validation report with metrics
 - Provide recommendations for any issues found
 
-
+As @qa, @dev, @ux-expert: read CLAUDE.md 1–136 (AI Task Workflow), 138–155 (UI v2 Workflow), and 274–331 (Task Status Updates); read IMPROVEMENT-TASK-TRACKING.md 1162–1294 (E12-T7 complete validation specification); follow AI Task Workflow exactly; do E12-T7 QA
+  Validation; MANDATORY pre-validation: complete Pre-Validation Analysis checklists (1167–1179) documenting all completed v2 components and critical user flows; execute comprehensive validation across three domains: (1) Accessibility - focus traps, ARIA compliance,        
+  keyboard navigation, axe-core violations; (2) Responsive - breakpoint testing at 360px/480px/768px/1024px/1440px with no overlaps or layout breaks; (3) Performance - <3s load times, ≥30fps interactions, Core Web Vitals, bundle size analysis; verify zero v1
+  regressions (all existing flows functional, 100% test suite pass rate); document findings with metrics, screenshots, reproduction steps in comprehensive validation report; update family-tree/docs/completed-tasks.md with performance comparisons and issue resolution       
+  status; keep reasoning ≤800 tokens for this critical validation task; use MCP Context7 only if external docs needed.c
 
