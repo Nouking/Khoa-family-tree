@@ -44,17 +44,23 @@ This document defines the UI v2 direction and implementation approach. We will b
 
 ## Screen Plans and Acceptance Criteria
 
-### 1) Tree View Home (v2)
+### 1) Tree View Home (v2) — ✅ IMPLEMENTED (E12-T1)
 - Match `home-screen-prompt` layout/visuals
 - Sidebar: Add, Export, Help only; no mobile FAB
 - Toolbar: Title, Search, Filters; tokenized focus + truncation
 - Canvas: connectors behind cards; hide static connectors < 480px; no overlaps at 360–480px
 
 Acceptance:
-- Toolbar buttons group logically and are keyboard-accessible
-- Sidebar contains only Add, Export, Help and adapts at small breakpoints
-- No element overlap at 360–480px, connectors behind nodes
-- No FAB on mobile; desktop unaffected
+- ✅ Toolbar buttons group logically and are keyboard-accessible
+- ✅ Sidebar contains only Add, Export, Help and adapts at small breakpoints
+- ✅ No element overlap at 360–480px, connectors behind nodes
+- ✅ No FAB on mobile; desktop unaffected
+
+Implementation Status:
+- Route: `/v2/view` fully functional with complete layout
+- Components: SidebarV2, MainToolbarV2, FamilyTreeCanvasV2 implemented
+- State: Reuses v1 hooks (FamilyTreeContext, useFamilyTreeOperations)
+- Tests: Comprehensive test coverage for all components and responsive behavior
 
 ### 2) Add Member (v2)
 - Follow `add-screen-prompt`; section grouping, validation, photo, relations

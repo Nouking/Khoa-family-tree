@@ -3,7 +3,26 @@
     "allow": [
       "mcp__context7__resolve-library-id",
       "mcp__context7__get-library-docs",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(npm run test:*)",
+      "Bash(git checkout:*)",
+      "mcp__serena__list_dir",
+      "Bash(mkdir:*)",
+      "Bash(mv:*)",
+      "Bash(rmdir:*)",
+      "Bash(curl:*)",
+      "Bash(pkill:*)",
+      "Bash(true)",
+      "Bash(npm run build:*)",
+      "Bash(timeout 10s npm run build:*)",
+      "mcp__serena__check_onboarding_performed",
+      "mcp__serena__onboarding",
+      "mcp__serena__get_symbols_overview",
+      "mcp__serena__write_memory",
+      "mcp__serena__think_about_collected_information",
+      "mcp__serena__search_for_pattern",
+      "Bash(grep:*)",
+      "Bash(npm test:*)"
     ],
     "deny": []
   }

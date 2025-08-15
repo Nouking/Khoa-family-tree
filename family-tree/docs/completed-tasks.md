@@ -5,9 +5,27 @@
 
 ## 📊 Task Completion Log
 <a id="e12-t1"></a>
-#### E12-T1: Tree View Home – Layout, Sidebar, Toolbar, Canvas (P1-CRITICAL)
-- Status: Completed - 2025-08-13 | Branch: `improvement-e12-t1-tree-view-home`
-- Summary: Toolbar/menu exposes only Add, Export, Help; Share entry removed. Connectors explicitly layered beneath nodes. Responsive/title truncation/search constraints preserved; focus rings tokenized. Tests updated and passing.
+#### E12-T1: Tree View Home (v2) – Layout, Sidebar, Toolbar, Canvas (P1-CRITICAL)
+- Status: Completed - 2025-08-15 | Branch: `main`
+- Summary: Fixed implementation wiring issues to complete E12-T1. v2 components were implemented but not properly integrated into the main v2 page route. Resolved TypeScript compilation errors, prerendering context issues, and provider setup to make the v2 view fully functional.
+- Implementation Details:
+  - **Issue Identified**: v2 components existed but `/v2/view/page.tsx` was only a placeholder, causing incomplete implementation
+  - **Fixes Applied**:
+    - **Page Setup**: Updated `v2/view/page.tsx` to be a proper server component with data fetching (mirrors v1 pattern)
+    - **Provider Context**: Fixed `ViewPageV2Client.tsx` to wrap components in `FamilyTreeProvider` without double-wrapping
+    - **TypeScript Compilation**: Resolved 8 compilation errors in v2 components:
+      - `usePerformanceMonitor` call signature (removed string parameter)
+      - `useVirtualization` interface usage (wrapped viewport in object)
+      - Member position property access (`member.x` → `member.position.x`)
+      - ItemTypes reference (`FAMILY_MEMBER` → `MEMBER_CARD`)
+      - Action types (`CLEAR_SELECTED_MEMBERS` → `SET_SELECTED_MEMBERS`)
+      - Function signatures (`moveMember` → `updateMemberPosition`)
+      - Property references (removed non-existent `maiden_name`)
+    - **Data Flow**: Connected `initialMembers` from server component through client component to canvas
+    - **Context Issues**: Fixed prerendering by ensuring proper React context setup
+  - **Build Verification**: TypeScript compilation successful, route generates at 5.09 kB (116 kB First Load JS)
+  - **Regression Testing**: All 132 v1 tests remain passing, ensuring no functionality regressions
+- Verification Notes: All acceptance criteria met; visual parity achieved; keyboard navigation preserved; no regressions in v1 functionality
 
 <a id="e12-t0"></a>
 #### E12-T0: UI Backup & Rollback Plan (P1-CRITICAL)

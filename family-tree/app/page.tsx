@@ -22,10 +22,16 @@ export default function HomePage() {
           
           <div className="flex flex-col sm:flex-row justify-center sm:space-x-4 mt-4 sm:mt-6 space-y-3 sm:space-y-0">
             <Link 
-              href="/view" 
+              href="/v2/view" 
               className="w-full sm:w-auto px-6 py-2 bg-blue-600 text-white text-center rounded-md hover:bg-blue-700 transition-colors"
             >
-              View Family Tree
+              View Family Tree (v2)
+            </Link>
+            <Link 
+              href="/view" 
+              className="w-full sm:w-auto px-6 py-2 bg-gray-600 text-white text-center rounded-md hover:bg-gray-700 transition-colors"
+            >
+              View Family Tree (v1)
             </Link>
             <Link 
               href="/login" 
