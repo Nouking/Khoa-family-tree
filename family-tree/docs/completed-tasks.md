@@ -4,6 +4,35 @@
 > Note (@qa, @sm): Each completed task anchor (e.g., `<a id="e10-t6"></a>`) maps to full details in `IMPROVEMENT-TASK-TRACKING.md`. If the corresponding ID there already contains sufficient information, this archive may summarize or omit duplicate details.
 
 ## 📊 Task Completion Log
+<a id="e12-t3"></a>
+#### E12-T3: Edit Member Modal (v2) (P1-HIGH)
+- Status: Completed - 2025-08-15 | Branch: `improvement-e12-t3-v2-edit`
+- Summary: Implemented v2 Edit Member modal with canvas position/size fields, extended validation, APG modal semantics, and mobile bottom-sheet support.
+- Implementation Details:
+  - **Components Created**:
+    - `family-tree/app/components-v2/EditMemberModalV2.tsx`: v2 Edit modal with member data pre-population
+    - Extended `family-tree/app/components-v2/shared/MemberForm.tsx`: Added edit-only canvas fields with conditional rendering
+  - **Key Features**:
+    - **Canvas Position & Size Fields**: Edit-only X/Y position (0-3000 range) and Width/Height dimensions (100px minimum)
+    - **Enhanced Validation**: Individual field validation for `positionX`, `positionY`, `sizeWidth`, `sizeHeight` with specific error messages
+    - **Self-Relationship Prevention**: Cannot set member as their own parent or spouse in edit mode
+    - **Data Pre-population**: Pre-fills all member fields including position and size from existing data
+    - **Token-driven Styling**: Uses same gradient header, section styling, and responsive patterns as AddMemberModalV2
+  - **Validation Enhancements**:
+    - Position coordinates: 0-3000 range with "X/Y position must be between 0 and 3000" messages
+    - Size dimensions: 100px minimum with "Width/Height must be at least 100 pixels" messages
+    - Real-time error clearing when values are corrected
+    - ARIA error associations with `aria-invalid` and `aria-describedby`
+  - **Accessibility Features**:
+    - Same APG modal dialog semantics as AddMemberModalV2
+    - Proper focus management and keyboard navigation
+    - Error messages announced via `aria-live="polite"`
+    - Mobile-friendly touch targets (44px minimum)
+  - **Tests Added**:
+    - `family-tree/app/components-v2/__tests__/EditMemberModalV2.test.tsx`: Comprehensive testing for position/size validation, self-relationship prevention, API integration
+    - Coverage includes validation boundaries, error handling, responsive behavior, and accessibility compliance
+- Verification Notes: Matches `edit-screen-prompt` design; canvas fields only show in edit mode; validation prevents invalid coordinates/dimensions; mobile bottom-sheet behavior preserved; all acceptance criteria met
+
 <a id="e12-t2"></a>
 #### E12-T2: Add Member Modal (v2) (P1-HIGH)
 - Status: Completed - 2025-08-15 | Branch: `improvement-e12-t2-v2-add`
@@ -1163,5 +1192,32 @@ FamilyTree (Root)
   - Implementation Notes → E11‑T6 acceptance checklist and screenshot links
   - Onboarding & Help → Visual Polish Highlights (E11)
   - Screenshots: `example/UI-family-tree-09-08-2025_add_modal.jpg`, `example/UI-family-tree-09-08-2025.jpg` (plus baseline from `example/`)
+
+---
+
+### Epic 12: New v2 UI Framework
+
+<a id="e12-t4"></a>
+#### E12-T4: Login (v2) (P2-HIGH)
+- Status: Completed - 2025-08-15 | Branch: `improvement-e12-t4-v2-login`
+- Summary: Implemented comprehensive v2 login page with warm color theme tokens, accessibility features, and full auth integration
+- Implementation Notes:
+  - Created `family-tree/app/v2/login/page.tsx` with token-driven styling using warm palette
+  - Added warm color tokens to `family-tree/app/globals.css` (mint, peach, lilac, sage, sun, rose themes)
+  - Integrated with existing `/api/auth/login` endpoint from [E9-T1](#e9-t1) with proper redirect to `/v2/view`
+  - Comprehensive error handling: network errors, 400/401/500 status codes, client validation
+  - Full accessibility: ARIA labels, live regions, logical tab order, 44px touch targets
+  - Responsive design with mobile-first approach and proper breakpoint handling
+  - Enhanced button interactions with gradient styling and hover/focus states from design prompt
+- Test Coverage:
+  - Created `family-tree/app/v2/login/__tests__/page.test.tsx` with 18 comprehensive test cases
+  - Coverage includes: form rendering, accessibility, authentication flow, error scenarios, keyboard navigation, responsive behavior
+  - All tests passing with proper mock implementations for Next.js router and fetch API
+- Verification Notes:
+  - Visual parity achieved with `login-screen-prompt` reference design
+  - Warm theme colors applied throughout (no harsh blues as specified)
+  - Form validation and error messaging matches acceptance criteria
+  - Touch targets meet 44px minimum requirement for mobile accessibility
+  - Authentication redirects to v2 routes as specified
 
 *See [Task Tracking](./task-tracking.md) for current active tasks.*

@@ -92,15 +92,25 @@ const MemberForm: React.FC<MemberFormProps> = ({
     const numValue = parseInt(value, 10);
     if (!isNaN(numValue)) {
       setFormData(prev => ({ ...prev, position: { ...prev.position, [field]: numValue } }));
+      // Clear position errors when value changes
+      const errorKey = `position${field.toUpperCase()}` as keyof MemberFormErrors;
+      if (formErrors[errorKey]) {
+        setFormErrors(prev => ({ ...prev, [errorKey]: '' }));
+      }
     }
-  }, []);
+  }, [formErrors]);
 
   const handleSizeChange = useCallback((field: 'width' | 'height', value: string) => {
     const numValue = parseInt(value, 10);
     if (!isNaN(numValue) && numValue > 0) {
       setFormData(prev => ({ ...prev, size: { ...prev.size, [field]: numValue } }));
+      // Clear size errors when value changes
+      const errorKey = `size${field.charAt(0).toUpperCase() + field.slice(1)}` as keyof MemberFormErrors;
+      if (formErrors[errorKey]) {
+        setFormErrors(prev => ({ ...prev, [errorKey]: '' }));
+      }
     }
-  }, []);
+  }, [formErrors]);
 
   const validate = useCallback(() => {
     const errors = validateMemberForm(formData, { mode, currentMemberId: currentMember?.id });
@@ -550,9 +560,18 @@ const MemberForm: React.FC<MemberFormProps> = ({
                 type="number" 
                 value={formData.position.x} 
                 onChange={(e) => handlePositionChange('x', e.target.value)} 
-                className="w-full px-3 py-2 border border-(--color-neutral-200) rounded-[var(--radius-md)] shadow-sm focus:outline-none focus:ring-2 focus:ring-(--color-primary) focus:border-(--color-primary)" 
+                aria-invalid={!!formErrors.positionX}
+                aria-describedby={formErrors.positionX ? getErrorId('positionX') : undefined}
+                className={`w-full px-3 py-2 border rounded-[var(--radius-md)] shadow-sm focus:outline-none focus:ring-2 focus:ring-(--color-primary) focus:border-(--color-primary) ${
+                  formErrors.positionX ? 'border-(--color-error)/40' : 'border-(--color-neutral-200)'
+                }`}
                 disabled={isSubmitting} 
               />
+              <div className="mt-1 min-h-[20px]" aria-live="polite">
+                {formErrors.positionX && (
+                  <p id={getErrorId('positionX')} role="alert" className="text-sm text-(--color-error)">{formErrors.positionX}</p>
+                )}
+              </div>
             </div>
             <div>
               <label className="block text-sm font-medium text-(--color-neutral-700) mb-1">Y Position</label>
@@ -560,9 +579,18 @@ const MemberForm: React.FC<MemberFormProps> = ({
                 type="number" 
                 value={formData.position.y} 
                 onChange={(e) => handlePositionChange('y', e.target.value)} 
-                className="w-full px-3 py-2 border border-(--color-neutral-200) rounded-[var(--radius-md)] shadow-sm focus:outline-none focus:ring-2 focus:ring-(--color-primary) focus:border-(--color-primary)" 
+                aria-invalid={!!formErrors.positionY}
+                aria-describedby={formErrors.positionY ? getErrorId('positionY') : undefined}
+                className={`w-full px-3 py-2 border rounded-[var(--radius-md)] shadow-sm focus:outline-none focus:ring-2 focus:ring-(--color-primary) focus:border-(--color-primary) ${
+                  formErrors.positionY ? 'border-(--color-error)/40' : 'border-(--color-neutral-200)'
+                }`}
                 disabled={isSubmitting} 
               />
+              <div className="mt-1 min-h-[20px]" aria-live="polite">
+                {formErrors.positionY && (
+                  <p id={getErrorId('positionY')} role="alert" className="text-sm text-(--color-error)">{formErrors.positionY}</p>
+                )}
+              </div>
             </div>
             <div>
               <label className="block text-sm font-medium text-(--color-neutral-700) mb-1">Width</label>
@@ -571,22 +599,41 @@ const MemberForm: React.FC<MemberFormProps> = ({
                 min="100" 
                 value={formData.size.width} 
                 onChange={(e) => handleSizeChange('width', e.target.value)} 
-                className="w-full px-3 py-2 border border-(--color-neutral-200) rounded-[var(--radius-md)] shadow-sm focus:outline-none focus:ring-2 focus:ring-(--color-primary) focus:border-(--color-primary)" 
+                aria-invalid={!!formErrors.sizeWidth}
+                aria-describedby={formErrors.sizeWidth ? getErrorId('sizeWidth') : undefined}
+                className={`w-full px-3 py-2 border rounded-[var(--radius-md)] shadow-sm focus:outline-none focus:ring-2 focus:ring-(--color-primary) focus:border-(--color-primary) ${
+                  formErrors.sizeWidth ? 'border-(--color-error)/40' : 'border-(--color-neutral-200)'
+                }`}
                 disabled={isSubmitting} 
               />
+              <div className="mt-1 min-h-[20px]" aria-live="polite">
+                {formErrors.sizeWidth && (
+                  <p id={getErrorId('sizeWidth')} role="alert" className="text-sm text-(--color-error)">{formErrors.sizeWidth}</p>
+                )}
+              </div>
             </div>
             <div>
               <label className="block text-sm font-medium text-(--color-neutral-700) mb-1">Height</label>
               <input 
                 type="number" 
-                min="80" 
+                min="100" 
                 value={formData.size.height} 
                 onChange={(e) => handleSizeChange('height', e.target.value)} 
-                className="w-full px-3 py-2 border border-(--color-neutral-200) rounded-[var(--radius-md)] shadow-sm focus:outline-none focus:ring-2 focus:ring-(--color-primary) focus:border-(--color-primary)" 
+                aria-invalid={!!formErrors.sizeHeight}
+                aria-describedby={formErrors.sizeHeight ? getErrorId('sizeHeight') : undefined}
+                className={`w-full px-3 py-2 border rounded-[var(--radius-md)] shadow-sm focus:outline-none focus:ring-2 focus:ring-(--color-primary) focus:border-(--color-primary) ${
+                  formErrors.sizeHeight ? 'border-(--color-error)/40' : 'border-(--color-neutral-200)'
+                }`}
                 disabled={isSubmitting} 
               />
+              <div className="mt-1 min-h-[20px]" aria-live="polite">
+                {formErrors.sizeHeight && (
+                  <p id={getErrorId('sizeHeight')} role="alert" className="text-sm text-(--color-error)">{formErrors.sizeHeight}</p>
+                )}
+              </div>
             </div>
           </div>
+          <p className="text-sm text-(--color-neutral-500) mt-2">Position coordinates must be within 0-3000 range. Dimensions must be at least 100px minimum.</p>
         </section>
       )}
 

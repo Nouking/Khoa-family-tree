@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Member Detail – Pastel UI Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Sync with existing pastel theme -->
+  <style>
+:root {
+  --surface: oklch(0.985 0.02 95);
+  --surface-2: oklch(0.97 0.03 95);
+  --ink: oklch(0.22 0.03 60);
+  --mint:   oklch(0.92 0.09 170);
+  --peach:  oklch(0.91 0.12 55);
+  --apricot:oklch(0.92 0.10 65);
+  --lilac:  oklch(0.92 0.09 300);
+  --sage:   oklch(0.92 0.07 150);
+  --sun:    oklch(0.93 0.12 85);
+  --rose:   oklch(0.92 0.11 20);
+  --card: #ffffff;
+  --border: color-mix(in oklch, var(--ink), white 85%);
+  --shadow-1: 0 2px 6px hsl(0 0% 0% / 0.06), 0 1px 2px hsl(0 0% 0% / 0.05);
+  --radius-xl: 16px; --radius-lg: 12px; --radius-md: 10px;
+  --font-sans: 'Poppins', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  /* Header gradient stops (avoid indigo/blue; lean purple/violet) */
+  --header-start: oklch(0.63 0.22 300); /* vibrant violet */
+  --header-end:   oklch(0.61 0.21 330); /* magenta */
+}
+
+*, *::before, *::after { box-sizing: border-box !important; }
+html, body { background: var(--surface) !important; color: var(--ink) !important; font-family: var(--font-sans) !important; }
+h1, h2, h3, h4, h5, h6 { color: var(--ink) !important; font-weight: 700 !important; }
+
+/* Polished gradient header similar to reference */
+.u-header-accent--gradient { 
+  background: linear-gradient(90deg, var(--header-start), var(--header-end)) !important; 
+  box-shadow: 0 1px 0 hsl(0 0% 100% / 0.15) inset, 0 2px 10px hsl(270 30% 20% / 0.18) !important;
+}
+.u-header-accent--gradient .btn-outline { border-color: hsl(0 0% 100% / 0.35) !important; color: white !important; background: hsl(0 0% 100% / 0.12) !important; }
+.u-header-accent--gradient .input { background: hsl(0 0% 100% / 0.92) !important; }
+
+/* Buttons – consistent sizing to prevent text overflow */
+.btn { display:inline-flex !important; align-items:center !important; gap:.5rem !important; font-weight:600 !important; font-size: clamp(12px, 1.6vw, 14px) !important; line-height:1.2 !important; padding:.5rem .75rem !important; min-height:36px !important; border-radius: 10px !important; white-space: nowrap !important; overflow: hidden !important; text-overflow: ellipsis !important; }
+.btn-sm { padding:.375rem .625rem !important; min-height:32px !important; }
+.btn-press { transition: transform 120ms ease, filter 120ms ease !important; }
+.btn-press:active { transform: translateY(1px) scale(.98) !important; filter: brightness(.98) !important; }
+.btn-outline { border:1px solid var(--border) !important; background: #ffffff40 !important; color: var(--ink) !important; }
+.btn-primary { background: color-mix(in oklch, var(--peach), white 10%) !important; color: var(--ink) !important; }
+.btn-primary--gradient { background: linear-gradient(90deg, color-mix(in oklch, var(--peach), white 6%), var(--peach)) !important; color: var(--ink) !important; }
+
+/* Inputs */
+.input { font-size: clamp(12px, 1.6vw, 14px) !important; line-height: 1.3 !important; padding:.5rem .625rem !important; border:1px solid var(--border) !important; border-radius: 10px !important; background: #fff !important; color: var(--ink) !important; }
+.textarea { border:1px solid var(--border) !important; border-radius: 10px !important; }
+
+/* Dotted canvas background */
+.canvas-grid { background-image: radial-gradient(color-mix(in oklch, var(--ink), white 88%) 1px, transparent 1px) !important; background-size: 24px 24px !important; }
+
+/* Cards */
+.panel { background: var(--card) !important; border: 1px solid var(--border) !important; border-radius: var(--radius-lg) !important; box-shadow: var(--shadow-1) !important; }
+.node-card { background: var(--card) !important; border: 1px solid var(--border) !important; border-radius: var(--radius-xl) !important; box-shadow: var(--shadow-1) !important; }
+.node-photo { width: 88px !important; height: 88px !important; border-radius: 9999px !important; object-fit: cover !important; border: 3px solid #fff !important; box-shadow: 0 1px 0 hsl(0 0% 100% / .6) inset; }
+
+/* Ribbon */
+.ribbon { position: relative !important; display: inline-block !important; color: oklch(0.22 0.03 60) !important; font-weight: 600 !important; border-radius: 10px !important; padding: 6px 14px !important; box-shadow: var(--shadow-1) !important; font-size: clamp(12px, 2vw, 14px) !important; line-height:1.2 !important; max-width: 180px !important; white-space: nowrap !important; overflow: hidden !important; text-overflow: ellipsis !important; }
+.ribbon::after { content: ""; position: absolute; right: -14px; top: 50%; transform: translateY(-50%); border-width: 10px 0 10px 14px; border-style: solid; border-color: transparent transparent transparent currentColor; opacity: .45; }
+.ribbon::before { content: ""; position: absolute; left: 0; bottom: -8px; width: 16px; height: 8px; background: color-mix(in oklch, black 6%, transparent); clip-path: polygon(0 0, 100% 100%, 0 100%); filter: blur(.5px); opacity: .25; }
+.ribbon-mint  { background: color-mix(in oklch, var(--mint),  white 22%) !important; color: oklch(0.30 0.03 160) !important; }
+.ribbon-peach { background: color-mix(in oklch, var(--peach), white 20%) !important; color: oklch(0.32 0.04 55)  !important; }
+.ribbon-lilac { background: color-mix(in oklch, var(--lilac), white 20%) !important; color: oklch(0.30 0.02 300) !important; }
+.ribbon-sage  { background: color-mix(in oklch, var(--sage),  white 22%) !important; color: oklch(0.30 0.03 150) !important; }
+.ribbon-sun   { background: color-mix(in oklch, var(--sun),   white 18%) !important; color: oklch(0.34 0.05 85)  !important; }
+.ribbon-rose  { background: color-mix(in oklch, var(--rose),  white 20%) !important; color: oklch(0.34 0.06 20)  !important; }
+
+/* Connectors */
+.connector { stroke: color-mix(in oklch, var(--ink), white 60%) !important; stroke-width: 2 !important; stroke-linecap: round !important; }
+/* Softer connection colors closer to reference */
+.connector--parent { stroke: color-mix(in oklch, var(--ink), white 20%) !important; stroke-width: 3 !important; }
+.connector--spouse { stroke: color-mix(in oklch, var(--ink), white 35%) !important; stroke-width: 3 !important; stroke-dasharray: 6 6 !important; }
+
+/* Animations */
+@keyframes float-in { from { opacity: 0; transform: translateY(8px) scale(.98) } to { opacity: 1; transform: translateY(0) scale(1) } }
+.float-in { animation: float-in 200ms ease-out both; }
+
+/* Responsive tweaks */
+.canvas-wrap { min-height: 64vh; }
+/* Ensure connections render below nodes to avoid overlap issues */
+.canvas-grid { position: relative !important; }
+.canvas-grid > svg { z-index: 0 !important; }
+.canvas-grid > *:not(svg) { position: relative !important; z-index: 1 !important; }
+
+/* Prevent node content from overflowing on narrow screens */
+.node-card { max-width: 100% !important; flex-wrap: wrap !important; }
+.node-card .ribbon { max-width: 100% !important; }
+
+@media (max-width: 640px) {
+  .node-photo { width: 70px !important; height: 70px !important; }
+  .ribbon { max-width: 140px !important; }
+}
+@media (min-width: 1024px) { .canvas-wrap { min-height: 72vh; } }
+
+/* Badges */
+.badge { font-size: 12px !important; padding: 2px 8px !important; border-radius: 999px !important; border: 1px solid var(--border) !important; background: var(--surface-2) !important; }
+
+/* Legend (relationship key) */
+.connection-legend { position: absolute !important; bottom: 12px !important; right: 12px !important; z-index: 10 !important; font-size: 12px !important; width: 200px !important; transition: width 160ms ease, transform 160ms ease !important; }
+.connection-legend h4 { margin: 0 0 6px 0 !important; font-size: 12px !important; font-weight: 600 !important; opacity: .9 !important; padding-right: 28px !important; }
+.connection-legend .legend-row { display: flex !important; align-items: center !important; gap: 8px !important; }
+.connection-legend .legend-row + .legend-row { margin-top: 6px !important; }
+.connection-legend .legend-toggle { position: absolute !important; top: 6px !important; right: 6px !important; height: 20px !important; width: 20px !important; border-radius: 6px !important; border: 1px solid var(--border) !important; background: var(--surface-2) !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; font-size: 12px !important; line-height: 1 !important; opacity: .9 !important; }
+.connection-legend[data-expanded='true'] { width: 320px !important; transform: translateZ(0) !important; }
+
+/* Extra responsive behaviors to eliminate overlaps on very small screens */
+@media (max-width: 480px) {
+  /* Hide static connectors on very small screens to avoid visual overlap with stacked nodes */
+  .canvas-grid > svg { display: none !important; }
+
+  /* Compact legend and move slightly inward */
+  .connection-legend { width: 160px !important; bottom: 8px !important; right: 8px !important; }
+  .connection-legend .legend-row svg { width: 32px !important; height: 8px !important; }
+
+  /* Stack node content vertically for tighter width */
+  .node-card { flex-direction: column !important; align-items: center !important; text-align: center !important; gap: .5rem !important; }
+  .node-photo { width: 64px !important; height: 64px !important; }
+  .ribbon { max-width: 140px !important; }
+
+  /* Make all immediate grid sections in canvas auto-fit cards without overlap */
+  .canvas-grid > .grid { display: grid !important; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important; gap: 10px !important; place-items: stretch !important; }
+}
+
+/* Ultra-small screens: force single column to prevent any overlap */
+@media (max-width: 360px) {
+  .canvas-grid > .grid { grid-template-columns: 1fr !important; }
+}
+
+/* Left vertical toolbar styling */
+.toolbar-rail { background: var(--card) !important; border: 1px solid var(--border) !important; border-radius: 12px !important; padding: 8px !important; box-shadow: var(--shadow-1) !important; }
+.toolbar-rail button { height: 38px !important; width: 100% !important; border-radius: 10px !important; border: 1px solid var(--border) !important; background: var(--surface-2) !important; color: var(--ink) !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; gap: 8px !important; font-weight: 600 !important; }
+.toolbar-rail button[data-active="true"] { background: color-mix(in oklch, var(--mint), white 75%) !important; border-color: color-mix(in oklch, var(--mint), white 55%) !important; }
+
+/* Canvas title */
+.canvas-title { font-weight: 700 !important; letter-spacing: -0.01em !important; color: color-mix(in oklch, var(--ink), white 5%) !important; text-align: center !important; margin: 6px 0 16px 0 !important; font-size: clamp(18px, 3.2vw, 34px) !important; }
+
+</style>
+  <!-- Page-specific light overrides -->
+  <style>
+/* Member Detail minimal overrides – sync with family_tree_theme_1_1.css */
+
+:root {
+  --detail-gap: 14px;
+}
+
+.profile-card { display: flex; align-items: center; gap: 16px; }
+.profile-meta { display: flex; flex-direction: column; gap: 6px; }
+.profile-actions { display: flex; gap: 8px; }
+
+.info-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--detail-gap); }
+.info-item { background: var(--surface-2, #f6f7fb); border: 1px solid var(--border); border-radius: 12px; padding: 10px 12px; }
+.info-item h4 { font-size: 11px; margin: 0 0 4px 0; font-weight: 700; letter-spacing: .02em; text-transform: uppercase; color: color-mix(in oklch, var(--ink), white 40%); }
+.info-item p { margin: 0; font-size: 14px; }
+
+.section-title { display: flex; align-items: center; gap: 8px; font-weight: 600; }
+.section-title .dot { width: 8px; height: 8px; border-radius: 999px; background: color-mix(in oklch, var(--peach, #f7b289), white 8%); box-shadow: 0 0 0 2px color-mix(in oklch, var(--peach, #f7b289), white 85%); }
+
+.relation-list { display: flex; flex-wrap: wrap; gap: 8px; }
+.relation-chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface-2, #fff); font-size: 12px; box-shadow: var(--shadow-1); }
+.relation-chip .avatar { width: 22px; height: 22px; border-radius: 999px; object-fit: cover; border: 2px solid #fff; }
+
+.u-keyline { height: 1px; background: var(--border); opacity: .9; }
+
+/* Label vs Value differentiation */
+.label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .02em; color: color-mix(in oklch, var(--ink), white 60%); }
+.value { font-size: 13px; font-weight: 600; color: var(--ink); }
+.value-muted { font-size: 13px; font-weight: 500; color: color-mix(in oklch, var(--ink), white 15%); }
+
+/* Compact pill for labels next to inline values */
+.label-chip { display:inline-flex; align-items:center; gap:6px; padding:2px 8px; border-radius:999px; border:1px solid var(--border); background: var(--surface-2, #fff); color: color-mix(in oklch, var(--ink), white 45%); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .02em; }
+
+@media (max-width: 768px) {
+  .profile-card { flex-direction: column; align-items: flex-start; }
+  .info-grid { grid-template-columns: 1fr; }
+}
+
+
+
+</style>
+  <script>
+    tailwind.config = { theme: { extend: { fontFamily: { sans: ['Poppins','Inter','ui-sans-serif','system-ui'] } } } }
+  </script>
+</head>
+<body class="min-h-dvh flex flex-col">
+  <!-- Header -->
+  <header class="u-header-accent--gradient text-white">
+    <div class="max-w-5xl mx-auto px-3 sm:px-4 py-2.5 flex items-center gap-2">
+      <div class="flex items-center gap-2">
+        <a href="./family_tree_ui_1_1.html" class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-white/20" title="Back" aria-label="Back">←</a>
+        <h1 class="text-base sm:text-lg font-semibold leading-tight">Member Detail</h1>
+      </div>
+      <div class="ms-auto hidden sm:flex items-center gap-2">
+        <input placeholder="Search member" class="input hidden md:block ms-1 w-52" />
+        <button class="ms-1 shrink-0 h-8 w-8 rounded-full bg-white/90 text-[var(--ink)] text-xs font-semibold">KY</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1">
+    <div class="max-w-5xl mx-auto w-full px-2 sm:px-3 py-3 space-y-3">
+      <!-- Breadcrumb / Context -->
+      <div class="panel px-3 py-2 flex items-center gap-2 text-xs sm:text-sm">
+        <span class="badge">Home</span>
+        <span>›</span>
+        <span class="badge">Khoa Family</span>
+        <span>›</span>
+        <span id="crumb-name" class="badge">Member</span>
+        <div class="ms-auto profile-actions">
+          <button class="btn btn-outline btn-sm btn-press" type="button">Edit</button>
+          <button class="btn btn-outline btn-sm btn-press" type="button">Delete</button>
+        </div>
+      </div>
+
+      <!-- Profile summary -->
+      <section class="panel p-3">
+        <div class="profile-card">
+          <img id="avatar" class="node-photo" src="https://placehold.co/160x160?text=Member" alt="Member photo" />
+          <div class="profile-meta">
+            <div class="flex items-center gap-2 flex-wrap">
+              <div id="ribbon-name" class="ribbon ribbon-peach">Member Name</div>
+              <span id="relationship-badge" class="badge">Relationship</span>
+            </div>
+            <p id="title" class="value-muted"></p>
+            <div class="text-[12px] flex items-center gap-4 flex-wrap">
+              <span class="inline-flex items-center gap-2">
+                <span class="label-chip inline-flex items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4"><path fill-rule="evenodd" d="M10 2a4 4 0 100 8 4 4 0 000-8zM2 16a6 6 0 1112 0v2H2v-2z" clip-rule="evenodd"/></svg>
+                  Gender
+                </span>
+                <span id="gender" class="value">—</span>
+              </span>
+              <span class="inline-flex items-center gap-2">
+                <span class="label-chip inline-flex items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4"><path d="M6 2a1 1 0 011 1v1h6V3a1 1 0 112 0v1h1a2 2 0 012 2v9a2 2 0 01-2 2H3a2 2 0 01-2-2V6a2 2 0 012-2h1V3a1 1 0 112 0v1zm11 7H3v6h14V9z"/></svg>
+                  Dates
+                </span>
+                <span id="dates" class="value">—</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- About -->
+      <section class="panel p-3">
+        <div class="section-title"><span class="dot" aria-hidden="true"></span><h2 class="text-sm">About</h2></div>
+        <div class="mt-2 u-keyline"></div>
+        <div class="mt-3 info-grid">
+          <div class="info-item"><h4>Gender</h4><p id="about-gender" class="value">—</p></div>
+          <div class="info-item"><h4>Title</h4><p id="about-title" class="value">—</p></div>
+          <div class="info-item"><h4>Birth Date</h4><p id="about-birth" class="value">—</p></div>
+          <div class="info-item"><h4>Death Date</h4><p id="about-death" class="value">—</p></div>
+        </div>
+        <div class="mt-3">
+          <h3 class="text-sm mb-1">Biography</h3>
+          <p id="biography" class="value text-[14px] leading-6">—</p>
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <section class="panel p-3">
+        <div class="section-title"><span class="dot" aria-hidden="true"></span><h2 class="text-sm">Contact</h2></div>
+        <div class="mt-2 u-keyline"></div>
+        <div class="mt-3 info-grid">
+          <div class="info-item"><h4>Email</h4><p id="contact-email" class="value">—</p></div>
+          <div class="info-item"><h4>Phone</h4><p id="contact-phone" class="value">—</p></div>
+          <div class="info-item" style="grid-column: 1 / -1;"><h4>Address</h4><p id="contact-address" class="value">—</p></div>
+        </div>
+      </section>
+
+      <!-- Relations -->
+      <section class="panel p-3">
+        <div class="section-title"><span class="dot" aria-hidden="true"></span><h2 class="text-sm">Relations</h2></div>
+        <div class="mt-2 u-keyline"></div>
+        <div class="mt-3 space-y-3">
+          <div>
+            <h3 class="text-sm mb-2 opacity-80">Parent</h3>
+            <div id="rel-parent" class="relation-list"></div>
+          </div>
+          <div>
+            <h3 class="text-sm mb-2 opacity-80">Spouses</h3>
+            <div id="rel-spouses" class="relation-list"></div>
+          </div>
+          <div>
+            <h3 class="text-sm mb-2 opacity-80">Children</h3>
+            <div id="rel-children" class="relation-list"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flowbite@2.0.0/dist/flowbite.min.js"></script>
+  <script>
+    // Inline dataset shaped like family-tree/data/family-tree-v2.json
+    const DATA = {
+      id: "family-tree-1",
+      name: "Lê Family Tree",
+      members: [
+        { id: "member-1", name: "Lê Thành Công", gender: "male", birthDate: "1950-01-01", deathDate: null, photo: "", title: "Patriarch", email: "example@email.com", phone: "+1234567890", address: "Hanoi, Vietnam", biography: "Founder of the family...", parentId: null, spouseIds: ["member-2"], childrenIds: ["member-3","member-4"], order: 1, position: {x:0,y:100}, size:{width:200,height:120}, relationship: "Patriarch" },
+        { id: "member-2", name: "Nguyễn Thị Hương", gender: "female", birthDate: "1955-05-15", deathDate: null, photo: "", title: "Matriarch", email: "huong@email.com", phone: "+1234567891", address: "Hanoi, Vietnam", biography: "Wife of the family patriarch...", parentId: null, spouseIds: ["member-1"], childrenIds: ["member-3","member-4"], order: 2, position: {x:250,y:100}, size:{width:200,height:120}, relationship: "Matriarch" },
+        { id: "member-3", name: "Lê Minh Tuấn", gender: "male", birthDate: "1980-03-20", deathDate: null, photo: "", title: "Eldest Son", email: "tuan@email.com", phone: "+1234567892", address: "Ho Chi Minh City, Vietnam", biography: "Eldest son of the family...", parentId: "member-1", spouseIds: ["member-5"], childrenIds: ["member-6","member-7"], order: 1, position: {x:500,y:100}, size:{width:200,height:120}, relationship: "Eldest Son" },
+        { id: "member-4", name: "Lê Thị Mai", gender: "female", birthDate: "1982-07-10", deathDate: null, photo: "", title: "Daughter", email: "mai@email.com", phone: "+1234567893", address: "Hanoi, Vietnam", biography: "Daughter of the family...", parentId: "member-1", spouseIds: [], childrenIds: [], order: 2, position: {x:750,y:100}, size:{width:200,height:120}, relationship: "Daughter" },
+        { id: "member-5", name: "Trần Thị Hoa", gender: "female", birthDate: "1982-11-05", deathDate: null, photo: "", title: "Daughter-in-law", email: "hoa@email.com", phone: "+1234567894", address: "Ho Chi Minh City, Vietnam", biography: "Wife of the eldest son...", parentId: null, spouseIds: ["member-3"], childrenIds: ["member-6","member-7"], order: 1, position: {x:1000,y:100}, size:{width:200,height:120}, relationship: "Daughter-in-law" },
+        { id: "member-6", name: "Lê Minh Quân", gender: "male", birthDate: "2010-02-15", deathDate: null, photo: "", title: "Grandson", email: "", phone: "", address: "Ho Chi Minh City, Vietnam", biography: "Son of Lê Minh Tuấn...", parentId: "member-3", spouseIds: [], childrenIds: [], order: 1, position: {x:1250,y:100}, size:{width:200,height:120}, relationship: "Grandson" },
+        { id: "member-7", name: "Lê Thị Linh", gender: "female", birthDate: "2012-09-20", deathDate: null, photo: "", title: "Granddaughter", email: "", phone: "", address: "Ho Chi Minh City, Vietnam", biography: "Daughter of Lê Minh Tuấn...", parentId: "member-3", spouseIds: [], childrenIds: [], order: 2, position: {x:1500,y:100}, size:{width:200,height:120}, relationship: "Granddaughter" }
+      ]
+    };
+
+    const byId = (id) => DATA.members.find(m => m.id === id) || null;
+    const param = new URLSearchParams(location.search);
+    const memberId = param.get('id') || 'member-3';
+    const member = byId(memberId) || DATA.members[0];
+
+    function text(el, value, fallback = '—') { if (!el) return; el.textContent = value && String(value).trim() ? value : fallback; }
+    function setAvatar(img, name, src){
+      if (!img) return;
+      if (src) { img.src = src; img.alt = name; return; }
+      img.src = `https://placehold.co/160x160?text=${encodeURIComponent(name.split(' ').map(w=>w[0]).join('').slice(0,2))}`;
+      img.alt = name;
+    }
+    function chip(name){
+      const span = document.createElement('span');
+      span.className = 'relation-chip';
+      const avatar = document.createElement('img');
+      avatar.className = 'avatar';
+      avatar.src = `https://placehold.co/64x64?text=${encodeURIComponent(name[0])}`;
+      avatar.alt = '';
+      const label = document.createElement('span');
+      label.textContent = name;
+      span.appendChild(avatar); span.appendChild(label);
+      return span;
+    }
+
+    function render(){
+      // Header crumbs
+      text(document.getElementById('crumb-name'), member.name);
+
+      // Summary
+      setAvatar(document.getElementById('avatar'), member.name, member.photo);
+      const ribbon = document.getElementById('ribbon-name');
+      if (ribbon) ribbon.textContent = member.name;
+      text(document.getElementById('relationship-badge'), member.relationship || 'Member');
+      text(document.getElementById('title'), member.title || '—');
+      text(document.getElementById('gender').querySelector('span'), member.gender);
+      const d = [];
+      if (member.birthDate) d.push(`Born ${member.birthDate}`);
+      if (member.deathDate) d.push(`Died ${member.deathDate}`);
+      text(document.getElementById('dates').querySelector('span'), d.join(' • '));
+
+      // About
+      text(document.getElementById('about-gender'), member.gender);
+      text(document.getElementById('about-title'), member.title);
+      text(document.getElementById('about-birth'), member.birthDate);
+      text(document.getElementById('about-death'), member.deathDate);
+      text(document.getElementById('biography'), member.biography);
+
+      // Contact
+      text(document.getElementById('contact-email'), member.email);
+      text(document.getElementById('contact-phone'), member.phone);
+      text(document.getElementById('contact-address'), member.address);
+
+      // Relations
+      const parentWrap = document.getElementById('rel-parent');
+      const spousesWrap = document.getElementById('rel-spouses');
+      const childrenWrap = document.getElementById('rel-children');
+      [parentWrap, spousesWrap, childrenWrap].forEach(w => { if (w) w.innerHTML = ''; });
+
+      if (member.parentId) {
+        const p = byId(member.parentId); if (p && parentWrap) parentWrap.appendChild(chip(p.name));
+      } else {
+        if (parentWrap) parentWrap.textContent = '—';
+      }
+      if (Array.isArray(member.spouseIds) && member.spouseIds.length) {
+        member.spouseIds.forEach(id => { const s = byId(id); if (s && spousesWrap) spousesWrap.appendChild(chip(s.name)); });
+      } else { if (spousesWrap) spousesWrap.textContent = '—'; }
+      if (Array.isArray(member.childrenIds) && member.childrenIds.length) {
+        member.childrenIds.forEach(id => { const c = byId(id); if (c && childrenWrap) childrenWrap.appendChild(chip(c.name)); });
+      } else { if (childrenWrap) childrenWrap.textContent = '—'; }
+    }
+
+    render();
+    if (window.lucide) { window.lucide.createIcons(); }
+  </script>
+</body>
+</html>
+
+
+
+
+Above is the design implementation. Please use this as a reference to create a similar component. Focus on clean, maintainable code structure.

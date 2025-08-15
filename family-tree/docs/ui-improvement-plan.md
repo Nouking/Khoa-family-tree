@@ -80,12 +80,17 @@ Acceptance:
 - Validation states are consistent and cause no layout shift
 - Gradient/accent utilities map to tokens (no raw hex)
 
-### 4) Login (v2)
+### 4) Login (v2) ✅
 - Follow `login-screen-prompt`; warm theme; inline errors; proper aria
+- Status: Completed - 2025-08-15 | Branch: `improvement-e12-t4-v2-login`
+- Implementation: `family-tree/app/v2/login/page.tsx` with comprehensive accessibility and warm theme integration
 
 Acceptance:
-- Form labeled; errors announced; tab sequence correct
-- Visual matches prototype style direction without regressions
+- ✅ Form labeled; errors announced; tab sequence correct
+- ✅ Visual matches prototype style direction without regressions
+- ✅ Warm theme colors applied (mint, peach, lilac gradient button)
+- ✅ Accessibility: 44px touch targets, ARIA live regions, logical tab order
+- ✅ Comprehensive tests covering auth flow, error scenarios, responsive behavior
 
 ### 5) Member Detail (v2)
 - Follow `member-detail-prompt` (or interim spec); hierarchy (photo, name, relationships, life dates); token chips/dividers/icons
