@@ -4,6 +4,32 @@
 > Note (@qa, @sm): Each completed task anchor (e.g., `<a id="e10-t6"></a>`) maps to full details in `IMPROVEMENT-TASK-TRACKING.md`. If the corresponding ID there already contains sufficient information, this archive may summarize or omit duplicate details.
 
 ## 📊 Task Completion Log
+<a id="e12-t2"></a>
+#### E12-T2: Add Member Modal (v2) (P1-HIGH)
+- Status: Completed - 2025-08-15 | Branch: `improvement-e12-t2-v2-add`
+- Summary: Implemented v2 Add Member modal with token-driven styling, APG modal dialog semantics, and mobile bottom-sheet support using shared MemberForm v2 component.
+- Implementation Details:
+  - **Components Created**:
+    - `family-tree/app/components-v2/shared/MemberForm.tsx`: Shared form component with token-only styling
+    - `family-tree/app/components-v2/AddMemberModalV2.tsx`: v2 Add modal wrapper with proper error handling
+  - **Key Features**:
+    - **APG Modal Dialog Semantics**: Proper `aria-modal`, `aria-labelledby`, and `aria-describedby` attributes
+    - **Focus Management**: Focus trap implementation with escape key and backdrop close support
+    - **Token-driven Styling**: Uses `u-header-accent--gradient`, `btn-primary--gradient`, and section accent utilities from `globals.css`
+    - **Mobile Bottom-sheet**: Responsive modal that becomes full-height bottom sheet on mobile (`max-sm:h-[100dvh]`, `max-sm:rounded-none`)
+    - **Validation**: Maintains v1 validation behavior with proper ARIA error associations and no layout shift
+    - **Reduced Motion**: Respects `prefers-reduced-motion` settings with `motion-reduce:transition-none`
+  - **Accessibility Enhancements**:
+    - Section headings with decorative icons and semantic chips
+    - Error messages with `role="alert"` and proper `aria-describedby` associations
+    - Touch-friendly button sizing (`max-sm:min-h-[44px]`)
+    - Character count display for biography field with live updates
+  - **Tests Added**:
+    - `family-tree/app/components-v2/__tests__/AddMemberModalV2.test.tsx`: Comprehensive modal testing
+    - `family-tree/app/components-v2/__tests__/MemberForm.test.tsx`: Form validation and accessibility testing
+    - Coverage includes APG compliance, token usage, mobile responsiveness, and error handling
+- Verification Notes: All acceptance criteria met; token-only styling confirmed; AA contrast maintained; mobile bottom-sheet verified; focus trap working correctly
+
 <a id="e12-t1"></a>
 #### E12-T1: Tree View Home (v2) – Layout, Sidebar, Toolbar, Canvas (P1-CRITICAL)
 - Status: Completed - 2025-08-15 | Branch: `main`

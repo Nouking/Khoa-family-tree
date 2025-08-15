@@ -62,9 +62,14 @@ Implementation Status:
 - State: Reuses v1 hooks (FamilyTreeContext, useFamilyTreeOperations)
 - Tests: Comprehensive test coverage for all components and responsive behavior
 
-### 2) Add Member (v2)
+### 2) Add Member (v2) — ✅ IMPLEMENTED (E12-T2)
 - Follow `add-screen-prompt`; section grouping, validation, photo, relations
 - APG modal dialog pattern; bottom-sheet variant on mobile
+
+Implementation Status:
+- Component: AddMemberModalV2 with shared MemberForm v2
+- Features: Token-driven styling, APG semantics, mobile bottom-sheet, focus trap
+- Tests: Comprehensive accessibility and validation coverage
 
 ### 3) Edit Member (v2)
 - Follow `edit-screen-prompt`; include canvas position/size fields

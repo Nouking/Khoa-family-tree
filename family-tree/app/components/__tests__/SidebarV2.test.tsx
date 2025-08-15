@@ -28,8 +28,8 @@ describe('SidebarV2', () => {
   it('has proper accessibility attributes', () => {
     render(<SidebarV2 {...mockProps} />);
     
-    const sidebar = screen.getByRole('complementary');
-    expect(sidebar).toHaveAttribute('aria-label', 'Sidebar navigation');
+    const sidebar = screen.getByRole('navigation');
+    expect(sidebar).toHaveClass('flex', 'flex-col', 'gap-2', 'text-xs');
     
     // All buttons should be properly labeled
     expect(screen.getByLabelText('Add Member')).toBeInTheDocument();
@@ -50,37 +50,29 @@ describe('SidebarV2', () => {
     expect(mockProps.onHelp).toHaveBeenCalledTimes(1);
   });
 
-  it('uses tokenized styling classes', () => {
+  it('uses simple button styling', () => {
     render(<SidebarV2 {...mockProps} />);
     
     const addButton = screen.getByLabelText('Add Member');
-    expect(addButton).toHaveClass('btn-primary');
-    expect(addButton).toHaveClass('focus-visible:outline-(--color-primary)');
+    expect(addButton).toHaveClass('w-full');
+    expect(addButton).toHaveAttribute('data-active', 'true');
     
     const helpButton = screen.getByLabelText('Help');
-    expect(helpButton).toHaveClass('btn-outline');
-    expect(helpButton).toHaveClass('focus-visible:outline-(--color-primary)');
+    expect(helpButton).toHaveClass('w-full');
+    expect(helpButton).toHaveAttribute('title', 'Help (Shift+?)');
   });
 
-  it('has responsive text visibility', () => {
+  it('includes lucide icons', () => {
     render(<SidebarV2 {...mockProps} />);
     
-    // Text should be hidden on small screens, visible on large
-    const addText = screen.getByText('Add');
-    expect(addText).toHaveClass('hidden', 'lg:inline');
+    // Check for lucide icon spans
+    const addIcon = screen.getByLabelText('Add Member').querySelector('[data-lucide="plus"]');
+    expect(addIcon).toBeInTheDocument();
     
-    const exportText = screen.getByText('Export');
-    expect(exportText).toHaveClass('hidden', 'lg:inline');
+    const exportIcon = screen.getByLabelText('Export family tree').querySelector('[data-lucide="share"]');
+    expect(exportIcon).toBeInTheDocument();
     
-    const helpText = screen.getByText('Help');
-    expect(helpText).toHaveClass('hidden', 'lg:inline');
-  });
-
-  it('includes user avatar section', () => {
-    render(<SidebarV2 {...mockProps} />);
-    
-    // User avatar should be present but hidden on small screens
-    const userSection = screen.getByRole('img', { hidden: true });
-    expect(userSection.closest('div')).toHaveClass('hidden', 'lg:flex');
+    const helpIcon = screen.getByLabelText('Help').querySelector('[data-lucide="help-circle"]');
+    expect(helpIcon).toBeInTheDocument();
   });
 });

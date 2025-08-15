@@ -33,9 +33,17 @@ export const OnboardingProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const [isHelpOpen, setIsHelpOpen] = React.useState(false);
   const [stepIndex, setStepIndex] = React.useState(0);
   const [spotlightTarget, setSpotlightTarget] = React.useState<string | null>(null);
+  const [isClient, setIsClient] = React.useState(false);
 
-  // Persist onboarding completion
+  // Ensure we're on the client before accessing localStorage
   React.useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  // Persist onboarding completion - only run after client hydration
+  React.useEffect(() => {
+    if (!isClient) return;
+    
     try {
       const done = localStorage.getItem('onboardingCompleted');
       if (!done) {
@@ -43,10 +51,12 @@ export const OnboardingProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         setIsTourOpen(true);
       }
     } catch {}
-  }, []);
+  }, [isClient]);
 
-  // Global keyboard shortcut to open help (Shift+/ => '?')
+  // Global keyboard shortcut to open help (Shift+/ => '?') - only on client
   React.useEffect(() => {
+    if (!isClient) return;
+    
     const onKey = (e: KeyboardEvent) => {
       if (e.shiftKey && e.key === '/') {
         e.preventDefault();
@@ -55,7 +65,7 @@ export const OnboardingProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     };
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
-  }, []);
+  }, [isClient]);
 
   const startTour = React.useCallback(() => {
     setStepIndex(0);

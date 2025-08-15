@@ -231,39 +231,34 @@ const FamilyTreeCanvasV2 = memo(React.forwardRef<FamilyTreeCanvasV2Handle, Famil
   }), [members, viewport.zoom]);
 
   return (
-    <div className="flex-1 relative overflow-hidden">
+    <div className="canvas-grid rounded-[16px] h-full p-3 sm:p-5 relative overflow-hidden">
+      <h2 className="canvas-title">Family Tree</h2>
+      
+      {/* Dynamic connectors will be drawn here */}
+      <svg 
+        id="connections" 
+        className="connections-layer absolute inset-0 pointer-events-none hidden min-[480px]:block" 
+        width="100%" 
+        height="100%" 
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        <VirtualizedConnections connections={connections} viewport={viewport} />
+      </svg>
+
       {/* Canvas Container */}
       <div
         ref={(element) => {
           canvasRef.current = element;
           drop(element);
         }}
-        className="canvas-grid w-full h-full relative cursor-grab active:cursor-grabbing"
+        className="w-full h-full relative cursor-grab active:cursor-grabbing"
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         role="application"
         aria-label="Family tree canvas"
-        style={{
-          backgroundColor: 'var(--surface-2)',
-          backgroundImage: `
-            radial-gradient(circle at 1px 1px, var(--color-neutral-300) 1px, transparent 0)
-          `,
-          backgroundSize: '20px 20px',
-        }}
       >
-        {/* Connections Layer - Rendered UNDER nodes with z-index */}
-        <svg 
-          className="connections-layer absolute inset-0 w-full h-full pointer-events-none -z-10 hidden min-[480px]:block"
-          style={{
-            transform: `translate(${viewport.x}px, ${viewport.y}px) scale(${viewport.zoom})`,
-            transformOrigin: '0 0'
-          }}
-          aria-hidden="true"
-        >
-          <VirtualizedConnections connections={connections} viewport={viewport} />
-        </svg>
-
         {/* Members Layer */}
         <div
           className="absolute inset-0"
@@ -276,21 +271,22 @@ const FamilyTreeCanvasV2 = memo(React.forwardRef<FamilyTreeCanvasV2Handle, Famil
             <div
               key={member.id}
               data-member-id={member.id}
-              className="absolute"
+              className="absolute node-card float-in px-3 py-3 flex items-center gap-3"
               style={{
                 left: member.position.x,
                 top: member.position.y,
                 transform: 'translate(-50%, -50%)'
               }}
             >
-              <MemberBanner
-                member={member}
-                isSelected={selectedMemberIds.includes(member.id)}
-                isHighlighted={highlightedIds.includes(member.id)}
-                onSelect={(member) => {
-                  dispatch({ type: 'SELECT_MEMBER', payload: member.id });
-                }}
+              <img 
+                className="node-photo" 
+                src={member.photo || `https://placehold.co/160x160?text=${encodeURIComponent(member.name.split(' ')[0])}`}
+                alt={member.name} 
               />
+              <div>
+                <div className="ribbon ribbon-mint">{member.name}</div>
+                <div className="text-[12px] opacity-70 mt-1">{member.relationship || 'Family Member'}</div>
+              </div>
             </div>
           ))}
         </div>

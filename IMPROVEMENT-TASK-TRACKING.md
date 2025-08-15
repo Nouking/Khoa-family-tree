@@ -877,7 +877,7 @@ Implementation Notes:
 
 ### E12-T1: Tree View Home (v2) – Layout, Sidebar, Toolbar, Canvas (P1-CRITICAL) ✅
 - Status: Completed - 2025-08-15 | Branch: `main`
-- Summary: Fixed implementation wiring issues and completed E12-T1. v2 components were implemented but not properly wired up in main page. Resolved TypeScript compilation errors, prerendering issues, and provider context setup.
+- Summary: Fully implemented v2 Home screen matching home-screen-prompt design. MainToolbarV2 includes proper gradient header with family icon and white text. SidebarV2 simplified to Add/Export/Help only. FamilyTreeCanvasV2 renders actual family member nodes with photos, relationship ribbons, and proper responsive behavior including connection hiding <480px.
 - Details: See Completed Log → [E12-T1](family-tree/docs/completed-tasks.md#e12-t1)
 - Primary Agent: @dev (James) | Supporting: @ux-expert (Sally), @qa (Quinn), @po (Sarah), @sm (Bob)
 - References: `home-screen-prompt`, UI v2 Plan (“Tree View Home”) and prior E12‑T1 (Archived) implementation notes
@@ -913,68 +913,210 @@ Implementation Notes:
 
 ---
 
-### E12-T2: Add Member Modal (v2) (P1-HIGH)
-- Status: Pending | Branch: `improvement-e12-t2-v2-add`
-- Primary Agent: @dev (James) | Supporting: @ux-expert (Sally), @qa (Quinn), @po (Sarah)
-- References: `add-screen-prompt`, UI v2 Plan (“Add Member (v2)”), E10/E11 specs
-- Description: Build v2 Add modal using `components-v2/shared/MemberForm` with E10/E11 token and a11y patterns; bottom sheet on mobile.
-- Files to Add/Change:
-  - `family-tree/app/components-v2/shared/MemberForm.tsx` (copy or extract from v1 then adjust styles only)
-  - `family-tree/app/components-v2/AddMemberModalV2.tsx`
-  - `family-tree/app/globals.css` (ensure modal tokens/gradients are mapped; no raw hex)
-- Acceptance Criteria:
-  - APG modal dialog semantics; focus trap; escape/backdrop close
-  - Section grouping, photo uploader, relations present; mobile bottom-sheet variant
-  - Validation behavior matches v1 without layout shift; AA contrast; reduced motion honored
-- Subtasks:
-  - E12-T2.1 Create `MemberForm` v2 with token-only styles
-  - E12-T2.2 Implement `AddMemberModalV2` shell and keyboard flow
-  - E12-T2.3 Wire validation using existing utilities; keep TS types
-  - E12-T2.4 Tests for a11y, validation, and mobile bottom-sheet
-- Test Strategy:
-  - Update/add tests similar to `AddMemberModal.test.tsx`, `MemberForm.test.tsx`, `Modal.test.tsx`
-  - Agent Prompt: "As @dev, @ux-expert, @qa, @po: read CLAUDE.md 5–136 (AI Task Workflow) and 138–155 (UI v2 Workflow), and IMPROVEMENT-TASK-TRACKING.md 914–933 only; follow the AI Task Workflow; do E12-T2; confirm acceptance criteria, plan, implement, test, and update docs (incl. ui-improvement-plan.md when applicable); keep reasoning ≤400 tokens; v2-only; APG modal semantics with focus trap/backdrop/ESC, bottom-sheet on mobile, token-only styles, validation matches v1, AA contrast and reduced-motion respected; use MCP Context7 only if external docs are needed."
+### E12-T2: Add Member Modal (v2) (P1-HIGH) ✅
+- Status: Completed - 2025-08-15 | Branch: `improvement-e12-t2-v2-add`
+- Summary: v2 Add modal implemented with token-driven styling, APG semantics, mobile bottom-sheet support
+- Details: See Completed Log → [E12-T2](family-tree/docs/completed-tasks.md#e12-t2)
 
 ---
 
 ### E12-T3: Edit Member Modal (v2) (P1-HIGH)
 - Status: Pending | Branch: `improvement-e12-t3-v2-edit`
 - Primary Agent: @dev (James) | Supporting: @ux-expert (Sally), @qa (Quinn)
-- References: `edit-screen-prompt`, UI v2 Plan (“Edit Member (v2)”), E10/E11 patterns
-- Description: Build v2 Edit modal with additional canvas position/size fields; same validation/a11y as Add.
-- Files to Add/Change:
-  - `family-tree/app/components-v2/EditMemberModalV2.tsx`
-  - `family-tree/app/components-v2/shared/MemberForm.tsx` (extend for edit fields)
-- Acceptance Criteria:
-  - All Add modal criteria apply; additional fields validated; no layout shift
-- Subtasks:
-  - E12-T3.1 Extend MemberForm for edit-only fields
-  - E12-T3.2 Build `EditMemberModalV2` and keyboard flow
-  - E12-T3.3 Tests for edit fields and validation
-- Test Strategy:
-  - Add/update tests mirroring `EditMemberModal.test.tsx`
-  - Agent Prompt: "As @dev, @ux-expert, @qa: read CLAUDE.md 5–136 (AI Task Workflow) and 138–155 (UI v2 Workflow), and IMPROVEMENT-TASK-TRACKING.md 938–953 only; follow the AI Task Workflow; do E12-T3; confirm acceptance criteria, plan, implement, test, and update docs (incl. ui-improvement-plan.md when applicable); keep reasoning ≤400 tokens; v2-only; extend MemberForm for edit-only fields; same a11y/validation as Add; no layout shift; use MCP Context7 only if external docs are needed."
+- References: `edit-screen-prompt`, UI v2 Plan ("Edit Member (v2)"), E10/E11 patterns
+
+### **🎯 Pre-Implementation Analysis (MANDATORY - Complete Before Coding):**
+1. **Reference Design Analysis:**
+   - [ ] Read `edit-screen-prompt` file thoroughly
+   - [ ] Compare with existing AddMemberModalV2 implementation
+   - [ ] List specific differences: additional fields, layout changes, styling requirements
+   - [ ] Identify all visual elements: headers, sections, buttons, form fields
+2. **Gap Analysis:**
+   - [ ] Document current EditMemberModal features vs. target design
+   - [ ] List missing fields: Canvas Position (X, Y), Canvas Size (Width, Height)
+   - [ ] Identify styling/token requirements from E10/E11 patterns
+3. **Technical Requirements:**
+   - [ ] Confirm MemberForm extension points for edit-only fields
+   - [ ] Verify validation rules for position/size fields
+   - [ ] Check responsive behavior requirements
+
+### **📋 Detailed Acceptance Criteria:**
+**Visual Requirements:**
+- [ ] Modal header matches AddMemberModalV2 styling (gradient, icons, spacing)
+- [ ] Form sections clearly grouped: Basic Info, Canvas Position & Size, Photo
+- [ ] Canvas Position section with X/Y coordinate inputs (numeric, validation)
+- [ ] Canvas Size section with Width/Height inputs (numeric, validation, minimums)
+- [ ] All inputs use token-driven styling from `globals.css`
+- [ ] Error states display with proper ARIA announcements
+- [ ] Mobile: Bottom-sheet behavior matches AddMemberModalV2
+
+**Functional Requirements:**
+- [ ] Pre-populates all fields with current member data
+- [ ] Validates position coordinates (numbers, within canvas bounds)
+- [ ] Validates size dimensions (positive numbers, minimum thresholds)
+- [ ] Save button disabled until valid changes made
+- [ ] Cancel preserves original values
+- [ ] Success/error toasts after save/cancel
+
+**Accessibility Requirements:**
+- [ ] All form fields properly labeled with `aria-label`
+- [ ] Tab order: Basic fields → Position fields → Size fields → Actions
+- [ ] Error messages announced via `aria-live="polite"`
+- [ ] Modal focus trap active, Escape to close
+- [ ] AA contrast ratios maintained for all text/backgrounds
+
+**Responsive Requirements:**
+- [ ] Desktop: Modal centered, max-width constraints
+- [ ] Tablet (768px): Adjusted padding, readable form fields
+- [ ] Mobile (<640px): Bottom-sheet pattern, full-width inputs
+- [ ] No horizontal scrolling at any breakpoint
+- [ ] Touch targets minimum 44px (buttons, inputs)
+
+### **🔧 Implementation Details:**
+- **Files to Create/Modify:**
+  - `family-tree/app/components-v2/EditMemberModalV2.tsx` (new modal component)
+  - `family-tree/app/components-v2/shared/MemberForm.tsx` (extend for edit-only fields)
+- **Required Form Fields:**
+  - Basic Info: Name, Gender, Birth Date, Death Date, Relationship, Biography
+  - Canvas Position: X Position (number), Y Position (number)  
+  - Canvas Size: Width (number), Height (number)
+  - Photo: Upload/preview (reuse existing component)
+- **Validation Rules:**
+  - Position: X/Y must be numbers, within canvas bounds (0-3000 default)
+  - Size: Width/Height must be positive numbers, minimum 100px
+  - All other validations same as Add modal
+
+### **🧪 Test Strategy:**
+- **Test Files to Update:**
+  - Mirror existing `EditMemberModal.test.tsx` structure
+  - Add tests for new position/size field validation
+  - Test responsive behavior at key breakpoints
+- **Test Cases:**
+  - Form pre-population with existing member data
+  - Position/size field validation (positive/negative cases)
+  - Mobile bottom-sheet behavior
+  - Keyboard navigation and focus management
+  - Error state handling and ARIA announcements
+
+### **🤖 Agent Execution Instructions:**
+**Step 1: Analysis Phase**
+- Read `edit-screen-prompt` and document all visual/functional requirements
+- Compare with AddMemberModalV2 to identify reusable patterns
+- Create implementation plan with specific component changes needed
+
+**Step 2: Implementation Phase**
+- Extend MemberForm component to support edit-only fields conditionally
+- Build EditMemberModalV2 using AddMemberModalV2 as template
+- Apply all styling tokens consistently with existing modals
+- Implement position/size validation with proper error handling
+
+**Step 3: Verification Phase**
+- Test modal at all responsive breakpoints (360px, 768px, 1024px+)
+- Verify keyboard navigation and screen reader compatibility
+- Validate all form fields work with proper validation
+- Ensure visual consistency with design reference
 
 ---
 
 ### E12-T4: Login (v2) (P2-HIGH)
 - Status: Pending | Branch: `improvement-e12-t4-v2-login`
 - Primary Agent: @ux-expert (Sally) | Supporting: @dev (James), @qa (Quinn)
-- References: `login-screen-prompt`, UI v2 Plan (“Login (v2)”), E9-T1 behavioral notes
-- Description: Implement login with warm theme and inline errors; maintain proper ARIA and keyboard flow.
-- Files to Add/Change:
-  - `family-tree/app/(v2)/login/page.tsx`
-  - `family-tree/app/globals.css` (ensure focus rings, error tokens)
-- Acceptance Criteria:
-  - Labeled fields; inline errors announced via `aria-live`; correct tab order
-  - Visual alignment to prompt style direction; no regressions to auth flow
-- Subtasks:
-  - E12-T4.1 Implement page layout and form
-  - E12-T4.2 Error handling visuals + SR announcements
-  - E12-T4.3 Tests for form labeling, focus order, and error announcements
-- Test Strategy:
-  - Add tests similar to `login` flow assertions; verify aria wiring
-  - Agent Prompt: "As @ux-expert, @dev, @qa: read CLAUDE.md 5–136 (AI Task Workflow) and 138–155 (UI v2 Workflow), and IMPROVEMENT-TASK-TRACKING.md 958–974 only; follow the AI Task Workflow; do E12-T4; confirm acceptance criteria, plan, implement, test, and update docs (incl. ui-improvement-plan.md when applicable); keep reasoning ≤400 tokens; v2-only; login with warm theme, labeled fields, aria-live inline errors, correct tab order; no auth regressions; use MCP Context7 only if external docs are needed."
+- References: `login-screen-prompt`, UI v2 Plan ("Login (v2)"), E9-T1 behavioral notes
+
+### **🎯 Pre-Implementation Analysis (MANDATORY - Complete Before Coding):**
+1. **Reference Design Analysis:**
+   - [ ] Read `login-screen-prompt` file and document all visual elements
+   - [ ] Compare with existing v1 login page styling and layout
+   - [ ] Identify warm theme color requirements and token mappings
+   - [ ] Document form layout, field arrangement, button styling
+2. **Authentication Flow Analysis:**
+   - [ ] Review E9-T1 implementation notes for auth behavior requirements
+   - [ ] Confirm POST endpoint, cookie handling, redirect logic
+   - [ ] Identify error handling requirements (network, validation, server)
+3. **Responsive & Accessibility Analysis:**
+   - [ ] Document mobile layout requirements from prompt
+   - [ ] List required ARIA attributes and keyboard navigation
+   - [ ] Identify focus management and screen reader announcements
+
+### **📋 Detailed Acceptance Criteria:**
+**Visual Requirements:**
+- [ ] Page uses warm theme colors from token system (not harsh blues)
+- [ ] Header section matches prompt design (layout, spacing, typography)
+- [ ] Login form centered with proper card styling and elevation
+- [ ] Form fields use consistent token-driven styling (borders, focus rings)
+- [ ] Submit button uses primary token colors with proper contrast
+- [ ] Error messages display with consistent styling and positioning
+- [ ] Loading states show appropriate feedback (spinner, disabled button)
+
+**Functional Requirements:**
+- [ ] Username/email and password fields with proper validation
+- [ ] Form submits to correct endpoint with CSRF protection
+- [ ] Success redirects to `/v2/view` (not v1 routes)
+- [ ] Network errors display user-friendly messages
+- [ ] Server validation errors show inline beneath relevant fields
+- [ ] Remember me checkbox functionality (if in design)
+- [ ] Login state persists correctly with HttpOnly cookies
+
+**Accessibility Requirements:**
+- [ ] Form has proper `<form>` element with `aria-label`
+- [ ] All input fields properly labeled with `<label>` elements
+- [ ] Error messages announced via `aria-live="polite"`
+- [ ] Tab order logical: Username → Password → Submit → Remember Me
+- [ ] Focus visible indicators using token-defined focus rings
+- [ ] Error states use `aria-invalid` and `aria-describedby`
+- [ ] Submit button properly disabled during loading with `aria-busy`
+
+**Responsive Requirements:**
+- [ ] Desktop: Centered card with max-width, proper margins
+- [ ] Tablet (768px): Adjusted spacing, readable form elements  
+- [ ] Mobile (<640px): Full-width card, larger touch targets
+- [ ] No horizontal scrolling at any breakpoint
+- [ ] Form fields minimum 44px touch target height
+- [ ] Loading states work across all screen sizes
+
+### **🔧 Implementation Details:**
+- **Files to Create/Modify:**
+  - `family-tree/app/(v2)/login/page.tsx` (new login page)
+  - `family-tree/app/globals.css` (verify error/focus tokens exist)
+- **Authentication Integration:**
+  - Reuse existing `/api/auth/login` endpoint from E9-T1
+  - Maintain same HttpOnly cookie behavior
+  - Redirect to `/v2/view` on success (not `/view`)
+- **Error Handling:**
+  - Network errors: "Unable to connect. Please try again."
+  - Invalid credentials: "Invalid username or password"
+  - Server errors: Display server-provided message
+  - Client validation: Required field messages
+
+### **🧪 Test Strategy:**
+- **Test Files to Create:**
+  - `family-tree/app/(v2)/login/__tests__/page.test.tsx`
+  - Mirror existing login test patterns with v2-specific assertions
+- **Test Cases:**
+  - Page renders with correct form elements and styling
+  - Form validation (required fields, proper error display)
+  - Successful login redirects to `/v2/view`
+  - Error scenarios (network, server, validation)
+  - Accessibility: ARIA attributes, keyboard navigation
+  - Responsive: Form layout at different breakpoints
+
+### **🤖 Agent Execution Instructions:**
+**Step 1: Design Analysis**
+- Read `login-screen-prompt` thoroughly and create visual specification
+- Document all color, spacing, typography requirements
+- Compare with v1 login to identify styling differences
+
+**Step 2: Implementation**
+- Create v2 login page with proper routing structure
+- Implement form with token-driven styling throughout
+- Add comprehensive error handling with proper ARIA announcements
+- Ensure responsive behavior matches design requirements
+
+**Step 3: Integration & Testing**
+- Wire up authentication flow to existing API endpoints
+- Test all error scenarios with proper user feedback
+- Verify accessibility compliance and keyboard navigation
+- Validate responsive behavior at all breakpoints
 
 ---
 
@@ -1020,21 +1162,135 @@ Implementation Notes:
 ### E12-T7: QA Validation – Accessibility, Responsive, Performance (P1-CRITICAL)
 - Status: Pending | Branch: `improvement-e12-t7-v2-qa`
 - Primary Agent: @qa (Quinn) | Supporting: @dev (James), @ux-expert (Sally)
-- References: UI v2 Plan “Validation Plan (QA)”
-- Description: Validate a11y, responsive, performance across v2 screens; keep regression suite green; ensure v1 unaffected.
-- Acceptance Criteria:
-  - Modal APG checks pass; focus management correct; labels and reduced-motion compliance
-  - Responsive checks pass at 360, 480, 768, 1024, 1440; no overlap; connectors under nodes
-  - Interaction smoothness ∼60fps target; no layout thrash
-  - Regression tests green for Add/Edit flows, search/filter, export entry points
-- Subtasks:
-  - E12-T7.1 A11y sweep (modal semantics, keyboard, SR labels, reduced motion)
-  - E12-T7.2 Responsive sweep (breakpoints, connector layering)
-  - E12-T7.3 Performance checks (FPS, bundle split sanity, virtualization intact)
-  - E12-T7.4 Update docs in `family-tree/docs/completed-tasks.md` with outcomes
-- Test Strategy:
-  - Expand/adjust tests under `app/components/__tests__/` and `app/contexts/__tests__/`; ensure new v2 tests are added alongside v1 without breaking existing ones
-  - Agent Prompt: "As @qa, @dev, @ux-expert: read CLAUDE.md 5–136 (AI Task Workflow) and 138–155 (UI v2 Workflow), and IMPROVEMENT-TASK-TRACKING.md 1018–1034 only; follow the AI Task Workflow; do E12-T7; confirm acceptance criteria, plan, implement, test, and update docs (incl. ui-improvement-plan.md when applicable); keep reasoning ≤400 tokens; v2-only; validate APG modal checks, labels, reduced-motion; responsive at 360/480/768/1024/1440 with connectors under nodes and no overlap; interaction smoothness ~60fps; regression suite green; use MCP Context7 only if external docs are needed."
+- References: UI v2 Plan "Validation Plan (QA)"
+
+### **🎯 Pre-Validation Analysis (MANDATORY - Complete Before Testing):**
+1. **Scope Definition:**
+   - [ ] List all completed v2 components: ViewPageV2, MainToolbarV2, SidebarV2, FamilyTreeCanvasV2, AddMemberModalV2, EditMemberModalV2 (if completed)
+   - [ ] Document reference designs for each component
+   - [ ] Identify critical user flows to validate
+2. **Test Environment Setup:**
+   - [ ] Verify test data exists for comprehensive validation
+   - [ ] Set up responsive testing tools/browser dev tools
+   - [ ] Configure accessibility testing tools (axe-core, screen reader)
+3. **Baseline Establishment:**
+   - [ ] Document current v1 behavior to ensure no regressions
+   - [ ] Record current performance metrics for comparison
+   - [ ] List existing test suite status
+
+### **📋 Detailed Validation Criteria:**
+
+**🔍 Accessibility Validation:**
+- **Modal Components (AddMemberModalV2, EditMemberModalV2 if ready):**
+  - [ ] Focus trap works correctly (Tab/Shift+Tab contained within modal)
+  - [ ] Escape key closes modal and returns focus to trigger
+  - [ ] Modal has `role="dialog"` and `aria-labelledby` pointing to header
+  - [ ] Background content marked `aria-hidden="true"` when modal open
+  - [ ] All form fields have proper labels (`<label>` or `aria-label`)
+  - [ ] Error messages announced via `aria-live="polite"`
+  - [ ] Submit buttons disabled/enabled with `aria-disabled` states
+  - [ ] Validation errors use `aria-invalid` and `aria-describedby`
+
+- **Navigation Components (MainToolbarV2, SidebarV2):**
+  - [ ] All buttons have descriptive labels or `aria-label`
+  - [ ] Focus indicators visible on all interactive elements
+  - [ ] Search input properly labeled with `aria-label`
+  - [ ] Keyboard navigation follows logical tab order
+  - [ ] Skip links provided for keyboard users (if applicable)
+
+- **Canvas Component (FamilyTreeCanvasV2):**
+  - [ ] Canvas has `role="application"` or appropriate landmark
+  - [ ] Member nodes accessible via keyboard (Tab navigation)
+  - [ ] Connection information available to screen readers
+  - [ ] Zoom controls have proper labels and keyboard shortcuts
+
+**📱 Responsive Validation:**
+- **Breakpoint Testing (Required Viewports):**
+  - [ ] 360px (Small mobile): No horizontal scroll, readable text, functional interactions
+  - [ ] 480px (Large mobile): Connections hidden, member cards stacked properly
+  - [ ] 768px (Tablet): Layout transitions properly, touch targets adequate
+  - [ ] 1024px (Desktop): Full desktop layout with sidebar, proper spacing
+  - [ ] 1440px+ (Large desktop): Content doesn't stretch awkwardly
+
+- **Component-Specific Responsive Checks:**
+  - [ ] MainToolbarV2: Title truncation works, search input resizes correctly
+  - [ ] SidebarV2: Collapses/simplifies on mobile, icons remain visible
+  - [ ] FamilyTreeCanvasV2: Pan/zoom works on touch, member cards don't overlap
+  - [ ] Modals: Transform to bottom-sheet on mobile, keyboard avoidance
+  - [ ] Text remains readable at all sizes (minimum 16px equivalent)
+
+**⚡ Performance Validation:**
+- **Rendering Performance:**
+  - [ ] Initial page load <3 seconds on simulated 3G
+  - [ ] Canvas interactions maintain ≥30fps (measure with dev tools)
+  - [ ] Modal open/close animations smooth (≥60fps target)
+  - [ ] No layout thrashing during responsive resize
+  - [ ] Virtualization works with 20+ family members
+
+- **Bundle & Loading Checks:**
+  - [ ] v2 routes don't significantly increase bundle size
+  - [ ] Code splitting working (v2 components only load when needed)
+  - [ ] No memory leaks during extended usage
+  - [ ] Image loading optimized (placeholder → actual image)
+
+**🔄 Regression Validation:**
+- **Critical v1 Flows (Must Remain Unaffected):**
+  - [ ] v1 login flow works identically
+  - [ ] v1 `/view` page fully functional
+  - [ ] v1 Add/Edit modals work without changes
+  - [ ] v1 search/filter functionality intact
+  - [ ] v1 export functionality works
+  - [ ] v1 test suite passes without modifications
+
+### **🧪 Comprehensive Test Strategy:**
+**Automated Testing:**
+- [ ] Run full v1 test suite - ensure 100% pass rate
+- [ ] Run new v2 tests - ensure all pass
+- [ ] Accessibility automated tests (axe-core) on all v2 pages
+- [ ] Responsive automated tests at key breakpoints
+
+**Manual Testing Checklist:**
+- [ ] Test all v2 user flows with keyboard only (no mouse)
+- [ ] Test with screen reader (NVDA/JAWS) on Windows, VoiceOver on Mac
+- [ ] Test on real mobile devices (iOS Safari, Android Chrome)
+- [ ] Test with reduced motion settings enabled
+- [ ] Test with high contrast mode enabled
+- [ ] Test with 200% browser zoom
+
+**Performance Testing:**
+- [ ] Measure Core Web Vitals (LCP, FID, CLS) for v2 pages
+- [ ] Profile memory usage during extended canvas interaction
+- [ ] Test with simulated slow 3G network conditions
+- [ ] Measure bundle size difference between v1 and v2 routes
+
+### **📊 Success Metrics & Reporting:**
+**Required Metrics:**
+- Accessibility: 0 axe-core violations, keyboard navigation 100% functional
+- Responsive: No layout breaks at any tested viewport
+- Performance: <3s load time, >30fps interactions, Core Web Vitals in "Good" range
+- Regression: 100% v1 test suite pass rate, all critical flows functional
+
+**Documentation Requirements:**
+- [ ] Update `family-tree/docs/completed-tasks.md` with comprehensive validation report
+- [ ] Document any issues found and their resolution status
+- [ ] Include performance metrics and comparison with baseline
+- [ ] Add screenshots/videos of responsive behavior validation
+
+### **🤖 Agent Execution Instructions:**
+**Phase 1: Comprehensive Testing Setup**
+- Set up testing environment with all required tools and data
+- Create detailed test plan based on completed v2 components
+- Establish performance baselines from current implementation
+
+**Phase 2: Systematic Validation**
+- Execute accessibility, responsive, and performance tests methodically
+- Document all findings with specific reproduction steps
+- Prioritize critical issues that block user workflows
+
+**Phase 3: Regression & Reporting**
+- Verify v1 functionality remains completely intact
+- Compile comprehensive validation report with metrics
+- Provide recommendations for any issues found
 
 
 

@@ -292,3 +292,48 @@ html, body {
 
 /* Explicit class for SVG layer on canvas (used by media query above) */
 .connections-layer { z-index: 0; }
+
+/* Missing classes from home-screen-prompt */
+.node-card { 
+  background: var(--surface-1); 
+  border: 1px solid var(--color-neutral-200); 
+  border-radius: var(--radius-xl, 16px); 
+  box-shadow: var(--elevation-1); 
+}
+
+.node-photo { 
+  width: 88px; 
+  height: 88px; 
+  border-radius: 9999px; 
+  object-fit: cover; 
+  border: 3px solid var(--surface-1); 
+  box-shadow: 0 1px 0 hsl(0 0% 100% / .6) inset; 
+}
+
+.ribbon-mint { 
+  background: color-mix(in oklch, var(--color-secondary), white 22%); 
+  color: oklch(0.30 0.03 160); 
+}
+
+.float-in { animation: float-in 200ms ease-out both; }
+
+@keyframes float-in { 
+  from { opacity: 0; transform: translateY(8px) scale(.98) } 
+  to { opacity: 1; transform: translateY(0) scale(1) } 
+}
+
+/* Responsive tweaks for small screens */
+@media (max-width: 640px) {
+  .node-photo { width: 70px; height: 70px; }
+  .ribbon { max-width: 140px; }
+}
+
+@media (max-width: 480px) {
+  /* Hide static connectors on very small screens to avoid visual overlap with stacked nodes */
+  .canvas-grid > svg { display: none; }
+  .connections-layer { display: none; }
+  
+  /* Stack node content vertically for tighter width */
+  .node-card { flex-direction: column; align-items: center; text-align: center; gap: .5rem; }
+  .node-photo { width: 64px; height: 64px; }
+}

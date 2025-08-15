@@ -10,6 +10,7 @@ import { useFamilyTreeOperations } from '../../hooks/useFamilyTreeOperations';
 import SidebarV2 from '../components/SidebarV2';
 import MainToolbarV2 from '../components/MainToolbarV2';
 import FamilyTreeCanvasV2, { FamilyTreeCanvasV2Handle } from '../components/FamilyTreeCanvasV2';
+import AddMemberModalV2 from '../../components-v2/AddMemberModalV2';
 import { useToast } from '../../components/ToastProvider';
 import { useOnboarding } from '../../components/OnboardingProvider';
 
@@ -102,34 +103,65 @@ const ViewPageV2ClientInner: React.FC<ViewPageV2ClientProps> = ({ initialMembers
   };
 
   return (
-    <div className="min-h-dvh flex">
-      {/* Sidebar */}
-      <SidebarV2
-        onAddMember={handleAddMember}
-        onExport={handleExport}
-        onHelp={toggleHelp}
+    <div className="min-h-dvh flex flex-col">
+      {/* Header */}
+      <MainToolbarV2
+        title="Khoa Family Tree"
+        searchQuery={searchQuery}
+        onSearchChange={handleSearchChange}
+        onSearchSubmit={handleSearchSubmit}
+        onSearchFocus={handleSearchFocus}
+        searchSuggestions={searchSuggestions}
+        onOpenFilters={handleOpenFilters}
       />
-      
-      {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0">
-        {/* Toolbar */}
-        <MainToolbarV2
-          title="Family Tree"
-          searchQuery={searchQuery}
-          onSearchChange={handleSearchChange}
-          onSearchSubmit={handleSearchSubmit}
-          onSearchFocus={handleSearchFocus}
-          searchSuggestions={searchSuggestions}
-          onOpenFilters={handleOpenFilters}
-        />
-        
-        {/* Canvas */}
-        <FamilyTreeCanvasV2
-          ref={canvasRef}
-          members={initialMembers}
-          moveMember={(id, x, y) => updateMemberPosition(id, { x, y })}
-          highlightedIds={[]} // TODO: Connect to search results highlighting
-        />
+
+      {/* Main layout: left rail + content */}
+      <div className="max-w-7xl mx-auto w-full px-2 sm:px-3 flex-1 grid grid-cols-12 gap-3 py-3">
+        {/* Left icon rail */}
+        <aside className="toolbar-rail col-span-2 lg:col-span-1 h-fit lg:sticky lg:top-3">
+          <SidebarV2
+            onAddMember={handleAddMember}
+            onExport={handleExport}
+            onHelp={toggleHelp}
+          />
+        </aside>
+
+        {/* Center content */}
+        <main className="col-span-10 lg:col-span-11 flex flex-col gap-3">
+          {/* Context bar */}
+          <div className="panel px-3 py-2 flex items-center gap-2 text-xs sm:text-sm">
+            <span className="badge">Home</span>
+            <span>›</span>
+            <span className="badge">Khoa Family</span>
+            <div className="ms-auto flex items-center gap-2">
+              <span className="hidden sm:inline">Filters</span>
+              <select className="input py-1">
+                <option>All</option>
+                <option>Parents</option>
+                <option>Children</option>
+              </select>
+              <input 
+                id="member-search" 
+                type="text" 
+                className="input py-1 w-40 sm:w-56" 
+                placeholder="Search member…" 
+                aria-label="Search member name"
+                value={searchQuery}
+                onChange={(e) => handleSearchChange(e.target.value)}
+              />
+            </div>
+          </div>
+
+          {/* Canvas */}
+          <section className="panel p-2 sm:p-3 min-h-[64vh]">
+            <FamilyTreeCanvasV2
+              ref={canvasRef}
+              members={initialMembers}
+              moveMember={(id, x, y) => updateMemberPosition(id, { x, y })}
+              highlightedIds={[]} // TODO: Connect to search results highlighting
+            />
+          </section>
+        </main>
       </div>
       
       {/* Filters Panel - TODO: Implement in subsequent tasks */}
@@ -148,21 +180,19 @@ const ViewPageV2ClientInner: React.FC<ViewPageV2ClientProps> = ({ initialMembers
         </div>
       )}
       
-      {/* Add Member Modal - TODO: Implement in E12-T2 */}
-      {showAddModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="panel bg-white p-6 rounded-[var(--radius-lg)] max-w-md w-full mx-4">
-            <h2 className="text-lg font-semibold mb-4">Add Member</h2>
-            <p className="text-(--color-neutral-600) mb-4">Add Member modal will be implemented in E12-T2</p>
-            <button
-              className="btn-primary w-full"
-              onClick={() => setShowAddModal(false)}
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
+      {/* Add Member Modal */}
+      <AddMemberModalV2
+        isOpen={showAddModal}
+        onClose={() => setShowAddModal(false)}
+        onMemberAdded={(member) => {
+          showToast({ 
+            type: 'success', 
+            title: 'Member added', 
+            description: `${member.name} has been added to the family tree` 
+          });
+          setShowAddModal(false);
+        }}
+      />
     </div>
   );
 };
