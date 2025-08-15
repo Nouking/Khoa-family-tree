@@ -876,8 +876,8 @@ Implementation Notes:
 ---
 
 ### E12-T1: Tree View Home (v2) – Layout, Sidebar, Toolbar, Canvas (P1-CRITICAL) ✅
-- Status: Completed - 2025-08-14 | Branch: `improvement-e12-t1-v2-home`
-- Summary: Complete v2 Home layout implemented with sidebar (Add/Export/Help), toolbar (Title/Search/Filters), and canvas with connectors under nodes. Responsive behavior and token-only styling. All tests passing.
+- Status: Completed - 2025-08-15 | Branch: `main`
+- Summary: Fixed implementation wiring issues and completed E12-T1. v2 components were implemented but not properly wired up in main page. Resolved TypeScript compilation errors, prerendering issues, and provider context setup.
 - Details: See Completed Log → [E12-T1](family-tree/docs/completed-tasks.md#e12-t1)
 - Primary Agent: @dev (James) | Supporting: @ux-expert (Sally), @qa (Quinn), @po (Sarah), @sm (Bob)
 - References: `home-screen-prompt`, UI v2 Plan (“Tree View Home”) and prior E12‑T1 (Archived) implementation notes

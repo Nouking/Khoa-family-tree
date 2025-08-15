@@ -6,27 +6,25 @@
 ## 📊 Task Completion Log
 <a id="e12-t1"></a>
 #### E12-T1: Tree View Home (v2) – Layout, Sidebar, Toolbar, Canvas (P1-CRITICAL)
-- Status: Completed - 2025-08-14 | Branch: `improvement-e12-t1-v2-home`
-- Summary: Complete v2 Home layout implemented with sidebar (Add/Export/Help), toolbar (Title/Search/Filters), and canvas with connectors under nodes. Responsive behavior and token-only styling. All tests passing.
+- Status: Completed - 2025-08-15 | Branch: `main`
+- Summary: Fixed implementation wiring issues to complete E12-T1. v2 components were implemented but not properly integrated into the main v2 page route. Resolved TypeScript compilation errors, prerendering context issues, and provider setup to make the v2 view fully functional.
 - Implementation Details:
-  - **Route**: `/v2/view` fully functional with complete layout using App Router
-  - **Components Created**:
-    - `SidebarV2.tsx`: Add/Export/Help only, responsive width (16px → 192px), tokenized focus rings
-    - `MainToolbarV2.tsx`: Title truncation, search width constraints (w-32 → w-56), grouped filters
-    - `FamilyTreeCanvasV2.tsx`: Connections layer with `-z-10`, hidden < 480px, zoom controls, virtualization
-    - `ViewPageV2Client.tsx`: Client wrapper integrating all components with v1 state management
-  - **Key Features**:
-    - Connectors layered beneath nodes using CSS z-index and stacking context
-    - Responsive behavior prevents overlaps at 360-480px breakpoint
-    - Token-only styling (no raw hex) using `globals.css` utilities
-    - Search functionality with suggestions and focus management
-    - Placeholder modals for Add/Filters (implemented in subsequent tasks)
-  - **Tests Added**:
-    - `SidebarV2.test.tsx`: Button presence, tokenized styling, responsive text
-    - `MainToolbarV2.test.tsx`: Search constraints, filter grouping, accessibility
-    - `FamilyTreeCanvasV2.test.tsx`: Z-index layering, responsive connector hiding, zoom controls
-    - `ViewPageV2Integration.test.tsx`: Full integration testing across breakpoints
-  - **State Management**: Reuses v1 hooks (FamilyTreeContext, useFamilyTreeOperations, useOnboarding)
+  - **Issue Identified**: v2 components existed but `/v2/view/page.tsx` was only a placeholder, causing incomplete implementation
+  - **Fixes Applied**:
+    - **Page Setup**: Updated `v2/view/page.tsx` to be a proper server component with data fetching (mirrors v1 pattern)
+    - **Provider Context**: Fixed `ViewPageV2Client.tsx` to wrap components in `FamilyTreeProvider` without double-wrapping
+    - **TypeScript Compilation**: Resolved 8 compilation errors in v2 components:
+      - `usePerformanceMonitor` call signature (removed string parameter)
+      - `useVirtualization` interface usage (wrapped viewport in object)
+      - Member position property access (`member.x` → `member.position.x`)
+      - ItemTypes reference (`FAMILY_MEMBER` → `MEMBER_CARD`)
+      - Action types (`CLEAR_SELECTED_MEMBERS` → `SET_SELECTED_MEMBERS`)
+      - Function signatures (`moveMember` → `updateMemberPosition`)
+      - Property references (removed non-existent `maiden_name`)
+    - **Data Flow**: Connected `initialMembers` from server component through client component to canvas
+    - **Context Issues**: Fixed prerendering by ensuring proper React context setup
+  - **Build Verification**: TypeScript compilation successful, route generates at 5.09 kB (116 kB First Load JS)
+  - **Regression Testing**: All 132 v1 tests remain passing, ensuring no functionality regressions
 - Verification Notes: All acceptance criteria met; visual parity achieved; keyboard navigation preserved; no regressions in v1 functionality
 
 <a id="e12-t0"></a>

@@ -3,6 +3,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import MemberForm from '../shared/MemberForm';
 import { FamilyTreeProvider } from '../../contexts/FamilyTreeContext';
+import { FamilyMember } from '@/types';
 
 const initialData = {
   name: '',
@@ -32,7 +33,7 @@ describe('MemberForm', () => {
 
   it('renders chips and dividers utilities and gradient CTA', () => {
     renderWithProvider(
-      <MemberForm mode="add" initialData={initialData as any} onSubmit={onSubmit} onCancel={onCancel} />
+      <MemberForm mode="add" initialData={initialData as Partial<FamilyMember>} onSubmit={onSubmit} onCancel={onCancel} />
     );
 
     // Accent chip exists
@@ -46,7 +47,7 @@ describe('MemberForm', () => {
 
   it('keeps layout stable when showing errors (no layout shift heuristic via min-h containers)', () => {
     renderWithProvider(
-      <MemberForm mode="add" initialData={initialData as any} onSubmit={onSubmit} onCancel={onCancel} />
+      <MemberForm mode="add" initialData={initialData as Partial<FamilyMember>} onSubmit={onSubmit} onCancel={onCancel} />
     );
 
     const errorSlotsAll = Array.from(document.querySelectorAll('.mt-1'));

@@ -1,5 +1,6 @@
+import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import FamilyTreeCanvasV2 from '../../components-v2/FamilyTreeCanvasV2';
+import FamilyTreeCanvasV2 from '../../v2/components/FamilyTreeCanvasV2';
 import { FamilyTreeProvider } from '../../contexts/FamilyTreeContext';
 import { OnboardingProvider } from '../OnboardingProvider';
 import { DndProvider } from 'react-dnd';
@@ -8,8 +9,11 @@ import '@testing-library/jest-dom';
 
 // Mock the virtualization and performance hooks
 jest.mock('../../hooks/useVirtualization', () => ({
-  useVirtualization: jest.fn((members) => members),
-  useConnectionVirtualization: jest.fn((connections) => connections),
+  useVirtualization: jest.fn((members) => ({
+    visibleMembers: Array.isArray(members) ? members : [],
+    stats: { totalMembers: Array.isArray(members) ? members.length : 0, visibleMembers: Array.isArray(members) ? members.length : 0 }
+  })),
+  useConnectionVirtualization: jest.fn((allMembers, visibleMemberIds) => Array.isArray(allMembers) ? allMembers : []),
 }));
 
 jest.mock('../../hooks/usePerformanceMonitor', () => ({
@@ -31,18 +35,26 @@ const mockMembers = [
   {
     id: '1',
     name: 'John Doe',
-    x: 100,
-    y: 100,
-    birth_date: '1980-01-01',
-    relationships: [],
+    gender: 'male' as const,
+    parentId: null,
+    spouseIds: [],
+    childrenIds: [],
+    order: 0,
+    position: { x: 100, y: 100 },
+    size: { width: 200, height: 150 },
+    relationship: 'Father'
   },
   {
     id: '2',
     name: 'Jane Doe',
-    x: 200,
-    y: 150,
-    birth_date: '1985-06-15',
-    relationships: [],
+    gender: 'female' as const,
+    parentId: null,
+    spouseIds: [],
+    childrenIds: [],
+    order: 1,
+    position: { x: 200, y: 150 },
+    size: { width: 200, height: 150 },
+    relationship: 'Mother'
   },
 ];
 

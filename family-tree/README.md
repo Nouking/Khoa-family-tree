@@ -19,6 +19,21 @@ A professional family tree design tool built with Next.js 15, TypeScript, and Ta
 - **Data Storage**: JSON files (family-tree.json + users.json)
 - **Image Handling**: Base64 encoded images embedded in JSON
 
+## 🔗 Application Access
+
+### UI Versions
+The application currently supports two user interface versions:
+
+- **v2 UI (Recommended)**: `/v2/view` - New modern interface with enhanced features
+- **v1 UI (Legacy)**: `/view` - Original interface for compatibility
+
+### Quick Access
+1. Visit the homepage at `http://localhost:3000`
+2. Choose your preferred interface:
+   - Click **"View Family Tree (v2)"** for the latest interface
+   - Click **"View Family Tree (v1)"** for the legacy interface
+3. Use **"Login to Edit"** to access editing features
+
 ## 🏗️ Project Structure
 
 ```

@@ -3,6 +3,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import EditMemberModal from '../EditMemberModal';
 import { FamilyTreeProvider } from '../../contexts/FamilyTreeContext';
+import { FamilyMember } from '@/types';
 
 const renderWithProvider = (component: React.ReactElement) => {
   return render(
@@ -26,12 +27,12 @@ describe('EditMemberModal', () => {
     order: 1,
     position: { x: 100, y: 100 },
     size: { width: 200, height: 120 }
-  } as any;
+  } as FamilyMember;
 
   beforeEach(() => {
     mockOnClose.mockClear();
     mockOnMemberUpdated.mockClear();
-    (global.fetch as any) = jest.fn().mockResolvedValue({ ok: true, json: async () => member });
+    (global.fetch as jest.MockedFunction<typeof fetch>) = jest.fn().mockResolvedValue({ ok: true, json: async () => member });
   });
 
   it('renders with gradient header and gradient CTA', () => {

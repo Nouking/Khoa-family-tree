@@ -4,14 +4,14 @@ import { XYCoord } from 'dnd-core';
 
 import { FamilyMember, ItemTypes } from '@/types';
 
-import { useFamilyTreeWithDispatch, useSelectedMembers } from '../contexts/FamilyTreeContext';
-import { useVirtualization, useConnectionVirtualization } from '../hooks/useVirtualization';
-import { usePerformanceMonitor } from '../hooks/usePerformanceMonitor';
-import { calculateConnections } from '../lib/connectionCalculator';
+import { useFamilyTreeWithDispatch, useSelectedMembers } from '../../contexts/FamilyTreeContext';
+import { useVirtualization, useConnectionVirtualization } from '../../hooks/useVirtualization';
+import { usePerformanceMonitor } from '../../hooks/usePerformanceMonitor';
+import { calculateConnections } from '../../lib/connectionCalculator';
 
-import MemberBanner from '../components/MemberBanner';
-import VirtualizedConnections from '../components/VirtualizedConnections';
-import { useToast } from '../components/ToastProvider';
+import MemberBanner from '../../components/MemberBanner';
+import VirtualizedConnections from '../../components/VirtualizedConnections';
+import { useToast } from '../../components/ToastProvider';
 
 export interface FamilyTreeCanvasV2Props {
   members: FamilyMember[];
@@ -52,16 +52,23 @@ const FamilyTreeCanvasV2 = memo(React.forwardRef<FamilyTreeCanvasV2Handle, Famil
   const [dragStart, setDragStart] = useState<{ x: number; y: number } | null>(null);
 
   // Performance monitoring
-  usePerformanceMonitor('FamilyTreeCanvasV2');
+  usePerformanceMonitor();
 
   // Virtualization for performance with large family trees
-  const visibleMembers = useVirtualization(members, viewport);
-  const connections = useMemo(() => calculateConnections(members), [members]);
-  const visibleConnections = useConnectionVirtualization(connections, viewport);
+  const { visibleMembers } = useVirtualization(members, { viewport });
+  const connectionRelevantMembers = useConnectionVirtualization(
+    members, 
+    visibleMembers.map(m => m.id)
+  );
+  
+  // Optimized connection calculation with virtualization
+  const connections = useMemo(() => {
+    return calculateConnections(connectionRelevantMembers);
+  }, [connectionRelevantMembers]);
 
   // Drop target for member positioning
   const [{ isOver }, drop] = useDrop(() => ({
-    accept: ItemTypes.FAMILY_MEMBER,
+    accept: ItemTypes.MEMBER_CARD,
     drop: (item: DragItem, monitor: DropTargetMonitor) => {
       if (!canvasRef.current) return;
 
@@ -187,8 +194,8 @@ const FamilyTreeCanvasV2 = memo(React.forwardRef<FamilyTreeCanvasV2Handle, Famil
       if (!member || !canvasRef.current) return;
       
       const rect = canvasRef.current.getBoundingClientRect();
-      const centerX = rect.width / 2 - member.x * viewport.zoom;
-      const centerY = rect.height / 2 - member.y * viewport.zoom;
+      const centerX = rect.width / 2 - member.position.x * viewport.zoom;
+      const centerY = rect.height / 2 - member.position.y * viewport.zoom;
       
       setViewport(prev => ({ ...prev, x: centerX, y: centerY }));
     },
@@ -199,10 +206,10 @@ const FamilyTreeCanvasV2 = memo(React.forwardRef<FamilyTreeCanvasV2Handle, Famil
       if (targetMembers.length === 0) return;
       
       // Calculate bounding box
-      const minX = Math.min(...targetMembers.map(m => m.x));
-      const maxX = Math.max(...targetMembers.map(m => m.x));
-      const minY = Math.min(...targetMembers.map(m => m.y));
-      const maxY = Math.max(...targetMembers.map(m => m.y));
+      const minX = Math.min(...targetMembers.map(m => m.position.x));
+      const maxX = Math.max(...targetMembers.map(m => m.position.x));
+      const minY = Math.min(...targetMembers.map(m => m.position.y));
+      const maxY = Math.max(...targetMembers.map(m => m.position.y));
       
       const padding = 100;
       const rect = canvasRef.current.getBoundingClientRect();
@@ -254,7 +261,7 @@ const FamilyTreeCanvasV2 = memo(React.forwardRef<FamilyTreeCanvasV2Handle, Famil
           }}
           aria-hidden="true"
         >
-          <VirtualizedConnections connections={visibleConnections} />
+          <VirtualizedConnections connections={connections} viewport={viewport} />
         </svg>
 
         {/* Members Layer */}
@@ -271,8 +278,8 @@ const FamilyTreeCanvasV2 = memo(React.forwardRef<FamilyTreeCanvasV2Handle, Famil
               data-member-id={member.id}
               className="absolute"
               style={{
-                left: member.x,
-                top: member.y,
+                left: member.position.x,
+                top: member.position.y,
                 transform: 'translate(-50%, -50%)'
               }}
             >
@@ -280,8 +287,8 @@ const FamilyTreeCanvasV2 = memo(React.forwardRef<FamilyTreeCanvasV2Handle, Famil
                 member={member}
                 isSelected={selectedMemberIds.includes(member.id)}
                 isHighlighted={highlightedIds.includes(member.id)}
-                onSelect={(memberId) => {
-                  dispatch({ type: 'TOGGLE_MEMBER_SELECTION', payload: memberId });
+                onSelect={(member) => {
+                  dispatch({ type: 'SELECT_MEMBER', payload: member.id });
                 }}
               />
             </div>

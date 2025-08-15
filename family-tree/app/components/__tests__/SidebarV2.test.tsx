@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import SidebarV2 from '../../components-v2/SidebarV2';
+import SidebarV2 from '../../v2/components/SidebarV2';
 import '@testing-library/jest-dom';
 
 describe('SidebarV2', () => {

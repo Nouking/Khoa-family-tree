@@ -4,18 +4,22 @@ import React, { useState, useRef } from 'react';
 
 import { FamilyMember } from '@/types';
 
-import { useFamilyTreeWithDispatch } from '../../contexts/FamilyTreeContext';
+import { FamilyTreeProvider, useFamilyTreeWithDispatch } from '../../contexts/FamilyTreeContext';
 import { useFamilyTreeOperations } from '../../hooks/useFamilyTreeOperations';
 
-import SidebarV2 from '../../components-v2/SidebarV2';
-import MainToolbarV2 from '../../components-v2/MainToolbarV2';
-import FamilyTreeCanvasV2, { FamilyTreeCanvasV2Handle } from '../../components-v2/FamilyTreeCanvasV2';
+import SidebarV2 from '../components/SidebarV2';
+import MainToolbarV2 from '../components/MainToolbarV2';
+import FamilyTreeCanvasV2, { FamilyTreeCanvasV2Handle } from '../components/FamilyTreeCanvasV2';
 import { useToast } from '../../components/ToastProvider';
 import { useOnboarding } from '../../components/OnboardingProvider';
 
-const ViewPageV2Client: React.FC = () => {
+interface ViewPageV2ClientProps {
+  initialMembers: FamilyMember[];
+}
+
+const ViewPageV2ClientInner: React.FC<ViewPageV2ClientProps> = ({ initialMembers }) => {
   const { state, dispatch } = useFamilyTreeWithDispatch();
-  const { moveMember } = useFamilyTreeOperations();
+  const { updateMemberPosition } = useFamilyTreeOperations();
   const { showToast } = useToast();
   const { toggleHelp } = useOnboarding();
   
@@ -36,10 +40,9 @@ const ViewPageV2Client: React.FC = () => {
     
     // Generate suggestions based on member names
     if (value.length > 0) {
-      const suggestions = state.members
+      const suggestions = initialMembers
         .filter(member => 
-          member.name.toLowerCase().includes(value.toLowerCase()) ||
-          (member.maiden_name && member.maiden_name.toLowerCase().includes(value.toLowerCase()))
+          member.name.toLowerCase().includes(value.toLowerCase())
         )
         .map(member => member.name)
         .slice(0, 5);
@@ -52,15 +55,15 @@ const ViewPageV2Client: React.FC = () => {
   const handleSearchSubmit = () => {
     if (!searchQuery.trim()) return;
     
-    const matchingMember = state.members.find(member => 
+    const matchingMember = initialMembers.find(member => 
       member.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
     
     if (matchingMember) {
       // Focus on the matching member
       canvasRef.current?.focusMember(matchingMember.id);
-      dispatch({ type: 'CLEAR_MEMBER_SELECTION' });
-      dispatch({ type: 'TOGGLE_MEMBER_SELECTION', payload: matchingMember.id });
+      dispatch({ type: 'SET_SELECTED_MEMBERS', payload: [] });
+      dispatch({ type: 'SELECT_MEMBER', payload: matchingMember.id });
       showToast({ 
         type: 'info', 
         title: 'Member found', 
@@ -77,7 +80,7 @@ const ViewPageV2Client: React.FC = () => {
   
   const handleSearchFocus = () => {
     // Generate all member names as suggestions when focused
-    const allNames = state.members.map(member => member.name);
+    const allNames = initialMembers.map(member => member.name);
     setSearchSuggestions(allNames.slice(0, 10));
   };
   
@@ -123,8 +126,8 @@ const ViewPageV2Client: React.FC = () => {
         {/* Canvas */}
         <FamilyTreeCanvasV2
           ref={canvasRef}
-          members={state.members}
-          moveMember={moveMember}
+          members={initialMembers}
+          moveMember={(id, x, y) => updateMemberPosition(id, { x, y })}
           highlightedIds={[]} // TODO: Connect to search results highlighting
         />
       </div>
@@ -161,6 +164,14 @@ const ViewPageV2Client: React.FC = () => {
         </div>
       )}
     </div>
+  );
+};
+
+const ViewPageV2Client: React.FC<ViewPageV2ClientProps> = ({ initialMembers }) => {
+  return (
+    <FamilyTreeProvider>
+      <ViewPageV2ClientInner initialMembers={initialMembers} />
+    </FamilyTreeProvider>
   );
 };
 

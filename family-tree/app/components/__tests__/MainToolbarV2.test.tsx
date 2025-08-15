@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import MainToolbarV2 from '../../components-v2/MainToolbarV2';
+import MainToolbarV2 from '../../v2/components/MainToolbarV2';
 import '@testing-library/jest-dom';
 
 describe('MainToolbarV2', () => {
