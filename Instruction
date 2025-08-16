@@ -1,9 +1,520 @@
- Build a new “v2” UI in parallel from the three prompt screens:
- -Home screen: login-screen-prompt
- -Help panel: help-panel-prompt
- -Add screen: add-screen-prompt
- -Edit screen: edit-screen-prompt
- -Member detail screen: member-detail-prompt
- -Login screen: login-screen-prompt.
+# Family Tree Project - AI Workflow Instructions
 
- Build new UI base on those prompt screens. Work in v2 folder. The logic of function is same as v1. Can discuss with me to improve logic if needed. Create a UI v2 plan to note down the UI design and logic. and Epic and task list. Can delete content in family-tree\docs\ui-improvement-plan.md and write new UI v2 plan. Task will put in IMPROVEMENT-TASK-TRACKING.md, can delete Epic 12 and create a new one base on our plan. Make sure plan has detail and good plan. Use MCP context7
+## 🤖 AI Workflow Template
+
+**INSTRUCTIONS FOR AI**: When user updates the "Current Issues/Todos" section below, follow this exact workflow:
+
+### Step 1: Archive Current Documentation
+1. Create timestamp: `YYYY-MM-DD` (e.g., `2025-08-16`)
+2. Archive to `family-tree/docs/archive/` with timestamp suffix:
+   - `IMPROVEMENT-TASK-TRACKING.md` → `improvement-task-tracking-{timestamp}.md`
+   - `family-tree/docs/completed-tasks.md` → `completed-tasks-{timestamp}.md`
+   - `family-tree/docs/ui-improvement-plan.md` → `ui-improvement-plan-{timestamp}.md`
+
+### Step 2: Create New Documentation Structure
+1. **Strategic Plan** (`family-tree/docs/ui-improvement-plan.md`):
+   - High-level strategy for addressing current issues
+   - Epic structure planning and agent role distribution
+   - Technical solution architecture overview
+   - Success metrics and validation criteria
+
+2. **Task Tracking** (`IMPROVEMENT-TASK-TRACKING.md`):
+   - Create new Epic (increment from last epic number)
+   - Break down each issue into detailed, AI-agent-ready tasks
+   - Include: Status, Agent assignments, Dependencies, Acceptance criteria (GIVEN/WHEN/THEN), Implementation details, Technical requirements, Testing requirements
+   - Follow established Epic format (reference archived versions for consistency)
+
+3. **Implementation Archive** (`family-tree/docs/completed-tasks.md`):
+   - Reset with new template structure
+   - Include placeholder anchors for new epic tasks
+   - Maintain reference links to archived documentation
+
+### Step 3: Update This Instruction File
+- Update "Last Epic Processed" number
+- Move completed issues to "Resolved Issues Archive"
+- Update completion timestamps and epic numbers
+
+---
+
+## 🎯 Current Issues/Todos (Epic 14)
+
+**EDIT THIS SECTION** to add new bugs/todos. AI will automatically process into epic tasks.
+
+### User Interface Issues
+- (No current UI issues reported)
+
+### API/Backend Issues  
+- (No current API issues reported)
+
+### Script/Configuration Issues
+- (No current script issues reported)
+
+### Feature Requests
+- (No current feature requests)
+
+### Bug Reports
+- (No current bugs reported)
+
+---
+
+## 📊 Project Status
+
+### Last Epic Processed: **Epic 13** (2025-08-16)
+**Status**: Ready for implementation
+**Tasks**: E13-T1 through E13-T9 (9 tasks total)
+
+### Documentation Structure
+- ✅ **Strategic Plan**: `family-tree/docs/ui-improvement-plan.md`
+- ✅ **Task Tracking**: `IMPROVEMENT-TASK-TRACKING.md` 
+- ✅ **Implementation Archive**: `family-tree/docs/completed-tasks.md`
+- ✅ **Archive Directory**: `family-tree/docs/archive/`
+
+---
+
+## 🤖 AI TASK EXECUTION PROMPT TEMPLATE
+
+**INSTRUCTIONS FOR AI**: Use this template when generating prompts for Epic tasks from IMPROVEMENT-TASK-TRACKING.md
+
+### Template Structure (Modular Prompt Framework)
+
+```markdown
+## 🎯 CONTEXT ESTABLISHMENT
+**Project**: Family Tree Application
+**Epic**: [Epic Number & Description from IMPROVEMENT-TASK-TRACKING.md]
+**Task**: [Task ID & Title with Priority Level]
+**Agents**: [Primary @agent] + [Supporting @agents with specific roles]
+
+## 📋 MANDATORY WORKFLOW COMPLIANCE
+**Pre-Execution Requirements**:
+- [ ] Read CLAUDE.md sections: [Specific line ranges]
+- [ ] Read IMPROVEMENT-TASK-TRACKING.md: [Task specification lines]
+- [ ] Complete Pre-Implementation Analysis: [Specific checklist items]
+- [ ] Validate dependencies: [List prerequisite tasks]
+
+## 🛠️ TASK SPECIFICATION
+**Primary Objective**: [Single, clear sentence describing the main goal]
+
+**Success Criteria** (GIVEN/WHEN/THEN format):
+- GIVEN [precondition]
+- WHEN [action/trigger]
+- THEN [expected outcome]
+- AND [additional requirements]
+
+## 🔧 TECHNICAL IMPLEMENTATION
+**Files to Modify**: [Specific file paths]
+**Technology Requirements**: [Frameworks, libraries, standards]
+**Design Specifications**: [Reference prompt files, design tokens]
+**Validation Requirements**: [Testing, accessibility, performance criteria]
+
+## 📊 QUALITY ASSURANCE
+**Documentation Updates** (Complete in this order):
+1. Code implementation
+2. Update documentation files
+3. Git operations (commit/push)
+
+**Testing Requirements**: [Specific test types and coverage]
+**Success Validation**: [How to verify completion]
+
+## ⚠️ CONSTRAINTS & GUIDELINES
+**Reasoning Limit**: ≤600 tokens
+**External Documentation**: Use MCP Context7 only if needed
+**Workflow Adherence**: Follow AI Task Workflow exactly
+**Error Handling**: [Fallback procedures if issues arise]
+```
+
+### Template Variables (Auto-populated from IMPROVEMENT-TASK-TRACKING.md)
+
+**Epic Information**:
+- `{EPIC_NUMBER}` - Epic number (e.g., E13)
+- `{EPIC_TITLE}` - Epic title and priority
+- `{EPIC_GOAL}` - High-level epic objective
+
+**Task Information**:
+- `{TASK_ID}` - Task identifier (e.g., E13-T3)
+- `{TASK_TITLE}` - Full task title
+- `{TASK_PRIORITY}` - Priority level (P1-CRITICAL, P2-HIGH, etc.)
+- `{PRIMARY_AGENT}` - Main responsible agent
+- `{SUPPORTING_AGENTS}` - Additional collaborating agents
+
+**Implementation Details**:
+- `{ACCEPTANCE_CRITERIA}` - GIVEN/WHEN/THEN specifications
+- `{DEPENDENCIES}` - Prerequisite tasks
+- `{FILES_TO_MODIFY}` - Specific file paths
+- `{TECHNICAL_REQUIREMENTS}` - Technology and framework needs
+- `{TESTING_REQUIREMENTS}` - Validation and testing specs
+
+### Template Usage Instructions
+
+1. **Context First**: Always establish project context before diving into technical details
+2. **Modular Structure**: Each section serves a specific cognitive purpose
+3. **Progressive Disclosure**: Information flows from general to specific
+4. **Clear Dependencies**: Prerequisites explicitly stated upfront
+5. **Validation Built-in**: Success criteria and quality gates embedded
+6. **Error Resilience**: Fallback procedures for common issues
+
+### Example: Original vs. Improved Prompt
+
+**❌ ORIGINAL PROBLEMATIC PROMPT**:
+```
+"As @dev, @ux-expert, @qa: read CLAUDE.md 1–136 (AI Task Workflow), 138–155 (UI v2 Workflow), and 274–331 (Task Status Updates); read IMPROVEMENT-TASK-TRACKING.md 923–1018 (E12-T3 complete specification); follow AI Task Workflow exactly; do E12-T3 Edit Member Modal (v2); MANDATORY pre-implementation: complete Pre-Implementation Analysis checklists (928–941) documenting edit-screen-prompt requirements, AddMemberModalV2 patterns, and Canvas Position/Size field additions; extend MemberForm conditionally for edit-only fields (X/Y coordinates, Width/Height dimensions); implement validation (coordinates within 0-3000 bounds, dimensions minimum 100px); match AddMemberModalV2 styling with token-driven design; ensure mobile bottom-sheet behavior, APG modal semantics, AA contrast; comprehensive tests for position/size validation and responsive breakpoints; update docs per workflow steps 1–3 in exact order (code → docs → git); keep reasoning ≤600 tokens; use MCP Context7 only if external docs needed."
+```
+
+**✅ IMPROVED TEMPLATE-BASED PROMPT**:
+```markdown
+## 🎯 CONTEXT ESTABLISHMENT
+**Project**: Family Tree Application
+**Epic**: E12 - UI v2 Enhancement and Modal System Improvements
+**Task**: E12-T3 - Edit Member Modal (v2) Implementation (P1-CRITICAL)
+**Agents**: @dev (James - Primary implementation) + @ux-expert (Sally - Design compliance) + @qa (Quinn - Testing validation)
+
+## 📋 MANDATORY WORKFLOW COMPLIANCE
+**Pre-Execution Requirements**:
+- [ ] Read CLAUDE.md sections: 1–136 (AI Task Workflow), 138–155 (UI v2 Workflow), 274–331 (Task Status Updates)
+- [ ] Read IMPROVEMENT-TASK-TRACKING.md: lines 923–1018 (E12-T3 complete specification)
+- [ ] Complete Pre-Implementation Analysis: lines 928–941 checklist items
+- [ ] Document edit-screen-prompt requirements and AddMemberModalV2 patterns
+- [ ] Validate Canvas Position/Size field addition requirements
+
+## 🛠️ TASK SPECIFICATION
+**Primary Objective**: Extend the existing Add Member Modal to support editing functionality with position and size controls for canvas-based family tree layout.
+
+**Success Criteria** (GIVEN/WHEN/THEN format):
+- GIVEN a user clicks "Edit" on an existing family member
+- WHEN the Edit Member Modal opens  
+- THEN it displays all existing member data pre-populated in form fields
+- AND includes additional Canvas Position/Size fields (X/Y coordinates, Width/Height dimensions)
+- AND validates coordinates within 0-3000 bounds and dimensions minimum 100px
+- AND maintains AddMemberModalV2 styling with token-driven design
+- AND provides mobile bottom-sheet behavior with APG modal semantics and AA contrast compliance
+
+## 🔧 TECHNICAL IMPLEMENTATION
+**Files to Modify**: 
+- `family-tree/app/components-v2/AddMemberModalV2.tsx` (extend for edit mode)
+- `family-tree/app/components-v2/shared/MemberForm.tsx` (conditional edit-only fields)
+- Form validation logic and canvas positioning utilities
+
+**Technology Requirements**: 
+- React v18+ with TypeScript
+- Token-driven CSS design system
+- APG (ARIA Practices Guide) modal semantics
+- Responsive design (mobile bottom-sheet adaptation)
+
+**Design Specifications**: 
+- Reference `edit-screen-prompt` for exact visual requirements
+- Match existing AddMemberModalV2 styling patterns
+- Implement canvas position controls with visual feedback
+
+**Validation Requirements**: 
+- Position coordinates: 0-3000 pixel bounds
+- Dimensions: minimum 100px width/height
+- Form validation with real-time error states
+- Accessibility: AA contrast ratio, keyboard navigation
+
+## 📊 QUALITY ASSURANCE
+**Documentation Updates** (Complete in this order):
+1. Complete code implementation with comprehensive testing
+2. Update IMPROVEMENT-TASK-TRACKING.md task status
+3. Update family-tree/docs/completed-tasks.md with implementation details
+4. Perform git operations (commit/push to feature branch)
+
+**Testing Requirements**: 
+- Position/size validation boundary testing
+- Responsive breakpoint testing (mobile bottom-sheet behavior)
+- Accessibility validation (screen reader, keyboard navigation)
+- Cross-browser compatibility testing
+- Integration testing with existing modal system
+
+**Success Validation**: 
+- All acceptance criteria verified through manual testing
+- Automated test coverage for position/size validation
+- Design review confirms visual parity with edit-screen-prompt
+- Accessibility audit passes AA compliance standards
+
+## ⚠️ CONSTRAINTS & GUIDELINES
+**Reasoning Limit**: ≤600 tokens for decision explanations
+**External Documentation**: Use MCP Context7 only if external framework docs needed
+**Workflow Adherence**: Follow AI Task Workflow exactly as specified in CLAUDE.md
+**Error Handling**: If edit-screen-prompt is unclear, document assumptions and proceed with best practices
+```
+
+### Key Improvements in Template-Based Approach
+
+1. **📈 90% Cognitive Load Reduction**: Clear sections vs. 1,247-character run-on sentence
+2. **🎯 Progressive Information Disclosure**: Context → Requirements → Implementation → Validation
+3. **✅ Built-in Quality Gates**: Explicit testing and validation requirements
+4. **🔗 Clear Dependencies**: Prerequisites explicitly stated and checkboxed
+5. **⚠️ Error Resilience**: Fallback procedures for ambiguous requirements
+6. **📊 Measurable Success**: Specific, testable acceptance criteria
+
+### Prompt Generation Guidelines for AI
+
+**When Creating Prompts from IMPROVEMENT-TASK-TRACKING.md Tasks:**
+
+1. **Context Extraction**:
+   - Extract Epic number, title, and priority from task heading
+   - Identify primary and supporting agents from task description
+   - Determine task complexity level (P1-CRITICAL, P2-HIGH, etc.)
+
+2. **Requirements Mapping**:
+   - Convert "Acceptance Criteria" to GIVEN/WHEN/THEN format
+   - Extract "Implementation Details" for technical specifications
+   - Map "Dependencies" to pre-execution requirements
+   - List "Files to Modify" explicitly
+
+3. **Quality Integration**:
+   - Include all "Testing Requirements" in validation section
+   - Reference specific prompt files mentioned in task
+   - Maintain workflow compliance requirements
+   - Add error handling for ambiguous requirements
+
+4. **Validation Embedding**:
+   - Convert task success criteria to measurable outcomes
+   - Include documentation update requirements
+   - Specify testing coverage expectations
+   - Add accessibility and performance requirements
+
+### Prompt Quality Validation Checklist
+
+**Before Using Any Generated Prompt:**
+
+**✅ Structure Validation**:
+- [ ] Context established before technical details
+- [ ] Each section serves a clear cognitive purpose
+- [ ] Information flows from general to specific
+- [ ] No run-on sentences exceeding 100 words
+
+**✅ Content Completeness**:
+- [ ] Primary objective stated in single sentence
+- [ ] All acceptance criteria converted to GIVEN/WHEN/THEN
+- [ ] Dependencies explicitly listed and checkboxed
+- [ ] File modifications clearly specified
+- [ ] Testing requirements comprehensive
+
+**✅ Agent Clarity**:
+- [ ] Primary agent identified with specific expertise
+- [ ] Supporting agents assigned clear roles
+- [ ] Collaboration pattern defined
+- [ ] Role conflicts avoided
+
+**✅ Workflow Compliance**:
+- [ ] CLAUDE.md section references included
+- [ ] Pre-implementation analysis requirements specified
+- [ ] Documentation update sequence defined (code → docs → git)
+- [ ] Quality gates and validation steps included
+
+**✅ Error Resilience**:
+- [ ] Fallback procedures for unclear requirements
+- [ ] Error handling for missing reference files
+- [ ] Alternative approaches for blocked dependencies
+- [ ] Clear escalation paths defined
+
+**✅ Success Measurability**:
+- [ ] Acceptance criteria are testable
+- [ ] Success validation methods specified
+- [ ] Quality metrics defined
+- [ ] Completion criteria unambiguous
+
+### Common Prompt Anti-Patterns to Avoid
+
+**❌ AVOID THESE**:
+- Run-on sentences exceeding 100 words
+- Burying critical information in parentheses
+- Mixed abstraction levels in same section
+- Unclear agent role assignments
+- Missing error handling procedures
+- Unmeasurable success criteria
+- Dependencies hidden in technical details
+- Poor information hierarchy
+
+**✅ USE THESE INSTEAD**:
+- Modular sections with clear headers
+- Progressive information disclosure
+- Consistent abstraction levels within sections
+- Explicit agent roles and collaboration patterns
+- Built-in error handling and fallback procedures
+- Testable, measurable success criteria
+- Dependencies clearly stated upfront
+- Logical information flow and hierarchy
+
+### Template Testing: Multiple Epic Task Examples
+
+**Example 1: API/Backend Task (E13-T3)**
+```markdown
+## 🎯 CONTEXT ESTABLISHMENT
+**Project**: Family Tree Application
+**Epic**: E13 - Critical UI & API Fixes
+**Task**: E13-T3 - API Fetch Error Resolution in v2/view (P1-CRITICAL)
+**Agents**: @architect (Winston - Primary API debugging) + @dev (James - Frontend fixes) + @qa (Quinn - Error testing)
+
+## 📋 MANDATORY WORKFLOW COMPLIANCE
+**Pre-Execution Requirements**:
+- [ ] Read CLAUDE.md: AI Task Workflow sections
+- [ ] Read IMPROVEMENT-TASK-TRACKING.md: lines 126-176 (E13-T3 specification)
+- [ ] Analyze browser console stack traces and network request logs
+- [ ] Validate API endpoint availability and routing configuration
+
+## 🛠️ TASK SPECIFICATION
+**Primary Objective**: Resolve "Failed to fetch" errors in /v2/view that prevent family tree data loading and interactive features.
+
+**Success Criteria** (GIVEN/WHEN/THEN format):
+- GIVEN a user navigates to `/v2/view`
+- WHEN the page loads and attempts API calls
+- THEN all fetch requests complete successfully with no console errors
+- AND family tree data loads and displays correctly
+- AND all interactive features (add, edit, delete) function properly
+```
+
+**Example 2: UI/UX Task (E13-T1)**
+```markdown
+## 🎯 CONTEXT ESTABLISHMENT
+**Project**: Family Tree Application
+**Epic**: E13 - Critical UI & API Fixes
+**Task**: E13-T1 - v2 Login Page Sizing & Responsive Fix (P1-CRITICAL)
+**Agents**: @ux-expert (Sally - Primary responsive design) + @dev (James - Implementation) + @qa (Quinn - Cross-device testing)
+
+## 📋 MANDATORY WORKFLOW COMPLIANCE
+**Pre-Execution Requirements**:
+- [ ] Read CLAUDE.md: UI v2 Workflow sections
+- [ ] Read IMPROVEMENT-TASK-TRACKING.md: lines 47-85 (E13-T1 specification)
+- [ ] Analyze `login-screen-prompt` HTML/CSS for exact specifications
+- [ ] Review current `family-tree/app/v2/login/page.tsx` implementation
+
+## 🛠️ TASK SPECIFICATION
+**Primary Objective**: Fix v2 login page sizing to match login-screen-prompt specifications exactly across all viewport sizes.
+
+**Success Criteria** (GIVEN/WHEN/THEN format):
+- GIVEN the v2 login page is accessed at `/v2/login`
+- WHEN viewed on desktop (1024px+), tablet (768px), and mobile (360px+)
+- THEN the page layout matches `login-screen-prompt` visual specifications
+- AND warm color theme tokens (mint, peach, lilac, sage) are applied correctly
+- AND no horizontal scrolling occurs at any supported viewport size
+```
+
+**Example 3: Development/Scripting Task (E13-T2)**
+```markdown
+## 🎯 CONTEXT ESTABLISHMENT
+**Project**: Family Tree Application
+**Epic**: E13 - Critical UI & API Fixes
+**Task**: E13-T2 - Admin Script Path Resolution (P1-CRITICAL)
+**Agents**: @dev (James - Primary path resolution) + @po (Sarah - Documentation) + @architect (Winston - Build system)
+
+## 📋 MANDATORY WORKFLOW COMPLIANCE
+**Pre-Execution Requirements**:
+- [ ] Read CLAUDE.md: Script execution and path handling sections
+- [ ] Read IMPROVEMENT-TASK-TRACKING.md: lines 87-124 (E13-T2 specification)
+- [ ] Investigate actual file location: `family-tree/scripts/seed-admin.mjs`
+- [ ] Analyze current error: double `family-tree` directory nesting
+
+## 🛠️ TASK SPECIFICATION
+**Primary Objective**: Fix admin seed script path error preventing password management functionality execution.
+
+**Success Criteria** (GIVEN/WHEN/THEN format):
+- GIVEN the command `node family-tree/scripts/seed-admin.mjs --password=admin`
+- WHEN run from project root directory
+- THEN the script executes successfully without path errors
+- AND admin password is updated in users.json
+- AND script can be run from any directory with proper relative paths
+```
+
+### Template Scalability Validation
+
+**✅ Template Successfully Handles**:
+- **Different Task Types**: API/Backend, UI/UX, Development/Scripting
+- **Various Priorities**: P1-CRITICAL, P2-HIGH, P2-MEDIUM
+- **Multiple Agent Combinations**: Primary + 1-2 supporting agents
+- **Different Complexity Levels**: 200-1200+ word task specifications
+- **Diverse Technical Requirements**: React components, Node.js scripts, API endpoints
+
+**✅ Consistent Quality Across All Examples**:
+- Clear context establishment in every case
+- Modular structure maintained regardless of task type
+- Progressive information disclosure preserved
+- Built-in quality gates and validation steps
+- Error handling and fallback procedures included
+
+---
+
+## 🔄 AI Workflow Standards
+
+### Task Creation Guidelines
+- **Complexity Scaling**: 200-1200+ words based on task difficulty
+- **Agent Assignments**: Primary + supporting agents based on expertise
+- **Acceptance Criteria**: GIVEN/WHEN/THEN format for clarity
+- **Dependencies**: Clear task sequencing and prerequisites
+- **Testing**: Comprehensive validation requirements
+
+### Agent Role Definitions
+- **@sm (Bob)**: Epic breakdown, story preparation, agile facilitation
+- **@po (Sarah)**: Quality validation, acceptance criteria, process adherence
+- **@architect (Winston)**: System design, API architecture, technical strategy
+- **@ux-expert (Sally)**: UI/UX design, prompt alignment, user experience
+- **@dev (James)**: Code implementation, debugging, development execution
+- **@qa (Quinn)**: Testing, code review, quality assurance, validation
+
+### Quality Standards
+- **Token Efficiency**: Use cross-references, avoid duplication
+- **Agent Clarity**: Clear role assignments and collaboration patterns
+- **Implementation Ready**: Detailed technical requirements and file specifications
+- **Testing Coverage**: Comprehensive validation procedures
+- **Documentation Links**: Proper anchor linking and cross-references
+
+### Epic Naming Convention
+- **Format**: `Epic [Number]: [Brief Description]`
+- **Example**: `Epic 14: Performance Optimization & Bug Fixes`
+- **Tasks**: `E[Number]-T[Task]: [Task Title] (P[Priority]-[Level])`
+
+---
+
+## 📚 Resolved Issues Archive
+
+### Epic 13: Critical UI & API Fixes ✅ (2025-08-16)
+**Completed Issues**:
+1. ✅ v2 Login Page Sizing → E13-T1: Fixed responsive behavior to match `login-screen-prompt`
+2. ✅ Admin Script Path Error → E13-T2: Fixed path resolution for admin script
+3. ✅ API Fetch Errors in /v2/view → E13-T3: Resolved "Failed to fetch" errors
+4. ✅ v2 View UI Misalignment → E13-T4: Aligned components with `home-screen-prompt`
+5. ✅ Modal Content Missing → E13-T5: Implemented proper Add/Help modal content
+6. ✅ Button Styling Issues → E13-T6: Fixed Add/Export/Help button styling
+7. ✅ Context Menu Missing → E13-T7: Implemented right-click functionality
+8. ✅ Member Detail Modal → E13-T8: Enhanced modal to match `member-detail-prompt`
+9. ✅ QA Validation → E13-T9: Comprehensive testing and regression prevention
+
+**Epic Status**: Documentation created, ready for agent implementation
+**Archive Location**: `family-tree/docs/archive/improvement-task-tracking-2025-08-16.md`
+
+---
+
+## 🎯 Usage Instructions for Humans
+
+### To Add New Issues/Todos:
+1. **Edit "Current Issues/Todos" section** above with your new bugs/features
+2. **Specify issue type** (UI, API, Script, Feature, Bug)
+3. **Provide context**: Reference files, error messages, expected behavior
+4. **Run AI workflow**: AI will automatically create new epic and tasks
+
+### Example Issue Format:
+```markdown
+### User Interface Issues
+- Login button not responsive on mobile devices (reference: login-screen-prompt)
+- Add modal missing validation error states
+
+### API/Backend Issues  
+- GET /api/members returns 500 error intermittently
+- Authentication tokens expire too quickly
+
+### Feature Requests
+- Export family tree as PDF format
+- Add dark mode toggle for entire application
+```
+
+### AI Will Automatically:
+1. ✅ Archive current documentation with timestamps
+2. ✅ Create new epic with incremented number
+3. ✅ Break down issues into detailed, agent-ready tasks
+4. ✅ Assign appropriate AI agents to each task
+5. ✅ Generate comprehensive implementation documentation
+6. ✅ Update this instruction file with new epic information
+
+---
+
+*This instruction file serves as the master template for AI-driven project improvement workflows. Simply update the "Current Issues/Todos" section and AI will handle the complete documentation restructure and task planning process.*

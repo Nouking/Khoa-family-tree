@@ -1,147 +1,148 @@
-# UI v2 Plan
+# UI v2 Improvement Plan
 
-This document defines the UI v2 direction and implementation approach. We will build a fresh UI in parallel under a v2 namespace, reusing existing data logic and hooks, and mapping visuals to the provided prompt screens. Tasks and execution are tracked in `IMPROVEMENT-TASK-TRACKING.md` (Epic 12 – UI v2).
+This document defines the strategic approach to resolve reported UI/UX issues and enhance the v2 interface. Implementation details are tracked in `IMPROVEMENT-TASK-TRACKING.md` (Epic 13 – Critical UI & API Fixes).
 
-## Status & Source of Truth (Updated 2025-08-13)
-- This plan defines UI direction. The authoritative tracker for tasks/epics is `IMPROVEMENT-TASK-TRACKING.md` at repo root.
-- For modality/color/motion specifics see `family-tree/docs/implementation-notes.md` and `family-tree/docs/completed-tasks.md`.
-- Archived prior plans: [UI-IMPROVEMENT-PLAN.md](mdc:family-tree/docs/archive/UI-IMPROVEMENT-PLAN.md), [IMPROVEMENT-PLAN.md](mdc:family-tree/docs/archive/IMPROVEMENT-PLAN.md)
+## Status & Source of Truth (Updated 2025-08-16)
+- This plan defines UI strategy and technical solutions for reported issues
+- Task execution tracked in `IMPROVEMENT-TASK-TRACKING.md` at repo root (Epic 13)
+- Previous plans archived: [ui-improvement-plan-2025-08-16.md](archive/ui-improvement-plan-2025-08-16.md)
 
-## Decisions (Approved)
-- Build v2 UI in parallel; keep v1 intact until parity
-- Sidebar: Add, Export, Help only; no mobile FAB
-- Color direction: modern warm, subtle gradients, token-driven
+## 🚨 Critical Issues Identified
 
-## References
-- Home: `home-screen-prompt`
-- Add: `add-screen-prompt`
-- Edit: `edit-screen-prompt`
-- Login: `login-screen-prompt`
-- Member detail: `member-detail-prompt`
-- Help panel: `help-panel-prompt`
+### Authentication & Scripts
+1. **v2 Login Page Sizing Issue**: Page doesn't match `login-screen-prompt` specifications
+2. **Admin Script Path Error**: `node family-tree/scripts/seed-admin.mjs` failing with path resolution
 
-## Global Design Principles
-- Token-first styling via `app/globals.css` (OKLCH colors, radii, elevation, focus)
-- Subtle gradients and accents; AA contrast; motion-reduce compliance
-- Mobile-first; touch targets ≥ 44px; safe-area respect
-- Maintain performance budgets (canvas, connectors, interactions)
-- Accessibility: ARIA semantics, focus order, keyboard loops, SR labels
+### UI Component Alignment  
+3. **v2 View Layout Mismatch**: Components don't match `home-screen-prompt` design
+4. **Add/Export/Help Button Styling**: Missing proper token-driven styling
+5. **Modal Content Missing**: Add/Help modals display nothing vs. prompt requirements
 
-## v2 Structure (App Router)
-- Routes
-  - `app/v2/view/page.tsx` – Tree View Home (v2) — scaffolded in E12-T0
-  - `app/v2/login/page.tsx` – Login (v2)
-  - `app/v2/members/[id]/page.tsx` – Member Detail (v2)
-- Components
-  - `app/components-v2/` and `app/components-v2/shared/MemberForm.tsx`
-- Styling
-  - Extend tokens/utilities to map prompt classes: `.panel`, `.u-header-accent--gradient`, `.input`, `.btn*`, `.canvas-grid`, `.connector*`, `.ribbon*`, `.badge`, `.toolbar-rail`
+### Functionality Gaps
+6. **Right-Click Context Menu**: Missing Edit/View/Delete functions on family tree members
+7. **API Communication Errors**: "Failed to fetch" errors in `/v2/view`
 
-## Agent Workflow Hooks (PO · SM · Architect)
-- PO: Validate acceptance criteria per screen below; ensure tokens-only styling and AA contrast; no raw hex. Reference `family-tree/docs/success-criteria.md`.
-- SM: Derive stories from each screen plan; keep dependencies minimal; map IDs in `IMPROVEMENT-TASK-TRACKING.md` when created.
-- Architect: Enforce tech constraints section; verify perf budgets (canvas, connectors, virtualization) and a11y patterns.
+## 🎯 Technical Solution Architecture
 
-## Screen Plans and Acceptance Criteria
+### Design System Alignment Strategy
+- **Token-First Approach**: All styling must use design tokens from `app/globals.css`
+- **Prompt Parity**: Visual components must match reference prompt files exactly
+- **Responsive Consistency**: Maintain design integrity across all viewport sizes
+- **Accessibility Compliance**: Preserve AA contrast and APG semantics
 
-### 1) Tree View Home (v2) — ✅ IMPLEMENTED (E12-T1)
-- Match `home-screen-prompt` layout/visuals
-- Sidebar: Add, Export, Help only; no mobile FAB
-- Toolbar: Title, Search, Filters; tokenized focus + truncation
-- Canvas: connectors behind cards; hide static connectors < 480px; no overlaps at 360–480px
+### Component Enhancement Framework
+- **Modal System Overhaul**: Implement proper content per `add-screen-prompt`, `help-panel-prompt`
+- **Context Menu Implementation**: Right-click functionality with permission-based actions
+- **API Error Handling**: Robust error handling and fallback mechanisms
+- **Authentication Flow**: Streamlined login experience matching design specifications
 
-Acceptance:
-- ✅ Toolbar buttons group logically and are keyboard-accessible
-- ✅ Sidebar contains only Add, Export, Help and adapts at small breakpoints
-- ✅ No element overlap at 360–480px, connectors behind nodes
-- ✅ No FAB on mobile; desktop unaffected
+## 📊 Epic Structure & Implementation Strategy
 
-Implementation Status:
-- Route: `/v2/view` fully functional with complete layout
-- Components: SidebarV2, MainToolbarV2, FamilyTreeCanvasV2 implemented
-- State: Reuses v1 hooks (FamilyTreeContext, useFamilyTreeOperations)
-- Tests: Comprehensive test coverage for all components and responsive behavior
+### Epic 13: Critical UI & API Fixes
+**Priority**: P1-CRITICAL | **Timeline**: 1-2 weeks
+**Goal**: Resolve all reported issues while maintaining existing functionality
+**Success Criteria**: 100% visual parity with prompt files, zero API errors, enhanced UX
 
-### 2) Add Member (v2) — ✅ IMPLEMENTED (E12-T2)
-- Follow `add-screen-prompt`; section grouping, validation, photo, relations
-- APG modal dialog pattern; bottom-sheet variant on mobile
+#### Technical Approach
+1. **Foundation Phase**: Fix critical path issues (login, scripts, API errors)
+2. **Component Phase**: Align UI components with design specifications  
+3. **Enhancement Phase**: Implement missing functionality (context menus, modal content)
+4. **Validation Phase**: Comprehensive testing and quality assurance
 
-Implementation Status:
-- Component: AddMemberModalV2 with shared MemberForm v2
-- Features: Token-driven styling, APG semantics, mobile bottom-sheet, focus trap
-- Tests: Comprehensive accessibility and validation coverage
+## 🤖 Agent Role Distribution
 
-### 3) Edit Member (v2)
-- Follow `edit-screen-prompt`; include canvas position/size fields
-- Same a11y/validation as Add
+### Primary Agents
+- **@sm (Bob)**: Epic breakdown and story preparation for complex UI fixes
+- **@po (Sarah)**: Quality validation and acceptance criteria verification
+- **@architect (Winston)**: API architecture and error handling design
+- **@ux-expert (Sally)**: UI/UX design alignment with prompt specifications
+- **@dev (James)**: Implementation across all complexity levels
+- **@qa (Quinn)**: Testing, validation, and regression prevention
 
-Acceptance:
-- Keyboard flow matches APG modal dialog; escape/backdrop close works
-- Validation states are consistent and cause no layout shift
-- Gradient/accent utilities map to tokens (no raw hex)
+### Collaboration Patterns
+- **Design-First Approach**: @ux-expert leads component analysis before @dev implementation
+- **Quality Gates**: @po validates before @qa comprehensive testing
+- **Architecture Review**: @architect validates API and system design decisions
 
-### 4) Login (v2) ✅
-- Follow `login-screen-prompt`; warm theme; inline errors; proper aria
-- Status: Completed - 2025-08-15 | Branch: `improvement-e12-t4-v2-login`
-- Implementation: `family-tree/app/v2/login/page.tsx` with comprehensive accessibility and warm theme integration
+## 🔧 Reference Materials
 
-Acceptance:
-- ✅ Form labeled; errors announced; tab sequence correct
-- ✅ Visual matches prototype style direction without regressions
-- ✅ Warm theme colors applied (mint, peach, lilac gradient button)
-- ✅ Accessibility: 44px touch targets, ARIA live regions, logical tab order
-- ✅ Comprehensive tests covering auth flow, error scenarios, responsive behavior
+### Design Specifications
+- **Login**: `login-screen-prompt` - Responsive form with warm color theme
+- **Home**: `home-screen-prompt` - Main toolbar, sidebar, canvas layout
+- **Add Modal**: `add-screen-prompt` - Member creation form with validation
+- **Help Panel**: `help-panel-prompt` - Modal dialog with content sections
+- **Member Detail**: `member-detail-prompt` - Profile display with actions
 
-### 5) Member Detail (v2)
-- Follow `member-detail-prompt` (or interim spec); hierarchy (photo, name, relationships, life dates); token chips/dividers/icons
+### Technical Constraints
+- **Performance**: Maintain existing virtualization and optimization
+- **Accessibility**: No regressions in ARIA semantics or keyboard navigation
+- **Mobile-First**: Responsive design principles across all components
+- **Token-Driven**: Zero hardcoded colors or styling values
 
-Acceptance:
-- Readable at mobile sizes; keyboard-accessible actions; tokens only
+## 📋 Implementation Sequence
 
-### 6) Help Panel (v2)
-- Follow `help-panel-prompt`; accessible headings/landmarks; responsive
+### Phase 1: Critical Path (Week 1)
+1. **E13-T1**: Fix v2 login page sizing and responsive behavior
+2. **E13-T2**: Resolve admin script path errors and documentation
+3. **E13-T3**: Address API fetch errors in v2/view
 
-Acceptance:
-- Opens from Help; accessible headings/landmarks; responsive
+### Phase 2: UI Alignment (Week 1-2)  
+4. **E13-T4**: Align v2 view components with home-screen-prompt
+5. **E13-T5**: Implement proper modal content for Add/Help panels
+6. **E13-T6**: Style Add/Export/Help buttons per design specifications
 
-## Technical Constraints (Architect)
-- No heavy new deps; prefer CSS gradients; maintain virtualization; throttle drag/zoom; rAF; GPU-friendly transforms
+### Phase 3: Enhancement (Week 2)
+7. **E13-T7**: Implement right-click context menu functionality
+8. **E13-T8**: Add member detail modal with prompt parity
+9. **E13-T9**: Final validation and regression testing
 
-## Validation Plan (QA)
-- Accessibility: Modal APG, focus loops, labels, reduced motion
-- Responsive: 360, 480, 768, 1024, 1440; no overlap; connectors behind nodes
-- Performance: ~60fps interactions; no layout thrash
-- Regression: Add/Edit flows, search/filter, export entry points
+## 🎨 Design System Enhancements
 
-## Rollout Sequence
-1. Scaffold v2 foundation (routes, tokens, utilities)
-2. Home
-3. Add/Edit
-4. Login
-5. Member Detail
-6. Help Panel
-
-## Risks & Mitigations
-- Visual polish increasing CSS size → Audit utilities; remove dead styles
-- Gradient/perf risk → Prefer lightweight CSS gradients; avoid expensive SVG filters
-- A11y regressions → Automated + manual checks per QA plan
-
-## MCP Context7
-- Use these library IDs:
-
-| Technology | Context7 ID | Primary Use Case |
-| --- | --- | --- |
-| Next.js | /vercel/next.js | App Router patterns, API routes, middleware, performance |
-| Tailwind CSS | /tailwindlabs/tailwindcss | Tokens, responsive design, motion-reduce, container queries |
-| TypeScript | /microsoft/typescript | Strict typing, interfaces, utility types |
-| Testing Library | /testing-library/react-testing-library | Component testing patterns, a11y assertions |
-| React DnD | /react-dnd/react-dnd | Canvas drag-and-drop implementation |
-| html2canvas | /niklasvh/html2canvas | PNG export of canvas view |
-| jsonwebtoken | /auth0/node-jsonwebtoken | Auth token handling, security notes |
-
-Example:
-```text
-use context7 "/vercel/next.js" topic="App Router parallel v2 routes and modal patterns"
-use context7 "/tailwindlabs/tailwindcss" topic="token-first OKLCH utilities, responsive, focus rings"
-use context7 "/testing-library/react-testing-library" topic="modal a11y tests (focus trap, aria)"
+### Color Token Extensions
+```css
+/* Warm Theme Additions */
+--color-mint: oklch(0.92 0.09 170);
+--color-peach: oklch(0.91 0.12 55);
+--color-lilac: oklch(0.92 0.09 300);
+--color-sage: oklch(0.92 0.07 150);
 ```
+
+### Component Token Mapping
+- **Modals**: `.panel` with proper shadows and radius tokens
+- **Buttons**: `.btn-primary`, `.btn-outline` with gradient variants
+- **Inputs**: `.input` with focus ring and validation states
+- **Cards**: `.node-card` with elevation and responsive behavior
+
+## 📊 Success Metrics
+
+### Visual Compliance
+- ✅ 100% visual parity with prompt file specifications
+- ✅ Consistent token-driven styling across all components
+- ✅ No hardcoded colors or spacing values
+- ✅ Responsive behavior at all supported breakpoints
+
+### Functional Requirements
+- ✅ All modals display proper content and functionality
+- ✅ Context menus work with appropriate permissions
+- ✅ API endpoints resolve without errors
+- ✅ Admin scripts run successfully from any directory
+
+### Quality Assurance
+- ✅ Zero accessibility regressions
+- ✅ Comprehensive test coverage for new functionality
+- ✅ Performance metrics maintained or improved
+- ✅ Cross-browser compatibility verified
+
+## 🔄 Continuous Improvement
+
+### Documentation Updates
+- Real-time updates to `IMPROVEMENT-TASK-TRACKING.md` as tasks complete
+- Implementation notes in `completed-tasks.md` with technical details
+- Agent feedback integration for process optimization
+
+### Quality Monitoring
+- Automated testing integration for visual regression detection
+- Performance monitoring for large family tree rendering
+- Accessibility auditing with axe-core integration
+
+This plan provides a comprehensive roadmap for resolving all reported issues while maintaining the high quality standards established in previous epic implementations.
