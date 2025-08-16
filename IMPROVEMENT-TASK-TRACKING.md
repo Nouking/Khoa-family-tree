@@ -838,7 +838,7 @@ User preferences from `issue` (2025‑08‑11):
 
 ### Git & Process
 - Create feature branches per task (see each task’s `Branch`).
-- Maintain v1 routes intact; add v2 under `app/(v2)` and `app/components-v2`.
+- Maintain v1 routes intact; add v2 under `app/v2` and `app/components-v2`.
 - Tests must stay green after each task; update/add tests where specified.
 
 ---
@@ -848,8 +848,8 @@ User preferences from `issue` (2025‑08‑11):
 - Primary Agent: @architect (Winston) | Supporting: @dev (James), @sm (Bob), @po (Sarah)
 - Description: Prepare v2 folder structure and extend tokens/utilities to support prompt-class mappings.
 - Deliverables:
-  - Folders: `family-tree/app/(v2)/`, `family-tree/app/components-v2/`, `family-tree/app/components-v2/shared/`
-  - Route: `family-tree/app/(v2)/view/page.tsx` renders a minimal shell
+  - Folders: `family-tree/app/v2/`, `family-tree/app/components-v2/`, `family-tree/app/components-v2/shared/`
+  - Route: `family-tree/app/v2/view/page.tsx` renders a minimal shell
   - Tokens/utilities added to `family-tree/app/globals.css`:
     - `.panel`, `.toolbar-rail`, `.u-header-accent--gradient`, `.input`, `.btn`, `.btn-primary`, `.btn-outline`, `.badge`, `.canvas-grid`, `.connections-layer`, `.connector`, `.ribbon`
   - Token docs section appended in `family-tree/docs/ui-improvement-plan.md` if new utilities are introduced
@@ -858,7 +858,7 @@ User preferences from `issue` (2025‑08‑11):
   - All mapped utility classes are available (no raw hex), AA contrast preserved
   - No changes to v1 routes/components
 - Subtasks:
-  - E12-T0.1 Create `app/(v2)` and `components-v2` directories
+  - E12-T0.1 Create `app/v2` and `components-v2` directories
   - E12-T0.2 Add initial `/v2/view` route shell
   - E12-T0.3 Extend `globals.css` with prompt-class mappings
   - E12-T0.4 Update docs: list of utilities + usage examples
@@ -868,7 +868,7 @@ User preferences from `issue` (2025‑08‑11):
   - Agent Prompt: "As @architect, @dev, @sm, @po: read CLAUDE.md 5–136 (AI Task Workflow) and 138–155 (UI v2 Workflow), and IMPROVEMENT-TASK-TRACKING.md 846–874 only; follow the AI Task Workflow; do E12-T0; confirm acceptance criteria, plan, implement, test, and update docs (incl. ui-improvement-plan.md when applicable); keep reasoning ≤400 tokens; v2-only; ensure /v2/view shell compiles, required token utilities exist in globals.css, and no v1 changes; use MCP Context7 only if external docs are needed."
 
 Implementation Notes:
-- Created `family-tree/app/(v2)/view/page.tsx` minimal shell using `u-header-accent--gradient` and `panel` utilities; verifies token mapping without raw hex.
+- Created `family-tree/app/v2/view/page.tsx` minimal shell using `u-header-accent--gradient` and `panel` utilities; verifies token mapping without raw hex.
 - Verified required utilities exist in `family-tree/app/globals.css` (`.panel`, `.toolbar-rail`, `.u-header-accent--gradient`, `.input`, `.btn`, `.btn-primary`, `.btn-outline`, `.badge`, `.canvas-grid`, `.connections-layer`, `.connector`, `.ribbon`).
 - Updated `family-tree/docs/ui-improvement-plan.md` to mark the route as scaffolded in E12-T0.
 - Added smoke test `family-tree/app/components/__tests__/ViewPageV2.test.tsx` asserting v2 header and shell text.
@@ -883,8 +883,8 @@ Implementation Notes:
 - References: `home-screen-prompt`, UI v2 Plan (“Tree View Home”) and prior E12‑T1 (Archived) implementation notes
 - Description: Implement v2 Home screen using v2 shell, token utilities, and responsive rules. Sidebar exposes Add, Export, Help only. Toolbar groups Title, Search, Filters with tokenized focus and truncation. Canvas ensures connections are layered under member nodes and responsive behavior prevents overlaps at small sizes.
 - Files to Add/Change:
-  - `family-tree/app/(v2)/view/page.tsx` (page composition)
-  - `family-tree/app/(v2)/view/ViewPageV2Client.tsx` (client wrapper, if needed)
+  - `family-tree/app/v2/view/page.tsx` (page composition)
+  - `family-tree/app/v2/view/ViewPageV2Client.tsx` (client wrapper, if needed)
   - `family-tree/app/components-v2/MainToolbarV2.tsx`
   - `family-tree/app/components-v2/SidebarV2.tsx`
   - `family-tree/app/components-v2/FamilyTreeCanvasV2.tsx`
@@ -1083,7 +1083,7 @@ As @dev, @ux-expert, @qa: read CLAUDE.md 1–136 (AI Task Workflow), 138–155 (
 
 ### **🔧 Implementation Details:**
 - **Files to Create/Modify:**
-  - `family-tree/app/(v2)/login/page.tsx` (new login page)
+  - `family-tree/app/v2/login/page.tsx` (new login page)
   - `family-tree/app/globals.css` (verify error/focus tokens exist)
 - **Authentication Integration:**
   - Reuse existing `/api/auth/login` endpoint from E9-T1
@@ -1097,7 +1097,7 @@ As @dev, @ux-expert, @qa: read CLAUDE.md 1–136 (AI Task Workflow), 138–155 (
 
 ### **🧪 Test Strategy:**
 - **Test Files to Create:**
-  - `family-tree/app/(v2)/login/__tests__/page.test.tsx`
+  - `family-tree/app/v2/login/__tests__/page.test.tsx`
   - Mirror existing login test patterns with v2-specific assertions
 - **Test Cases:**
   - Page renders with correct form elements and styling
@@ -1125,16 +1125,16 @@ As @dev, @ux-expert, @qa: read CLAUDE.md 1–136 (AI Task Workflow), 138–155 (
 - Verify accessibility compliance and keyboard navigation
 - Validate responsive behavior at all breakpoints
  As @ux-expert, @dev, @qa: read CLAUDE.md 1–136 (AI Task Workflow), 138–155 (UI v2 Workflow), and 274–331 (Task Status Updates); read IMPROVEMENT-TASK-TRACKING.md 1028–1128 (E12-T4 complete specification); follow AI Task Workflow exactly; do E12-T4 Login (v2);
-  MANDATORY pre-implementation: complete Pre-Implementation Analysis checklists (1026–1039) documenting login-screen-prompt visual requirements, E9-T1 auth behavior, warm theme token mappings; create family-tree/app/(v2)/login/page.tsx with token-driven styling (warm      
+  MANDATORY pre-implementation: complete Pre-Implementation Analysis checklists (1026–1039) documenting login-screen-prompt visual requirements, E9-T1 auth behavior, warm theme token mappings; create family-tree/app/v2/login/page.tsx with token-driven styling (warm      
   colors, not harsh blues); integrate existing /api/auth/login endpoint from E9-T1, redirect to /v2/view on success; implement comprehensive error handling (network, validation, server); ensure form accessibility (proper labels, ARIA announcements, logical tab order);     
    mobile-responsive with 44px touch targets; comprehensive tests for auth flow, error scenarios, accessibility, responsive behavior; update docs per workflow steps 1–3 in exact order (code → docs → git); keep reasoning ≤500 tokens; use MCP Context7 only if external       
   docs needed.
 ---
 
-### E12-T5: Member Detail (v2) (P2-HIGH)
-- Status: Pending | Branch: `improvement-e12-t5-v2-member-detail`
-- Primary Agent: @ux-expert (Sally) | Supporting: @dev (James), @qa (Quinn)
-- References: `member-detail-prompt`, UI v2 Plan ("Member Detail (v2)"), E11 chip/divider/icon patterns
+### E12-T5: Member Detail (v2) (P2-HIGH) ✅
+- Status: Completed - 2025-08-16 | Branch: `improvement-e12-t5-v2-member-detail`
+- Summary: Implemented dynamic member detail page with token-driven styling, ARIA compliance, and responsive design
+- Details: See Completed Log → [E12-T5](family-tree/docs/completed-tasks.md#e12-t5)
 
 ### **🎯 Pre-Implementation Analysis (MANDATORY - Complete Before Coding):**
 1. **Reference Design Analysis:**
@@ -1242,13 +1242,13 @@ As @dev, @ux-expert, @qa: read CLAUDE.md 1–136 (AI Task Workflow), 138–155 (
 - Verify responsive behavior and accessibility compliance
 - Test error scenarios and edge cases
 
-As @ux-expert, @dev, @qa: read CLAUDE.md 1–136 (AI Task Workflow), 138–155 (UI v2 Workflow), and 274–331 (Task Status Updates); read IMPROVEMENT-TASK-TRACKING.md 1132–1240 (E12-T5 complete specification); follow AI Task Workflow exactly; do E12-T5 Member Detail (v2); MANDATORY pre-implementation: complete Pre-Implementation Analysis checklists (1138–1151) documenting member-detail-prompt visual elements, component architecture, and data integration; create family-tree/app/(v2)/members/[id]/page.tsx with dynamic routing and family-tree/app/components-v2/MemberBannerV2.tsx with profile layout; implement E11 chip/divider/icon patterns using token-driven styling (.profile-card, .info-grid, .section-title, .relation-chip, .label-chip); ensure proper ARIA landmarks, heading hierarchy, and keyboard navigation; mobile-responsive with single-column layout <640px and 44px touch targets; comprehensive tests for hierarchy, accessibility, responsive behavior, and navigation; update docs per workflow steps 1–3 in exact order (code → docs → git); keep reasoning ≤600 tokens; use MCP Context7 only if external docs needed.
+As @ux-expert, @dev, @qa: read CLAUDE.md 1–136 (AI Task Workflow), 138–155 (UI v2 Workflow), and 274–331 (Task Status Updates); read IMPROVEMENT-TASK-TRACKING.md 1132–1240 (E12-T5 complete specification); follow AI Task Workflow exactly; do E12-T5 Member Detail (v2); MANDATORY pre-implementation: complete Pre-Implementation Analysis checklists (1138–1151) documenting member-detail-prompt visual elements, component architecture, and data integration; create family-tree/app/v2/members/[id]/page.tsx with dynamic routing and family-tree/app/components-v2/MemberBannerV2.tsx with profile layout; implement E11 chip/divider/icon patterns using token-driven styling (.profile-card, .info-grid, .section-title, .relation-chip, .label-chip); ensure proper ARIA landmarks, heading hierarchy, and keyboard navigation; mobile-responsive with single-column layout <640px and 44px touch targets; comprehensive tests for hierarchy, accessibility, responsive behavior, and navigation; update docs per workflow steps 1–3 in exact order (code → docs → git); keep reasoning ≤600 tokens; use MCP Context7 only if external docs needed.
 ---
 
-### E12-T6: Help Panel (v2) (P2-MEDIUM)
-- Status: Pending | Branch: `improvement-e12-t6-v2-help`
-- Primary Agent: @ux-expert (Sally) | Supporting: @dev (James), @qa (Quinn)
-- References: `help-panel-prompt`, UI v2 Plan ("Help Panel (v2)"), E6 patterns
+### E12-T6: Help Panel (v2) (P2-MEDIUM) ✅
+- Status: Completed - 2025-01-16 | Branch: `improvement-e12-t6-v2-help`
+- Summary: Implemented v2 Help Panel with modal dialog structure, section reveal animations, and token-driven styling
+- Details: See Completed Log → [E12-T6](family-tree/docs/completed-tasks.md#e12-t6)
 
 ### **🎯 Pre-Implementation Analysis (MANDATORY - Complete Before Coding):**
 1. **Reference Design Analysis:**

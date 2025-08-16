@@ -34,10 +34,16 @@ export default function HomePage() {
               View Family Tree (v1)
             </Link>
             <Link 
+              href="/v2/login" 
+              className="w-full sm:w-auto px-6 py-2 bg-green-600 text-white text-center rounded-md hover:bg-green-700 transition-colors"
+            >
+              Login to edit v2
+            </Link>
+            <Link 
               href="/login" 
               className="w-full sm:w-auto px-6 py-2 bg-gray-200 text-gray-800 text-center rounded-md hover:bg-gray-300 transition-colors"
             >
-              Login to Edit
+              Login to Edit (v1)
             </Link>
           </div>
         </div>

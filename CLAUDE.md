@@ -141,7 +141,7 @@ When working on Epic 12 (UI v2), follow this streamlined flow:
 
 - Read: `IMPROVEMENT-TASK-TRACKING.md` → Epic 12 section, and `family-tree/docs/ui-improvement-plan.md`
 - Branch: `improvement-e12-<task-id>-<kebab-summary>` (e.g., `improvement-e12-t1-v2-home`)
-- Implement: v2-only in `family-tree/app/(v2)/` and `family-tree/app/components-v2/`; extend tokens in `family-tree/app/globals.css` as needed; do not modify v1 routes/components unless explicitly required
+- Implement: v2-only in `family-tree/app/v2/` and `family-tree/app/components-v2/`; extend tokens in `family-tree/app/globals.css` as needed; do not modify v1 routes/components unless explicitly required
 - Tests: add/update v2 tests alongside existing suites (keep v1 green)
 - Documentation updates (mandatory after implementation, before git):
   - Update status in `IMPROVEMENT-TASK-TRACKING.md` (Epic 12 task)

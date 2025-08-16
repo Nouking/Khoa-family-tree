@@ -29,9 +29,9 @@ This document defines the UI v2 direction and implementation approach. We will b
 
 ## v2 Structure (App Router)
 - Routes
-  - `app/(v2)/view/page.tsx` – Tree View Home (v2) — scaffolded in E12-T0
-  - `app/(v2)/login/page.tsx` – Login (v2)
-  - `app/(v2)/members/[id]/page.tsx` – Member Detail (v2)
+  - `app/v2/view/page.tsx` – Tree View Home (v2) — scaffolded in E12-T0
+  - `app/v2/login/page.tsx` – Login (v2)
+  - `app/v2/members/[id]/page.tsx` – Member Detail (v2)
 - Components
   - `app/components-v2/` and `app/components-v2/shared/MemberForm.tsx`
 - Styling
