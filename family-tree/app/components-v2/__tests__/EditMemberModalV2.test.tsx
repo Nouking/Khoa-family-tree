@@ -16,7 +16,7 @@ jest.mock('../../components/ToastProvider', () => ({
 }));
 
 jest.mock('../../components/Modal', () => ({
-  default: ({ children, isOpen, title }: any) => 
+  default: ({ children, isOpen, title }: { children: React.ReactNode; isOpen: boolean; title: string }) => 
     isOpen ? (
       <div data-testid="modal" role="dialog" aria-labelledby="modal-title">
         <h2 id="modal-title">{title}</h2>

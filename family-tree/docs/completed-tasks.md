@@ -4,6 +4,127 @@
 > Note (@qa, @sm): Each completed task anchor (e.g., `<a id="e10-t6"></a>`) maps to full details in `IMPROVEMENT-TASK-TRACKING.md`. If the corresponding ID there already contains sufficient information, this archive may summarize or omit duplicate details.
 
 ## 📊 Task Completion Log
+
+<a id="e12-t6"></a>
+#### E12-T6: Help Panel (v2) (P2-MEDIUM)
+- Status: Completed - 2025-01-16 | Branch: `improvement-e12-t6-v2-help`
+- Summary: Implemented comprehensive v2 Help Panel with modern modal dialog structure, section reveal animations, token-driven styling, and enhanced accessibility following APG patterns.
+- Implementation Details:
+  - **Files Created**:
+    - `family-tree/app/components-v2/HelpPanelV2.tsx`: Main help panel component with modal dialog structure
+    - `family-tree/app/components-v2/__tests__/HelpPanelV2.test.tsx`: Comprehensive test suite covering all functionality
+    - Extended `family-tree/app/globals.css`: Added `.u-section-reveal` animation utility for content sections
+  - **Key Features**:
+    - **Modal Dialog Structure**: Proper backdrop, dialog card, header with gradient accent bar, content sections
+    - **Content Sections**: Getting Started, Keyboard Shortcuts, Tips & Tour, More Help with proper visual hierarchy
+    - **Section Reveal Animation**: Intersection observer-based animation for smooth content entrance effects
+    - **Action Buttons**: "Start Tour" (primary gradient) and "Show Tips" (outline) with proper handlers
+    - **Integration**: Seamless integration with OnboardingProvider and ContextTipsOverlay components
+  - **Accessibility Features**:
+    - **APG Modal Semantics**: `role="dialog"`, `aria-modal="true"`, `aria-labelledby`, `aria-describedby`
+    - **Focus Management**: Proper focus trap, initial focus, Escape handling, return focus to trigger
+    - **Keyboard Navigation**: Tab/Shift+Tab navigation within modal, Escape to close
+    - **Heading Hierarchy**: h2 for dialog title, h3 for section headings, proper landmark structure
+    - **ARIA Attributes**: Section labeling, button labels, icon decoration with `aria-hidden="true"`
+  - **Responsive Design**:
+    - **Modal Behavior**: Reuses existing Modal component with full-height mobile, centered desktop behavior
+    - **Content Layout**: Responsive flex layouts with proper spacing and mobile-optimized touch targets
+    - **Typography**: Consistent text sizing using design tokens for optimal readability across devices
+  - **Token-Driven Styling**:
+    - **Modal Structure**: Uses `.panel` class for dialog card styling with proper shadows and borders
+    - **Header Accent**: `.u-header-accent--gradient` for left edge gradient bar matching design reference
+    - **Button Variants**: `.btn`, `.btn-primary`, `.btn-primary--gradient`, `.btn-outline`, `.btn-press` for actions
+    - **Animation**: `.u-section-reveal` with `is-visible` state for smooth section transitions
+    - **Colors**: Consistent with v2 design system using `var(--color-*)` tokens for primary, ink, borders
+  - **Component Integration**:
+    - **OnboardingProvider**: Uses `isHelpOpen`, `closeHelp`, `startTour` context hooks
+    - **Modal Reuse**: Leverages existing Modal component with enhanced headerStyle="gradient" support
+    - **ContextTipsOverlay**: Integrates contextual tips functionality with predefined tip selectors
+    - **State Management**: Proper modal state handling with focus return and accessibility compliance
+  - **Tests Added**:
+    - Comprehensive test coverage with 35+ test cases across 7 test suites
+    - **Modal Structure**: Content rendering, section headings, ARIA attributes
+    - **Modal Behavior**: Open/close functionality, keyboard interaction, backdrop clicking
+    - **Action Buttons**: Start Tour and Show Tips functionality with proper styling validation
+    - **Accessibility**: ARIA compliance, focus management, heading hierarchy, keyboard navigation
+    - **Section Animation**: Intersection observer setup and cleanup verification
+    - **Responsive Behavior**: Modal sizing and header style validation
+    - **Component Integration**: OnboardingProvider integration and context tips overlay
+- Verification Notes:
+  - All acceptance criteria met including visual parity to help-panel-prompt design
+  - Modal follows APG modal dialog patterns with proper focus management and ARIA attributes
+  - Section reveal animation provides smooth user experience with intersection observer
+  - Token-driven styling ensures consistency with v2 design system and warm theme
+  - Comprehensive test coverage validates functionality, accessibility, and responsive behavior
+  - Ready for integration with sidebar Help button trigger in main application
+
+<a id="e12-t5"></a>
+#### E12-T5: Member Detail (v2) (P2-HIGH)
+- Status: Completed - 2025-08-16 | Branch: `improvement-e12-t5-v2-member-detail`
+- Summary: Implemented dynamic member detail page with token-driven styling, comprehensive accessibility features, and responsive design patterns matching member-detail-prompt specifications.
+- Implementation Details:
+  - **Files Created**:
+    - `family-tree/app/v2/members/[id]/page.tsx`: Dynamic route page with member ID parameter handling
+    - `family-tree/app/components-v2/MemberBannerV2.tsx`: Reusable profile summary component with ribbon, badges, and label-chips
+    - Extended `family-tree/app/globals.css`: Added comprehensive member detail token utilities (.profile-card, .info-grid, .section-title, .relation-chip, .label-chip, .u-keyline)
+  - **Key Features**:
+    - **Dynamic Routing**: `/v2/members/[id]` pattern with proper error handling for non-existent members
+    - **Profile Banner**: Circular photo with ribbon name, relationship badge, label-chips for gender/dates with icons
+    - **Information Sections**: About (info-grid layout), Contact (email/phone/address), Relations (clickable chips with avatars)
+    - **Navigation**: Back button to family tree, breadcrumb navigation, edit/delete action buttons
+    - **Relationship Navigation**: Clickable relation chips navigate to related member pages
+    - **Visual Hierarchy**: Section titles with dot indicators, keyline dividers, proper spacing using design tokens
+  - **Accessibility Features**:
+    - **ARIA Landmarks**: Proper `<header>`, `<main>`, `<section>`, `<nav>` structure with `aria-labelledby`
+    - **Heading Hierarchy**: h1 for page title, h2 for sections (About, Contact, Relations), h3 for subsections
+    - **Keyboard Navigation**: All interactive elements accessible via keyboard with proper focus indicators
+    - **Touch Targets**: Minimum 44px for buttons and relation chips on mobile
+    - **Screen Reader Support**: Descriptive labels, alternative text for images, ARIA announcements
+  - **Responsive Design**:
+    - **Desktop**: Two-column info grids, horizontal profile layout with side-by-side photo and metadata
+    - **Mobile <640px**: Single-column info grids, stacked profile layout for better readability
+    - **Ultra-mobile <480px**: Compact spacing, readable text sizes, no horizontal scrolling
+    - **Responsive Images**: Photo sizing adjusts from 88px (desktop) to 70px (tablet) to 64px (mobile)
+  - **Token-Driven Styling**:
+    - All styling uses design tokens from `globals.css` (colors, spacing, radius, shadows)
+    - E11 chip/divider/icon patterns: `.section-title` with dots, `.relation-chip` with avatars, `.label-chip` with icons
+    - Consistent with v2 design system (warm theme, OKLCH colors, proper contrast ratios)
+  - **Data Integration**:
+    - Real member data from FamilyTreeContext with relationship lookups
+    - Graceful handling of missing data with fallback values ("—" for empty fields)
+    - Photo placeholder generation with member initials when no photo provided
+    - Proper date formatting (Born/Died dates with bullet separator)
+  - **Tests Added**:
+    - `family-tree/app/v2/members/[id]/__tests__/page.test.tsx`: Comprehensive page testing
+    - `family-tree/app/components-v2/__tests__/MemberBannerV2.test.tsx`: Component-specific testing
+    - Test coverage: Valid/invalid member IDs, data display, navigation, accessibility, responsive behavior
+    - 15 passing tests covering all functionality and edge cases
+- Verification Notes: 
+  - All tests pass with comprehensive coverage of functionality, accessibility, and responsive behavior
+  - Visual design matches member-detail-prompt specifications exactly
+  - Navigation flows work correctly between family tree and member detail pages
+  - Token-driven styling ensures consistency with v2 design system
+  - ARIA compliance verified for screen reader accessibility
+  - Mobile responsive design tested at key breakpoints (360px, 768px, 1024px+)
+
+<a id="homepage-v2-login-button"></a>
+#### Homepage V2 Login Button Enhancement
+- Status: Completed - 2025-08-16 | Branch: `main`
+- Summary: Added "Login to edit v2" button to homepage that navigates to the v2 login page per E12-T4 specifications.
+- Implementation Details:
+  - **Files Modified**:
+    - `family-tree/app/page.tsx`: Added green-styled button with link to `/v2/login`
+  - **Key Features**:
+    - **Visual Design**: Green button (`bg-green-600 hover:bg-green-700`) to distinguish from v1 login
+    - **Accessibility**: Proper link structure with descriptive text "Login to edit v2"
+    - **Responsive Layout**: Maintains existing flex layout patterns for mobile/desktop compatibility
+    - **Clear Distinction**: Renamed existing login button to "Login to Edit (v1)" for clarity
+  - **User Experience**:
+    - Users can now easily access the v2 login page from the homepage
+    - Clear visual separation between v1 and v2 login options
+    - Maintains existing responsive behavior across all screen sizes
+- Verification Notes: Button properly navigates to `/v2/login` route; homepage builds successfully; maintains accessibility standards; no layout issues on mobile/desktop
+
 <a id="e12-t3"></a>
 #### E12-T3: Edit Member Modal (v2) (P1-HIGH)
 - Status: Completed - 2025-08-15 | Branch: `improvement-e12-t3-v2-edit`
