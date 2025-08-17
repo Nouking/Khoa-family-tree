@@ -84,15 +84,7 @@ export default function LoginPageV2() {
 
       {/* Main content */}
       <main className="flex-1 flex items-center justify-center px-3 sm:px-6 py-8">
-        <div 
-          className="w-full max-w-sm sm:max-w-md p-6 sm:p-8"
-          style={{
-            background: 'var(--color-warm-card)',
-            border: '1px solid var(--color-warm-border)',
-            borderRadius: '12px',
-            boxShadow: '0 2px 6px hsl(0 0% 0% / 0.06), 0 1px 2px hsl(0 0% 0% / 0.05)'
-          }}
-        >
+        <div className="w-full max-w-md panel p-6 sm:p-8">
           <div className="mb-5 sm:mb-6 text-center">
             <h2 
               className="text-2xl sm:text-3xl font-semibold"
@@ -217,58 +209,11 @@ export default function LoginPageV2() {
                 type="submit"
                 disabled={isLoading}
                 aria-busy={isLoading}
-                className="w-full text-center"
+                className="btn btn-press btn-primary block w-1/2 mx-auto text-center"
                 style={{
-                  backgroundImage: 'var(--gradient-login-button)',
-                  color: '#0f172a',
-                  border: '1px solid rgba(15, 23, 42, 0.08)',
-                  borderRadius: '12px',
-                  padding: '0.45rem 0.5rem',
-                  fontWeight: '700',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  lineHeight: '1',
                   minHeight: '44px', // Touch target requirement
-                  boxShadow: isLoading 
-                    ? '0 2px 6px rgba(0,0,0,0.05)' 
-                    : '0 8px 24px rgba(16, 185, 129, 0.25), 0 2px 6px rgba(0,0,0,0.05)',
-                  transition: 'transform 160ms ease, box-shadow 160ms ease, filter 160ms ease',
                   opacity: isLoading ? '0.65' : '1',
                   cursor: isLoading ? 'not-allowed' : 'pointer'
-                }}
-                onMouseEnter={(e) => {
-                  if (!isLoading) {
-                    e.currentTarget.style.filter = 'brightness(0.98) saturate(1.05)'
-                    e.currentTarget.style.transform = 'translateY(-1px)'
-                    e.currentTarget.style.boxShadow = '0 12px 28px rgba(16, 185, 129, 0.30), 0 4px 10px rgba(0,0,0,0.06)'
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (!isLoading) {
-                    e.currentTarget.style.filter = ''
-                    e.currentTarget.style.transform = ''
-                    e.currentTarget.style.boxShadow = '0 8px 24px rgba(16, 185, 129, 0.25), 0 2px 6px rgba(0,0,0,0.05)'
-                  }
-                }}
-                onMouseDown={(e) => {
-                  if (!isLoading) {
-                    e.currentTarget.style.transform = 'translateY(0) scale(0.99)'
-                  }
-                }}
-                onMouseUp={(e) => {
-                  if (!isLoading) {
-                    e.currentTarget.style.transform = 'translateY(-1px)'
-                  }
-                }}
-                onFocus={(e) => {
-                  e.currentTarget.style.outline = 'none'
-                  e.currentTarget.style.boxShadow = '0 0 0 4px rgba(16, 185, 129, 0.25), 0 8px 24px rgba(16, 185, 129, 0.25)'
-                }}
-                onBlur={(e) => {
-                  e.currentTarget.style.boxShadow = isLoading 
-                    ? '0 2px 6px rgba(0,0,0,0.05)' 
-                    : '0 8px 24px rgba(16, 185, 129, 0.25), 0 2px 6px rgba(0,0,0,0.05)'
                 }}
               >
                 {isLoading ? 'Signing in…' : 'Sign in'}

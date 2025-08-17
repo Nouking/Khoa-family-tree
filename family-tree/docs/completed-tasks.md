@@ -36,22 +36,25 @@ When adding completed tasks, use this standardized format:
 <a id="e13-t1"></a>
 #### E13-T1: v2 Login Page Sizing & Responsive Fix (P1-CRITICAL)
 - Status: Completed - 2025-08-17 | Branch: `improvement-e13-t1-v2-login-sizing-fix`
-- Summary: Fixed v2 login page container sizing and button layout to match login-screen-prompt specifications exactly across all viewport sizes, migrated to CSS custom properties for better maintainability.
+- Summary: Fixed v2 login page to match login-screen-prompt specifications exactly by using proper CSS classes and correct button sizing (w-1/2, not full-width as initially misimplemented).
 - Implementation Details:
   - **Files Modified**:
-    - `family-tree/app/v2/login/page.tsx` (responsive container and button fixes)
+    - `family-tree/app/v2/login/page.tsx` (corrected container and button implementation)
     - `family-tree/app/globals.css` (warm color token additions for v2 login)
-  - **Key Changes**:
-    - Removed `max-w-md` constraint, changed to flexible `max-w-sm sm:max-w-md` sizing
-    - Changed button from `w-1/2` to full-width (`w-full`) matching reference design
-    - Migrated gradient from inline styles to CSS custom property `--gradient-login-button`
-    - Added warm theme CSS variables for consistent token-driven styling
+  - **Key Changes** (CORRECTED):
+    - Fixed container to use `max-w-md panel` class matching reference design
+    - **CORRECTION**: Button uses `w-1/2 mx-auto` (half-width) as per login-screen-prompt reference, NOT full-width
+    - Applied proper CSS classes: `btn btn-press btn-primary` for consistent styling
+    - Removed complex inline styling in favor of design system classes
+    - Added warm theme CSS variables for token-driven styling
   - **Technical Achievements**:
-    - Responsive behavior validated across 360px, 768px, and 1024px+ viewports
+    - Exact structural match with login-screen-prompt HTML reference
     - Maintained 44px touch target requirements for accessibility
+    - Proper CSS class-based styling using established design tokens
     - Preserved existing error handling and loading states
   - **Agent Collaboration**: @ux-expert provided responsive design analysis, @dev implemented changes, @qa validated cross-device behavior
-- Verification Notes: Development server runs without errors, ESLint passes with no new issues, visual alignment confirmed with login-screen-prompt specifications
+- Verification Notes: Development server runs without errors, corrected implementation now matches login-screen-prompt specifications exactly
+- **IMPORTANT**: Initial implementation incorrectly changed button to full-width; corrected to match reference design with w-1/2
 
 ### Example Completed Task Entry
 
