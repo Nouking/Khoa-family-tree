@@ -45,8 +45,8 @@ Tasks are assigned primary agents with supporting agents based on expertise over
 **Success Criteria**: 100% visual parity with prompt files, zero API errors, enhanced UX functionality
 
 ### E13-T1: v2 Login Page Sizing & Responsive Fix (P1-CRITICAL) ✅
-- **Status**: Completed - 2025-08-17 | Branch: `improvement-e13-t1-v2-login-sizing-fix`
-- **Summary**: Fixed container sizing, changed button to full-width, migrated to CSS custom properties for responsive login page matching login-screen-prompt specifications
+- **Status**: Completed - 2025-08-17 | Branch: `improvement-e13-t1-v2-login-responsive-fix`
+- **Summary**: Fixed login page responsive sizing: changed container from max-w-md to max-w-lg and button from w-1/2 to w-full for better mobile/desktop layout
 - **Details**: See Completed Log → [E13-T1](family-tree/docs/completed-tasks.md#e13-t1)
 - **Primary Agent**: @ux-expert (Sally - UI design analysis and responsive strategy) - `.cursor/rules/ux-expert.mdc`
 - **Supporting Agents**: @dev (James - Implementation) - `.cursor/rules/dev.mdc`, @qa (Quinn - Cross-device testing) - `.cursor/rules/qa.mdc`

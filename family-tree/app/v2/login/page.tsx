@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import '../v2-styles.css'
 
 export default function LoginPageV2() {
   const [username, setUsername] = useState('')
@@ -60,13 +61,7 @@ export default function LoginPageV2() {
       }}
     >
       {/* Header with warm gradient */}
-      <header 
-        className="text-white"
-        style={{
-          background: `linear-gradient(90deg, var(--color-warm-header-start), var(--color-warm-header-end))`,
-          boxShadow: '0 1px 0 hsl(0 0% 100% / 0.15) inset, 0 2px 10px hsl(270 30% 20% / 0.18)'
-        }}
-      >
+      <header className="v2-header-gradient text-white">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 py-2.5 flex items-center gap-2">
           <div className="flex items-center gap-2">
             <span 
@@ -84,7 +79,7 @@ export default function LoginPageV2() {
 
       {/* Main content */}
       <main className="flex-1 flex items-center justify-center px-3 sm:px-6 py-8">
-        <div className="w-full max-w-md panel p-6 sm:p-8">
+        <div className="v2-login-container">
           <div className="mb-5 sm:mb-6 text-center">
             <h2 
               className="text-2xl sm:text-3xl font-semibold"
@@ -103,12 +98,7 @@ export default function LoginPageV2() {
           {/* Error banner */}
           {error && (
             <div 
-              className="mb-4 p-3 text-sm rounded-lg"
-              style={{
-                background: 'color-mix(in oklch, var(--color-warm-rose), white 75%)',
-                border: '1px solid color-mix(in oklch, var(--color-warm-rose), white 55%)',
-                color: 'oklch(0.34 0.06 20)'
-              }}
+              className="v2-error-banner mb-4"
               role="alert"
               aria-live="polite"
             >
@@ -140,17 +130,7 @@ export default function LoginPageV2() {
                 placeholder="e.g. admin"
                 aria-invalid={error && error.includes('username') ? 'true' : 'false'}
                 aria-describedby={error && error.includes('username') ? 'username-error' : undefined}
-                className="mt-1 w-full"
-                style={{
-                  fontSize: 'clamp(12px, 1.6vw, 14px)',
-                  lineHeight: '1.3',
-                  padding: '0.5rem 0.625rem',
-                  border: '1px solid var(--color-warm-border)',
-                  borderRadius: '10px',
-                  background: '#fff',
-                  color: 'var(--color-warm-ink)',
-                  minHeight: '44px' // Touch target requirement
-                }}
+                className="v2-input mt-1"
               />
             </div>
 
@@ -172,17 +152,7 @@ export default function LoginPageV2() {
                 placeholder="••••••••"
                 aria-invalid={error && error.includes('password') ? 'true' : 'false'}
                 aria-describedby={error && error.includes('password') ? 'password-error' : undefined}
-                className="mt-1 w-full"
-                style={{
-                  fontSize: 'clamp(12px, 1.6vw, 14px)',
-                  lineHeight: '1.3',
-                  padding: '0.5rem 0.625rem',
-                  border: '1px solid var(--color-warm-border)',
-                  borderRadius: '10px',
-                  background: '#fff',
-                  color: 'var(--color-warm-ink)',
-                  minHeight: '44px' // Touch target requirement
-                }}
+                className="v2-input mt-1"
               />
             </div>
 
@@ -209,12 +179,7 @@ export default function LoginPageV2() {
                 type="submit"
                 disabled={isLoading}
                 aria-busy={isLoading}
-                className="btn btn-press btn-primary block w-1/2 mx-auto text-center"
-                style={{
-                  minHeight: '44px', // Touch target requirement
-                  opacity: isLoading ? '0.65' : '1',
-                  cursor: isLoading ? 'not-allowed' : 'pointer'
-                }}
+                className="v2-button v2-button-primary"
               >
                 {isLoading ? 'Signing in…' : 'Sign in'}
               </button>
