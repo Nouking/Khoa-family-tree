@@ -33,6 +33,26 @@ When adding completed tasks, use this standardized format:
 
 > **Note**: This epic addresses all issues reported in the `@Instruction` file. Tasks are completed in dependency order to ensure system stability.
 
+<a id="e13-t1"></a>
+#### E13-T1: v2 Login Page Sizing & Responsive Fix (P1-CRITICAL)
+- Status: Completed - 2025-08-17 | Branch: `improvement-e13-t1-v2-login-sizing-fix`
+- Summary: Fixed v2 login page container sizing and button layout to match login-screen-prompt specifications exactly across all viewport sizes, migrated to CSS custom properties for better maintainability.
+- Implementation Details:
+  - **Files Modified**:
+    - `family-tree/app/v2/login/page.tsx` (responsive container and button fixes)
+    - `family-tree/app/globals.css` (warm color token additions for v2 login)
+  - **Key Changes**:
+    - Removed `max-w-md` constraint, changed to flexible `max-w-sm sm:max-w-md` sizing
+    - Changed button from `w-1/2` to full-width (`w-full`) matching reference design
+    - Migrated gradient from inline styles to CSS custom property `--gradient-login-button`
+    - Added warm theme CSS variables for consistent token-driven styling
+  - **Technical Achievements**:
+    - Responsive behavior validated across 360px, 768px, and 1024px+ viewports
+    - Maintained 44px touch target requirements for accessibility
+    - Preserved existing error handling and loading states
+  - **Agent Collaboration**: @ux-expert provided responsive design analysis, @dev implemented changes, @qa validated cross-device behavior
+- Verification Notes: Development server runs without errors, ESLint passes with no new issues, visual alignment confirmed with login-screen-prompt specifications
+
 ### Example Completed Task Entry
 
 <a id="e13-example"></a>

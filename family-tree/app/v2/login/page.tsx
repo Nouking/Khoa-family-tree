@@ -85,7 +85,7 @@ export default function LoginPageV2() {
       {/* Main content */}
       <main className="flex-1 flex items-center justify-center px-3 sm:px-6 py-8">
         <div 
-          className="w-full max-w-md p-6 sm:p-8"
+          className="w-full max-w-sm sm:max-w-md p-6 sm:p-8"
           style={{
             background: 'var(--color-warm-card)',
             border: '1px solid var(--color-warm-border)',
@@ -217,9 +217,9 @@ export default function LoginPageV2() {
                 type="submit"
                 disabled={isLoading}
                 aria-busy={isLoading}
-                className="block w-1/2 mx-auto text-center"
+                className="w-full text-center"
                 style={{
-                  backgroundImage: 'linear-gradient(135deg, #A7F3D0 0%, #FDE68A 50%, #E9D5FF 100%)',
+                  backgroundImage: 'var(--gradient-login-button)',
                   color: '#0f172a',
                   border: '1px solid rgba(15, 23, 42, 0.08)',
                   borderRadius: '12px',
