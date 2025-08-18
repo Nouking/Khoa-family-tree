@@ -159,11 +159,14 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 Seed or update the local admin credentials (admin/admin) with:
 
-```
+```bash
+# Run from project root directory (Khoa-family-tree/):
 node scripts/seed-admin.mjs --password=admin
 ```
 
-Pass a different value to `--password` to change it. The script is idempotent and safely updates `data/users.json`.
+Pass a different value to `--password` to change it (minimum 3 characters). The script is idempotent and safely updates `data/users.json`. 
+
+**Note**: This script must be run from the project root directory, not from the family-tree subdirectory.
 
 ## 🎨 Design Tool Features
 
