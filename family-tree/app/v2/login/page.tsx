@@ -55,9 +55,9 @@ export default function LoginPageV2() {
     <div 
       className="min-h-dvh flex flex-col"
       style={{ 
-        background: 'var(--color-warm-surface)',
-        color: 'var(--color-warm-ink)',
-        fontFamily: 'var(--font-sans)'
+        background: 'var(--v2-color-surface)',
+        color: 'var(--v2-color-ink)',
+        fontFamily: 'var(--v2-font-family-sans)'
       }}
     >
       {/* Header with warm gradient */}
@@ -83,7 +83,7 @@ export default function LoginPageV2() {
           <div className="mb-5 sm:mb-6 text-center">
             <h2 
               className="text-2xl sm:text-3xl font-semibold"
-              style={{ color: 'var(--color-warm-ink)' }}
+              style={{ color: 'var(--v2-color-ink)' }}
             >
               Sign in
             </h2>
@@ -116,7 +116,7 @@ export default function LoginPageV2() {
               <label 
                 htmlFor="username" 
                 className="block text-sm font-medium"
-                style={{ color: 'var(--color-warm-ink)' }}
+                style={{ color: 'var(--v2-color-ink)' }}
               >
                 Username
               </label>
@@ -138,7 +138,7 @@ export default function LoginPageV2() {
               <label 
                 htmlFor="password" 
                 className="block text-sm font-medium"
-                style={{ color: 'var(--color-warm-ink)' }}
+                style={{ color: 'var(--v2-color-ink)' }}
               >
                 Password
               </label>
@@ -187,7 +187,7 @@ export default function LoginPageV2() {
 
             <div 
               className="text-center pt-2 text-sm"
-              style={{ color: 'var(--color-warm-ink)' }}
+              style={{ color: 'var(--v2-color-ink)' }}
             >
               <Link 
                 href="/" 
