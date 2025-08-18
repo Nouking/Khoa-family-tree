@@ -217,10 +217,12 @@ Use the template from @Instruction file to execute E13-T1. Read CLAUDE.md sectio
 Use the template from @Instruction file to execute E13-T2. Read CLAUDE.md sections 1–136, 274–331 and IMPROVEMENT-TASK-TRACKING.md lines 168-209 for E13-T2 specification. Follow the template structure: Context Establishment → Workflow Compliance → Task Specification → Technical Implementation → Quality Assurance. Execute as @dev (primary) = @.cursor\rules\dev.mdc + @po = @.cursor\rules\po.mdc + @architect = @.cursor\rules\architect.mdc collaboration. Fix admin script path error preventing password management. Resolve double family-tree directory nesting in path resolution for seed-admin.mjs script. Test cross-platform execution and update documentation. Complete in order: code → docs → git.
 ```
 
-### E13-T3: API Fetch Error Resolution in v2/view (P1-CRITICAL)
-- **Status**: Pending
+### E13-T3: API Fetch Error Resolution in v2/view (P1-CRITICAL) ✅
+- **Status**: Completed - 2025-08-18 | Branch: `improvement-e13-t3-api-fetch-error-fix`
 - **Primary Agent**: @architect (Winston - API architecture and debugging) - `.cursor/rules/architect.mdc`
 - **Supporting Agents**: @dev (James - Frontend implementation) - `.cursor/rules/dev.mdc`, @qa (Quinn - Error handling testing) - `.cursor/rules/qa.mdc`
+- **Summary**: Fixed API fetch errors in v2/view by implementing centralized API client with retry logic, error boundaries, and enhanced error handling
+- **Details**: See Completed Log → [E13-T3](family-tree/docs/completed-tasks.md#e13-t3)
 - **Description**: Resolve "Failed to fetch" errors occurring in `/v2/view` that break core functionality
 - **Dependencies**: None
 - **Reference Files**:
@@ -275,7 +277,7 @@ Use the template from @Instruction file to execute E13-T2. Read CLAUDE.md sectio
 
 - **Execution Prompt**: 
 ```
-Use the template from @Instruction file to execute E13-T3. Read CLAUDE.md sections 1–136, 274–331 and IMPROVEMENT-TASK-TRACKING.md lines 216-270 for E13-T3 specification. Follow the template structure: Context Establishment → Workflow Compliance → Task Specification → Technical Implementation → Quality Assurance. Execute as @architect (primary) = @.cursor\rules\architect.mdc + @dev = @.cursor\rules\dev.mdc + @qa = @.cursor\rules\qa.mdc collaboration. Resolve "Failed to fetch" errors in /v2/view breaking core functionality. Investigate API endpoints, CORS configuration, authentication token handling, and implement proper error boundaries. Complete in order: code → docs → git.
+Use the template from @Instruction file to execute E13-T3. Read CLAUDE.md sections 1–136, 274–331 and IMPROVEMENT-TASK-TRACKING.md lines 216-275 for E13-T3 specification. Follow the template structure: Context Establishment → Workflow Compliance → Task Specification → Technical Implementation → Quality Assurance. Execute as @architect (primary) = @.cursor\rules\architect.mdc + @dev = @.cursor\rules\dev.mdc + @qa = @.cursor\rules\qa.mdc collaboration. Resolve "Failed to fetch" errors in /v2/view breaking core functionality. Investigate API endpoints, CORS configuration, authentication token handling, and implement proper error boundaries. Complete in order: code → docs → git.
 ```
 
 ### E13-T4: v2 View UI Component Alignment with Home Prompt (P1-HIGH)
