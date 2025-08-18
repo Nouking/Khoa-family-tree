@@ -234,7 +234,25 @@ const FamilyTreeCanvasV2 = memo(React.forwardRef<FamilyTreeCanvasV2Handle, Famil
 
   return (
     <div className="v2-canvas-grid rounded-[16px] h-full p-3 sm:p-5 relative overflow-hidden">
-      <h2 className="canvas-title">Family Tree</h2>
+      <h2 className="v2-canvas-title">Family Tree</h2>
+      
+      {/* Relationship legend overlay */}
+      <div className="v2-connection-legend panel p-2" data-expanded="false">
+        <button className="v2-legend-toggle" title="Toggle size" aria-label="Toggle legend">↔</button>
+        <h4>Relationship key</h4>
+        <div className="v2-legend-row">
+          <svg width="40" height="10" viewBox="0 0 40 10">
+            <path className="v2-connector v2-connector--parent" d="M2 5 H38" fill="none"/>
+          </svg>
+          <span>Parent → Child</span>
+        </div>
+        <div className="v2-legend-row">
+          <svg width="40" height="10" viewBox="0 0 40 10">
+            <path className="v2-connector v2-connector--spouse" d="M2 5 H38" fill="none"/>
+          </svg>
+          <span>Spouse ↔ Spouse</span>
+        </div>
+      </div>
       
       {/* Dynamic connectors will be drawn here */}
       <svg 
@@ -269,28 +287,44 @@ const FamilyTreeCanvasV2 = memo(React.forwardRef<FamilyTreeCanvasV2Handle, Famil
             transformOrigin: '0 0'
           }}
         >
-          {visibleMembers.map((member) => (
-            <div
-              key={member.id}
-              data-member-id={member.id}
-              className="absolute v2-node-card float-in px-3 py-3 flex items-center gap-3"
-              style={{
-                left: member.position.x,
-                top: member.position.y,
-                transform: 'translate(-50%, -50%)'
-              }}
-            >
-              <img 
-                className="v2-node-photo" 
-                src={member.photo || `https://placehold.co/160x160?text=${encodeURIComponent(member.name.split(' ')[0])}`}
-                alt={member.name} 
-              />
-              <div>
-                <div className="v2-ribbon v2-ribbon-mint">{member.name}</div>
-                <div className="text-[12px] opacity-70 mt-1">{member.relationship || 'Family Member'}</div>
+          {visibleMembers.map((member) => {
+            // Determine ribbon color based on relationship
+            const getRibbonColor = (relationship: string = 'Family Member') => {
+              const rel = relationship.toLowerCase();
+              if (rel.includes('father') || rel.includes('parent')) return 'v2-ribbon-mint';
+              if (rel.includes('mother') || rel.includes('parent')) return 'v2-ribbon-sage';
+              if (rel.includes('brother') || rel.includes('son')) return 'v2-ribbon-peach';
+              if (rel.includes('sister') || rel.includes('daughter')) return 'v2-ribbon-lilac';
+              if (rel.includes('spouse') || rel.includes('husband') || rel.includes('wife')) return 'v2-ribbon-sun';
+              if (rel.includes('child') || rel.includes('nephew') || rel.includes('niece')) return 'v2-ribbon-rose';
+              return 'v2-ribbon-mint'; // default
+            };
+
+            return (
+              <div
+                key={member.id}
+                data-member-id={member.id}
+                className="absolute v2-node-card float-in px-3 py-3 flex items-center gap-3"
+                style={{
+                  left: member.position.x,
+                  top: member.position.y,
+                  transform: 'translate(-50%, -50%)'
+                }}
+              >
+                <img 
+                  className="v2-node-photo" 
+                  src={member.photo || `https://placehold.co/160x160?text=${encodeURIComponent(member.name.split(' ')[0])}`}
+                  alt={member.name} 
+                />
+                <div>
+                  <div className={`v2-ribbon ${getRibbonColor(member.relationship)}`}>
+                    {member.name}
+                  </div>
+                  <div className="text-[12px] opacity-70 mt-1">{member.relationship || 'Family Member'}</div>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Canvas Controls */}

@@ -120,7 +120,7 @@ const ViewPageV2ClientInner: React.FC<ViewPageV2ClientProps> = ({ initialMembers
       {/* Main layout: left rail + content */}
       <div className="max-w-7xl mx-auto w-full px-2 sm:px-3 flex-1 grid grid-cols-12 gap-3 py-3">
         {/* Left icon rail */}
-        <aside className="v2-toolbar-rail col-span-2 lg:col-span-1 h-fit lg:sticky lg:top-3">
+        <aside className="col-span-2 lg:col-span-1 h-fit lg:sticky lg:top-3">
           <SidebarV2
             onAddMember={handleAddMember}
             onExport={handleExport}

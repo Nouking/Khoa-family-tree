@@ -31,8 +31,8 @@ const MainToolbarV2: React.FC<MainToolbarV2Props> = ({
           </h1>
         </div>
         <div className="ms-auto hidden sm:flex items-center gap-2">
-          <button className="v2-btn v2-btn-outline btn-sm">Undo</button>
-          <button className="v2-btn v2-btn-outline btn-sm">Redo</button>
+          <button className="btn btn-outline btn-sm btn-press">Undo</button>
+          <button className="btn btn-outline btn-sm btn-press">Redo</button>
           <input 
             type="search"
             value={searchQuery}
@@ -45,7 +45,7 @@ const MainToolbarV2: React.FC<MainToolbarV2Props> = ({
             }}
             onFocus={onSearchFocus}
             placeholder="Search" 
-            className="v2-input hidden md:block ms-1 w-52" 
+            className="input hidden md:block ms-1 w-52" 
             aria-label="Search family members"
             list="toolbar-v2-search-suggestions"
           />
@@ -56,7 +56,7 @@ const MainToolbarV2: React.FC<MainToolbarV2Props> = ({
               ))}
             </datalist>
           )}
-          <button className="ms-1 shrink-0 h-8 w-8 rounded-full bg-white/90 text-[var(--color-neutral-900)] text-xs font-semibold">
+          <button className="ms-1 shrink-0 h-8 w-8 rounded-full bg-white/90 text-[var(--v2-color-ink)] text-xs font-semibold">
             KY
           </button>
         </div>

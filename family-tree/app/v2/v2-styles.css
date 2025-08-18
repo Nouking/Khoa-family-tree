@@ -104,6 +104,31 @@ V2 LAYOUT CONTAINERS
   box-shadow: var(--v2-shadow-sm);
 }
 
+.v2-toolbar-rail-button {
+  height: 38px;
+  border-radius: var(--v2-radius-md);
+  border: 1px solid var(--v2-color-border);
+  background: var(--v2-color-surface-2);
+  color: var(--v2-color-ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 600;
+  transition: var(--v2-transition-fast);
+  cursor: pointer;
+}
+
+.v2-toolbar-rail-button[data-active="true"] {
+  background: color-mix(in oklch, var(--v2-color-mint), white 75%);
+  border-color: color-mix(in oklch, var(--v2-color-mint), white 55%);
+}
+
+.v2-toolbar-rail-button:hover:not([data-active="true"]) {
+  background: var(--v2-color-card);
+  box-shadow: var(--v2-shadow-sm);
+}
+
 /* V2 Header Gradient */
 .v2-header-gradient {
   background: var(--v2-gradient-header);
@@ -303,8 +328,90 @@ V2 COMPONENT-SPECIFIC STYLES
 }
 
 .v2-ribbon-mint {
-  background: color-mix(in oklch, var(--v2-color-mint), white 20%);
-  color: oklch(32% 0.04 170);
+  background: color-mix(in oklch, var(--v2-color-mint), white 22%);
+  color: oklch(30% 0.03 160);
+}
+
+.v2-ribbon-sage {
+  background: color-mix(in oklch, var(--v2-color-sage), white 22%);
+  color: oklch(30% 0.03 150);
+}
+
+.v2-ribbon-lilac {
+  background: color-mix(in oklch, var(--v2-color-lilac), white 20%);
+  color: oklch(30% 0.02 300);
+}
+
+.v2-ribbon-sun {
+  background: color-mix(in oklch, var(--v2-color-sun), white 18%);
+  color: oklch(34% 0.05 85);
+}
+
+.v2-ribbon-rose {
+  background: color-mix(in oklch, var(--v2-color-rose), white 20%);
+  color: oklch(34% 0.06 20);
+}
+
+/* V2 Canvas Title */
+.v2-canvas-title {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: color-mix(in oklch, var(--v2-color-ink), white 5%);
+  text-align: center;
+  margin: 6px 0 16px 0;
+  font-size: clamp(18px, 3.2vw, 34px);
+}
+
+/* V2 Connection Legend */
+.v2-connection-legend {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  z-index: 10;
+  font-size: 12px;
+  width: 200px;
+  transition: width 160ms ease, transform 160ms ease;
+}
+
+.v2-connection-legend h4 {
+  margin: 0 0 6px 0;
+  font-size: 12px;
+  font-weight: 600;
+  opacity: 0.9;
+  padding-right: 28px;
+}
+
+.v2-legend-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.v2-legend-row + .v2-legend-row {
+  margin-top: 6px;
+}
+
+.v2-legend-toggle {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  height: 20px;
+  width: 20px;
+  border-radius: 6px;
+  border: 1px solid var(--v2-color-border);
+  background: var(--v2-color-surface-2);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  line-height: 1;
+  opacity: 0.9;
+  cursor: pointer;
+}
+
+.v2-connection-legend[data-expanded='true'] {
+  width: 320px;
+  transform: translateZ(0);
 }
 
 /* V2 Connectors */
@@ -312,6 +419,17 @@ V2 COMPONENT-SPECIFIC STYLES
   stroke: color-mix(in oklch, var(--v2-color-ink), white 60%);
   stroke-width: 2;
   stroke-linecap: round;
+}
+
+.v2-connector--parent {
+  stroke: color-mix(in oklch, var(--v2-color-ink), white 20%);
+  stroke-width: 3;
+}
+
+.v2-connector--spouse {
+  stroke: color-mix(in oklch, var(--v2-color-ink), white 35%);
+  stroke-width: 3;
+  stroke-dasharray: 6 6;
 }
 
 /* V2 Error Banner */
@@ -450,7 +568,7 @@ V2 RESPONSIVE DESIGN UTILITIES
 }
 
 @media (max-width: 480px) {
-  /* Hide connections on very small screens */
+  /* Hide connections on very small screens to avoid visual overlap */
   .v2-canvas-grid > svg {
     display: none;
   }
@@ -466,11 +584,39 @@ V2 RESPONSIVE DESIGN UTILITIES
     align-items: center;
     text-align: center;
     gap: var(--v2-spacing-sm);
+    max-width: 220px;
+  }
+  
+  .v2-ribbon {
+    max-width: 140px;
   }
   
   .v2-panel {
     margin: 0 var(--v2-spacing-sm);
     padding: var(--v2-spacing-md);
+  }
+  
+  /* Compact legend and move slightly inward */
+  .v2-connection-legend {
+    width: 160px;
+    bottom: 8px;
+    right: 8px;
+  }
+  
+  .v2-connection-legend .v2-legend-row svg {
+    width: 32px;
+    height: 8px;
+  }
+}
+
+/* Ultra-small screens: force single column to prevent any overlap */
+@media (max-width: 360px) {
+  .v2-node-card {
+    max-width: 200px;
+  }
+  
+  .v2-ribbon {
+    max-width: 120px;
   }
 }
 
