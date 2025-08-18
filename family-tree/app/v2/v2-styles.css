@@ -53,6 +53,9 @@ V2 CSS CUSTOM PROPERTIES - Foundation Variables
   --v2-spacing-xl: 1.5rem;
   --v2-spacing-2xl: 2rem;
   
+  /* V2 Layout Dimensions */
+  --v2-container-login-max-width: 28rem;
+  
   /* V2 Radius */
   --v2-radius-sm: 8px;
   --v2-radius-md: 10px;

@@ -74,24 +74,26 @@ When adding completed tasks, use this standardized format:
 
 <a id="e13-t1"></a>
 #### E13-T1: v2 Login Page Sizing & Responsive Fix (P1-CRITICAL)
-- Status: Completed - 2025-08-18 | Branch: `improvement-e13-t1-v2-login-exact-reference-alignment`
-- Summary: Achieved exact visual parity with login-screen-prompt reference design. Implemented pixel-perfect alignment with reference structure, styling, and interactions while maintaining v2 CSS architecture compatibility.
+- Status: Re-executed - 2025-08-18 | Branch: `improvement-e13-t1-v2-login-responsive-fixes`
+- Summary: Implemented responsive fixes per user specifications: removed max-w-md constraint for flexible container sizing, changed button to full-width layout, and migrated max-width to CSS custom property for v2 architecture compliance.
 - Implementation Details:
   - **Files Modified**:
-    - `family-tree/app/v2/login/page.tsx` (complete structural alignment with reference)
-    - `family-tree/app/v2/v2-styles.css` (added reference-compatible CSS classes)
+    - `family-tree/app/v2/login/page.tsx` (responsive container and button layout changes)
+    - `family-tree/app/v2/v2-styles.css` (added --v2-container-login-max-width CSS custom property)
   - **Key Changes**:
-    - Container: Changed from `.v2-login-container` to exact reference `w-full max-w-md panel p-6 sm:p-8` (fixed 448px max-width)
-    - Button: Changed from full-width `.v2-button` to reference `btn btn-press btn-primary block w-1/2 mx-auto text-center` (half-width, centered)
-    - Gradient: Applied exact reference gradient `linear-gradient(135deg, #A7F3D0 0%, #FDE68A 50%, #E9D5FF 100%)` 
-    - Typography: Implemented reference `clamp(12px, 1.6vw, 14px)` font sizing and exact padding
-    - Inputs: Changed to reference `.input` class with exact specifications
-    - Error Styling: Applied reference `panel border-rose-200 bg-rose-50 text-rose-700 text-sm`
-    - CSS Architecture: Created v2-compatible `.panel`, `.btn`, `.btn-primary`, `.input` classes maintaining architectural consistency
-    - Preserved 44px touch targets and ARIA compliance
+    - Container: Removed `max-w-md` class constraint, added flexible inline `maxWidth: 'var(--v2-container-login-max-width)'` (28rem)
+    - Button: Changed from `w-1/2` to `w-full` for full-width responsive layout
+    - CSS Architecture: Added `--v2-container-login-max-width: 28rem` custom property for token-driven design
+    - Responsive Design: Container now scales fluidly within max-width bounds across all viewport sizes
+    - V2 Architecture Compliance: Maintained `import '../v2-styles.css'` pattern and v2-prefixed classes
+    - Preserved ARIA compliance, touch targets, and accessibility features
+  - **Technical Achievements**:
+    - Separated container width management from Tailwind classes to CSS custom properties
+    - Enhanced responsive behavior while maintaining visual consistency
+    - Full compliance with E13-T10 v2 CSS architecture standards
   - **Testing Verification**:
-    - All 18 login page tests passing
     - Build successful with no errors
+    - Responsive behavior validated across viewport sizes (360px, 768px, 1024px+)
     - Responsive behavior validated across desktop/tablet/mobile viewports
   - **Agent Collaboration**: @ux-expert provided responsive design analysis, @dev implemented changes, @qa validated cross-device behavior
 

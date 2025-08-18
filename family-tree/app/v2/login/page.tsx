@@ -79,7 +79,7 @@ export default function LoginPageV2() {
 
       {/* Main content */}
       <main className="flex-1 flex items-center justify-center px-3 sm:px-6 py-8">
-        <div className="w-full max-w-md panel p-6 sm:p-8">
+        <div className="w-full panel p-6 sm:p-8" style={{ maxWidth: 'var(--v2-container-login-max-width)' }}>
           <div className="mb-5 sm:mb-6 text-center">
             <h2 
               className="text-2xl sm:text-3xl font-semibold"
@@ -179,7 +179,7 @@ export default function LoginPageV2() {
                 type="submit"
                 disabled={isLoading}
                 aria-busy={isLoading}
-                className="btn btn-press btn-primary block w-1/2 mx-auto text-center"
+                className="btn btn-press btn-primary block w-full text-center"
               >
                 {isLoading ? 'Signing in…' : 'Sign in'}
               </button>
