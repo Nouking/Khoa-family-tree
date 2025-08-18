@@ -139,8 +139,29 @@ When adding completed tasks, use this standardized format:
 
 <a id="e13-t2"></a>
 #### E13-T2: Admin Script Path Resolution (P1-CRITICAL)
-- Status: Pending
-- Summary: [To be completed when task is finished]
+- Status: Completed - 2025-08-18 | Branch: `improvement-e13-t2-admin-script-path-fix`
+- Summary: Fixed critical admin seed script path resolution error that was preventing password management functionality. Relocated script from incorrect location and implemented proper dependency imports for cross-platform execution.
+- Implementation Details:
+  - **Files Created/Modified**:
+    - `scripts/seed-admin.mjs` - Created new script at project root with proper bcrypt dependency resolution
+    - `family-tree/README.md` - Updated documentation with correct usage instructions and requirements
+    - Removed incorrectly placed `family-tree/scripts/seed-admin.mjs` file
+  - **Key Technical Fixes**:
+    - Fixed double `family-tree` directory nesting issue in path resolution
+    - Implemented proper bcrypt module imports using createRequire() from family-tree node_modules
+    - Added comprehensive input validation (password length, empty check)
+    - Enhanced error handling for file system operations and dependency issues
+    - Added clear console feedback showing target file path and execution context
+  - **Cross-Platform Compatibility**:
+    - Script now works correctly from project root directory on Windows, macOS, and Linux
+    - Proper path resolution using Node.js path module for cross-platform compatibility
+    - Reliable bcrypt hashing with proper error handling for all environments
+- Verification Notes: 
+  - Successfully tested script execution with various password parameters
+  - Validated input validation (empty passwords, short passwords rejected)
+  - Confirmed users.json file is created/updated correctly at `family-tree/data/users.json`
+  - Documentation reflects accurate usage instructions for project root execution
+- Agent Collaboration: @dev led implementation of script relocation and dependency fixes, @po validated documentation accuracy, @architect ensured build system compatibility
 
 <a id="e13-t3"></a>
 #### E13-T3: API Fetch Error Resolution in v2/view (P1-CRITICAL)

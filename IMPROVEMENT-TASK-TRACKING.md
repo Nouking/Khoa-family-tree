@@ -167,8 +167,10 @@ Use the template from @Instruction file to execute E13-T10. Read CLAUDE.md secti
 Use the template from @Instruction file to execute E13-T1. Read CLAUDE.md sections 1–136, 138–155, 274–331 and IMPROVEMENT-TASK-TRACKING.md lines 47-173 for E13-T1 specification. Follow the template structure: Context Establishment → Workflow Compliance → Task Specification → Technical Implementation → Quality Assurance. Execute as @ux-expert (primary) = @.cursor\rules\ux-expert.mdc + @dev = @.cursor\rules\dev.mdc + @qa = @.cursor\rules\qa.mdc collaboration. Implement login page responsive fixes matching login-screen-prompt exactly across all viewports. Fix container sizing (remove max-w-md), change button from w-1/2 to full-width, migrate to CSS custom properties. Complete in order: code → docs → git.
 ```
 
-### E13-T2: Admin Script Path Resolution (P1-CRITICAL)
-- **Status**: Pending
+### E13-T2: Admin Script Path Resolution (P1-CRITICAL) ✅
+- **Status**: Completed - 2025-08-18 | Branch: `improvement-e13-t2-admin-script-path-fix`
+- **Summary**: Fixed admin seed script path resolution by moving script to correct location and fixing dependency imports
+- **Details**: See Completed Log → [E13-T2](family-tree/docs/completed-tasks.md#e13-t2)
 - **Primary Agent**: @dev (James - File system and path resolution) - `.cursor/rules/dev.mdc`
 - **Supporting Agents**: @po (Sarah - Documentation validation) - `.cursor/rules/po.mdc`, @architect (Winston - Build system) - `.cursor/rules/architect.mdc`
 - **Description**: Fix admin seed script path error preventing password management functionality
