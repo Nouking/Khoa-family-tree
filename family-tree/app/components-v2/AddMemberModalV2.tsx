@@ -9,6 +9,7 @@ import { useToast } from '../components/ToastProvider';
 import Modal from '../components/Modal';
 import MemberForm from './shared/MemberForm';
 import { MemberFormData } from '../lib/validation/memberValidation';
+import { apiClient, ApiError } from '../lib/apiClient';
 
 interface AddMemberModalV2Props {
   isOpen: boolean;
@@ -62,18 +63,13 @@ const AddMemberModalV2: React.FC<AddMemberModalV2Props> = ({
         childrenIds: [],
       };
       
-      const response = await fetch('/api/members', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(memberData),
+      // Use the new API client with retry logic and better error handling
+      const response = await apiClient.post<FamilyMember>('/api/members', memberData, {
+        timeout: 15000, // 15 seconds for member creation
+        retries: 2, // Retry once on failure
       });
       
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to add member');
-      }
-      
-      const newMember = await response.json();
+      const newMember = response.data;
       dispatch({ type: 'ADD_MEMBER', payload: newMember });
       onMemberAdded?.(newMember);
       showToast({ 
@@ -84,11 +80,32 @@ const AddMemberModalV2: React.FC<AddMemberModalV2Props> = ({
       onClose();
     } catch (error) {
       console.error('Error adding member:', error);
-      const errorMessage = error instanceof Error ? error.message : 'Failed to add member';
+      
+      let errorMessage = 'Failed to add member';
+      let errorTitle = 'Failed to add member';
+      
+      if (error instanceof ApiError) {
+        errorMessage = error.message;
+        if (error.status === 401) {
+          errorTitle = 'Authentication required';
+          errorMessage = 'Please log in to add members';
+        } else if (error.status === 400) {
+          errorTitle = 'Invalid member data';
+        } else if (error.status === 408) {
+          errorTitle = 'Request timeout';
+          errorMessage = 'The request took too long. Please try again';
+        } else if (error.status >= 500) {
+          errorTitle = 'Server error';
+          errorMessage = 'Server is experiencing issues. Please try again later';
+        }
+      } else if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      
       dispatch({ type: 'SET_ERROR', payload: errorMessage });
       showToast({ 
         type: 'error', 
-        title: 'Failed to add member', 
+        title: errorTitle, 
         description: errorMessage 
       });
     } finally {
