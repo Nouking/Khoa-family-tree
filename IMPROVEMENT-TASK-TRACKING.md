@@ -44,8 +44,72 @@ Tasks are assigned primary agents with supporting agents based on expertise over
 **Goal**: Resolve all reported issues from @Instruction file while maintaining existing functionality
 **Success Criteria**: 100% visual parity with prompt files, zero API errors, enhanced UX functionality
 
-### E13-T1: v2 Login Page Sizing & Responsive Fix (P1-CRITICAL)
+### E13-T10: v2 CSS Architecture Consolidation (P0-BLOCKING)
 - **Status**: Pending
+- **Primary Agent**: @architect (Winston - CSS architecture and system design) - `.cursor/rules/architect.mdc`
+- **Supporting Agents**: @dev (James - Implementation and file refactoring) - `.cursor/rules/dev.mdc`, @qa (Quinn - Visual regression testing) - `.cursor/rules/qa.mdc`
+- **Description**: Consolidate all v2-specific CSS into dedicated `family-tree/app/v2/v2-styles.css` file to prevent conflicts and establish clean architectural separation from v1 styling system
+- **Dependencies**: None (becomes prerequisite for all other v2 CSS-dependent tasks)
+- **Reference Files**:
+  - **Target CSS File**: `family-tree/app/v2/v2-styles.css` (consolidation destination)
+  - **Source Files**: `family-tree/app/globals.css` (extract v2 styles), all v2 components for import updates
+  - **Architecture Goal**: Complete separation between v1 and v2 styling systems
+- **Acceptance Criteria**:
+  - GIVEN all v2 components and pages exist
+  - WHEN CSS architecture consolidation is complete
+  - THEN all v2-specific styles are contained in `family-tree/app/v2/v2-styles.css`
+  - AND no v2 component depends on `globals.css` for v2-specific styling
+  - AND all v2 components import `v2-styles.css` using relative imports
+  - AND no style conflicts exist between v1 and v2 systems
+  - AND visual parity is maintained for all existing v2 components
+  - AND clean architectural boundaries are established for future v2 development
+- **Implementation Details**:
+  - Audit `globals.css` to identify all v2-specific styles (warm theme tokens, v2 utilities)
+  - Move v2-specific CSS custom properties and utility classes to `v2-styles.css`
+  - Organize `v2-styles.css` with clear sections: tokens, utilities, components, responsive
+  - Update all v2 component imports to use `import '../v2-styles.css'` or appropriate relative path
+  - Replace global class dependencies with v2-specific class names (prefix with `v2-`)
+  - Eliminate duplicate styles between global and v2 systems
+  - Establish v2 CSS naming conventions and architectural standards
+  - Ensure all v2 pages and components load styling correctly
+- **CSS Architecture Requirements**:
+  - All v2 styles must be self-contained in `v2-styles.css`
+  - Use `v2-` prefix for all v2-specific CSS classes
+  - Import pattern: `import '../v2-styles.css'` from v2 pages, `import '../../v2-styles.css'` from v2 components
+  - No modification of `globals.css` for v2-specific needs
+  - Maintain token-driven design system within v2 architecture
+  - Preserve responsive design and accessibility features
+- **Technical Requirements**:
+  - CSS custom properties scoped to v2 system
+  - Proper import hierarchy to prevent conflicts
+  - Performance optimization (no duplicate CSS loading)
+  - Cross-browser compatibility maintained
+  - Build system integration (ensure CSS is properly bundled)
+  - Documentation of v2 CSS patterns for future development
+- **Files to Create/Modify**:
+  - `family-tree/app/v2/v2-styles.css` (consolidation destination, enhance existing)
+  - `family-tree/app/globals.css` (remove v2-specific styles)
+  - All v2 components in `family-tree/app/components-v2/` (update imports)
+  - All v2 pages in `family-tree/app/v2/` (update imports)
+  - Documentation files (update CSS architecture guidelines)
+- **Testing Requirements**:
+  - Visual regression testing for all v2 components
+  - Cross-browser testing (Chrome, Firefox, Safari, Edge)
+  - Responsive design validation across all viewport sizes
+  - Performance testing (CSS load times and rendering)
+  - Build system testing (ensure proper CSS bundling)
+  - Accessibility testing (contrast, focus indicators maintained)
+- **Branch**: `improvement-e13-t10-v2-css-architecture-consolidation`
+
+- **Execution Prompt**: 
+```
+Use the template from @Instruction file to execute E13-T10. Read CLAUDE.md sections 1–136, 138–155, 156-170, 274–331 and IMPROVEMENT-TASK-TRACKING.md lines 47-102 for E13-T10 specification. Follow the template structure: Context Establishment → Workflow Compliance → Task Specification → Technical Implementation → Quality Assurance. Execute as @architect (primary) = @.cursor\rules\architect.mdc + @dev = @.cursor\rules\dev.mdc + @qa = @.cursor\rules\qa.mdc collaboration. Consolidate all v2 CSS into family-tree/app/v2/v2-styles.css, update component imports, establish clean architectural separation from v1 system. Remove v2 dependencies from globals.css, use v2- prefixing, ensure visual parity maintained. Implement v2 CSS Architecture Standards from CLAUDE.md (156-170). This is BLOCKING task - all other v2 CSS-dependent tasks depend on clean CSS architecture. Complete in order: code → docs → git.
+```
+
+### E13-T1: v2 Login Page Sizing & Responsive Fix (P1-CRITICAL) ✅
+- **Status**: Completed - 2025-08-17 | Branch: `improvement-e13-t1-v2-login-responsive-fix`
+- **Summary**: Fixed login page responsive sizing: changed container from max-w-md to max-w-lg and button from w-1/2 to w-full for better mobile/desktop layout
+- **Details**: See Completed Log → [E13-T1](family-tree/docs/completed-tasks.md#e13-t1)
 - **Primary Agent**: @ux-expert (Sally - UI design analysis and responsive strategy) - `.cursor/rules/ux-expert.mdc`
 - **Supporting Agents**: @dev (James - Implementation) - `.cursor/rules/dev.mdc`, @qa (Quinn - Cross-device testing) - `.cursor/rules/qa.mdc`
 - **Description**: Fix v2 login page sizing to match `login-screen-prompt` specifications exactly across all viewport sizes
@@ -146,7 +210,7 @@ Use the template from @Instruction file to execute E13-T1. Read CLAUDE.md sectio
 
 - **Execution Prompt**: 
 ```
-Use the template from @Instruction file to execute E13-T2. Read CLAUDE.md sections 1–136, 274–331 and IMPROVEMENT-TASK-TRACKING.md lines 104-289 for E13-T2 specification. Follow the template structure: Context Establishment → Workflow Compliance → Task Specification → Technical Implementation → Quality Assurance. Execute as @dev (primary) = @.cursor\rules\dev.mdc + @po = @.cursor\rules\po.mdc + @architect = @.cursor\rules\architect.mdc collaboration. Fix admin script path error preventing password management. Resolve double family-tree directory nesting in path resolution for seed-admin.mjs script. Test cross-platform execution and update documentation. Complete in order: code → docs → git.
+Use the template from @Instruction file to execute E13-T2. Read CLAUDE.md sections 1–136, 274–331 and IMPROVEMENT-TASK-TRACKING.md lines 168-209 for E13-T2 specification. Follow the template structure: Context Establishment → Workflow Compliance → Task Specification → Technical Implementation → Quality Assurance. Execute as @dev (primary) = @.cursor\rules\dev.mdc + @po = @.cursor\rules\po.mdc + @architect = @.cursor\rules\architect.mdc collaboration. Fix admin script path error preventing password management. Resolve double family-tree directory nesting in path resolution for seed-admin.mjs script. Test cross-platform execution and update documentation. Complete in order: code → docs → git.
 ```
 
 ### E13-T3: API Fetch Error Resolution in v2/view (P1-CRITICAL)
@@ -207,7 +271,7 @@ Use the template from @Instruction file to execute E13-T2. Read CLAUDE.md sectio
 
 - **Execution Prompt**: 
 ```
-Use the template from @Instruction file to execute E13-T3. Read CLAUDE.md sections 1–136, 274–331 and IMPROVEMENT-TASK-TRACKING.md lines 152-225 for E13-T3 specification. Follow the template structure: Context Establishment → Workflow Compliance → Task Specification → Technical Implementation → Quality Assurance. Execute as @architect (primary) = @.cursor\rules\architect.mdc + @dev = @.cursor\rules\dev.mdc + @qa = @.cursor\rules\qa.mdc collaboration. Resolve "Failed to fetch" errors in /v2/view breaking core functionality. Investigate API endpoints, CORS configuration, authentication token handling, and implement proper error boundaries. Complete in order: code → docs → git.
+Use the template from @Instruction file to execute E13-T3. Read CLAUDE.md sections 1–136, 274–331 and IMPROVEMENT-TASK-TRACKING.md lines 216-270 for E13-T3 specification. Follow the template structure: Context Establishment → Workflow Compliance → Task Specification → Technical Implementation → Quality Assurance. Execute as @architect (primary) = @.cursor\rules\architect.mdc + @dev = @.cursor\rules\dev.mdc + @qa = @.cursor\rules\qa.mdc collaboration. Resolve "Failed to fetch" errors in /v2/view breaking core functionality. Investigate API endpoints, CORS configuration, authentication token handling, and implement proper error boundaries. Complete in order: code → docs → git.
 ```
 
 ### E13-T4: v2 View UI Component Alignment with Home Prompt (P1-HIGH)
@@ -215,7 +279,7 @@ Use the template from @Instruction file to execute E13-T3. Read CLAUDE.md sectio
 - **Primary Agent**: @ux-expert (Sally - UI design and component analysis) - `.cursor/rules/ux-expert.mdc`
 - **Supporting Agents**: @dev (James - Implementation) - `.cursor/rules/dev.mdc`, @po (Sarah - Quality validation) - `.cursor/rules/po.mdc`
 - **Description**: Align v2 view UI components to match `home-screen-prompt` design specifications exactly
-- **Dependencies**: [E13-T3] API errors must be resolved first
+- **Dependencies**: [E13-T10] v2 CSS architecture must be consolidated first, [E13-T3] API errors must be resolved first
 - **Reference Files**:
   - **Target Design**: `home-screen-prompt` (HTML reference)
   - **Current Components**: `family-tree/app/components-v2/MainToolbarV2.tsx`, `family-tree/app/components-v2/SidebarV2.tsx`, `family-tree/app/components-v2/FamilyTreeCanvasV2.tsx`
@@ -249,7 +313,9 @@ Use the template from @Instruction file to execute E13-T3. Read CLAUDE.md sectio
   - **Canvas Area**: Member cards with photos, ribbons, and relationship lines
   - **Responsive Behavior**: Mobile adaptations and breakpoint handling
 - **Technical Requirements**:
-  - Token-driven styling using `--color-*` variables from `globals.css`
+  - **v2 CSS Architecture**: All styling must use `family-tree/app/v2/v2-styles.css` with `v2-` prefixed classes
+  - **Import Pattern**: Components use `import '../../v2-styles.css'`, pages use `import '../v2-styles.css'`
+  - Token-driven styling using CSS custom properties from v2 system
   - Responsive grid layouts with proper breakpoint handling
   - CSS z-index management for proper layering
   - Mobile-first design approach
@@ -259,7 +325,7 @@ Use the template from @Instruction file to execute E13-T3. Read CLAUDE.md sectio
   - `family-tree/app/components-v2/MainToolbarV2.tsx`
   - `family-tree/app/components-v2/SidebarV2.tsx`  
   - `family-tree/app/components-v2/FamilyTreeCanvasV2.tsx`
-  - `family-tree/app/globals.css` (utility classes and tokens)
+  - `family-tree/app/v2/v2-styles.css` (add component-specific styles)
   - Component test files
 - **Testing Requirements**:
   - Visual regression testing against `home-screen-prompt`
@@ -271,7 +337,7 @@ Use the template from @Instruction file to execute E13-T3. Read CLAUDE.md sectio
 
 - **Execution Prompt**: 
 ```
-Use the template from @Instruction file to execute E13-T4. Read CLAUDE.md sections 1–136, 138–155, 274–331 and IMPROVEMENT-TASK-TRACKING.md lines 213-285 for E13-T4 specification. Follow the template structure: Context Establishment → Workflow Compliance → Task Specification → Technical Implementation → Quality Assurance. Execute as @ux-expert (primary) = @.cursor\rules\ux-expert.mdc + @dev = @.cursor\rules\dev.mdc + @po = @.cursor\rules\po.mdc collaboration. Align v2 view UI components to match home-screen-prompt exactly. Update MainToolbarV2, SidebarV2, FamilyTreeCanvasV2 with proper gradient styling, warm theme tokens, and responsive layouts. Ensure connections render behind nodes. Dependency: E13-T3 must be completed first. Complete in order: code → docs → git.
+Use the template from @Instruction file to execute E13-T4. Read CLAUDE.md sections 1–136, 138–155, 156-170, 274–331 and IMPROVEMENT-TASK-TRACKING.md lines 277-336 for E13-T4 specification. Follow the template structure: Context Establishment → Workflow Compliance → Task Specification → Technical Implementation → Quality Assurance. Execute as @ux-expert (primary) = @.cursor\rules\ux-expert.mdc + @dev = @.cursor\rules\dev.mdc + @po = @.cursor\rules\po.mdc collaboration. Align v2 view UI components to match home-screen-prompt exactly. Update MainToolbarV2, SidebarV2, FamilyTreeCanvasV2 with proper gradient styling, warm theme tokens, and responsive layouts. Ensure connections render behind nodes. CRITICAL: Follow v2 CSS Architecture Standards (CLAUDE.md 156-170) - all styling must use family-tree/app/v2/v2-styles.css with v2- prefixed classes. Dependencies: E13-T10 v2 CSS architecture consolidated, E13-T3 API errors resolved. Complete in order: code → docs → git.
 ```
 
 ### E13-T5: Modal Content Implementation (Add & Help) (P1-HIGH)
@@ -279,7 +345,7 @@ Use the template from @Instruction file to execute E13-T4. Read CLAUDE.md sectio
 - **Primary Agent**: @ux-expert (Sally - Modal design and content structure) - `.cursor/rules/ux-expert.mdc`
 - **Supporting Agents**: @dev (James - Implementation) - `.cursor/rules/dev.mdc`, @qa (Quinn - Accessibility validation) - `.cursor/rules/qa.mdc`
 - **Description**: Implement proper modal content for Add Member and Help panels to match prompt specifications
-- **Dependencies**: [E13-T4] UI alignment should be completed first
+- **Dependencies**: [E13-T10] v2 CSS architecture must be consolidated first, [E13-T4] UI alignment should be completed first
 - **Reference Files**:
   - **Add Modal Design**: `add-screen-prompt` (HTML reference)
   - **Help Panel Design**: `help-panel-prompt` (HTML reference)
@@ -323,18 +389,20 @@ Use the template from @Instruction file to execute E13-T4. Read CLAUDE.md sectio
   - Test modal behavior across different viewport sizes
   - Integrate with existing family tree context and operations
 - **Technical Requirements**:
+  - **v2 CSS Architecture**: All modal styling must use `family-tree/app/v2/v2-styles.css` with `v2-` prefixed classes
+  - **Import Pattern**: Modal components use `import '../../v2-styles.css'`
   - Modal base component enhancement if needed
   - Form validation and error handling
   - Photo upload and preview functionality
   - State management for modal content
-  - Animation and transition effects
-  - Mobile-responsive design patterns
+  - Animation and transition effects using v2 CSS system
+  - Mobile-responsive design patterns (bottom-sheet behavior)
   - Comprehensive accessibility support
 - **Files to Modify**:
   - `family-tree/app/components-v2/AddMemberModalV2.tsx`
   - `family-tree/app/components-v2/HelpPanelV2.tsx`
   - `family-tree/app/components-v2/shared/MemberForm.tsx` (if exists)
-  - Modal styling and utility classes
+  - `family-tree/app/v2/v2-styles.css` (add modal-specific styles)
   - Component test files
 - **Testing Requirements**:
   - Modal functionality testing (open, close, form submission)
@@ -346,7 +414,7 @@ Use the template from @Instruction file to execute E13-T4. Read CLAUDE.md sectio
 
 - **Execution Prompt**: 
 ```
-Use the template from @Instruction file to execute E13-T5. Read CLAUDE.md sections 1–136, 138–155, 274–331 and IMPROVEMENT-TASK-TRACKING.md lines 277-345 for E13-T5 specification. Follow the template structure: Context Establishment → Workflow Compliance → Task Specification → Technical Implementation → Quality Assurance. Execute as @ux-expert (primary) = @.cursor\rules\ux-expert.mdc + @dev = @.cursor\rules\dev.mdc + @qa = @.cursor\rules\qa.mdc collaboration. Implement Add Member and Help modal content matching add-screen-prompt and help-panel-prompt specifications. Create comprehensive forms, photo upload, validation states, mobile bottom-sheet behavior, and accessibility compliance. Dependency: E13-T4 UI alignment should be completed first. Complete in order: code → docs → git.
+Use the template from @Instruction file to execute E13-T5. Read CLAUDE.md sections 1–136, 138–155, 156-170, 274–331 and IMPROVEMENT-TASK-TRACKING.md lines 343-413 for E13-T5 specification. Follow the template structure: Context Establishment → Workflow Compliance → Task Specification → Technical Implementation → Quality Assurance. Execute as @ux-expert (primary) = @.cursor\rules\ux-expert.mdc + @dev = @.cursor\rules\dev.mdc + @qa = @.cursor\rules\qa.mdc collaboration. Implement Add Member and Help modal content matching add-screen-prompt and help-panel-prompt specifications. Create comprehensive forms, photo upload, validation states, mobile bottom-sheet behavior, and accessibility compliance. CRITICAL: Follow v2 CSS Architecture Standards (CLAUDE.md 156-170) - all modal styling must use family-tree/app/v2/v2-styles.css with v2- prefixed classes. Dependencies: E13-T10 v2 CSS architecture consolidated, E13-T4 UI alignment should be completed first. Complete in order: code → docs → git.
 ```
 
 ### E13-T6: Add/Export/Help Button Styling Enhancement (P2-HIGH)
@@ -354,7 +422,7 @@ Use the template from @Instruction file to execute E13-T5. Read CLAUDE.md sectio
 - **Primary Agent**: @ux-expert (Sally - Button design and interaction states) - `.cursor/rules/ux-expert.mdc`
 - **Supporting Agents**: @dev (James - Implementation) - `.cursor/rules/dev.mdc`, @po (Sarah - Design validation) - `.cursor/rules/po.mdc`
 - **Description**: Style Add/Export/Help buttons to match `home-screen-prompt` design specifications with proper token-driven styling
-- **Dependencies**: [E13-T4] UI alignment provides foundation
+- **Dependencies**: [E13-T10] v2 CSS architecture must be consolidated first, [E13-T4] UI alignment provides foundation
 - **Reference Files**:
   - **Button Design Reference**: `home-screen-prompt` (sidebar button specifications)
   - **Current Component**: `family-tree/app/components-v2/SidebarV2.tsx`
@@ -385,15 +453,17 @@ Use the template from @Instruction file to execute E13-T5. Read CLAUDE.md sectio
   - **Help Button**: Tertiary styling with info icon
   - **Shared Properties**: Consistent sizing, radius, shadow, and spacing
 - **Technical Requirements**:
-  - CSS utility classes for button variants
-  - Token-based color and spacing system
-  - Smooth transition animations
+  - **v2 CSS Architecture**: All button styling must use `family-tree/app/v2/v2-styles.css` with `v2-` prefixed classes
+  - **Import Pattern**: SidebarV2 component uses `import '../../v2-styles.css'`
+  - CSS utility classes for button variants within v2 system
+  - Token-based color and spacing system from v2 CSS
+  - Smooth transition animations using v2 CSS custom properties
   - Responsive sizing adjustments
   - Accessibility compliance (focus management, ARIA)
   - Performance optimization for animations
 - **Files to Modify**:
   - `family-tree/app/components-v2/SidebarV2.tsx`
-  - `family-tree/app/globals.css` (button utility classes)
+  - `family-tree/app/v2/v2-styles.css` (add button utility classes)
   - Button component tests
 - **Testing Requirements**:
   - Visual testing against prompt specifications
@@ -405,7 +475,7 @@ Use the template from @Instruction file to execute E13-T5. Read CLAUDE.md sectio
 
 - **Execution Prompt**: 
 ```
-Use the template from @Instruction file to execute E13-T6. Read CLAUDE.md sections 1–136, 138–155, 274–331 and IMPROVEMENT-TASK-TRACKING.md lines 352-400 for E13-T6 specification. Follow the template structure: Context Establishment → Workflow Compliance → Task Specification → Technical Implementation → Quality Assurance. Execute as @ux-expert (primary) = @.cursor\rules\ux-expert.mdc + @dev = @.cursor\rules\dev.mdc + @po = @.cursor\rules\po.mdc collaboration. Style Add/Export/Help buttons to match home-screen-prompt specifications with token-driven styling. Create utility classes, implement hover/active states, proper icon integration, and accessibility enhancements. Dependency: E13-T4 UI alignment provides foundation. Complete in order: code → docs → git.
+Use the template from @Instruction file to execute E13-T6. Read CLAUDE.md sections 1–136, 138–155, 156-170, 274–331 and IMPROVEMENT-TASK-TRACKING.md lines 420-474 for E13-T6 specification. Follow the template structure: Context Establishment → Workflow Compliance → Task Specification → Technical Implementation → Quality Assurance. Execute as @ux-expert (primary) = @.cursor\rules\ux-expert.mdc + @dev = @.cursor\rules\dev.mdc + @po = @.cursor\rules\po.mdc collaboration. Style Add/Export/Help buttons to match home-screen-prompt specifications with token-driven styling. Create utility classes, implement hover/active states, proper icon integration, and accessibility enhancements. CRITICAL: Follow v2 CSS Architecture Standards (CLAUDE.md 156-170) - all button styling must use family-tree/app/v2/v2-styles.css with v2- prefixed classes. Dependencies: E13-T10 v2 CSS architecture consolidated, E13-T4 UI alignment provides foundation. Complete in order: code → docs → git.
 ```
 
 ### E13-T7: Right-Click Context Menu Implementation (P2-MEDIUM)
@@ -413,7 +483,7 @@ Use the template from @Instruction file to execute E13-T6. Read CLAUDE.md sectio
 - **Primary Agent**: @dev (James - Context menu functionality and event handling) - `.cursor/rules/dev.mdc`
 - **Supporting Agents**: @architect (Winston - Permission system) - `.cursor/rules/architect.mdc`, @qa (Quinn - UX testing) - `.cursor/rules/qa.mdc`
 - **Description**: Implement right-click context menu on family tree members with Edit/View/Delete functionality based on user permissions
-- **Dependencies**: [E13-T3] API errors must be resolved, [E13-T5] Modal content needed for Edit functionality
+- **Dependencies**: [E13-T10] v2 CSS architecture must be consolidated first, [E13-T3] API errors must be resolved, [E13-T5] Modal content needed for Edit functionality
 - **Reference Files**:
   - **Target Components**: `family-tree/app/components-v2/MemberBannerV2.tsx` (context menu integration point)
   - **New Component**: `family-tree/app/components-v2/ContextMenuV2.tsx` (to be created)
@@ -445,16 +515,18 @@ Use the template from @Instruction file to execute E13-T6. Read CLAUDE.md sectio
   - API validation for deletion permissions
   - Clear visual indicators for available actions
 - **Technical Requirements**:
+  - **v2 CSS Architecture**: All context menu styling must use `family-tree/app/v2/v2-styles.css` with `v2-` prefixed classes
+  - **Import Pattern**: ContextMenuV2 component uses `import '../../v2-styles.css'`
   - Portal-based rendering for proper z-index management
   - Event handling for right-click, outside click, and keyboard
   - Dynamic positioning with viewport boundary detection
   - Integration with existing authentication system
-  - Smooth animations and transitions
+  - Smooth animations and transitions using v2 CSS system
   - Accessibility support (keyboard navigation, ARIA)
 - **Files to Create/Modify**:
   - `family-tree/app/components-v2/ContextMenuV2.tsx`
   - `family-tree/app/components-v2/MemberBannerV2.tsx` (context menu integration)
-  - Context menu styling utilities
+  - `family-tree/app/v2/v2-styles.css` (add context menu styles)
   - Component test files
 - **Testing Requirements**:
   - Context menu functionality testing
@@ -466,7 +538,7 @@ Use the template from @Instruction file to execute E13-T6. Read CLAUDE.md sectio
 
 - **Execution Prompt**: 
 ```
-Use the template from @Instruction file to execute E13-T7. Read CLAUDE.md sections 1–136, 274–331 and IMPROVEMENT-TASK-TRACKING.md lines 411-462 for E13-T7 specification. Follow the template structure: Context Establishment → Workflow Compliance → Task Specification → Technical Implementation → Quality Assurance. Execute as @dev (primary) = @.cursor\rules\dev.mdc + @architect = @.cursor\rules\architect.mdc + @qa = @.cursor\rules\qa.mdc collaboration. Implement right-click context menu on family tree members with View/Edit/Delete functionality based on user permissions. Create ContextMenuV2 component with proper positioning, portal rendering, and accessibility support. Dependencies: E13-T3 API errors resolved, E13-T5 modal content needed for Edit functionality. Complete in order: code → docs → git.
+Use the template from @Instruction file to execute E13-T7. Read CLAUDE.md sections 1–136, 156-170, 274–331 and IMPROVEMENT-TASK-TRACKING.md lines 481-537 for E13-T7 specification. Follow the template structure: Context Establishment → Workflow Compliance → Task Specification → Technical Implementation → Quality Assurance. Execute as @dev (primary) = @.cursor\rules\dev.mdc + @architect = @.cursor\rules\architect.mdc + @qa = @.cursor\rules\qa.mdc collaboration. Implement right-click context menu on family tree members with View/Edit/Delete functionality based on user permissions. Create ContextMenuV2 component with proper positioning, portal rendering, and accessibility support. CRITICAL: Follow v2 CSS Architecture Standards (CLAUDE.md 156-170) - all context menu styling must use family-tree/app/v2/v2-styles.css with v2- prefixed classes. Dependencies: E13-T10 v2 CSS architecture consolidated, E13-T3 API errors resolved, E13-T5 modal content needed for Edit functionality. Complete in order: code → docs → git.
 ```
 
 ### E13-T8: Member Detail Modal Enhancement (P2-MEDIUM)
@@ -474,7 +546,7 @@ Use the template from @Instruction file to execute E13-T7. Read CLAUDE.md sectio
 - **Primary Agent**: @ux-expert (Sally - Member detail design and layout) - `.cursor/rules/ux-expert.mdc`
 - **Supporting Agents**: @dev (James - Implementation) - `.cursor/rules/dev.mdc`, @po (Sarah - Content validation) - `.cursor/rules/po.mdc`
 - **Description**: Enhance member detail modal to match `member-detail-prompt` specifications with comprehensive member information display
-- **Dependencies**: [E13-T7] Context menu implementation for access point
+- **Dependencies**: [E13-T10] v2 CSS architecture must be consolidated first, [E13-T7] Context menu implementation for access point
 - **Reference Files**:
   - **Modal Design**: `member-detail-prompt` (HTML reference)
   - **Current Component**: `family-tree/app/components-v2/MemberDetailModalV2.tsx`
@@ -507,15 +579,17 @@ Use the template from @Instruction file to execute E13-T7. Read CLAUDE.md sectio
   - **Relations Section**: Family connections with navigation
   - **Actions Section**: Edit/Delete buttons with permissions
 - **Technical Requirements**:
-  - Responsive grid layout for information display
+  - **v2 CSS Architecture**: All member detail styling must use `family-tree/app/v2/v2-styles.css` with `v2-` prefixed classes
+  - **Import Pattern**: MemberDetailModalV2 component uses `import '../../v2-styles.css'`
+  - Responsive grid layout for information display using v2 CSS system
   - Navigation integration with family tree routing
   - Proper data formatting and fallback values
-  - Token-driven styling consistency
+  - Token-driven styling consistency within v2 architecture
   - Performance optimization for large family trees
   - Comprehensive accessibility support
 - **Files to Create/Modify**:
   - `family-tree/app/components-v2/MemberDetailModalV2.tsx`
-  - Member detail styling utilities
+  - `family-tree/app/v2/v2-styles.css` (add member detail styles)
   - Navigation and routing integration
   - Component test files
 - **Testing Requirements**:
@@ -528,7 +602,7 @@ Use the template from @Instruction file to execute E13-T7. Read CLAUDE.md sectio
 
 - **Execution Prompt**: 
 ```
-Use the template from @Instruction file to execute E13-T8. Read CLAUDE.md sections 1–136, 138–155, 274–331 and IMPROVEMENT-TASK-TRACKING.md lines 472-521 for E13-T8 specification. Follow the template structure: Context Establishment → Workflow Compliance → Task Specification → Technical Implementation → Quality Assurance. Execute as @ux-expert (primary) = @.cursor\rules\ux-expert.mdc + @dev = @.cursor\rules\dev.mdc + @po = @.cursor\rules\po.mdc collaboration. Enhance member detail modal to match member-detail-prompt specifications. Create comprehensive layout with profile header, about/contact/relations sections, relationship navigation, and responsive design. Dependency: E13-T7 context menu implementation provides access point. Complete in order: code → docs → git.
+Use the template from @Instruction file to execute E13-T8. Read CLAUDE.md sections 1–136, 138–155, 156-170, 274–331 and IMPROVEMENT-TASK-TRACKING.md lines 544-601 for E13-T8 specification. Follow the template structure: Context Establishment → Workflow Compliance → Task Specification → Technical Implementation → Quality Assurance. Execute as @ux-expert (primary) = @.cursor\rules\ux-expert.mdc + @dev = @.cursor\rules\dev.mdc + @po = @.cursor\rules\po.mdc collaboration. Enhance member detail modal to match member-detail-prompt specifications. Create comprehensive layout with profile header, about/contact/relations sections, relationship navigation, and responsive design. CRITICAL: Follow v2 CSS Architecture Standards (CLAUDE.md 156-170) - all member detail styling must use family-tree/app/v2/v2-styles.css with v2- prefixed classes. Dependencies: E13-T10 v2 CSS architecture consolidated, E13-T7 context menu implementation provides access point. Complete in order: code → docs → git.
 ```
 
 ### E13-T9: Comprehensive QA Validation & Regression Testing (P1-CRITICAL)
@@ -536,7 +610,7 @@ Use the template from @Instruction file to execute E13-T8. Read CLAUDE.md sectio
 - **Primary Agent**: @qa (Quinn - Comprehensive testing and validation) - `.cursor/rules/qa.mdc`
 - **Supporting Agents**: @po (Sarah - Acceptance criteria validation) - `.cursor/rules/po.mdc`, @ux-expert (Sally - Design compliance) - `.cursor/rules/ux-expert.mdc`
 - **Description**: Perform comprehensive testing and validation of all Epic 13 implementations to ensure quality and prevent regressions
-- **Dependencies**: [E13-T1] through [E13-T8] All previous tasks must be completed
+- **Dependencies**: [E13-T10] v2 CSS architecture consolidation, [E13-T1] through [E13-T8] All previous tasks must be completed
 - **Reference Files**:
   - **All Prompt Files**: Login, home, add, help, member-detail screen prompts for visual regression
   - **All Modified Components**: Complete list of changed files from E13-T1 through E13-T8
@@ -596,7 +670,7 @@ Use the template from @Instruction file to execute E13-T8. Read CLAUDE.md sectio
 
 - **Execution Prompt**: 
 ```
-Use the template from @Instruction file to execute E13-T9. Read CLAUDE.md sections 1–136, 274–331 and IMPROVEMENT-TASK-TRACKING.md lines 534-595 for E13-T9 specification. Follow the template structure: Context Establishment → Workflow Compliance → Task Specification → Technical Implementation → Quality Assurance. Execute as @qa (primary) = @.cursor\rules\qa.mdc + @po = @.cursor\rules\po.mdc + @ux-expert = @.cursor\rules\ux-expert.mdc collaboration. Perform comprehensive testing and validation of all Epic 13 implementations. Conduct visual regression testing against all prompt files, functional testing, accessibility validation, performance testing, and cross-browser compatibility. Ensure no regressions and all acceptance criteria met. Dependencies: E13-T1 through E13-T8 must be completed. Complete in order: testing → docs → git.
+Use the template from @Instruction file to execute E13-T9. Read CLAUDE.md sections 1–136, 156-170, 274–331 and IMPROVEMENT-TASK-TRACKING.md lines 608-669 for E13-T9 specification. Follow the template structure: Context Establishment → Workflow Compliance → Task Specification → Technical Implementation → Quality Assurance. Execute as @qa (primary) = @.cursor\rules\qa.mdc + @po = @.cursor\rules\po.mdc + @ux-expert = @.cursor\rules\ux-expert.mdc collaboration. Perform comprehensive testing and validation of all Epic 13 implementations. Conduct visual regression testing against all prompt files, functional testing, accessibility validation, performance testing, and cross-browser compatibility. Ensure no regressions and all acceptance criteria met. Validate v2 CSS Architecture Standards compliance (CLAUDE.md 156-170) across all v2 components. Dependencies: E13-T10 v2 CSS architecture consolidation and E13-T1 through E13-T8 must be completed. Complete in order: testing → docs → git.
 ```
 
 ---
@@ -611,8 +685,10 @@ Use the template from @Instruction file to execute E13-T9. Read CLAUDE.md sectio
 - [ ] Document current behavior before changes
 
 ### Implementation Protocol  
+- [ ] **CSS Architecture First**: For v2 tasks, ensure E13-T10 (CSS consolidation) is completed before starting
+- [ ] **v2 Styling Standards**: All v2 styling must use `family-tree/app/v2/v2-styles.css` with `v2-` prefixed classes
 - [ ] Follow design-first approach for UI components
-- [ ] Implement token-driven styling (no hardcoded values)
+- [ ] Implement token-driven styling within v2 architecture (no hardcoded values)
 - [ ] Maintain accessibility compliance throughout
 - [ ] Test responsive behavior at all supported breakpoints
 - [ ] Validate API integration and error handling

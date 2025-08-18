@@ -135,22 +135,38 @@ For development commands, tech stack details, and architecture overview, refer t
 - **Architecture Overview**: See `family-tree/docs/project-overview.md` - comprehensive tech stack and structure
 - **Project Goals**: See `project-goal.md` - detailed technical architecture and data models
 
-## UI v2 Workflow (Epic 12)
+## UI v2 Workflow (Epic 12 & 13)
 
-When working on Epic 12 (UI v2), follow this streamlined flow:
+When working on v2 UI tasks, follow this streamlined flow:
 
-- Read: `IMPROVEMENT-TASK-TRACKING.md` → Epic 12 section, and `family-tree/docs/ui-improvement-plan.md`
-- Branch: `improvement-e12-<task-id>-<kebab-summary>` (e.g., `improvement-e12-t1-v2-home`)
-- Implement: v2-only in `family-tree/app/v2/` and `family-tree/app/components-v2/`; extend tokens in `family-tree/app/globals.css` as needed; do not modify v1 routes/components unless explicitly required
+- Read: `IMPROVEMENT-TASK-TRACKING.md` → Epic section, and `family-tree/docs/ui-improvement-plan.md`
+- Branch: `improvement-e{epic}-t{task}-<kebab-summary>` (e.g., `improvement-e13-t4-v2-view-alignment`)
+- **CSS Architecture (MANDATORY)**: All v2 styling MUST use `family-tree/app/v2/v2-styles.css`
+  - Import pattern: `import '../v2-styles.css'` from v2 pages, `import '../../v2-styles.css'` from v2 components
+  - **DO NOT** modify `family-tree/app/globals.css` for v2-specific styling
+  - **DO NOT** use global CSS classes for v2-specific styling (use `v2-` prefixed classes)
+  - All v2 components must be self-contained with v2 CSS architecture
+- Implement: v2-only in `family-tree/app/v2/` and `family-tree/app/components-v2/`; do not modify v1 routes/components unless explicitly required
 - Tests: add/update v2 tests alongside existing suites (keep v1 green)
 - Documentation updates (mandatory after implementation, before git):
-  - Update status in `IMPROVEMENT-TASK-TRACKING.md` (Epic 12 task)
+  - Update status in `IMPROVEMENT-TASK-TRACKING.md` (Epic task)
   - Append a concise summary with anchor in `family-tree/docs/completed-tasks.md`
   - If applicable, update `family-tree/docs/ui-improvement-plan.md` status notes/examples
+
+### v2 CSS Architecture Standards (Epic 13 Requirement)
+**CRITICAL**: E13-T10 must be completed before any v2 CSS-dependent tasks
+
+- **Single Source of Truth**: All v2 styles in `family-tree/app/v2/v2-styles.css`
+- **Import Requirements**: Every v2 component/page must import v2-styles.css with relative path
+- **Naming Convention**: All v2-specific classes use `v2-` prefix (e.g., `v2-button`, `v2-modal`, `v2-panel`)
+- **No Global Dependencies**: v2 components cannot depend on globals.css for v2-specific styling
+- **Token-Driven**: Use CSS custom properties within v2 system for consistency
+- **Conflict Prevention**: Clean architectural separation prevents v1/v2 style conflicts
 
 Acceptance checkpoints for v2 work:
 - Visual parity to prompt direction; AA contrast; APG semantics; reduced-motion respected
 - No overlap at mobile sizes; connectors layer beneath nodes (where relevant)
+- **CSS Architecture**: All styles contained in v2-styles.css with proper imports
 - v1 remains fully functional until parity; no regressions in existing tests
 
 ## Task Status Values

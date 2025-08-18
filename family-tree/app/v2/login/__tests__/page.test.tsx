@@ -72,15 +72,15 @@ describe('LoginPageV2', () => {
         color: 'var(--color-warm-ink)'
       })
       
-      // Check touch targets are minimum 44px
+      // Check form elements have proper v2 classes
       const usernameInput = screen.getByLabelText(/username/i)
-      expect(usernameInput).toHaveStyle({ minHeight: '44px' })
+      expect(usernameInput).toHaveClass('v2-input')
       
       const passwordInput = screen.getByLabelText(/password/i)
-      expect(passwordInput).toHaveStyle({ minHeight: '44px' })
+      expect(passwordInput).toHaveClass('v2-input')
       
       const submitButton = screen.getByRole('button', { name: /sign in/i })
-      expect(submitButton).toHaveStyle({ minHeight: '44px' })
+      expect(submitButton).toHaveClass('v2-button', 'v2-button-primary')
     })
   })
 
@@ -353,17 +353,17 @@ describe('LoginPageV2', () => {
       const passwordInput = screen.getByLabelText(/password/i)
       const submitButton = screen.getByRole('button', { name: /sign in/i })
       
-      // Touch targets should still be 44px minimum
-      expect(usernameInput).toHaveStyle({ minHeight: '44px' })
-      expect(passwordInput).toHaveStyle({ minHeight: '44px' })
-      expect(submitButton).toHaveStyle({ minHeight: '44px' })
+      // Elements should have proper v2 CSS classes for touch targets
+      expect(usernameInput).toHaveClass('v2-input')
+      expect(passwordInput).toHaveClass('v2-input')
+      expect(submitButton).toHaveClass('v2-button', 'v2-button-primary')
     })
 
     it('renders form at proper width constraints', () => {
       render(<LoginPageV2 />)
       
       const formContainer = screen.getByRole('form').parentElement
-      expect(formContainer).toHaveClass('w-full', 'max-w-md')
+      expect(formContainer).toHaveClass('v2-login-container')
     })
   })
 

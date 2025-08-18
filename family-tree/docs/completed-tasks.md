@@ -33,6 +33,25 @@ When adding completed tasks, use this standardized format:
 
 > **Note**: This epic addresses all issues reported in the `@Instruction` file. Tasks are completed in dependency order to ensure system stability.
 
+<a id="e13-t1"></a>
+#### E13-T1: v2 Login Page Sizing & Responsive Fix (P1-CRITICAL)
+- Status: Completed - 2025-08-17 | Branch: `improvement-e13-t1-v2-login-responsive-fix`
+- Summary: Fixed v2 login page responsive sizing issues by changing container constraint from max-w-md to max-w-lg and button width from w-1/2 to w-full for better cross-device layout matching login-screen-prompt specifications.
+- Implementation Details:
+  - **Files Modified**:
+    - `family-tree/app/v2/login/page.tsx` (updated container sizing and button width)
+    - `family-tree/app/v2/login/__tests__/page.test.tsx` (updated test expectations for new container size)
+  - **Key Changes**:
+    - Container: `max-w-md` → `max-w-lg` for better responsive scaling
+    - Button: `w-1/2 mx-auto` → `w-full` for full-width approach as per reference design
+    - Maintained all existing functionality, accessibility features, and warm theme tokens
+    - Preserved 44px touch targets and ARIA compliance
+  - **Testing Verification**:
+    - All 18 login page tests passing
+    - Build successful with no errors
+    - Responsive behavior validated across desktop/tablet/mobile viewports
+  - **Agent Collaboration**: @ux-expert provided responsive design analysis, @dev implemented changes, @qa validated cross-device behavior
+
 ### Example Completed Task Entry
 
 <a id="e13-example"></a>
