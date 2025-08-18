@@ -61,6 +61,48 @@ When adding completed tasks, use this standardized format:
   - API client handles network failures, timeouts, and authentication issues gracefully
   - All interactive features (add member, search, view) function without "Failed to fetch" errors
 
+<a id="e13-t4"></a>
+#### E13-T4: v2 View UI Component Alignment with Home Prompt (P1-HIGH)
+- Status: Completed - 2025-08-18 | Branch: `improvement-e13-t4-v2-view-ui-alignment`
+- Summary: Successfully aligned v2 view UI components with home-screen-prompt design specifications, implementing proper gradient header styling, warm theme ribbon colors, responsive canvas layout, and connection layering
+- Implementation Details:
+  - **Files Modified**:
+    - `family-tree/app/v2/components/MainToolbarV2.tsx` - Applied proper gradient header styling, updated button/input classes to match home-screen-prompt
+    - `family-tree/app/v2/components/SidebarV2.tsx` - Added v2 CSS imports, implemented toolbar rail button styling with proper hover states
+    - `family-tree/app/v2/components/FamilyTreeCanvasV2.tsx` - Added canvas title, relationship legend overlay, dynamic ribbon coloring based on relationships
+    - `family-tree/app/v2/v2-styles.css` - Added comprehensive styles for canvas title, connection legend, toolbar rail buttons, and all ribbon color variants
+    - `family-tree/app/v2/view/ViewPageV2Client.tsx` - Cleaned up redundant CSS class references
+  - **Key Features**:
+    - Header gradient styling with violet-to-magenta gradient matching home-screen-prompt specifications
+    - Warm theme ribbon colors: mint (parents), sage (mother), peach (brothers/sons), lilac (sisters/daughters), sun (spouses), rose (children/nephews/nieces)
+    - Interactive relationship legend overlay with toggle functionality
+    - Canvas title "Family Tree" with responsive font sizing
+    - Proper z-index layering ensuring connections render behind member cards
+    - Responsive behavior: connections hidden on mobile (<480px), compact node layout for small screens
+    - Toolbar rail buttons with proper active states and hover effects
+  - **Technical Achievements**:
+    - Full compliance with v2 CSS Architecture Standards (CLAUDE.md 156-170)
+    - All styling contained in `family-tree/app/v2/v2-styles.css` with `v2-` prefixed classes
+    - Proper import pattern maintained (`import '../v2-styles.css'` from components)
+    - Token-driven design system using CSS custom properties (--v2-color-mint, --v2-color-peach, etc.)
+    - Enhanced responsive utilities for viewport sizes 360px, 480px, 768px, 1024px+
+    - No visual overlaps at small viewports with proper max-width constraints on nodes
+    - Canvas legend positioning with absolute positioning and responsive scaling
+- Verification Notes:
+  - Build successful with no compilation errors (`npm run build` passed)
+  - Linting clean with only pre-existing warnings, no new issues introduced
+  - Visual alignment verified against home-screen-prompt reference design
+  - Responsive behavior tested across device sizes ensuring no overlaps
+  - Z-index layering confirmed: SVG connections (z-index: 0) render beneath node cards (z-index: 1)
+  - Warm theme color application verified across all ribbon variants
+- Visual Design Achievements:
+  - Header gradient matches exact specifications: `linear-gradient(90deg, oklch(63% 0.22 300), oklch(61% 0.21 330))`
+  - Canvas background with dotted grid pattern for visual context
+  - Member cards with proper shadows, borders, and hover effects
+  - Legend overlay with expand/collapse functionality and proper positioning
+  - Relationship-based ribbon coloring for intuitive family tree navigation
+- Agent Collaboration: @ux-expert led design analysis and component alignment planning, @dev implemented all styling and responsive behavior, @po validated visual parity and accessibility compliance
+
 <a id="e13-t10"></a>
 #### E13-T10: v2 CSS Architecture Consolidation (P0-BLOCKING)
 - Status: Completed - 2025-01-18 | Branch: `improvement-e13-t10-v2-css-consolidation`

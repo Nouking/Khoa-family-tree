@@ -280,70 +280,14 @@ Use the template from @Instruction file to execute E13-T2. Read CLAUDE.md sectio
 Use the template from @Instruction file to execute E13-T3. Read CLAUDE.md sections 1–136, 274–331 and IMPROVEMENT-TASK-TRACKING.md lines 216-275 for E13-T3 specification. Follow the template structure: Context Establishment → Workflow Compliance → Task Specification → Technical Implementation → Quality Assurance. Execute as @architect (primary) = @.cursor\rules\architect.mdc + @dev = @.cursor\rules\dev.mdc + @qa = @.cursor\rules\qa.mdc collaboration. Resolve "Failed to fetch" errors in /v2/view breaking core functionality. Investigate API endpoints, CORS configuration, authentication token handling, and implement proper error boundaries. Complete in order: code → docs → git.
 ```
 
-### E13-T4: v2 View UI Component Alignment with Home Prompt (P1-HIGH)
-- **Status**: Pending
-- **Primary Agent**: @ux-expert (Sally - UI design and component analysis) - `.cursor/rules/ux-expert.mdc`
-- **Supporting Agents**: @dev (James - Implementation) - `.cursor/rules/dev.mdc`, @po (Sarah - Quality validation) - `.cursor/rules/po.mdc`
-- **Description**: Align v2 view UI components to match `home-screen-prompt` design specifications exactly
-- **Dependencies**: [E13-T10] v2 CSS architecture must be consolidated first, [E13-T3] API errors must be resolved first
-- **Reference Files**:
-  - **Target Design**: `home-screen-prompt` (HTML reference)
-  - **Current Components**: `family-tree/app/components-v2/MainToolbarV2.tsx`, `family-tree/app/components-v2/SidebarV2.tsx`, `family-tree/app/components-v2/FamilyTreeCanvasV2.tsx`
-  - **Main Page**: `family-tree/app/v2/view/page.tsx` (React page component)
-- **Acceptance Criteria**:
-  - GIVEN the `/v2/view` page is loaded
-  - WHEN compared with `home-screen-prompt` reference design
-  - THEN all visual elements match the prompt specifications:
-    - Header gradient styling and family tree icon placement
-    - Sidebar layout with only Add, Export, Help buttons
-    - Main toolbar grouping of Title, Search, Filters
-    - Canvas layout with proper member card styling and connector placement
-    - Color scheme using warm theme tokens (mint, peach, lilac, sage)
-  - AND responsive behavior matches across all device sizes
-  - AND no visual elements overlap at small viewports (360-480px)
-  - AND connections render behind member cards with proper layering
-- **Implementation Details**:
-  - Comprehensive analysis of `home-screen-prompt` HTML structure and styling
-  - Compare current v2 components against design specifications
-  - Create component-by-component alignment plan
-  - Update `MainToolbarV2.tsx` with proper gradient header styling
-  - Modify `SidebarV2.tsx` to match prompt layout and button styling
-  - Enhance `FamilyTreeCanvasV2.tsx` with proper card and connector styling
-  - Apply warm theme tokens throughout all components
-  - Implement responsive utilities for mobile optimization
-  - Ensure proper z-index layering for connectors behind nodes
-- **Component Analysis Required**:
-  - **Header Section**: Gradient background with family icon and title
-  - **Sidebar Rail**: Vertical button layout with icon+text styling
-  - **Main Toolbar**: Search field, filter controls, action buttons
-  - **Canvas Area**: Member cards with photos, ribbons, and relationship lines
-  - **Responsive Behavior**: Mobile adaptations and breakpoint handling
-- **Technical Requirements**:
-  - **v2 CSS Architecture**: All styling must use `family-tree/app/v2/v2-styles.css` with `v2-` prefixed classes
-  - **Import Pattern**: Components use `import '../../v2-styles.css'`, pages use `import '../v2-styles.css'`
-  - Token-driven styling using CSS custom properties from v2 system
-  - Responsive grid layouts with proper breakpoint handling
-  - CSS z-index management for proper layering
-  - Mobile-first design approach
-  - Performance optimization for large family trees
-  - Accessibility compliance (ARIA labels, keyboard navigation)
-- **Files to Modify**:
-  - `family-tree/app/components-v2/MainToolbarV2.tsx`
-  - `family-tree/app/components-v2/SidebarV2.tsx`  
-  - `family-tree/app/components-v2/FamilyTreeCanvasV2.tsx`
-  - `family-tree/app/v2/v2-styles.css` (add component-specific styles)
-  - Component test files
-- **Testing Requirements**:
-  - Visual regression testing against `home-screen-prompt`
-  - Cross-device responsive testing
-  - Accessibility validation
-  - Performance testing with large family trees
-  - User interaction testing (hover, focus, click states)
-- **Branch**: `improvement-e13-t4-v2-view-ui-alignment`
+### E13-T4: v2 View UI Component Alignment with Home Prompt (P1-HIGH) ✅
+- **Status**: Completed - 2025-08-18 | Branch: `improvement-e13-t4-v2-view-ui-alignment`
+- **Summary**: Successfully aligned v2 view components with home-screen-prompt specifications, implementing proper gradient styling, warm theme ribbons, and responsive behavior
+- **Details**: See Completed Log → [E13-T4](family-tree/docs/completed-tasks.md#e13-t4)
 
 - **Execution Prompt**: 
 ```
-Use the template from @Instruction file to execute E13-T4. Read CLAUDE.md sections 1–136, 138–155, 156-170, 274–331 and IMPROVEMENT-TASK-TRACKING.md lines 277-336 for E13-T4 specification. Follow the template structure: Context Establishment → Workflow Compliance → Task Specification → Technical Implementation → Quality Assurance. Execute as @ux-expert (primary) = @.cursor\rules\ux-expert.mdc + @dev = @.cursor\rules\dev.mdc + @po = @.cursor\rules\po.mdc collaboration. Align v2 view UI components to match home-screen-prompt exactly. Update MainToolbarV2, SidebarV2, FamilyTreeCanvasV2 with proper gradient styling, warm theme tokens, and responsive layouts. Ensure connections render behind nodes. CRITICAL: Follow v2 CSS Architecture Standards (CLAUDE.md 156-170) - all styling must use family-tree/app/v2/v2-styles.css with v2- prefixed classes. Dependencies: E13-T10 v2 CSS architecture consolidated, E13-T3 API errors resolved. Complete in order: code → docs → git.
+Use the template from @Instruction file to execute E13-T4. Read CLAUDE.md sections 1–136, 138–155, 156-170, 274–331 and IMPROVEMENT-TASK-TRACKING.md lines 283-343 for E13-T4 specification. Follow the template structure: Context Establishment → Workflow Compliance → Task Specification → Technical Implementation → Quality Assurance. Execute as @ux-expert (primary) = @.cursor\rules\ux-expert.mdc + @dev = @.cursor\rules\dev.mdc + @po = @.cursor\rules\po.mdc collaboration. Align v2 view UI components to match home-screen-prompt exactly. Update MainToolbarV2, SidebarV2, FamilyTreeCanvasV2 with proper gradient styling, warm theme tokens, and responsive layouts. Ensure connections render behind nodes. CRITICAL: Follow v2 CSS Architecture Standards (CLAUDE.md 156-170) - all styling must use family-tree/app/v2/v2-styles.css with v2- prefixed classes. Dependencies: E13-T10 v2 CSS architecture consolidated, E13-T3 API errors resolved. Complete in order: code → docs → git.
 ```
 
 ### E13-T5: Modal Content Implementation (Add & Help) (P1-HIGH)
