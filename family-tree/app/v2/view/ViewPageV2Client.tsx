@@ -2,6 +2,8 @@
 
 import React, { useState, useRef } from 'react';
 
+import '../v2-styles.css';
+
 import { FamilyMember } from '@/types';
 
 import { FamilyTreeProvider, useFamilyTreeWithDispatch } from '../../contexts/FamilyTreeContext';
@@ -118,7 +120,7 @@ const ViewPageV2ClientInner: React.FC<ViewPageV2ClientProps> = ({ initialMembers
       {/* Main layout: left rail + content */}
       <div className="max-w-7xl mx-auto w-full px-2 sm:px-3 flex-1 grid grid-cols-12 gap-3 py-3">
         {/* Left icon rail */}
-        <aside className="toolbar-rail col-span-2 lg:col-span-1 h-fit lg:sticky lg:top-3">
+        <aside className="v2-toolbar-rail col-span-2 lg:col-span-1 h-fit lg:sticky lg:top-3">
           <SidebarV2
             onAddMember={handleAddMember}
             onExport={handleExport}
@@ -129,13 +131,13 @@ const ViewPageV2ClientInner: React.FC<ViewPageV2ClientProps> = ({ initialMembers
         {/* Center content */}
         <main className="col-span-10 lg:col-span-11 flex flex-col gap-3">
           {/* Context bar */}
-          <div className="panel px-3 py-2 flex items-center gap-2 text-xs sm:text-sm">
-            <span className="badge">Home</span>
+          <div className="v2-panel px-3 py-2 flex items-center gap-2 text-xs sm:text-sm">
+            <span className="v2-badge">Home</span>
             <span>›</span>
-            <span className="badge">Khoa Family</span>
+            <span className="v2-badge">Khoa Family</span>
             <div className="ms-auto flex items-center gap-2">
               <span className="hidden sm:inline">Filters</span>
-              <select className="input py-1">
+              <select className="v2-input py-1">
                 <option>All</option>
                 <option>Parents</option>
                 <option>Children</option>
@@ -143,7 +145,7 @@ const ViewPageV2ClientInner: React.FC<ViewPageV2ClientProps> = ({ initialMembers
               <input 
                 id="member-search" 
                 type="text" 
-                className="input py-1 w-40 sm:w-56" 
+                className="v2-input py-1 w-40 sm:w-56" 
                 placeholder="Search member…" 
                 aria-label="Search member name"
                 value={searchQuery}
@@ -153,7 +155,7 @@ const ViewPageV2ClientInner: React.FC<ViewPageV2ClientProps> = ({ initialMembers
           </div>
 
           {/* Canvas */}
-          <section className="panel p-2 sm:p-3 min-h-[64vh]">
+          <section className="v2-panel p-2 sm:p-3 min-h-[64vh]">
             <FamilyTreeCanvasV2
               ref={canvasRef}
               members={initialMembers}
@@ -167,11 +169,11 @@ const ViewPageV2ClientInner: React.FC<ViewPageV2ClientProps> = ({ initialMembers
       {/* Filters Panel - TODO: Implement in subsequent tasks */}
       {showFiltersPanel && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="panel bg-white p-6 rounded-[var(--radius-lg)] max-w-md w-full mx-4">
+          <div className="v2-panel bg-white p-6 rounded-[var(--radius-lg)] max-w-md w-full mx-4">
             <h2 className="text-lg font-semibold mb-4">Filters</h2>
             <p className="text-(--color-neutral-600) mb-4">Filter functionality will be implemented in v2</p>
             <button
-              className="btn-primary w-full"
+              className="v2-btn-primary w-full"
               onClick={() => setShowFiltersPanel(false)}
             >
               Close

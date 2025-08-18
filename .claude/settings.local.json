@@ -30,7 +30,8 @@
       "Bash(npm run typecheck:*)",
       "Bash(npm run:*)",
       "Bash(npm install:*)",
-      "Bash(cp:*)"
+      "Bash(cp:*)",
+      "Bash(npm run lint)"
     ],
     "deny": [],
     "defaultMode": "acceptEdits"

@@ -47,16 +47,6 @@ DESIGN TOKENS - Foundation Variables
   --gradient-header: linear-gradient(90deg, oklch(63% 0.22 300), oklch(61% 0.21 330));
   --gradient-primary: linear-gradient(90deg, color-mix(in oklch, var(--color-peach), white 6%), var(--color-peach));
   --gradient-accent: linear-gradient(135deg, var(--color-mint), var(--color-lilac));
-  --gradient-login-button: linear-gradient(135deg, #A7F3D0 0%, #FDE68A 50%, #E9D5FF 100%);
-  
-  /* Warm Theme Variables for v2 Login */
-  --color-warm-surface: oklch(98.5% 0.02 95);
-  --color-warm-ink: oklch(22% 0.03 60);
-  --color-warm-card: #ffffff;
-  --color-warm-border: color-mix(in oklch, var(--color-ink), white 85%);
-  --color-warm-header-start: oklch(63% 0.22 300);
-  --color-warm-header-end: oklch(61% 0.21 330);
-  --color-warm-rose: oklch(92% 0.11 20);
   
   /* Spacing */
   --spacing-xs: 0.25rem;

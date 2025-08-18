@@ -1,5 +1,7 @@
 import React from 'react';
 
+import '../v2-styles.css';
+
 interface MainToolbarV2Props {
   title?: string;
   onOpenFilters?: () => void;
@@ -20,7 +22,7 @@ const MainToolbarV2: React.FC<MainToolbarV2Props> = ({
   searchSuggestions = [],
 }) => {
   return (
-    <header className="u-header-accent--gradient text-white">
+    <header className="v2-header-gradient text-white">
       <div className="max-w-7xl mx-auto px-3 sm:px-4 py-2.5 flex items-center gap-2">
         <div className="flex items-center gap-2">
           <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-white/20">👪</span>
@@ -29,8 +31,8 @@ const MainToolbarV2: React.FC<MainToolbarV2Props> = ({
           </h1>
         </div>
         <div className="ms-auto hidden sm:flex items-center gap-2">
-          <button className="btn btn-outline btn-sm">Undo</button>
-          <button className="btn btn-outline btn-sm">Redo</button>
+          <button className="v2-btn v2-btn-outline btn-sm">Undo</button>
+          <button className="v2-btn v2-btn-outline btn-sm">Redo</button>
           <input 
             type="search"
             value={searchQuery}
@@ -43,7 +45,7 @@ const MainToolbarV2: React.FC<MainToolbarV2Props> = ({
             }}
             onFocus={onSearchFocus}
             placeholder="Search" 
-            className="input hidden md:block ms-1 w-52" 
+            className="v2-input hidden md:block ms-1 w-52" 
             aria-label="Search family members"
             list="toolbar-v2-search-suggestions"
           />

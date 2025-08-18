@@ -2,6 +2,8 @@ import React, { useCallback, useEffect, memo, MouseEvent, useImperativeHandle, u
 import { useDrop, DropTargetMonitor } from 'react-dnd';
 import { XYCoord } from 'dnd-core';
 
+import '../v2-styles.css';
+
 import { FamilyMember, ItemTypes } from '@/types';
 
 import { useFamilyTreeWithDispatch, useSelectedMembers } from '../../contexts/FamilyTreeContext';
@@ -231,13 +233,13 @@ const FamilyTreeCanvasV2 = memo(React.forwardRef<FamilyTreeCanvasV2Handle, Famil
   }), [members, viewport.zoom]);
 
   return (
-    <div className="canvas-grid rounded-[16px] h-full p-3 sm:p-5 relative overflow-hidden">
+    <div className="v2-canvas-grid rounded-[16px] h-full p-3 sm:p-5 relative overflow-hidden">
       <h2 className="canvas-title">Family Tree</h2>
       
       {/* Dynamic connectors will be drawn here */}
       <svg 
         id="connections" 
-        className="connections-layer absolute inset-0 pointer-events-none hidden min-[480px]:block" 
+        className="v2-connections-layer absolute inset-0 pointer-events-none hidden min-[480px]:block" 
         width="100%" 
         height="100%" 
         preserveAspectRatio="none"
@@ -271,7 +273,7 @@ const FamilyTreeCanvasV2 = memo(React.forwardRef<FamilyTreeCanvasV2Handle, Famil
             <div
               key={member.id}
               data-member-id={member.id}
-              className="absolute node-card float-in px-3 py-3 flex items-center gap-3"
+              className="absolute v2-node-card float-in px-3 py-3 flex items-center gap-3"
               style={{
                 left: member.position.x,
                 top: member.position.y,
@@ -279,12 +281,12 @@ const FamilyTreeCanvasV2 = memo(React.forwardRef<FamilyTreeCanvasV2Handle, Famil
               }}
             >
               <img 
-                className="node-photo" 
+                className="v2-node-photo" 
                 src={member.photo || `https://placehold.co/160x160?text=${encodeURIComponent(member.name.split(' ')[0])}`}
                 alt={member.name} 
               />
               <div>
-                <div className="ribbon ribbon-mint">{member.name}</div>
+                <div className="v2-ribbon v2-ribbon-mint">{member.name}</div>
                 <div className="text-[12px] opacity-70 mt-1">{member.relationship || 'Family Member'}</div>
               </div>
             </div>
@@ -294,7 +296,7 @@ const FamilyTreeCanvasV2 = memo(React.forwardRef<FamilyTreeCanvasV2Handle, Famil
         {/* Canvas Controls */}
         <div className="absolute bottom-4 right-4 flex flex-col gap-2">
           <button
-            className="btn-outline w-10 h-10 flex items-center justify-center"
+            className="v2-btn-outline w-10 h-10 flex items-center justify-center"
             onClick={() => setViewport(prev => ({ ...prev, zoom: Math.min(3, prev.zoom * 1.2) }))}
             aria-label="Zoom in"
             title="Zoom in"
@@ -304,7 +306,7 @@ const FamilyTreeCanvasV2 = memo(React.forwardRef<FamilyTreeCanvasV2Handle, Famil
             </svg>
           </button>
           <button
-            className="btn-outline w-10 h-10 flex items-center justify-center"
+            className="v2-btn-outline w-10 h-10 flex items-center justify-center"
             onClick={() => setViewport(prev => ({ ...prev, zoom: Math.max(0.1, prev.zoom * 0.8) }))}
             aria-label="Zoom out"
             title="Zoom out"
@@ -314,7 +316,7 @@ const FamilyTreeCanvasV2 = memo(React.forwardRef<FamilyTreeCanvasV2Handle, Famil
             </svg>
           </button>
           <button
-            className="btn-outline w-10 h-10 flex items-center justify-center"
+            className="v2-btn-outline w-10 h-10 flex items-center justify-center"
             onClick={() => setViewport({ x: 0, y: 0, zoom: 1, width: viewport.width, height: viewport.height })}
             aria-label="Reset view"
             title="Reset view"
@@ -327,7 +329,7 @@ const FamilyTreeCanvasV2 = memo(React.forwardRef<FamilyTreeCanvasV2Handle, Famil
 
         {/* Zoom level indicator */}
         <div className="absolute top-4 left-4">
-          <div className="badge bg-(--surface-1) border border-(--color-neutral-200) px-2 py-1 text-(--text-sm)">
+          <div className="v2-badge bg-(--surface-1) border border-(--color-neutral-200) px-2 py-1 text-(--text-sm)">
             {Math.round(viewport.zoom * 100)}%
           </div>
         </div>
