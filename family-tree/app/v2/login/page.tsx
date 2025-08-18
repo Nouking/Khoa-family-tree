@@ -79,7 +79,7 @@ export default function LoginPageV2() {
 
       {/* Main content */}
       <main className="flex-1 flex items-center justify-center px-3 sm:px-6 py-8">
-        <div className="v2-login-container">
+        <div className="w-full max-w-md panel p-6 sm:p-8">
           <div className="mb-5 sm:mb-6 text-center">
             <h2 
               className="text-2xl sm:text-3xl font-semibold"
@@ -98,7 +98,7 @@ export default function LoginPageV2() {
           {/* Error banner */}
           {error && (
             <div 
-              className="v2-error-banner mb-4"
+              className="mb-4 panel border-rose-200 bg-rose-50 text-rose-700 text-sm"
               role="alert"
               aria-live="polite"
             >
@@ -130,7 +130,7 @@ export default function LoginPageV2() {
                 placeholder="e.g. admin"
                 aria-invalid={error && error.includes('username') ? 'true' : 'false'}
                 aria-describedby={error && error.includes('username') ? 'username-error' : undefined}
-                className="v2-input mt-1"
+                className="input mt-1 w-full"
               />
             </div>
 
@@ -152,7 +152,7 @@ export default function LoginPageV2() {
                 placeholder="••••••••"
                 aria-invalid={error && error.includes('password') ? 'true' : 'false'}
                 aria-describedby={error && error.includes('password') ? 'password-error' : undefined}
-                className="v2-input mt-1"
+                className="input mt-1 w-full"
               />
             </div>
 
@@ -179,7 +179,7 @@ export default function LoginPageV2() {
                 type="submit"
                 disabled={isLoading}
                 aria-busy={isLoading}
-                className="v2-button v2-button-primary"
+                className="btn btn-press btn-primary block w-1/2 mx-auto text-center"
               >
                 {isLoading ? 'Signing in…' : 'Sign in'}
               </button>

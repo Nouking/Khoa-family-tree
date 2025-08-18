@@ -74,17 +74,20 @@ When adding completed tasks, use this standardized format:
 
 <a id="e13-t1"></a>
 #### E13-T1: v2 Login Page Sizing & Responsive Fix (P1-CRITICAL)
-- Status: Completed - 2025-08-18 | Branch: `improvement-e13-t1-v2-login-responsive-fix`
-- Summary: Fixed v2 login page responsive sizing and CSS variable consistency. Implemented responsive container (.v2-login-container) with proper scaling across devices and full-width button matching login-screen-prompt specifications. Updated CSS variables to align with v2-styles.css architecture.
+- Status: Completed - 2025-08-18 | Branch: `improvement-e13-t1-v2-login-exact-reference-alignment`
+- Summary: Achieved exact visual parity with login-screen-prompt reference design. Implemented pixel-perfect alignment with reference structure, styling, and interactions while maintaining v2 CSS architecture compatibility.
 - Implementation Details:
   - **Files Modified**:
-    - `family-tree/app/v2/login/page.tsx` (CSS variable alignment and responsive implementation)
+    - `family-tree/app/v2/login/page.tsx` (complete structural alignment with reference)
+    - `family-tree/app/v2/v2-styles.css` (added reference-compatible CSS classes)
   - **Key Changes**:
-    - Container: Advanced responsive design with 28rem→32rem→36rem scaling across breakpoints
-    - Button: Full-width (.v2-button) with proper touch targets and gradient styling
-    - CSS Variables: Migrated from `--color-warm-*` to `--v2-color-*` for consistency with v2 architecture
-    - Typography: Updated to use `--v2-font-family-sans` for proper font inheritance
-    - Maintained all accessibility features, warm theme tokens, and responsive behavior
+    - Container: Changed from `.v2-login-container` to exact reference `w-full max-w-md panel p-6 sm:p-8` (fixed 448px max-width)
+    - Button: Changed from full-width `.v2-button` to reference `btn btn-press btn-primary block w-1/2 mx-auto text-center` (half-width, centered)
+    - Gradient: Applied exact reference gradient `linear-gradient(135deg, #A7F3D0 0%, #FDE68A 50%, #E9D5FF 100%)` 
+    - Typography: Implemented reference `clamp(12px, 1.6vw, 14px)` font sizing and exact padding
+    - Inputs: Changed to reference `.input` class with exact specifications
+    - Error Styling: Applied reference `panel border-rose-200 bg-rose-50 text-rose-700 text-sm`
+    - CSS Architecture: Created v2-compatible `.panel`, `.btn`, `.btn-primary`, `.input` classes maintaining architectural consistency
     - Preserved 44px touch targets and ARIA compliance
   - **Testing Verification**:
     - All 18 login page tests passing
