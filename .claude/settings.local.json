@@ -34,9 +34,21 @@
       "Bash(npm run lint)",
       "mcp__serena__find_file",
       "mcp__sequential-thinking__sequentialthinking",
-      "mcp__serena__find_symbol"
+      "mcp__serena__find_symbol",
+      "Bash(npx bmad-method flatten:*)",
+      "Bash(npx bmad-method:*)",
+      "WebFetch(domain:github.com)",
+      "Bash(node:*)",
+      "Bash(bmad-method flatten)",
+      "Bash(bmad-method flatten:*)",
+      "Bash(bmad-method --version)",
+      "Bash(powershell -ExecutionPolicy Bypass -File flatten-codebase.ps1)",
+      "Bash(powershell -ExecutionPolicy Bypass -Command \"& { timeout 60; .\\flatten-codebase.ps1 }\")"
     ],
     "deny": [],
-    "defaultMode": "acceptEdits"
+    "defaultMode": "acceptEdits",
+    "additionalDirectories": [
+      "D:\\d D:\\FPT_Projects\\family-tree"
+    ]
   }
 }

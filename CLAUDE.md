@@ -117,6 +117,11 @@ The main application code is located in the `family-tree/` subdirectory. Always 
 ## Development Workflow
 
 ### Git Workflow (Mandatory)
+- NEVER automatically add AI attribution signatures like:
+  "🤖 Generated with [Claude Code]"
+  "Co-Authored-By: Claude noreply@anthropic.com"
+  Any AI tool attribution or signature
+- Create clean, professional commit messages without AI references. Use conventional commit format.
 1. **Create a Branch**: Before writing any code, create a feature branch.
    - **For Improvement Plan tasks**: `improvement-e{epic}-t{task}-{kebab-case-description}`
      - Example: `improvement-e12-t1-v2-home`
