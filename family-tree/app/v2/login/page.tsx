@@ -55,9 +55,9 @@ export default function LoginPageV2() {
     <div 
       className="min-h-dvh flex flex-col"
       style={{ 
-        background: 'var(--color-warm-surface)',
-        color: 'var(--color-warm-ink)',
-        fontFamily: 'var(--font-sans)'
+        background: 'var(--v2-color-surface)',
+        color: 'var(--v2-color-ink)',
+        fontFamily: 'var(--v2-font-family-sans)'
       }}
     >
       {/* Header with warm gradient */}
@@ -79,11 +79,11 @@ export default function LoginPageV2() {
 
       {/* Main content */}
       <main className="flex-1 flex items-center justify-center px-3 sm:px-6 py-8">
-        <div className="v2-login-container">
+        <div className="w-full panel p-6 sm:p-8" style={{ maxWidth: 'var(--v2-container-login-max-width)' }}>
           <div className="mb-5 sm:mb-6 text-center">
             <h2 
               className="text-2xl sm:text-3xl font-semibold"
-              style={{ color: 'var(--color-warm-ink)' }}
+              style={{ color: 'var(--v2-color-ink)' }}
             >
               Sign in
             </h2>
@@ -98,7 +98,7 @@ export default function LoginPageV2() {
           {/* Error banner */}
           {error && (
             <div 
-              className="v2-error-banner mb-4"
+              className="mb-4 panel border-rose-200 bg-rose-50 text-rose-700 text-sm"
               role="alert"
               aria-live="polite"
             >
@@ -116,7 +116,7 @@ export default function LoginPageV2() {
               <label 
                 htmlFor="username" 
                 className="block text-sm font-medium"
-                style={{ color: 'var(--color-warm-ink)' }}
+                style={{ color: 'var(--v2-color-ink)' }}
               >
                 Username
               </label>
@@ -130,7 +130,7 @@ export default function LoginPageV2() {
                 placeholder="e.g. admin"
                 aria-invalid={error && error.includes('username') ? 'true' : 'false'}
                 aria-describedby={error && error.includes('username') ? 'username-error' : undefined}
-                className="v2-input mt-1"
+                className="input mt-1 w-full"
               />
             </div>
 
@@ -138,7 +138,7 @@ export default function LoginPageV2() {
               <label 
                 htmlFor="password" 
                 className="block text-sm font-medium"
-                style={{ color: 'var(--color-warm-ink)' }}
+                style={{ color: 'var(--v2-color-ink)' }}
               >
                 Password
               </label>
@@ -152,7 +152,7 @@ export default function LoginPageV2() {
                 placeholder="••••••••"
                 aria-invalid={error && error.includes('password') ? 'true' : 'false'}
                 aria-describedby={error && error.includes('password') ? 'password-error' : undefined}
-                className="v2-input mt-1"
+                className="input mt-1 w-full"
               />
             </div>
 
@@ -179,7 +179,7 @@ export default function LoginPageV2() {
                 type="submit"
                 disabled={isLoading}
                 aria-busy={isLoading}
-                className="v2-button v2-button-primary"
+                className="btn btn-press btn-primary block w-full text-center"
               >
                 {isLoading ? 'Signing in…' : 'Sign in'}
               </button>
@@ -187,7 +187,7 @@ export default function LoginPageV2() {
 
             <div 
               className="text-center pt-2 text-sm"
-              style={{ color: 'var(--color-warm-ink)' }}
+              style={{ color: 'var(--v2-color-ink)' }}
             >
               <Link 
                 href="/" 
