@@ -10,10 +10,12 @@ import { useFamilyTreeWithDispatch, useSelectedMembers } from '../../contexts/Fa
 import { useVirtualization, useConnectionVirtualization } from '../../hooks/useVirtualization';
 import { usePerformanceMonitor } from '../../hooks/usePerformanceMonitor';
 import { calculateConnections } from '../../lib/connectionCalculator';
+import { useAuth } from '../../hooks/useAuth';
 
 import MemberBanner from '../../components/MemberBanner';
 import VirtualizedConnections from '../../components/VirtualizedConnections';
 import { useToast } from '../../components/ToastProvider';
+import ContextMenuV2, { createMemberContextMenuItems } from '../../components-v2/ContextMenuV2';
 
 export interface FamilyTreeCanvasV2Props {
   members: FamilyMember[];
@@ -46,12 +48,24 @@ const FamilyTreeCanvasV2 = memo(React.forwardRef<FamilyTreeCanvasV2Handle, Famil
   const { state, dispatch } = useFamilyTreeWithDispatch();
   const { showToast } = useToast();
   const selectedMemberIds = useSelectedMembers();
+  const { isAuthenticated } = useAuth();
   
   // Canvas state
   const canvasRef = useRef<HTMLDivElement>(null);
   const [viewport, setViewport] = useState<Viewport>({ x: 0, y: 0, zoom: 1, width: 0, height: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState<{ x: number; y: number } | null>(null);
+  
+  // Context menu state
+  const [contextMenu, setContextMenu] = useState<{
+    isOpen: boolean;
+    position: { x: number; y: number };
+    memberId: string;
+  }>({
+    isOpen: false,
+    position: { x: 0, y: 0 },
+    memberId: ''
+  });
 
   // Performance monitoring
   usePerformanceMonitor();
@@ -113,6 +127,49 @@ const FamilyTreeCanvasV2 = memo(React.forwardRef<FamilyTreeCanvasV2Handle, Famil
     setIsDragging(false);
     setDragStart(null);
   }, []);
+
+  // Context menu handlers
+  const handleMemberContextMenu = useCallback((e: MouseEvent<HTMLDivElement>, memberId: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    setContextMenu({
+      isOpen: true,
+      position: { x: e.clientX, y: e.clientY },
+      memberId
+    });
+  }, []);
+
+  const handleCloseContextMenu = useCallback(() => {
+    setContextMenu(prev => ({ ...prev, isOpen: false }));
+  }, []);
+
+  const handleViewMember = useCallback((memberId: string) => {
+    // TODO: Implement member detail view - will be enhanced in E13-T8
+    showToast({
+      title: 'View Member',
+      description: `Member detail view for ID: ${memberId}`,
+      type: 'info'
+    });
+  }, [showToast]);
+
+  const handleEditMember = useCallback((memberId: string) => {
+    // TODO: Implement edit member modal - requires E13-T5 modal content
+    showToast({
+      title: 'Edit Member',
+      description: `Edit functionality for ID: ${memberId}`,
+      type: 'info'
+    });
+  }, [showToast]);
+
+  const handleDeleteMember = useCallback((memberId: string) => {
+    // TODO: Implement delete confirmation and API call
+    showToast({
+      title: 'Delete Member',
+      description: `Delete functionality for ID: ${memberId}`,
+      type: 'warning'
+    });
+  }, [showToast]);
 
   // Zoom functionality
   const handleWheel = useCallback((e: WheelEvent) => {
@@ -304,12 +361,15 @@ const FamilyTreeCanvasV2 = memo(React.forwardRef<FamilyTreeCanvasV2Handle, Famil
               <div
                 key={member.id}
                 data-member-id={member.id}
-                className="absolute v2-node-card float-in px-3 py-3 flex items-center gap-3"
+                className="absolute v2-node-card float-in px-3 py-3 flex items-center gap-3 cursor-pointer"
                 style={{
                   left: member.position.x,
                   top: member.position.y,
                   transform: 'translate(-50%, -50%)'
                 }}
+                onContextMenu={(e) => handleMemberContextMenu(e, member.id)}
+                onDoubleClick={() => handleViewMember(member.id)}
+                title={`Right-click for options: ${member.name}`}
               >
                 <img 
                   className="v2-node-photo" 
@@ -367,6 +427,21 @@ const FamilyTreeCanvasV2 = memo(React.forwardRef<FamilyTreeCanvasV2Handle, Famil
             {Math.round(viewport.zoom * 100)}%
           </div>
         </div>
+
+        {/* Context Menu */}
+        <ContextMenuV2
+          isOpen={contextMenu.isOpen}
+          position={contextMenu.position}
+          onClose={handleCloseContextMenu}
+          items={contextMenu.memberId ? createMemberContextMenuItems(
+            contextMenu.memberId,
+            members.find(m => m.id === contextMenu.memberId)?.name || '',
+            isAuthenticated,
+            handleViewMember,
+            handleEditMember,
+            handleDeleteMember
+          ) : []}
+        />
       </div>
     </div>
   );
