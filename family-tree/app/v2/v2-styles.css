@@ -1141,3 +1141,443 @@ V2 UTILITY CLASSES
 .v2-rounded-full {
   border-radius: var(--v2-radius-full);
 }
+
+/*
+============================================================================
+V2 MEMBER DETAIL MODAL STYLES
+============================================================================
+Comprehensive styling for the member detail modal matching member-detail-prompt
+specifications with warm pastel theme and responsive design.
+*/
+
+/* Member Detail Modal Container */
+.v2-member-detail-modal {
+  --v2-detail-gap: 14px;
+}
+
+.v2-member-detail-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--v2-spacing-md);
+}
+
+/* Breadcrumb Navigation */
+.v2-member-detail-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: var(--v2-spacing-xs);
+  padding: var(--v2-spacing-sm) var(--v2-spacing-md);
+  background: var(--v2-color-card);
+  border: 1px solid var(--v2-color-border);
+  border-radius: var(--v2-radius-lg);
+  box-shadow: var(--v2-shadow-sm);
+  font-size: var(--v2-font-sm);
+}
+
+.v2-breadcrumb-separator {
+  color: color-mix(in oklch, var(--v2-color-ink), white 60%);
+}
+
+.v2-member-detail-actions {
+  margin-left: auto;
+  display: flex;
+  gap: var(--v2-spacing-xs);
+}
+
+/* Badge Component */
+.v2-badge {
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: var(--v2-radius-full);
+  border: 1px solid var(--v2-color-border);
+  background: var(--v2-color-surface-2);
+  color: var(--v2-color-ink);
+  font-weight: 500;
+}
+
+/* Section Styling */
+.v2-member-detail-section {
+  background: var(--v2-color-card);
+  border: 1px solid var(--v2-color-border);
+  border-radius: var(--v2-radius-lg);
+  padding: var(--v2-spacing-md);
+  box-shadow: var(--v2-shadow-sm);
+}
+
+/* Section Headers */
+.v2-section-title {
+  display: flex;
+  align-items: center;
+  gap: var(--v2-spacing-xs);
+  font-weight: 600;
+  font-size: var(--v2-font-sm);
+  color: var(--v2-color-ink);
+}
+
+.v2-section-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--v2-radius-full);
+  background: color-mix(in oklch, var(--v2-color-peach), white 8%);
+  box-shadow: 0 0 0 2px color-mix(in oklch, var(--v2-color-peach), white 85%);
+}
+
+.v2-section-divider {
+  height: 1px;
+  background: var(--v2-color-border);
+  opacity: 0.9;
+  margin: var(--v2-spacing-xs) 0 var(--v2-spacing-md) 0;
+}
+
+/* Profile Card */
+.v2-profile-card {
+  display: flex;
+  align-items: center;
+  gap: var(--v2-spacing-lg);
+}
+
+.v2-profile-photo-container {
+  flex-shrink: 0;
+}
+
+.v2-profile-photo {
+  width: 88px;
+  height: 88px;
+  border-radius: var(--v2-radius-full);
+  object-fit: cover;
+  border: 3px solid #ffffff;
+  box-shadow: 0 1px 0 hsl(0 0% 100% / 0.6) inset, var(--v2-shadow-sm);
+}
+
+.v2-profile-photo-fallback {
+  background: var(--v2-color-surface-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 24px;
+  color: var(--v2-color-ink);
+}
+
+.v2-profile-meta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--v2-spacing-xs);
+  flex: 1;
+}
+
+.v2-profile-name-container {
+  display: flex;
+  align-items: center;
+  gap: var(--v2-spacing-xs);
+  flex-wrap: wrap;
+}
+
+.v2-relationship-badge {
+  padding: 2px 8px;
+  border-radius: var(--v2-radius-full);
+  border: 1px solid var(--v2-color-border);
+  background: var(--v2-color-surface-2);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--v2-color-ink);
+}
+
+.v2-profile-title {
+  font-size: var(--v2-font-sm);
+  color: color-mix(in oklch, var(--v2-color-ink), white 25%);
+  margin: 0;
+}
+
+.v2-profile-quick-info {
+  display: flex;
+  align-items: center;
+  gap: var(--v2-spacing-lg);
+  flex-wrap: wrap;
+  font-size: 12px;
+}
+
+.v2-quick-info-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--v2-spacing-xs);
+}
+
+/* Ribbon Styling */
+.v2-ribbon {
+  position: relative;
+  display: inline-block;
+  color: var(--v2-color-ink);
+  font-weight: 600;
+  border-radius: var(--v2-radius-md);
+  padding: 6px 14px;
+  box-shadow: var(--v2-shadow-sm);
+  font-size: clamp(12px, 2vw, 14px);
+  line-height: 1.2;
+  max-width: 180px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.v2-ribbon::after {
+  content: "";
+  position: absolute;
+  right: -14px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: 10px 0 10px 14px;
+  border-style: solid;
+  border-color: transparent transparent transparent currentColor;
+  opacity: 0.45;
+}
+
+.v2-ribbon::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -8px;
+  width: 16px;
+  height: 8px;
+  background: color-mix(in oklch, black 6%, transparent);
+  clip-path: polygon(0 0, 100% 100%, 0 100%);
+  filter: blur(0.5px);
+  opacity: 0.25;
+}
+
+/* Ribbon Color Variants */
+.v2-ribbon-mint {
+  background: color-mix(in oklch, var(--v2-color-mint), white 22%);
+  color: oklch(30% 0.03 160);
+}
+
+.v2-ribbon-peach {
+  background: color-mix(in oklch, var(--v2-color-peach), white 20%);
+  color: oklch(32% 0.04 55);
+}
+
+.v2-ribbon-lilac {
+  background: color-mix(in oklch, var(--v2-color-lilac), white 20%);
+  color: oklch(30% 0.02 300);
+}
+
+.v2-ribbon-sage {
+  background: color-mix(in oklch, var(--v2-color-sage), white 22%);
+  color: oklch(30% 0.03 150);
+}
+
+.v2-ribbon-sun {
+  background: color-mix(in oklch, var(--v2-color-sun), white 18%);
+  color: oklch(34% 0.05 85);
+}
+
+.v2-ribbon-rose {
+  background: color-mix(in oklch, var(--v2-color-rose), white 20%);
+  color: oklch(34% 0.06 20);
+}
+
+/* Label Chips */
+.v2-label-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--v2-spacing-xs);
+  padding: 2px 8px;
+  border-radius: var(--v2-radius-full);
+  border: 1px solid var(--v2-color-border);
+  background: var(--v2-color-surface-2);
+  color: color-mix(in oklch, var(--v2-color-ink), white 45%);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.v2-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.v2-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--v2-color-ink);
+}
+
+/* Information Grid */
+.v2-info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--v2-detail-gap);
+  margin-top: var(--v2-spacing-md);
+}
+
+.v2-info-item {
+  background: var(--v2-color-surface-2);
+  border: 1px solid var(--v2-color-border);
+  border-radius: var(--v2-radius-lg);
+  padding: 10px 12px;
+}
+
+.v2-info-item h4 {
+  font-size: 11px;
+  margin: 0 0 4px 0;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: color-mix(in oklch, var(--v2-color-ink), white 40%);
+}
+
+.v2-info-item p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--v2-color-ink);
+}
+
+.v2-info-item-full {
+  grid-column: 1 / -1;
+}
+
+/* Biography Section */
+.v2-biography-section {
+  margin-top: var(--v2-spacing-md);
+}
+
+.v2-biography-section h3 {
+  font-size: var(--v2-font-sm);
+  margin: 0 0 var(--v2-spacing-xs) 0;
+  font-weight: 600;
+  color: var(--v2-color-ink);
+}
+
+.v2-biography-text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--v2-color-ink);
+  margin: 0;
+}
+
+/* Relations Section */
+.v2-relations-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--v2-spacing-md);
+  margin-top: var(--v2-spacing-md);
+}
+
+.v2-relation-group h3 {
+  font-size: var(--v2-font-sm);
+  margin: 0 0 var(--v2-spacing-xs) 0;
+  font-weight: 600;
+  color: color-mix(in oklch, var(--v2-color-ink), white 20%);
+}
+
+.v2-relation-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--v2-spacing-xs);
+}
+
+.v2-relation-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--v2-spacing-xs);
+  padding: 6px 10px;
+  border-radius: var(--v2-radius-full);
+  border: 1px solid var(--v2-color-border);
+  background: var(--v2-color-surface-2);
+  font-size: 12px;
+  box-shadow: var(--v2-shadow-sm);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--v2-color-ink);
+  text-decoration: none;
+}
+
+.v2-relation-chip:hover {
+  background: var(--v2-color-card);
+  transform: translateY(-1px);
+  box-shadow: var(--v2-shadow-md);
+}
+
+.v2-relation-avatar {
+  width: 22px;
+  height: 22px;
+  border-radius: var(--v2-radius-full);
+  background: var(--v2-color-surface);
+  border: 2px solid #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--v2-color-ink);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.v2-relation-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.v2-relation-empty {
+  font-size: 12px;
+  color: color-mix(in oklch, var(--v2-color-ink), white 50%);
+  font-style: italic;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .v2-profile-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--v2-spacing-md);
+  }
+
+  .v2-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .v2-profile-quick-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--v2-spacing-xs);
+  }
+
+  .v2-member-detail-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .v2-ribbon {
+    max-width: 140px;
+  }
+}
+
+@media (max-width: 640px) {
+  .v2-profile-photo {
+    width: 70px;
+    height: 70px;
+  }
+
+  .v2-profile-photo-fallback {
+    font-size: 20px;
+  }
+
+  .v2-ribbon {
+    max-width: 120px;
+    font-size: 12px;
+  }
+
+  .v2-member-detail-breadcrumb {
+    flex-wrap: wrap;
+    gap: var(--v2-spacing-xs);
+  }
+
+  .v2-member-detail-actions {
+    width: 100%;
+    margin-left: 0;
+    margin-top: var(--v2-spacing-xs);
+  }
+}
