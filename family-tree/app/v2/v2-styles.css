@@ -106,6 +106,7 @@ V2 LAYOUT CONTAINERS
 
 .v2-toolbar-rail-button {
   height: 38px;
+  width: 100%;
   border-radius: var(--v2-radius-md);
   border: 1px solid var(--v2-color-border);
   background: var(--v2-color-surface-2);
@@ -115,8 +116,12 @@ V2 LAYOUT CONTAINERS
   justify-content: center;
   gap: 8px;
   font-weight: 600;
-  transition: var(--v2-transition-fast);
+  font-size: var(--v2-font-size-xs);
+  line-height: 1.2;
+  transition: all var(--v2-transition-fast);
   cursor: pointer;
+  white-space: nowrap;
+  min-height: 44px; /* Touch target requirement */
 }
 
 .v2-toolbar-rail-button[data-active="true"] {
@@ -127,6 +132,103 @@ V2 LAYOUT CONTAINERS
 .v2-toolbar-rail-button:hover:not([data-active="true"]) {
   background: var(--v2-color-card);
   box-shadow: var(--v2-shadow-sm);
+  transform: translateY(-1px);
+}
+
+.v2-toolbar-rail-button:focus {
+  outline: 2px solid var(--v2-color-primary);
+  outline-offset: 2px;
+}
+
+.v2-toolbar-rail-button:active {
+  transform: translateY(1px) scale(0.98);
+  transition: transform 120ms ease;
+}
+
+/* V2 Button Variants for Toolbar */
+.v2-btn-toolbar-primary {
+  background: color-mix(in oklch, var(--v2-color-mint), white 75%);
+  border-color: color-mix(in oklch, var(--v2-color-mint), white 55%);
+  color: var(--v2-color-ink);
+}
+
+.v2-btn-toolbar-primary:hover {
+  background: color-mix(in oklch, var(--v2-color-mint), white 65%);
+  border-color: color-mix(in oklch, var(--v2-color-mint), white 45%);
+  transform: translateY(-1px);
+  box-shadow: var(--v2-shadow-md);
+}
+
+.v2-btn-toolbar-secondary {
+  background: var(--v2-color-surface-2);
+  border-color: var(--v2-color-border);
+  color: var(--v2-color-ink);
+}
+
+.v2-btn-toolbar-secondary:hover {
+  background: var(--v2-color-card);
+  border-color: color-mix(in oklch, var(--v2-color-border), black 10%);
+  transform: translateY(-1px);
+  box-shadow: var(--v2-shadow-sm);
+}
+
+.v2-btn-toolbar-tertiary {
+  background: var(--v2-color-surface-2);
+  border-color: var(--v2-color-border);
+  color: color-mix(in oklch, var(--v2-color-ink), white 20%);
+}
+
+.v2-btn-toolbar-tertiary:hover {
+  background: color-mix(in oklch, var(--v2-color-primary), white 90%);
+  border-color: color-mix(in oklch, var(--v2-color-primary), white 70%);
+  color: var(--v2-color-ink);
+  transform: translateY(-1px);
+  box-shadow: var(--v2-shadow-sm);
+}
+
+/* V2 Button Interaction Effects */
+.v2-btn-press-effect {
+  transition: transform 120ms ease, filter 120ms ease;
+}
+
+.v2-btn-press-effect:active {
+  transform: translateY(1px) scale(0.98);
+  filter: brightness(0.98);
+}
+
+.v2-btn-hover-lift:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--v2-shadow-md);
+}
+
+/* Mobile and Accessibility Optimizations */
+@media (max-width: 768px) {
+  .v2-toolbar-rail-button {
+    min-height: 44px; /* Ensure touch targets */
+    font-size: 16px; /* Prevent iOS zoom */
+  }
+}
+
+@media (hover: hover) {
+  .v2-toolbar-rail-button:hover {
+    transform: translateY(-1px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v2-toolbar-rail-button,
+  .v2-btn-toolbar-primary,
+  .v2-btn-toolbar-secondary, 
+  .v2-btn-toolbar-tertiary {
+    transition: none;
+  }
+  
+  .v2-toolbar-rail-button:hover,
+  .v2-btn-toolbar-primary:hover,
+  .v2-btn-toolbar-secondary:hover,
+  .v2-btn-toolbar-tertiary:hover {
+    transform: none;
+  }
 }
 
 /* V2 Header Gradient */

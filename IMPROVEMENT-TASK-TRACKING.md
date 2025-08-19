@@ -367,8 +367,10 @@ Use the template from @Instruction file to execute E13-T4. Read CLAUDE.md sectio
 Use the template from @Instruction file to execute E13-T5. Read CLAUDE.md sections 1–136, 138–155, 156-170, 274–331 and IMPROVEMENT-TASK-TRACKING.md lines 343-413 for E13-T5 specification. Follow the template structure: Context Establishment → Workflow Compliance → Task Specification → Technical Implementation → Quality Assurance. Execute as @ux-expert (primary) = @.cursor\rules\ux-expert.mdc + @dev = @.cursor\rules\dev.mdc + @qa = @.cursor\rules\qa.mdc collaboration. Implement Add Member and Help modal content matching add-screen-prompt and help-panel-prompt specifications. Create comprehensive forms, photo upload, validation states, mobile bottom-sheet behavior, and accessibility compliance. CRITICAL: Follow v2 CSS Architecture Standards (CLAUDE.md 156-170) - all modal styling must use family-tree/app/v2/v2-styles.css with v2- prefixed classes. Dependencies: E13-T10 v2 CSS architecture consolidated, E13-T4 UI alignment should be completed first. Complete in order: code → docs → git.
 ```
 
-### E13-T6: Add/Export/Help Button Styling Enhancement (P2-HIGH)
-- **Status**: Pending
+### E13-T6: Add/Export/Help Button Styling Enhancement (P2-HIGH) ✅
+- **Status**: Completed - 2025-08-19 | Branch: `improvement-e13-t6-button-styling-enhancement`
+- **Summary**: Enhanced Add/Export/Help buttons with token-driven styling, button variants, and smooth interaction states matching home-screen-prompt specifications
+- **Details**: See Completed Log → [E13-T6](family-tree/docs/completed-tasks.md#e13-t6)
 - **Primary Agent**: @ux-expert (Sally - Button design and interaction states) - `.cursor/rules/ux-expert.mdc`
 - **Supporting Agents**: @dev (James - Implementation) - `.cursor/rules/dev.mdc`, @po (Sarah - Design validation) - `.cursor/rules/po.mdc`
 - **Description**: Style Add/Export/Help buttons to match `home-screen-prompt` design specifications with proper token-driven styling

@@ -250,8 +250,31 @@ When adding completed tasks, use this standardized format:
 
 <a id="e13-t6"></a>
 #### E13-T6: Add/Export/Help Button Styling Enhancement (P2-HIGH)
-- Status: Pending
-- Summary: [To be completed when task is finished]
+- Status: Completed - 2025-08-19 | Branch: `improvement-e13-t6-button-styling-enhancement`
+- Summary: Enhanced Add/Export/Help buttons with token-driven styling, button variants, hover/active states, and accessibility improvements matching home-screen-prompt specifications exactly
+- Implementation Details:
+  - **Files Modified**:
+    - `family-tree/app/v2/v2-styles.css` - Added enhanced button styling with variants, interaction states, and accessibility optimizations
+    - `family-tree/app/v2/components/SidebarV2.tsx` - Updated component with proper button classifications and enhanced ARIA labels
+  - **Key Features**:
+    - Button variant utility classes: `.v2-btn-toolbar-primary` (Add - mint accent), `.v2-btn-toolbar-secondary` (Export), `.v2-btn-toolbar-tertiary` (Help - info styling)
+    - Enhanced interaction states: hover with elevation (-1px translateY), active with press effect (scale 0.98), focus with 2px primary outline
+    - Token-driven styling using v2 CSS custom properties (--v2-color-mint, --v2-color-primary, --v2-spacing-*, etc.)
+    - Mobile accessibility: 44px minimum touch targets, 16px font size to prevent iOS zoom, `prefers-reduced-motion` support
+    - Press effects with smooth transitions: `.v2-btn-press-effect` class for tactile feedback
+  - **Technical Achievements**:
+    - Full compliance with v2 CSS Architecture Standards (CLAUDE.md 156-170)
+    - All styling contained in `family-tree/app/v2/v2-styles.css` with proper `v2-` prefixed classes
+    - Enhanced accessibility: comprehensive ARIA labels, keyboard navigation support, high contrast mode compatibility
+    - Responsive design: hover states only on devices with hover capability, touch-optimized for mobile
+    - Performance optimized: GPU-accelerated transforms, efficient transition animations
+- Verification Notes:
+  - Build successful with no compilation errors (`npm run build` passed)
+  - Linting clean with no new warnings related to button implementation
+  - Visual parity confirmed with home-screen-prompt toolbar rail specifications (lines 138-142, 172-176)
+  - Accessibility testing: proper focus indicators, ARIA labels, keyboard navigation support
+  - Cross-device compatibility: touch targets, hover states, reduced motion preferences respected
+- Related Tasks: Built upon [E13-T4](family-tree/docs/completed-tasks.md#e13-t4) UI alignment foundation
 
 <a id="e13-t7"></a>
 #### E13-T7: Right-Click Context Menu Implementation (P2-MEDIUM)
